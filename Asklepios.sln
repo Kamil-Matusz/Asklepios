@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Api", "Asklepios\Asklepios.Api\Asklepios.Api.csproj", "{2AB4A0E3-5C12-467E-B324-792426365A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Application", "Asklepios\Asklepios.Application\Asklepios.Application.csproj", "{58D0803B-CA07-4E83-8531-C90C6D5B5472}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Core", "Asklepios\Asklepios.Core\Asklepios.Core.csproj", "{EB9550E5-9327-4E5F-A94A-C95C7212E2A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Infrastructure", "Asklepios\Asklepios.Infrastructure\Asklepios.Infrastructure.csproj", "{C201FA79-7F43-479D-A5AB-A2238223C381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AB4A0E3-5C12-467E-B324-792426365A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB4A0E3-5C12-467E-B324-792426365A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB4A0E3-5C12-467E-B324-792426365A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB4A0E3-5C12-467E-B324-792426365A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D0803B-CA07-4E83-8531-C90C6D5B5472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D0803B-CA07-4E83-8531-C90C6D5B5472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D0803B-CA07-4E83-8531-C90C6D5B5472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D0803B-CA07-4E83-8531-C90C6D5B5472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB9550E5-9327-4E5F-A94A-C95C7212E2A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB9550E5-9327-4E5F-A94A-C95C7212E2A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB9550E5-9327-4E5F-A94A-C95C7212E2A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB9550E5-9327-4E5F-A94A-C95C7212E2A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C201FA79-7F43-479D-A5AB-A2238223C381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C201FA79-7F43-479D-A5AB-A2238223C381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C201FA79-7F43-479D-A5AB-A2238223C381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C201FA79-7F43-479D-A5AB-A2238223C381}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
