@@ -6,4 +6,5 @@ public class Department
     public string DepartmentName { get; set; }
     public int NumberOfBeds { get; set; }
     public int NumberOfPatients { get; set; }
+    public IEnumerable<Room> Rooms { get; set; }
 }
