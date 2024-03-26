@@ -25,7 +25,7 @@ public class DepartmentService : IDeparmentService
             DepartmentId = dto.DepartmentId,
             DepartmentName = dto.DepartmentName,
             NumberOfBeds = dto.NumberOfBeds,
-            NumberOfPatients = dto.NumberOfPatients
+            ActualNumberOfPatients = dto.ActualNumberOfPatients
         });
     }
 
@@ -90,6 +90,14 @@ public class DepartmentService : IDeparmentService
         DepartmentId = department.DepartmentId,
         DepartmentName = department.DepartmentName,
         NumberOfBeds = department.NumberOfBeds,
-        NumberOfPatients = department.NumberOfPatients
+        ActualNumberOfPatients = department.ActualNumberOfPatients
+    };
+    
+    private static T MapDepartmentList<T>(Department department) where T : DepartmentListDto, new() => new T()
+    {
+        DepartmentId = department.DepartmentId,
+        DepartmentName = department.DepartmentName,
+        NumberOfBeds = department.NumberOfBeds,
+        ActualNumberOfPatients = department.ActualNumberOfPatients
     };
 }

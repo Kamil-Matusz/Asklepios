@@ -5,6 +5,7 @@ public class Room
     public Guid RoomId { get; set; }
     public int RoomNumber { get; set; }
     public string RoomType { get; set; }
+    public int NumberOfBeds { get; set; }
     public Guid DepartmentId { get; set; }
     public Department Department { get; set; }
 }

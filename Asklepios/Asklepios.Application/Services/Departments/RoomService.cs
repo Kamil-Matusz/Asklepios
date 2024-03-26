@@ -22,7 +22,8 @@ public class RoomService : IRoomService
             RoomId = dto.RoomId,
             DepartmentId = dto.DepartmentId,
             RoomNumber = dto.RoomNumber,
-            RoomType = dto.RoomType
+            RoomType = dto.RoomType,
+            NumberOfBeds = dto.NumberOfBeds
         });
     }
 
@@ -75,6 +76,16 @@ public class RoomService : IRoomService
         RoomId = room.RoomId,
         DepartmentId = room.DepartmentId,
         RoomNumber = room.RoomNumber,
-        RoomType = room.RoomType
+        RoomType = room.RoomType,
+        NumberOfBeds = room.NumberOfBeds
+    };
+    
+    private static T MapRoomList<T>(Room room) where T : RoomListDto, new() => new T()
+    {
+        RoomId = room.RoomId,
+        DepartmentName = room.Department.DepartmentName,
+        RoomNumber = room.RoomNumber,
+        RoomType = room.RoomType,
+        NumberOfBeds = room.NumberOfBeds
     };
 }

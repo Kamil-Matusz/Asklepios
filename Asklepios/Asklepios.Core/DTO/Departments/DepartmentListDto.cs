@@ -1,6 +1,6 @@
 namespace Asklepios.Core.DTO.Departments;
 
-public class DepartmentDto
+public class DepartmentListDto
 {
     public Guid DepartmentId { get; set; }
     public string DepartmentName { get; set; }
