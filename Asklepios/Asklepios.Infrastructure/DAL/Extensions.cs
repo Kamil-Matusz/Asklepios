@@ -16,6 +16,7 @@ public static class Extensions
         var options = configuration.GetOptions<PostgresOptions>(SectionName);
         
         services.AddDbContext<AsklepiosDbContext>(x => x.UseNpgsql(options.ConnectionString));
+        services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         
         return services;
