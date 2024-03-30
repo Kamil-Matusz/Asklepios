@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Asklepios.Infrastructure.DAL.PostgreSQL;
 
-internal sealed class AsklepiosDbContext : DbContext
+public sealed class AsklepiosDbContext : DbContext
 {
     public DbSet<Department> Departments { get; set; }
     public DbSet<Room> Rooms { get; set; }

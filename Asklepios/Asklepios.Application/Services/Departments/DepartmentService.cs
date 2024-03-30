@@ -49,10 +49,10 @@ public class DepartmentService : IDeparmentService
         return dto;
     }
 
-    public async Task<IReadOnlyList<DepartmentDto>> GetAllDepartmentsAsync()
+    public async Task<IReadOnlyList<DepartmentListDto>> GetAllDepartmentsAsync()
     {
         var departments = await _departmentRepository.GetAllDepartmentsAsync();
-        return departments.Select(Map<DepartmentDto>).ToList();
+        return departments.Select(MapDepartmentList<DepartmentListDto>).ToList();
     }
 
     public async Task UpdateDepartmentAsync(DepartmentDetailsDto dto)

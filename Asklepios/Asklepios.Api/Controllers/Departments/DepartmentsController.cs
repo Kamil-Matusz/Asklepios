@@ -18,7 +18,7 @@ public class DepartmentsController : BaseController
         => OkOrNotFound(await _departmentService.GetDepartmentAsync(id));
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<DepartmentDto>>> GetAllDepartments()
+    public async Task<ActionResult<IReadOnlyList<DepartmentListDto>>> GetAllDepartments()
         => Ok(await _departmentService.GetAllDepartmentsAsync());
 
     [HttpPost]

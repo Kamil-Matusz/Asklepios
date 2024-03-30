@@ -40,10 +40,10 @@ public class RoomService : IRoomService
         return dto;
     }
 
-    public async Task<IReadOnlyList<RoomDto>> GetAllRoomsAsync()
+    public async Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync()
     {
         var rooms = await _roomRepository.GetAllRoomsAsync();
-        return rooms.Select(Map<RoomDto>).ToList();
+        return rooms.Select(MapRoomList<RoomListDto>).ToList();
     }
 
     public async Task UpdateRoomAsync(RoomDto dto)

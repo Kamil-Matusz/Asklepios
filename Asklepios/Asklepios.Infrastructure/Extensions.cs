@@ -16,9 +16,6 @@ public static class Extensions
     {
         services.AddPostgres(configuration);
         
-        services.AddSingleton<IDepartmentRepository, InMemoryDepartmentRepository>();
-        services.AddSingleton<IRoomRepository, InMemoryRoomRepository>();
-        
         // CORS
         services.AddCors(cors =>
         {

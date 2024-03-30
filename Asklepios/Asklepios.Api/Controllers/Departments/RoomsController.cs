@@ -18,7 +18,7 @@ public class RoomsController : BaseController
         => OkOrNotFound(await _roomService.GetRoomAsync(id));
 
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<RoomDto>>> GetAllRooms()
+    public async Task<ActionResult<IReadOnlyList<RoomListDto>>> GetAllRooms()
         => Ok(await _roomService.GetAllRoomsAsync());
 
     [HttpPost]

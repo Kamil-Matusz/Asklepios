@@ -6,7 +6,7 @@ public interface IRoomService
 {
     Task AddRoomAsync(RoomDto dto);
     Task<RoomDto> GetRoomAsync(Guid id);
-    Task<IReadOnlyList<RoomDto>> GetAllRoomsAsync();
+    Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync();
     Task UpdateRoomAsync(RoomDto dto);
     Task DeleteRoomAsync(Guid id);
 }

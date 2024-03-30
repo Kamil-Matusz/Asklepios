@@ -1,4 +1,6 @@
 using Asklepios.Infrastructure.DAL.PostgreSQL;
+using Asklepios.Infrastructure.DAL.Repositories;
+using Asklepios.Infrastructure.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,10 @@ public static class Extensions
         var options = configuration.GetOptions<PostgresOptions>(SectionName);
         
         services.AddDbContext<AsklepiosDbContext>(x => x.UseNpgsql(options.ConnectionString));
+
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<IRoomRepository, RoomRepository>();
+        
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         
