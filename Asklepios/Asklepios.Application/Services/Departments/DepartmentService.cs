@@ -34,7 +34,7 @@ public class DepartmentService : IDeparmentService
         var department = await _departmentRepository.GetDepartmentByIdAsync(id);
         if (department is null)
         {
-            return null;
+            throw new DepartmentNotFoundException(id);
         }
 
         var dto = Map<DepartmentDetailsDto>(department);

@@ -1,7 +1,6 @@
 using Asklepios.Infrastructure.DAL;
-using Asklepios.Infrastructure.Repositories.Departments;
+using Asklepios.Infrastructure.Errors;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -37,6 +36,10 @@ public static class Extensions
                 Version = "v1"
             });
         });
+
+        services.AddErrorHandling();
+
+        services.AddControllers();
         
         return services;
     }
@@ -51,7 +54,8 @@ public static class Extensions
             swagger.RoutePrefix = "swagger";
             swagger.DocumentTitle = "Asklepios - Hospital Managment System";
         });
-        
+
+        app.UseErrorHandling();
         app.UseRouting();
         return app;
     }
