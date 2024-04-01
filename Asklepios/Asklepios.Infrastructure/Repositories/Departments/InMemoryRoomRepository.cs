@@ -9,7 +9,7 @@ public class InMemoryRoomRepository : IRoomRepository
     public Task<Room> GetRoomByIdAsync(Guid roomId)
         => Task.FromResult(_rooms.SingleOrDefault(x => x.RoomId == roomId));
 
-    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync()
+    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync(int pageIndex, int pageSize)
     {
         await Task.CompletedTask;
         return _rooms;

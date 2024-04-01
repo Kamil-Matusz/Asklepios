@@ -22,10 +22,13 @@ public class RoomRepository : IRoomRepository
             .Include(x => x.Department)
             .SingleOrDefaultAsync(x => x.RoomId == roomId);
 
-    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync()
+    public async Task<IReadOnlyList<Room>> GetAllRoomsAsync(int pageIndex, int pageSize)
         => await _rooms
             .AsNoTracking()
             .Include(x => x.Department)
+            .OrderBy(x => x.RoomNumber)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
 
     public async Task AddRoomAsync(Room room)

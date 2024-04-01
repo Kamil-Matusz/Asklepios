@@ -21,8 +21,8 @@ public class DepartmentsController : BaseController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyList<DepartmentListDto>>> GetAllDepartments()
-        => Ok(await _departmentService.GetAllDepartmentsAsync());
+    public async Task<ActionResult<IReadOnlyList<DepartmentListDto>>> GetAllDepartments([FromQuery] int pageIndex, [FromQuery] int pageSize)
+        => Ok(await _departmentService.GetAllDepartmentsAsync(pageIndex, pageSize));
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

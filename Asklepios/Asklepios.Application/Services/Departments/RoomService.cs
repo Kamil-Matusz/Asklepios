@@ -40,9 +40,9 @@ public class RoomService : IRoomService
         return dto;
     }
 
-    public async Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync()
+    public async Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync(int pageIndex, int pageSize)
     {
-        var rooms = await _roomRepository.GetAllRoomsAsync();
+        var rooms = await _roomRepository.GetAllRoomsAsync(pageIndex, pageSize);
         return rooms.Select(MapRoomList<RoomListDto>).ToList();
     }
 

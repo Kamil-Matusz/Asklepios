@@ -21,8 +21,8 @@ public class RoomsController : BaseController
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyList<RoomListDto>>> GetAllRooms()
-        => Ok(await _roomService.GetAllRoomsAsync());
+    public async Task<ActionResult<IReadOnlyList<RoomListDto>>> GetAllRooms([FromQuery] int pageIndex, [FromQuery] int pageSize)
+        => Ok(await _roomService.GetAllRoomsAsync(pageIndex, pageSize));
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]

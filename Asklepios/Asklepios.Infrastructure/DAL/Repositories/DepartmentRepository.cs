@@ -22,9 +22,12 @@ public class DepartmentRepository : IDepartmentRepository
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.DepartmentId == departmentId);
 
-    public async Task<IReadOnlyList<Department>> GetAllDepartmentsAsync()
+    public async Task<IReadOnlyList<Department>> GetAllDepartmentsAsync(int pageIndex, int pageSize)
         => await _departments
             .AsNoTracking()
+            .OrderBy(x => x.DepartmentName)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
 
     public async Task AddDepartmentAsync(Department department)

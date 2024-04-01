@@ -9,7 +9,7 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
     public Task<Department> GetDepartmentByIdAsync(Guid departmentId)
         => Task.FromResult(_departments.SingleOrDefault(x => x.DepartmentId == departmentId));
 
-    public async Task<IReadOnlyList<Department>> GetAllDepartmentsAsync()
+    public async Task<IReadOnlyList<Department>> GetAllDepartmentsAsync(int pageIndex, int pageSize)
     {
         await Task.CompletedTask;
         return _departments;
