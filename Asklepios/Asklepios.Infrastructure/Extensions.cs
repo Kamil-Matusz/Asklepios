@@ -54,7 +54,7 @@ public static class Extensions
             swagger.RoutePrefix = "swagger";
             swagger.DocumentTitle = "Asklepios - Hospital Managment System";
         });
-
+        
         app.UseErrorHandling();
         app.UseRouting();
         return app;
