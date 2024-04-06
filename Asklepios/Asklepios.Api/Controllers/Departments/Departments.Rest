@@ -1,0 +1,65 @@
+@url = http://localhost:5102/departments-module
+
+@departmenId = 753c0516-1457-4c58-a9a3-868d8f491606
+@roomId = 66796ebd-b09d-4654-97fb-8bbd8dc906b9
+
+
+###
+POST {{url}}/departments
+Content-Type: application/json
+
+{
+    "departmentName": "Kardiologia",
+    "numberOfBeds": 50,
+    "actualNumberOfPatients": 50
+}
+
+###
+GET  {{url}}/departments
+
+###
+GET  {{url}}/departments/{{departmenId}}
+
+###
+DELETE  {{url}}/departments/{{departmenId}}
+
+###
+PUT {{url}}/departments/{{departmenId}}
+Content-Type: application/json
+
+{
+    "departmentName": "Kardiologia",
+    "numberOfBeds": 50,
+    "actualNumberOfPatients": 40
+}
+
+###
+POST {{url}}/rooms
+Content-Type: application/json
+
+{
+    "roomNumber": 111,
+    "roomType": "Sala zabiegowa",
+    "numberOfBeds": 4,
+    "departmentId": "753c0516-1457-4c58-a9a3-868d8f491606"
+}
+
+###
+GET {{url}}/rooms
+
+###
+GET {{url}}/rooms/{{roomId}}
+
+###
+DELETE  {{url}}/rooms/{{roomId}}
+
+###
+PUT {{url}}/rooms/{{roomId}}
+Content-Type: application/json
+
+{
+    "roomNumber": 111,
+    "roomType": "Sala zabiegowa",
+    "numberOfBeds": 4,
+    "departmentId": "753c0516-1457-4c58-a9a3-868d8f491606"
+}
