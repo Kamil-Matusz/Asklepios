@@ -1,5 +1,6 @@
 using Asklepios.Core.Policies.Departments;
 using Asklepios.Core.Validators.Departments;
+using Asklepios.Core.Validators.Users;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,8 @@ public static class Extensions
     {
         services.AddFluentValidation(fv => fv
             .RegisterValidatorsFromAssemblyContaining<DepartmentDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<RoomDtoValidator>());
+            .RegisterValidatorsFromAssemblyContaining<RoomDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<UserDtoValidator>());
         
         services.AddSingleton<IDepartmentDeletePolicy, DepartmentDeletionPolicy>();
         
