@@ -1,4 +1,5 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -8,6 +9,7 @@ public sealed class AsklepiosDbContext : DbContext
 {
     public DbSet<Department> Departments { get; set; }
     public DbSet<Room> Rooms { get; set; }
+    public DbSet<User> Users { get; set; }
     
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {
