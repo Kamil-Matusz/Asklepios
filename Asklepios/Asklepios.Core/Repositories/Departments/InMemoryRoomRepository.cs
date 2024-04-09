@@ -1,6 +1,6 @@
 using Asklepios.Core.Entities.Departments;
 
-namespace Asklepios.Infrastructure.Repositories.Departments;
+namespace Asklepios.Core.Repositories.Departments;
 
 public class InMemoryRoomRepository : IRoomRepository
 {

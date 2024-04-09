@@ -1,5 +1,7 @@
+using Asklepios.Application.Abstractions;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
+using Asklepios.Infrastructure.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,12 @@ public static class Extensions
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        var infrastructureAssembly = typeof(AppOptions).Assembly;
+        services.Scan(s => s.FromAssemblies(infrastructureAssembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+        
         services.AddPostgres(configuration);
         
         // CORS
@@ -38,8 +46,8 @@ public static class Extensions
         });
 
         services.AddErrorHandling();
-
         services.AddControllers();
+        services.AddSecurity();
         
         return services;
     }

@@ -1,4 +1,5 @@
 using Asklepios.Application.Abstractions;
+using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Departments;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ public static class Extensions
         
         services.AddScoped<IDeparmentService, DepartmentService>();
         services.AddScoped<IRoomService, RoomService>();
+        services.AddSingleton<IClock, Clock>();
         
         return services;
     }

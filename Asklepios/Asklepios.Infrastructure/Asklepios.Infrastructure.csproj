@@ -26,7 +26,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\Asklepios.Core\Asklepios.Core.csproj" />
+      <ProjectReference Include="..\Asklepios.Application\Asklepios.Application.csproj" />
     </ItemGroup>
 
 </Project>

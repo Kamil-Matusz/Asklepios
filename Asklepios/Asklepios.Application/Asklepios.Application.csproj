@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Asklepios.Core\Asklepios.Core.csproj" />
-      <ProjectReference Include="..\Asklepios.Infrastructure\Asklepios.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
