@@ -13,16 +13,20 @@ public class UsersController : BaseController
     private readonly ICommandHandler<SignUp> _signUpHandler;
     private readonly ICommandHandler<SignIn> _signInHandler;
     private readonly ICommandHandler<DeleteUserAccount> _deleteAccountHandler;
+    private readonly ICommandHandler<ChangeUserRole> _changeUserRoleHandler;
+    private readonly ICommandHandler<GenerateUserAccount> _generateUserAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
     private readonly ITokenStorage _tokenStorage;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
         _signInHandler = signInHandler;
         _tokenStorage = tokenStorage;
         _deleteAccountHandler = deleteAccountHandler;
+        _changeUserRoleHandler = changeUserRoleHandler;
+        _generateUserAccountHandler = generateUserAccountHandler;
     }
     
     [HttpPost("signUp")]
@@ -45,6 +49,18 @@ public class UsersController : BaseController
         await _signInHandler.HandlerAsync(command);
         var jwt = _tokenStorage.GetToken();
         return Ok(jwt);
+    }
+    
+    [HttpPost("generateUserAccount")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GenerateUserAccount(GenerateUserAccount command)
+    {
+        command = command with {UserId = Guid.NewGuid()};
+        await _generateUserAccountHandler.HandlerAsync(command);
+        
+        var user = await _getAccountInfo.HandlerAsync(new GetAccountInfo() {UserId = command.UserId});
+        return Ok(user);
     }
     
     [HttpGet("{userId:guid}")]
@@ -92,5 +108,15 @@ public class UsersController : BaseController
     {
         await _deleteAccountHandler.HandlerAsync(command with { UserId = userId});
         return NoContent();
+    }
+    
+    [HttpPut("{userId:guid}/changeUserRole")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> ChangeUserRole(Guid userId, ChangeUserRole command)
+    {
+        await _changeUserRoleHandler.HandlerAsync(command with { UserId = userId, Role  = command.Role });
+        return Ok();
     }
 }

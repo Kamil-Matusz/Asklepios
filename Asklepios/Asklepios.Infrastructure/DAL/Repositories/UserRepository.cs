@@ -1,6 +1,7 @@
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Repositories.Users;
+using Asklepios.Core.ValueObjects;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,15 @@ internal sealed class UserRepository : IUserRepository
     public async Task DeleteUserAsync(User user)
     {
         _users.Remove(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task ChangeUserRoleAsync(Guid userId, Role role)
+    {
+        var user = await _users.SingleOrDefaultAsync(x => x.UserId == userId);
+        user.Role = role;
+
+        _users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
 }
