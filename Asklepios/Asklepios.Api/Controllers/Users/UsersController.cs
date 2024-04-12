@@ -12,15 +12,17 @@ public class UsersController : BaseController
 {
     private readonly ICommandHandler<SignUp> _signUpHandler;
     private readonly ICommandHandler<SignIn> _signInHandler;
+    private readonly ICommandHandler<DeleteUserAccount> _deleteAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
     private readonly ITokenStorage _tokenStorage;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
         _signInHandler = signInHandler;
         _tokenStorage = tokenStorage;
+        _deleteAccountHandler = deleteAccountHandler;
     }
     
     [HttpPost("signUp")]
@@ -80,5 +82,15 @@ public class UsersController : BaseController
         }
 
         return Ok(user);
+    }
+    
+    [HttpDelete("{userId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteUserAccount(Guid userId, DeleteUserAccount command)
+    {
+        await _deleteAccountHandler.HandlerAsync(command with { UserId = userId});
+        return NoContent();
     }
 }

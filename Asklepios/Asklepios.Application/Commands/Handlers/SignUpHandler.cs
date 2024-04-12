@@ -3,8 +3,8 @@ using Asklepios.Application.Security;
 using Asklepios.Application.Services.Clock;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Exceptions.Users;
+using Asklepios.Core.Repositories.Users;
 using Asklepios.Core.ValueObjects;
-using Asklepios.Infrastructure.Repositories.Users;
 
 namespace Asklepios.Application.Commands.Handlers;
 

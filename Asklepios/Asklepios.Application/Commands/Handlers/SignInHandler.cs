@@ -1,7 +1,8 @@
 using System.Security.Authentication;
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Security;
-using Asklepios.Infrastructure.Repositories.Users;
+using Asklepios.Core.Exceptions.Users;
+using Asklepios.Core.Repositories.Users;
 
 namespace Asklepios.Application.Commands.Handlers;
 
@@ -31,6 +32,12 @@ internal sealed class SignInHandler : ICommandHandler<SignIn>
         if (!_passwordManager.Validate(command.Password, user.Password))
         {
             throw new InvalidCredentialException();
+        }
+
+        bool accountIsActive = await _userRepository.CheckAccountActivity(command.Email);
+        if (accountIsActive is false)
+        {
+            throw new AccountIsNotActiveException(command.Email);
         }
 
         var jwt = _authenticator.CreateToken(user.UserId, user.Role);

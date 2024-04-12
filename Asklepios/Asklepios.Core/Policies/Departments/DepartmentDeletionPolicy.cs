@@ -11,6 +11,6 @@ public class DepartmentDeletionPolicy : IDepartmentDeletePolicy
             return true;
         }
 
-        return true;
+        return false;
     }
 }

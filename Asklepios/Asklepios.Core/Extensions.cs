@@ -1,4 +1,5 @@
 using Asklepios.Core.Policies.Departments;
+using Asklepios.Core.Policies.Users;
 using Asklepios.Core.Validators.Departments;
 using Asklepios.Core.Validators.Users;
 using FluentValidation.AspNetCore;
@@ -16,6 +17,7 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<UserDtoValidator>());
         
         services.AddSingleton<IDepartmentDeletePolicy, DepartmentDeletionPolicy>();
+        services.AddScoped<IUserDeletionPolicy, UserDeletionPolicy>();
         
         return services;
     }

@@ -1,7 +1,7 @@
 using Asklepios.Core.Repositories.Departments;
+using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Asklepios.Infrastructure.DAL.Repositories;
-using Asklepios.Infrastructure.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

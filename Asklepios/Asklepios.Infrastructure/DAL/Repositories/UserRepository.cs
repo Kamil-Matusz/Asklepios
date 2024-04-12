@@ -1,7 +1,7 @@
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Users;
+using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
-using Asklepios.Infrastructure.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asklepios.Infrastructure.DAL.Repositories;
@@ -24,6 +24,22 @@ internal sealed class UserRepository : IUserRepository
     public async Task AddUserAsync(User user)
     {
         await _users.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<bool> CheckAccountActivity(string email)
+    {
+        bool isActive = await _users
+            .Where(x => x.Email == email)
+            .Select(x => x.IsActive)
+            .FirstOrDefaultAsync();
+
+        return isActive;
+    }
+
+    public async Task DeleteUserAsync(User user)
+    {
+        _users.Remove(user);
         await _dbContext.SaveChangesAsync();
     }
 }
