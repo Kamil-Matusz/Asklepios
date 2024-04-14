@@ -10,6 +10,8 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Nurse> Nurses { get; set; }
+    public DbSet<MedicalStaff> MedicalStaff { get; set; }
     
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {
