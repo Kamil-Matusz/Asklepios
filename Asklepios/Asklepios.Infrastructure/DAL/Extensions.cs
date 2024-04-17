@@ -23,6 +23,8 @@ public static class Extensions
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IRoomRepository, RoomRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<INurseRepository, NurseRepository>();
+        services.AddScoped<IMedicalStaffRepository, MedicalStaffRepository>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
