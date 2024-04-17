@@ -81,22 +81,26 @@ namespace Asklepios.Infrastructure.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_MedicalStaff_DepartmentId",
                 table: "MedicalStaff",
-                column: "DepartmentId");
+                column: "DepartmentId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MedicalStaff_UserId",
                 table: "MedicalStaff",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Nurses_DepartmentId",
                 table: "Nurses",
-                column: "DepartmentId");
+                column: "DepartmentId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Nurses_UserId",
                 table: "Nurses",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />

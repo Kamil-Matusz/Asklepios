@@ -16,5 +16,15 @@ public class MedicalStaffConfiguration : IEntityTypeConfiguration<MedicalStaff>
         builder.Property(x => x.HospitalPhoneNumber).IsRequired().HasMaxLength(12);
         builder.Property(x => x.Specialization).IsRequired().HasMaxLength(200);
         builder.Property(x => x.MedicalLicenseNumber).IsRequired().HasMaxLength(12);
+        
+        builder.HasOne(n => n.User)
+            .WithOne(u => u.MedicalStaff)
+            .HasForeignKey<MedicalStaff>(n => n.UserId)
+            .IsRequired();
+        
+        builder.HasOne(n => n.Department)
+            .WithOne(d => d.MedicalStaff)
+            .HasForeignKey<MedicalStaff>(n => n.DepartmentId)
+            .IsRequired();
     }
 }

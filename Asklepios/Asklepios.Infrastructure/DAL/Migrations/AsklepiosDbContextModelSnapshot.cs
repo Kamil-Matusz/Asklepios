@@ -112,9 +112,11 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
                     b.HasKey("DoctorId");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("DepartmentId")
+                        .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("MedicalStaff");
                 });
@@ -142,9 +144,11 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
                     b.HasKey("NurseId");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("DepartmentId")
+                        .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Nurses");
                 });
@@ -197,14 +201,14 @@ namespace Asklepios.Infrastructure.DAL.Migrations
             modelBuilder.Entity("Asklepios.Core.Entities.Users.MedicalStaff", b =>
                 {
                     b.HasOne("Asklepios.Core.Entities.Departments.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
+                        .WithOne("MedicalStaff")
+                        .HasForeignKey("Asklepios.Core.Entities.Users.MedicalStaff", "DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Asklepios.Core.Entities.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("MedicalStaff")
+                        .HasForeignKey("Asklepios.Core.Entities.Users.MedicalStaff", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -216,14 +220,14 @@ namespace Asklepios.Infrastructure.DAL.Migrations
             modelBuilder.Entity("Asklepios.Core.Entities.Users.Nurse", b =>
                 {
                     b.HasOne("Asklepios.Core.Entities.Departments.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
+                        .WithOne("Nurse")
+                        .HasForeignKey("Asklepios.Core.Entities.Users.Nurse", "DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Asklepios.Core.Entities.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Nurse")
+                        .HasForeignKey("Asklepios.Core.Entities.Users.Nurse", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -234,7 +238,22 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Department", b =>
                 {
+                    b.Navigation("MedicalStaff")
+                        .IsRequired();
+
+                    b.Navigation("Nurse")
+                        .IsRequired();
+
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Users.User", b =>
+                {
+                    b.Navigation("MedicalStaff")
+                        .IsRequired();
+
+                    b.Navigation("Nurse")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

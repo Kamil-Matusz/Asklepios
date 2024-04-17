@@ -10,6 +10,9 @@ public class User
     public Role Role { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
+    
+    public Nurse Nurse { get; set; }
+    public MedicalStaff MedicalStaff { get; set; }
 
     public User(Guid userId, string email, string password, Role role, bool isActive, DateTime createdAt)
     {
