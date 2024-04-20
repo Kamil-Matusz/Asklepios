@@ -19,11 +19,13 @@ public class MedicalStaffRepository : IMedicalStaffRepository
     public async Task<MedicalStaff> GetDoctorByIdAsync(Guid doctorId)
         => await _medicalStaves
             .AsNoTracking()
+            .Include(x => x.Department)
             .SingleOrDefaultAsync(x => x.DoctorId == doctorId);
 
     public async Task<IReadOnlyList<MedicalStaff>> GetAllNDoctorsAsync(int pageIndex, int pageSize)
         => await _medicalStaves
             .AsNoTracking()
+            .Include(x => x.Department)
             .OrderBy(x => x.Surname)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)

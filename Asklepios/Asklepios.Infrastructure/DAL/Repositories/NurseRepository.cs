@@ -26,6 +26,7 @@ public class NurseRepository : INurseRepository
     public async Task<IReadOnlyList<Nurse>> GetAllNursesAsync(int pageIndex, int pageSize)
         => await _nurses
             .AsNoTracking()
+            .Include(x => x.Department)
             .OrderBy(x => x.Name)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)

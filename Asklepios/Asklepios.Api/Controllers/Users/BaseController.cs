@@ -7,4 +7,14 @@ namespace Asklepios.Api.Controllers.Users;
 public class BaseController : ControllerBase
 {
     protected const string BasePath = "users-module";
+    
+    protected ActionResult<T> OkOrNotFound<T>(T model)
+    {
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(model);
+    }
 }
