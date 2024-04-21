@@ -1,6 +1,7 @@
 using Asklepios.Application.Services.Users;
-using Asklepios.Core.DTO.Departments;
 using Asklepios.Core.DTO.Users;
+using Asklepios.Core.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asklepios.Api.Controllers.Users;
@@ -14,17 +15,20 @@ public class NurseController : BaseController
         _nurseService = nurseService;
     }
     
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<NurseListDto>>> GetAllNurses([FromQuery] int pageIndex, [FromQuery] int pageSize)
         => Ok(await _nurseService.GetAllNursesAsync(pageIndex, pageSize));
     
+    [Authorize]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<NurseDto>> GetNurse(Guid id)
         => OkOrNotFound(await _nurseService.GetNurseAsync(id));
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -37,6 +41,7 @@ public class NurseController : BaseController
         }, null);
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -47,6 +52,7 @@ public class NurseController : BaseController
         return NoContent();
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

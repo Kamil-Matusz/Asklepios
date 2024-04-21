@@ -82,7 +82,7 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                 name: "IX_MedicalStaff_DepartmentId",
                 table: "MedicalStaff",
                 column: "DepartmentId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MedicalStaff_UserId",
@@ -94,7 +94,7 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                 name: "IX_Nurses_DepartmentId",
                 table: "Nurses",
                 column: "DepartmentId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Nurses_UserId",

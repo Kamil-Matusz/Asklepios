@@ -1,4 +1,5 @@
 using Asklepios.Core.DTO.Users;
+using Asklepios.Core.Policies;
 using Asklepios.Core.Policies.Departments;
 using Asklepios.Core.Policies.Users;
 using Asklepios.Core.Validators.Departments;
@@ -18,9 +19,8 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<UserDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<NurseDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<MedicalStaffDtoValidator>());
-        
-        services.AddSingleton<IDepartmentDeletePolicy, DepartmentDeletionPolicy>();
-        services.AddScoped<IUserDeletionPolicy, UserDeletionPolicy>();
+
+        services.AddPolicies();
         
         return services;
     }

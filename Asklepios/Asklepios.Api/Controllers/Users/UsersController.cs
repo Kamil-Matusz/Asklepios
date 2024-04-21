@@ -51,6 +51,7 @@ public class UsersController : BaseController
         return Ok(jwt);
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPost("generateUserAccount")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -63,6 +64,7 @@ public class UsersController : BaseController
         return Ok(user);
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpGet("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,6 +102,7 @@ public class UsersController : BaseController
         return Ok(user);
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpDelete("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -110,6 +113,7 @@ public class UsersController : BaseController
         return NoContent();
     }
     
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPut("{userId:guid}/changeUserRole")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

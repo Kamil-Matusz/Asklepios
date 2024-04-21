@@ -1,6 +1,7 @@
 using Asklepios.Core.DTO.Users;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Exceptions.Users;
+using Asklepios.Core.Policies.Users;
 using Asklepios.Core.Repositories.Users;
 
 namespace Asklepios.Application.Services.Users;
@@ -8,14 +9,21 @@ namespace Asklepios.Application.Services.Users;
 public class NurseService : INurseService
 {
     private readonly INurseRepository _nurseRepository;
+    private readonly IRolePolicy _rolePolicy;
 
-    public NurseService(INurseRepository nurseRepository)
+    public NurseService(INurseRepository nurseRepository, IRolePolicy rolePolicy)
     {
         _nurseRepository = nurseRepository;
+        _rolePolicy = rolePolicy;
     }
 
     public async Task AddNurseAsync(NurseDto dto)
     {
+        if (await _rolePolicy.CannotCreateNurse(dto.UserId) is false)
+        {
+            throw new CannotCreateNurseException();
+        }
+        
         dto.NurseId = Guid.NewGuid();
         await _nurseRepository.AddNurseAsync(new Nurse
         {
