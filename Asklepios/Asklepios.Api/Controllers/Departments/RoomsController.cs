@@ -1,9 +1,11 @@
 using Asklepios.Application.Services.Departments;
 using Asklepios.Core.DTO.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asklepios.Api.Controllers.Departments;
 
+[Authorize]
 public class RoomsController : BaseController
 {
     private readonly IRoomService _roomService;
@@ -24,6 +26,7 @@ public class RoomsController : BaseController
     public async Task<ActionResult<IReadOnlyList<RoomListDto>>> GetAllRooms([FromQuery] int pageIndex, [FromQuery] int pageSize)
         => Ok(await _roomService.GetAllRoomsAsync(pageIndex, pageSize));
 
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,6 +39,7 @@ public class RoomsController : BaseController
         }, null);
     }
 
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,6 +50,7 @@ public class RoomsController : BaseController
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

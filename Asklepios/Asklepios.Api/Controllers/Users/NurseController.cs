@@ -1,6 +1,5 @@
 using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Users;
-using Asklepios.Core.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +40,7 @@ public class NurseController : BaseController
         }, null);
     }
     
-    [Authorize(Roles = "Admin, IT Employee")]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

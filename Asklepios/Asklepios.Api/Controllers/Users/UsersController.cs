@@ -64,7 +64,7 @@ public class UsersController : BaseController
         return Ok(user);
     }
     
-    [Authorize(Roles = "Admin, IT Employee")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -102,7 +102,7 @@ public class UsersController : BaseController
         return Ok(user);
     }
     
-    [Authorize(Roles = "Admin, IT Employee")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -113,7 +113,7 @@ public class UsersController : BaseController
         return NoContent();
     }
     
-    [Authorize(Roles = "Admin, IT Employee")]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{userId:guid}/changeUserRole")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

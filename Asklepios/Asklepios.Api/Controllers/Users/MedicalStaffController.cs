@@ -40,7 +40,7 @@ public class MedicalStaffController : BaseController
         }, null);
     }
     
-    [Authorize(Roles = "Admin, IT Employee")]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
