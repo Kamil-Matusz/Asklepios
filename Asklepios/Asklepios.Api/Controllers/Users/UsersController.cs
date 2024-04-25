@@ -123,4 +123,17 @@ public class UsersController : BaseController
         await _changeUserRoleHandler.HandlerAsync(command with { UserId = userId, Role  = command.Role });
         return Ok();
     }
+    
+    [Authorize]
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> Logout()
+    {
+        _tokenStorage.ClearToken();
+
+        return Ok();
+    }
 }

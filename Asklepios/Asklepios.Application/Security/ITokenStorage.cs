@@ -6,4 +6,5 @@ public interface ITokenStorage
 {
     void SetToken(JwtDto jwt);
     JwtDto GetToken();
+    void ClearToken();
 }

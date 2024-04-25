@@ -31,4 +31,9 @@ internal sealed class HttpContextTokenStorage : ITokenStorage
 
         return null;
     }
+
+    public void ClearToken()
+    {
+        _httpContextAccessor.HttpContext?.Items.Remove(TokenKey);
+    }
 }
