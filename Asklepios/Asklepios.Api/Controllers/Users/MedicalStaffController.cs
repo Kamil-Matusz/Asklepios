@@ -17,12 +17,14 @@ public class MedicalStaffController : BaseController
     [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IReadOnlyList<MedicalStaffListDto>>> GetAllDoctors([FromQuery] int pageIndex, [FromQuery] int pageSize)
         => Ok(await _medicalStaffService.GetAllDoctorsAsync(pageIndex, pageSize));
     
     [Authorize]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MedicalStaffDto>> GetDoctor(Guid id)
         => OkOrNotFound(await _medicalStaffService.GetDoctorAsync(id));
@@ -30,6 +32,8 @@ public class MedicalStaffController : BaseController
     [Authorize(Roles = "Admin, IT Employee")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> CreateDoctor(MedicalStaffDto dto)
     {
@@ -43,6 +47,8 @@ public class MedicalStaffController : BaseController
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateDoctor(Guid id, MedicalStaffDto dto)
     {
@@ -54,6 +60,8 @@ public class MedicalStaffController : BaseController
     [Authorize(Roles = "Admin, IT Employee")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteDoctor(Guid id)
     {

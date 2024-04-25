@@ -17,12 +17,14 @@ public class NurseController : BaseController
     [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IReadOnlyList<NurseListDto>>> GetAllNurses([FromQuery] int pageIndex, [FromQuery] int pageSize)
         => Ok(await _nurseService.GetAllNursesAsync(pageIndex, pageSize));
     
     [Authorize]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<NurseDto>> GetNurse(Guid id)
         => OkOrNotFound(await _nurseService.GetNurseAsync(id));
@@ -31,6 +33,8 @@ public class NurseController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateNurse(NurseDto dto)
     {
         await _nurseService.AddNurseAsync(dto);
@@ -43,6 +47,8 @@ public class NurseController : BaseController
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateNurse(Guid id, NurseDto dto)
     {
@@ -54,6 +60,8 @@ public class NurseController : BaseController
     [Authorize(Roles = "Admin, IT Employee")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteNurse(Guid id)
     {

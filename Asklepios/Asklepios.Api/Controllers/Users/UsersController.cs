@@ -55,6 +55,8 @@ public class UsersController : BaseController
     [HttpPost("generateUserAccount")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> GenerateUserAccount(GenerateUserAccount command)
     {
         command = command with {UserId = Guid.NewGuid()};
@@ -67,6 +69,8 @@ public class UsersController : BaseController
     [Authorize(Roles = "Admin")]
     [HttpGet("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<AccountDto>> GetUser(Guid userId)
     {
@@ -106,6 +110,8 @@ public class UsersController : BaseController
     [HttpDelete("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteUserAccount(Guid userId, DeleteUserAccount command)
     {
@@ -117,6 +123,8 @@ public class UsersController : BaseController
     [HttpPut("{userId:guid}/changeUserRole")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> ChangeUserRole(Guid userId, ChangeUserRole command)
     {
@@ -129,7 +137,6 @@ public class UsersController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> Logout()
     {
         _tokenStorage.ClearToken();
