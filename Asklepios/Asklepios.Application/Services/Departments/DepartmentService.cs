@@ -2,7 +2,7 @@ using Asklepios.Core.DTO.Departments;
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Exceptions.Departments;
 using Asklepios.Core.Policies.Departments;
-using Asklepios.Infrastructure.Repositories.Departments;
+using Asklepios.Core.Repositories.Departments;
 
 namespace Asklepios.Application.Services.Departments;
 

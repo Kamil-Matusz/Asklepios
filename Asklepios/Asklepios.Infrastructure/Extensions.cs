@@ -1,5 +1,8 @@
+using Asklepios.Application.Abstractions;
+using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
+using Asklepios.Infrastructure.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +16,12 @@ public static class Extensions
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        var infrastructureAssembly = typeof(AppOptions).Assembly;
+        services.Scan(s => s.FromAssemblies(infrastructureAssembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+        
         services.AddPostgres(configuration);
         
         // CORS
@@ -35,11 +44,36 @@ public static class Extensions
                 Title = "Asklepios - Hospital Managment System",
                 Version = "v1"
             });
+            
+            swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+            swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+            });
         });
-
+        
         services.AddErrorHandling();
-
         services.AddControllers();
+        services.AddSecurity();
+        services.AddAuth(configuration);
+        services.AddHttpContextAccessor();
         
         return services;
     }
@@ -56,7 +90,12 @@ public static class Extensions
         });
         
         app.UseErrorHandling();
+        
         app.UseRouting();
+        
+        app.UseAuthentication();
+        app.UseAuthorization();
+        
         return app;
     }
     

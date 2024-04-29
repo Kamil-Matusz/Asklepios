@@ -1,6 +1,6 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Repositories.Departments;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
-using Asklepios.Infrastructure.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asklepios.Infrastructure.DAL.Repositories;

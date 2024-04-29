@@ -1,3 +1,5 @@
+using Asklepios.Core.Entities.Users;
+
 namespace Asklepios.Core.Entities.Departments;
 
 public class Department
@@ -7,4 +9,7 @@ public class Department
     public int NumberOfBeds { get; set; }
     public int ActualNumberOfPatients { get; set; }
     public IEnumerable<Room> Rooms { get; set; }
+    
+    public Nurse Nurse { get; set; }
+    public MedicalStaff MedicalStaff { get; set; }
 }
