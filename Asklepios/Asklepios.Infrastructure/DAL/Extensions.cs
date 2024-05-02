@@ -1,4 +1,5 @@
 using Asklepios.Core.Repositories.Departments;
+using Asklepios.Core.Repositories.Patients;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Asklepios.Infrastructure.DAL.Repositories;
@@ -25,6 +26,7 @@ public static class Extensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<INurseRepository, NurseRepository>();
         services.AddScoped<IMedicalStaffRepository, MedicalStaffRepository>();
+        services.AddScoped<IPatientRepository, PatientRepository>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
