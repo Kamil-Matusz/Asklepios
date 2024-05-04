@@ -1,6 +1,7 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Departments;
+using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,7 @@ public static class Extensions
         services.AddSingleton<IClock, Clock>();
         services.AddScoped<INurseService, NurseService>();
         services.AddScoped<IMedicalStaffService, MedicalStaffService>();
+        services.AddScoped<IPatientService, PatientService>();
         
         return services;
     }
