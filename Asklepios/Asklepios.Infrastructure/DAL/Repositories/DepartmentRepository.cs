@@ -19,6 +19,7 @@ public class DepartmentRepository : IDepartmentRepository
     public async Task<Department> GetDepartmentByIdAsync(Guid departmentId)
         => await _departments
             .Include(x => x.Rooms)
+            .Include(x => x.Patients)
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.DepartmentId == departmentId);
 

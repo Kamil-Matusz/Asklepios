@@ -1,4 +1,5 @@
 using Asklepios.Core.DTO.Departments;
+using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Exceptions.Departments;
 using Asklepios.Core.Repositories.Departments;
@@ -27,7 +28,7 @@ public class RoomService : IRoomService
         });
     }
 
-    public async Task<RoomDto> GetRoomAsync(Guid id)
+    public async Task<RoomDetailsDto> GetRoomAsync(Guid id)
     {
         var room = await _roomRepository.GetRoomByIdAsync(id);
         if (room is null)
@@ -35,7 +36,16 @@ public class RoomService : IRoomService
             return null;
         }
 
-        var dto = Map<RoomDto>(room);
+        var dto = Map<RoomDetailsDto>(room);
+        dto.Patients = room.Patients?.Select(x => new PatientDto
+        {
+            PatientId = x.PatientId,
+            PatientName = x.PatientName,
+            PatientSurname = x.PatientSurname,
+            InitialDiagnosis = x.InitialDiagnosis,
+            IsDischarged = x.IsDischarged,
+            Treatment = x.Treatment,
+        }).ToList();
 
         return dto;
     }

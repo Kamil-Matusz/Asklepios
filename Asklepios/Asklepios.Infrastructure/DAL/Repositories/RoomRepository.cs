@@ -20,6 +20,7 @@ public class RoomRepository : IRoomRepository
         => _rooms
             .AsNoTracking()
             .Include(x => x.Department)
+            .Include(x => x.Patients)
             .SingleOrDefaultAsync(x => x.RoomId == roomId);
 
     public async Task<IReadOnlyList<Room>> GetAllRoomsAsync(int pageIndex, int pageSize)
