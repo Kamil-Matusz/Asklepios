@@ -1,6 +1,7 @@
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Exceptions.Patients;
+using Asklepios.Core.Policies.Patients;
 using Asklepios.Core.Repositories.Patients;
 
 namespace Asklepios.Application.Services.Patients;
@@ -8,14 +9,21 @@ namespace Asklepios.Application.Services.Patients;
 public class PatientService : IPatientService
 {
     private readonly IPatientRepository _patientRepository;
+    private readonly IAddPatientPolicy _addPatientPolicy;
 
-    public PatientService(IPatientRepository patientRepository)
+    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy)
     {
         _patientRepository = patientRepository;
+        _addPatientPolicy = addPatientPolicy;
     }
 
     public async Task AddPatientAsync(PatientDto dto)
     {
+        if (await _addPatientPolicy.CannotAddPatientToTheDepartment(dto.PatientId) is false)
+        {
+            throw new CannotAddPatientException(dto.DepartmentId);
+        }
+        
         dto.PatientId = Guid.NewGuid();
         await _patientRepository.AddPatientAsync(new Patient
         {

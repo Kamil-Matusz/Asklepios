@@ -48,4 +48,22 @@ public class DepartmentRepository : IDepartmentRepository
         _departments.Remove(department);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<int> CountPatientsInDepartmentAsync(Guid departmentId)
+    {
+        var department = await _departments
+            .Include(d => d.Patients)
+            .FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+
+        return department?.Patients.Count() ?? 0;
+    }
+
+    public async Task<int> GetNumberOfBedsAsync(Guid departmentId)
+    {
+        var department = await _departments
+            .AsNoTracking()
+            .FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+
+        return department?.NumberOfBeds ?? 0;
+    }
 }

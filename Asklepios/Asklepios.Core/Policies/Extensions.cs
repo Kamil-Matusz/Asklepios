@@ -1,4 +1,5 @@
 using Asklepios.Core.Policies.Departments;
+using Asklepios.Core.Policies.Patients;
 using Asklepios.Core.Policies.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class Extensions
         services.AddSingleton<IDepartmentDeletePolicy, DepartmentDeletionPolicy>();
         services.AddScoped<IUserDeletionPolicy, UserDeletionPolicy>();
         services.AddScoped<IRolePolicy, RolePolicy>();
+        services.AddScoped<IAddPatientPolicy, AddPatientPolicy>();
         
         return services;
     }

@@ -9,4 +9,6 @@ public interface IDepartmentRepository
     Task AddDepartmentAsync(Department department);
     Task UpdateDepartmentAsync(Department department);
     Task DeleteDepartmentAsync(Department department);
+    Task<int> CountPatientsInDepartmentAsync(Guid departmentId);
+    Task<int> GetNumberOfBedsAsync(Guid departmentId);
 }
