@@ -31,4 +31,25 @@ public class InMemoryRoomRepository : IRoomRepository
         _rooms.Remove(room);
         return Task.CompletedTask;
     }
+
+    public async Task<int> CountPatientsInRoomAsync(Guid roomId)
+    {
+        int totalPatients = 0;
+
+        foreach (var room in _rooms)
+        {
+            if (room.Patients != null)
+            {
+                totalPatients += room.Patients.Count();
+            }
+        }
+        
+        return totalPatients;
+    }
+
+    public async Task<int> GetNumberOfBedsAsync(Guid roomId)
+    {
+        var room = _rooms.FirstOrDefault(d => d.RoomId == roomId);
+        return room?.NumberOfBeds ?? 0;
+    }
 }

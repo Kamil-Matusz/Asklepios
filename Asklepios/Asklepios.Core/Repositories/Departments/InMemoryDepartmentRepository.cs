@@ -34,11 +34,22 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
 
     public async Task<int> CountPatientsInDepartmentAsync(Guid departmentId)
     {
-        return _departments?.Count() ?? 0;
+        int totalPatients = 0;
+
+        foreach (var department in _departments)
+        {
+            if (department.Patients != null)
+            {
+                totalPatients += department.Patients.Count();
+            }
+        }
+        
+        return totalPatients;
     }
 
     public async Task<int> GetNumberOfBedsAsync(Guid departmentId)
     {
-        return _departments?.Count() ?? 0;
+        var department = _departments.FirstOrDefault(d => d.DepartmentId == departmentId);
+        return department?.NumberOfBeds ?? 0;
     }
 }

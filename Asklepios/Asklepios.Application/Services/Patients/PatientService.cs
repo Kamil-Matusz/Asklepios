@@ -19,9 +19,14 @@ public class PatientService : IPatientService
 
     public async Task AddPatientAsync(PatientDto dto)
     {
-        if (await _addPatientPolicy.CannotAddPatientToTheDepartment(dto.PatientId) is false)
+        if (await _addPatientPolicy.CannotAddPatientToTheDepartment(dto.DepartmentId) is false)
         {
-            throw new CannotAddPatientException(dto.DepartmentId);
+            throw new CannotAddPatientToDepartmentException(dto.DepartmentId);
+        }
+
+        if (await _addPatientPolicy.CannotAddPatientToTheRoom(dto.RoomId) is false)
+        {
+            throw new CannotAddPatientToRoomException(dto.RoomId);
         }
         
         dto.PatientId = Guid.NewGuid();

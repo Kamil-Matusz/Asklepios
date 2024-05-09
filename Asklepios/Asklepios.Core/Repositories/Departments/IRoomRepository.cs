@@ -9,4 +9,6 @@ public interface IRoomRepository
     Task AddRoomAsync(Room room);
     Task UpdateRoomAsync(Room room);
     Task DeleteRoomAsync(Room room);
+    Task<int> CountPatientsInRoomAsync(Guid roomId);
+    Task<int> GetNumberOfBedsAsync(Guid roomId);
 }

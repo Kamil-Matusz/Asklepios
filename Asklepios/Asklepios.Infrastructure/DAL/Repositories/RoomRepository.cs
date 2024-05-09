@@ -49,4 +49,22 @@ public class RoomRepository : IRoomRepository
         _rooms.Remove(room);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<int> CountPatientsInRoomAsync(Guid roomId)
+    {
+        var room = await _rooms
+            .Include(d => d.Patients)
+            .FirstOrDefaultAsync(d => d.RoomId == roomId);
+
+        return room?.Patients.Count() ?? 0;
+    }
+
+    public async Task<int> GetNumberOfBedsAsync(Guid roomId)
+    {
+        var room = await _rooms
+            .AsNoTracking()
+            .FirstOrDefaultAsync(d => d.RoomId == roomId);
+
+        return room?.NumberOfBeds ?? 0;
+    }
 }
