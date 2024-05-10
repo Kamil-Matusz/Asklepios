@@ -1,15 +1,18 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Departments;
+using Asklepios.Application.Services.Email;
+using Asklepios.Application.Services.Email.SendGrid;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Asklepios.Application;
 
 public static class Extensions
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         var applicationAssembly = typeof(ICommandHandler<>).Assembly;
         services.Scan(s => s.FromAssemblies(applicationAssembly)
@@ -23,6 +26,9 @@ public static class Extensions
         services.AddScoped<INurseService, NurseService>();
         services.AddScoped<IMedicalStaffService, MedicalStaffService>();
         services.AddScoped<IPatientService, PatientService>();
+        services.AddScoped<IEmailService, EmailService>();
+
+        services.AddSendGrid(configuration);
         
         return services;
     }
