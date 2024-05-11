@@ -40,7 +40,7 @@ internal sealed class GenerateUserAccountHandler : ICommandHandler<GenerateUserA
 
         await _userRepository.AddUserAsync(user);
 
-        await _emailService.SendEmailAsync(command.Email, password);
+        await _emailService.SendEmailAboutGenerateAccountAsync(command.Email, password);
     }
     
     public static string GeneratePassword(int length = 8)
