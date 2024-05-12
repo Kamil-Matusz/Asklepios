@@ -79,6 +79,8 @@ public class PatientService : IPatientService
         patient.Treatment = dto.Treatment;
         patient.DepartmentId = dto.DepartmentId;
         patient.RoomId = dto.RoomId;
+
+        await _patientRepository.UpdatePatientAsync(patient);
     }
 
     public async Task DeletePatientAsync(Guid id)
