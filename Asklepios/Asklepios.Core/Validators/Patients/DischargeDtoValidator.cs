@@ -11,6 +11,8 @@ public class DischargeDtoValidator : AbstractValidator<DischargeDto>
         RuleFor(dto => dto.PatientName).MinimumLength(3).MaximumLength(200).WithMessage("Name length must be between 3 and 200 characters.");
         RuleFor(dto => dto.PatientSurname).NotEmpty().WithMessage("Surname is required.");
         RuleFor(dto => dto.PatientSurname).MinimumLength(3).MaximumLength(200).WithMessage("Surname length must be between 3 and 200 characters.");
+        RuleFor(dto => dto.PeselNumber).NotEmpty().WithMessage("Pesel number is required");
+        RuleFor(dto => dto.PeselNumber).Length(11);
         RuleFor(dto => dto.Address).NotEmpty().WithMessage("Patient address is required.");
         RuleFor(dto => dto.Address).MinimumLength(3).MaximumLength(200).WithMessage("Address length must be between 3 and 200 characters.");
         RuleFor(dto => dto.Date).NotEmpty().WithMessage("Discharged date is required.");
