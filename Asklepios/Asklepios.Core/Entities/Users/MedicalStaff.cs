@@ -1,4 +1,5 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Patients;
 
 namespace Asklepios.Core.Entities.Users;
 
@@ -17,4 +18,8 @@ public class MedicalStaff
     
     public Guid DepartmentId { get; set; } 
     public Department Department { get; set; }
+    
+    public IEnumerable<Discharge> Discharges { get; set; }
+    
+    
 }

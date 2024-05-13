@@ -16,7 +16,8 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<UserDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<NurseDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<MedicalStaffDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<PatientDtoValidator>());
+            .RegisterValidatorsFromAssemblyContaining<PatientDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<DischargeDtoValidator>());
 
         return services;
     }
