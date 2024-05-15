@@ -22,6 +22,12 @@ public class DischargeRepository : IDischargeRepository
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.DischargeId == dischargeId);
 
+    public async Task<Discharge> GetDischargeByPeselAsync(string PeselNumber)
+        => await _discharges
+            .Include(x => x.MedicalStaff)
+            .AsNoTracking()
+            .SingleOrDefaultAsync(x => x.PeselNumber == PeselNumber);
+
     public async Task AddDischargeAsync(Discharge discharge)
     {
         await _discharges.AddAsync(discharge);

@@ -15,4 +15,17 @@ public class Discharge
     
     public Guid MedicalStaffId { get; set; }
     public MedicalStaff MedicalStaff { get; set; }
+
+    public Discharge(Guid dischargeId, string patientName, string patientSurname, string peselNumber, string address, DateOnly date, string dischargeReasson, string summary, Guid medicalStaffId)
+    {
+        DischargeId = dischargeId;
+        PatientName = patientName;
+        PatientSurname = patientSurname;
+        PeselNumber = peselNumber;
+        Address = address;
+        Date = date;
+        DischargeReasson = dischargeReasson;
+        Summary = summary;
+        MedicalStaffId = medicalStaffId;
+    }
 }
