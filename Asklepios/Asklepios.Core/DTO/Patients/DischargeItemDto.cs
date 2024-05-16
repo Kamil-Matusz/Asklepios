@@ -2,6 +2,7 @@ namespace Asklepios.Core.DTO.Patients;
 
 public class DischargeItemDto
 {
+    public Guid DischargeId { get; set; }
     public string PatientName { get; set; }
     public string PatientSurname { get; set; }
     public string PeselNumber { get; set; }

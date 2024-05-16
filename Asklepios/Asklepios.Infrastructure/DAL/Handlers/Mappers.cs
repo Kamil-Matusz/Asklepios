@@ -20,6 +20,7 @@ public static class Mappers
     public static DischargeItemDto AsDischargeItemDto(this Discharge entity)
         => new()
         {
+            DischargeId = entity.DischargeId,
             PatientName = entity.PatientName,
             PatientSurname = entity.PatientSurname,
             PeselNumber = entity.PeselNumber,
