@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asklepios.Api.Controllers.Departments;
 
-[Authorize]
 public class DepartmentsController : BaseController
 {
     private readonly IDeparmentService _departmentService;

@@ -1,5 +1,5 @@
 using Asklepios.Application.Abstractions;
-using Asklepios.Application.Queries;
+using Asklepios.Application.Queries.Users;
 using Asklepios.Core.DTO.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;

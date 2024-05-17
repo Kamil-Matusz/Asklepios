@@ -1,6 +1,7 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands;
 using Asklepios.Application.Queries;
+using Asklepios.Application.Queries.Users;
 using Asklepios.Application.Security;
 using Asklepios.Core.DTO.Users;
 using Microsoft.AspNetCore.Authorization;

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asklepios.Api.Controllers.Departments;
 
-[Authorize]
 public class RoomsController : BaseController
 {
     private readonly IRoomService _roomService;
@@ -20,7 +19,7 @@ public class RoomsController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<RoomDto>> GetRoom(Guid id)
+    public async Task<ActionResult<RoomDetailsDto>> GetRoom(Guid id)
         => OkOrNotFound(await _roomService.GetRoomAsync(id));
 
     [Authorize]

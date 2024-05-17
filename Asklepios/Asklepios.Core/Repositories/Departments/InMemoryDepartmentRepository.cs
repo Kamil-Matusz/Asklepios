@@ -31,4 +31,25 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
         _departments.Remove(department);
         return Task.CompletedTask;
     }
+
+    public async Task<int> CountPatientsInDepartmentAsync(Guid departmentId)
+    {
+        int totalPatients = 0;
+
+        foreach (var department in _departments)
+        {
+            if (department.Patients != null)
+            {
+                totalPatients += department.Patients.Count();
+            }
+        }
+        
+        return totalPatients;
+    }
+
+    public async Task<int> GetNumberOfBedsAsync(Guid departmentId)
+    {
+        var department = _departments.FirstOrDefault(d => d.DepartmentId == departmentId);
+        return department?.NumberOfBeds ?? 0;
+    }
 }

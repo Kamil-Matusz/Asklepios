@@ -13,13 +13,7 @@ public static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddFluentValidation(fv => fv
-            .RegisterValidatorsFromAssemblyContaining<DepartmentDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<RoomDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<UserDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<NurseDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<MedicalStaffDtoValidator>());
-
+        services.AddFluentValidation();
         services.AddPolicies();
         
         return services;
