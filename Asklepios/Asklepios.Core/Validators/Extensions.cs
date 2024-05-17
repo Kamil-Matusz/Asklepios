@@ -1,4 +1,6 @@
+using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.Validators.Departments;
+using Asklepios.Core.Validators.Examinations;
 using Asklepios.Core.Validators.Patients;
 using Asklepios.Core.Validators.Users;
 using FluentValidation.AspNetCore;
@@ -17,7 +19,9 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<NurseDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<MedicalStaffDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<PatientDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<DischargeDtoValidator>());
+            .RegisterValidatorsFromAssemblyContaining<DischargeDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<ExaminationDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<ExamResultDto>());
 
         return services;
     }
