@@ -1,5 +1,6 @@
 using System.Net;
 using Asklepios.Application.Services.Email.SendGrid;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -9,9 +10,9 @@ public class EmailService : IEmailService
 {
     private readonly string _sendGridKey;
 
-    public EmailService(SendGridOptions sendGridOptions)
+    public EmailService(IConfiguration configuration)
     {
-        _sendGridKey = sendGridOptions.keySensGrid;
+        _sendGridKey = configuration["sendGridKey"];
     }
     
     public async Task SendEmailAboutGenerateAccountAsync(string recipientEmail, string password)
