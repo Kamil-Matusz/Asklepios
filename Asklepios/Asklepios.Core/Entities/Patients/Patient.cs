@@ -1,4 +1,5 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Examinations;
 
 namespace Asklepios.Core.Entities.Patients;
 
@@ -17,4 +18,6 @@ public class Patient
     
     public Guid RoomId { get; set; }
     public Room Room { get; set; }
+    
+    public IEnumerable<ExamResult> ExamResults { get; set; }
 }

@@ -1,4 +1,5 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Examinations;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<MedicalStaff> MedicalStaff { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Discharge> Discharges { get; set; }
+    public DbSet<Examination> Examinations { get; set; }
+    public DbSet<ExamResult> ExamResults { get; set; }
     
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {
