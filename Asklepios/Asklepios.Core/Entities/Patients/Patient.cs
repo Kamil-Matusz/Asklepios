@@ -20,4 +20,6 @@ public class Patient
     public Room Room { get; set; }
     
     public IEnumerable<ExamResult> ExamResults { get; set; }
+    
+    public IEnumerable<Operation> Operations { get; set; }
 }

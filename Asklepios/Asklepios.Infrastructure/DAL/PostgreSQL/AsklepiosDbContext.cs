@@ -18,6 +18,7 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<Discharge> Discharges { get; set; }
     public DbSet<Examination> Examinations { get; set; }
     public DbSet<ExamResult> ExamResults { get; set; }
+    public DbSet<Operation> Operations { get; set; }
     
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {

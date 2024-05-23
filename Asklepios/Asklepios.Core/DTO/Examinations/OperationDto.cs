@@ -10,5 +10,5 @@ public class OperationDto
     public string Result { get; set; }
     public string Comlications { get; set; }
     public Guid PatientId { get; set; }
-    public Guid MedicalStaffid { get; set; }
+    public Guid MedicalStaffId { get; set; }
 }

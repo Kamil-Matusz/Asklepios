@@ -17,6 +17,6 @@ public class Operation
     public Guid PatientId { get; set; }
     public Patient Patient { get; set; }
     
-    public Guid MedicalStaffid { get; set; }
+    public Guid MedicalStaffId { get; set; }
     public MedicalStaff MedicalStaff { get; set; }
 }

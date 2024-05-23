@@ -1,4 +1,3 @@
-using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.Validators.Departments;
 using Asklepios.Core.Validators.Examinations;
 using Asklepios.Core.Validators.Patients;

@@ -14,6 +14,6 @@ public class OperationDtoValidator : AbstractValidator<OperationDto>
         RuleFor(dto => dto.Result).NotEmpty().WithMessage("Result is required.");
         RuleFor(dto => dto.Result).MinimumLength(3).MaximumLength(2000).WithMessage("Exam name length must be between 3 and 2000 characters.");
         RuleFor(dto => dto.PatientId).NotEmpty().WithMessage("Patient Id is required.");
-        RuleFor(dto => dto.MedicalStaffid).NotEmpty().WithMessage("Doctor Id is required.");
+        RuleFor(dto => dto.MedicalStaffId).NotEmpty().WithMessage("Doctor Id is required.");
     }
 }
