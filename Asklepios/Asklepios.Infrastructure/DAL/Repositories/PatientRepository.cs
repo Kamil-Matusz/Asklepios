@@ -21,6 +21,8 @@ public class PatientRepository : IPatientRepository
         => await _patients
             .Include(x => x.Department)
             .Include(x => x.Room)
+            .Include(x => x.Operations)
+            .Include(x => x.ExamResults)
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.PatientId == patientId);
 
@@ -28,6 +30,8 @@ public class PatientRepository : IPatientRepository
         => await _patients
             .Include(x => x.Department)
             .Include(x => x.Room)
+            .Include(x => x.Operations)
+            .Include(x => x.ExamResults)
             .AsNoTracking()
             .OrderBy(x => x.PatientSurname)
             .Skip((pageIndex - 1) * pageSize)
@@ -38,6 +42,8 @@ public class PatientRepository : IPatientRepository
         => await _patients
             .Include(x => x.Department)
             .Include(x => x.Room)
+            .Include(x => x.Operations)
+            .Include(x => x.ExamResults)
             .Where(x => x.DepartmentId == departmentId)
             .AsNoTracking()
             .OrderBy(x => x.PatientSurname)
@@ -49,6 +55,8 @@ public class PatientRepository : IPatientRepository
         => await _patients
             .Include(x => x.Department)
             .Include(x => x.Room)
+            .Include(x => x.Operations)
+            .Include(x => x.ExamResults)
             .Where(x => x.RoomId == roomId)
             .AsNoTracking()
             .OrderBy(x => x.PatientSurname)
