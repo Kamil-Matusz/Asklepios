@@ -3,7 +3,7 @@ using Asklepios.Core.Repositories.Examinations;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asklepios.Infrastructure.DAL.Repositories;
+namespace Asklepios.Infrastructure.DAL.Repositories.Examinations;
 
 public class ExaminationRepository : IExaminationRepository
 {

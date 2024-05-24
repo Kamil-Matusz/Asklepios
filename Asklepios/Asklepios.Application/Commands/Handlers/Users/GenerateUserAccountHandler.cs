@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using Asklepios.Application.Abstractions;
+using Asklepios.Application.Commands.Users;
 using Asklepios.Application.Security;
 using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Email;
@@ -8,7 +9,7 @@ using Asklepios.Core.Exceptions.Users;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Core.ValueObjects;
 
-namespace Asklepios.Application.Commands.Handlers;
+namespace Asklepios.Application.Commands.Handlers.Users;
 
 internal sealed class GenerateUserAccountHandler : ICommandHandler<GenerateUserAccount>
 {

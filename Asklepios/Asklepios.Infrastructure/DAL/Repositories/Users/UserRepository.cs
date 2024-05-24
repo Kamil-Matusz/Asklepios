@@ -1,11 +1,10 @@
-using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Core.ValueObjects;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asklepios.Infrastructure.DAL.Repositories;
+namespace Asklepios.Infrastructure.DAL.Repositories.Users;
 
 internal sealed class UserRepository : IUserRepository
 {

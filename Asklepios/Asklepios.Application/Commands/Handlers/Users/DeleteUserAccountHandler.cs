@@ -1,9 +1,10 @@
 using Asklepios.Application.Abstractions;
+using Asklepios.Application.Commands.Users;
 using Asklepios.Core.Exceptions.Users;
 using Asklepios.Core.Policies.Users;
 using Asklepios.Core.Repositories.Users;
 
-namespace Asklepios.Application.Commands.Handlers;
+namespace Asklepios.Application.Commands.Handlers.Users;
 
 internal sealed class DeleteUserAccountHandler : ICommandHandler<DeleteUserAccount>
 {
