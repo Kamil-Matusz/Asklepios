@@ -11,4 +11,6 @@ public class OperationItemDto
     public string Comlications { get; set; }
     public string DoctorName { get; set; }
     public string DoctornSurname { get; set; }
+    public string PatientName { get; set; }
+    public string PatientSurname { get; set; }
 }

@@ -16,7 +16,12 @@ public class ExaminationService : IExaminationService
 
     public async Task AddExaminationAsync(ExaminationDto dto)
     {
-        throw new NotImplementedException();
+        await _examinationRepository.AddExaminationAsync(new Examination
+        {
+            ExaminationId = dto.ExamId,
+            ExamName = dto.ExamName,
+            ExamCategory = dto.ExamCategory
+        });
     }
 
     public async Task<ExaminationDto> GetExaminationAsync(int id)

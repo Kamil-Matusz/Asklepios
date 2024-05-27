@@ -33,6 +33,17 @@ public class OperationRepository : IOperationRepository
             .Take(pageSize)
             .ToListAsync();
 
+    public async Task<IReadOnlyList<Operation>> GetAllOperationsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
+        => await _operations
+            .AsNoTracking()
+            .Include(x => x.Patient)
+            .Include(x => x.MedicalStaff)
+            .Where(x => x.MedicalStaffId == doctorId)
+            .OrderBy(x => x.OperationName)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
     public async Task AddOperationAsync(Operation operation)
     {
         await _operations.AddAsync(operation);
