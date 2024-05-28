@@ -20,7 +20,7 @@ public class PatientsController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PatientDto>> GetPatient(Guid id)
+    public async Task<ActionResult<PatientDetailsDto>> GetPatient(Guid id)
         => OkOrNotFound(await _patientService.GetPatientAsync(id));
     
     [Authorize(Roles = "Admin, Nurse, Doctor")]
