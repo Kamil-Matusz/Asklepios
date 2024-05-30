@@ -69,6 +69,104 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.ToTable("Rooms");
                 });
 
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.ExamResult", b =>
+                {
+                    b.Property<Guid>("ExamResultId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.HasKey("ExamResultId");
+
+                    b.HasIndex("ExaminationId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("ExamResults");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.Examination", b =>
+                {
+                    b.Property<int>("ExaminationId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExamCategory")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("ExamName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.HasKey("ExaminationId");
+
+                    b.ToTable("Examinations");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.Operation", b =>
+                {
+                    b.Property<Guid>("OperationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AnesthesiaType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Comlications")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("MedicalStaffId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("OperationName")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<Guid>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("OperationId");
+
+                    b.HasIndex("MedicalStaffId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Operations");
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Patients.Discharge", b =>
                 {
                     b.Property<Guid>("DischargeId")
@@ -298,6 +396,44 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.ExamResult", b =>
+                {
+                    b.HasOne("Asklepios.Core.Entities.Examinations.Examination", "Examination")
+                        .WithMany("ExamResults")
+                        .HasForeignKey("ExaminationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Asklepios.Core.Entities.Patients.Patient", "Patient")
+                        .WithMany("ExamResults")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Examination");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.Operation", b =>
+                {
+                    b.HasOne("Asklepios.Core.Entities.Users.MedicalStaff", "MedicalStaff")
+                        .WithMany("Operations")
+                        .HasForeignKey("MedicalStaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Asklepios.Core.Entities.Patients.Patient", "Patient")
+                        .WithMany("Operations")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalStaff");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Patients.Discharge", b =>
                 {
                     b.HasOne("Asklepios.Core.Entities.Users.MedicalStaff", "MedicalStaff")
@@ -384,9 +520,23 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Navigation("Patients");
                 });
 
+            modelBuilder.Entity("Asklepios.Core.Entities.Examinations.Examination", b =>
+                {
+                    b.Navigation("ExamResults");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Patients.Patient", b =>
+                {
+                    b.Navigation("ExamResults");
+
+                    b.Navigation("Operations");
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Users.MedicalStaff", b =>
                 {
                     b.Navigation("Discharges");
+
+                    b.Navigation("Operations");
                 });
 
             modelBuilder.Entity("Asklepios.Core.Entities.Users.User", b =>

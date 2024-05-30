@@ -1,4 +1,5 @@
 using Asklepios.Application.Commands;
+using Asklepios.Application.Commands.Users;
 using Shouldly;
 
 namespace Asklepios.Users.UnitTests.Commands;

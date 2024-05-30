@@ -1,4 +1,5 @@
 using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Examinations;
 using Asklepios.Core.Entities.Patients;
 
 namespace Asklepios.Core.Entities.Users;
@@ -20,6 +21,8 @@ public class MedicalStaff
     public Department Department { get; set; }
     
     public IEnumerable<Discharge> Discharges { get; set; }
+    
+    public IEnumerable<Operation> Operations { get; set; }
     
     
 }

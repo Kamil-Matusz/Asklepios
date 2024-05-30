@@ -1,3 +1,4 @@
+using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Exceptions.Patients;
@@ -44,7 +45,7 @@ public class PatientService : IPatientService
         });
     }
 
-    public async Task<PatientDto> GetPatientAsync(Guid id)
+    public async Task<PatientDetailsDto> GetPatientAsync(Guid id)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(id);
         if (patient is null)
@@ -52,7 +53,27 @@ public class PatientService : IPatientService
             throw new PatientNotFoundException(id);
         }
         
-        var dto = Map<PatientDto>(patient);
+        var dto = Map<PatientDetailsDto>(patient);
+        dto.Operations = patient.Operations?.Select(x => new OperationDto
+        {
+            OperationId = x.OperationId,
+            OperationName = x.OperationName,
+            AnesthesiaType = x.AnesthesiaType,
+            Result = x.Result,
+            Comlications = x.Comlications,
+            StartDate = x.StartDate,
+            EndDate = x.EndDate,
+        }).ToList();
+
+        dto.ExamResults = patient.ExamResults?.Select(x => new ExamResultDto
+        {
+            ExamResultId = x.ExamResultId,
+            PatientId = x.PatientId,
+            Date = x.Date,
+            Result = x.Result,
+            Comment = x.Comment,
+            ExamId = x.ExaminationId
+        }).ToList();
 
         return dto;
     }

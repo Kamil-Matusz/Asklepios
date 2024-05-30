@@ -3,6 +3,7 @@ using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Departments;
 using Asklepios.Application.Services.Email;
 using Asklepios.Application.Services.Email.SendGrid;
+using Asklepios.Application.Services.Examinations;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,9 @@ public static class Extensions
         services.AddScoped<IMedicalStaffService, MedicalStaffService>();
         services.AddScoped<IPatientService, PatientService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IExaminationService, ExaminationService>();
+        services.AddScoped<IExamResultService, ExamResultService>();
+        services.AddScoped<IOperationService, OperationService>();
 
         services.AddSendGrid(configuration);
         

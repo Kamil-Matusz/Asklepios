@@ -1,5 +1,6 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands;
+using Asklepios.Application.Commands.Users;
 using Asklepios.Application.Queries;
 using Asklepios.Application.Queries.Users;
 using Asklepios.Application.Security;

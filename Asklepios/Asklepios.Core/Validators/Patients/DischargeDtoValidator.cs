@@ -15,11 +15,16 @@ public class DischargeDtoValidator : AbstractValidator<DischargeDto>
         RuleFor(dto => dto.PeselNumber).Length(11);
         RuleFor(dto => dto.Address).NotEmpty().WithMessage("Patient address is required.");
         RuleFor(dto => dto.Address).MinimumLength(3).MaximumLength(200).WithMessage("Address length must be between 3 and 200 characters.");
-        RuleFor(dto => dto.Date).NotEmpty().WithMessage("Discharged date is required.");
+        RuleFor(dto => dto.Date).NotEmpty().WithMessage("Discharged date is required.").Must(BeValidDate).WithMessage("Invalid date format.");;
         RuleFor(dto => dto.DischargeReasson).NotEmpty().WithMessage("Discharge reason is required.");
         RuleFor(dto => dto.DischargeReasson).MinimumLength(3).MaximumLength(2000).WithMessage("Reason length must be between 3 and 2000 characters.");
         RuleFor(dto => dto.Summary).NotEmpty().WithMessage("Patient summary is required.");
         RuleFor(dto => dto.Summary).MinimumLength(3).MaximumLength(5000).WithMessage("Summary length must be between 3 and 5000 characters.");
         RuleFor(dto => dto.MedicalStaffId).NotEmpty().WithMessage("Doctor Id is required.");
+    }
+    
+    private bool BeValidDate(DateOnly date)
+    {
+        return date != default(DateOnly);
     }
 }
