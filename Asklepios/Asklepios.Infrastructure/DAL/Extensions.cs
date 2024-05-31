@@ -8,6 +8,8 @@ using Asklepios.Infrastructure.DAL.Repositories.Departments;
 using Asklepios.Infrastructure.DAL.Repositories.Examinations;
 using Asklepios.Infrastructure.DAL.Repositories.Patients;
 using Asklepios.Infrastructure.DAL.Repositories.Users;
+using Asklepios.Infrastructure.DAL.Seeders;
+using Asklepios.Infrastructure.DAL.Seeders.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +38,8 @@ public static class Extensions
         services.AddScoped<IExaminationRepository, ExaminationRepository>();
         services.AddScoped<IExamResultRepository, ExamResultRepository>();
         services.AddScoped<IOperationRepository, OperationRepository>();
+        
+        services.AddTransient<IDataSeeder, UsersSeeder>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
