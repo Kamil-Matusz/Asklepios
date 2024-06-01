@@ -23,6 +23,21 @@ public class MedicalStaff
     public IEnumerable<Discharge> Discharges { get; set; }
     
     public IEnumerable<Operation> Operations { get; set; }
-    
-    
+
+    public MedicalStaff()
+    {
+    }
+
+    public MedicalStaff(Guid doctorId, string name, string surname, string privatePhoneNumber, string hospitalPhoneNumber, string specialization, string medicalLicenseNumber, Guid userId, Guid departmentId)
+    {
+        DoctorId = doctorId;
+        Name = name;
+        Surname = surname;
+        PrivatePhoneNumber = privatePhoneNumber;
+        HospitalPhoneNumber = hospitalPhoneNumber;
+        Specialization = specialization;
+        MedicalLicenseNumber = medicalLicenseNumber;
+        UserId = userId;
+        DepartmentId = departmentId;
+    }
 }

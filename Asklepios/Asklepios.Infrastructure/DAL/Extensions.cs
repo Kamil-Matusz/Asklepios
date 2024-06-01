@@ -43,6 +43,8 @@ public static class Extensions
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();
         services.AddTransient<IDataSeeder, RoomsSeeder>();
+        services.AddTransient<IDataSeeder, NursesSeeder>();
+        services.AddTransient<IDataSeeder, DoctorsSeeder>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
