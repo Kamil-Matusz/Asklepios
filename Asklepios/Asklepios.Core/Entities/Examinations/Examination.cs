@@ -9,4 +9,15 @@ public class Examination
     public ExamCategory ExamCategory { get; set; }
     
     public IEnumerable<ExamResult> ExamResults { get; set; }
+
+    public Examination()
+    {
+    }
+
+    public Examination(int examinationId, string examName, ExamCategory examCategory)
+    {
+        ExaminationId = examinationId;
+        ExamName = examName;
+        ExamCategory = examCategory;
+    }
 }
