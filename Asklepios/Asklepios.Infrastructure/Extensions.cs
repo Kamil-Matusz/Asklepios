@@ -3,6 +3,8 @@ using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.Security;
+using Convey;
+using Convey.MessageBrokers.RabbitMQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,6 +77,11 @@ public static class Extensions
         services.AddAuth(configuration);
         services.AddHttpContextAccessor();
         
+        // RabbitMQ
+        services.AddConvey()
+            .AddRabbitMq()
+            .Build();
+        
         return services;
     }
     
@@ -95,6 +102,9 @@ public static class Extensions
         
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        app.UseConvey();
+        app.UseRabbitMq();
         
         return app;
     }
