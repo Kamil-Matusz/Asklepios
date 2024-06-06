@@ -78,6 +78,7 @@ public class PatientService : IPatientService
         return dto;
     }
 
+    
     public async Task<IReadOnlyList<PatientListDto>> GetAllPatientsAsync(int pageIndex, int pageSize)
     {
         var patients = await _patientRepository.GetAllPatientsAsync(pageIndex, pageSize);

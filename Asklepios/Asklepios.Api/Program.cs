@@ -3,8 +3,6 @@ using Asklepios.Core;
 using Asklepios.Infrastructure;
 using Asklepios.Infrastructure.Logging;
 using Azure.Identity;
-using Convey;
-using Convey.MessageBrokers.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 

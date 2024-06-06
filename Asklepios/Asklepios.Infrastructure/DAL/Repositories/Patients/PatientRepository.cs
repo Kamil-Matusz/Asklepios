@@ -25,6 +25,11 @@ public class PatientRepository : IPatientRepository
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.PatientId == patientId);
 
+    public async Task<Patient> GetPatientDataByIdAsync(Guid patientId)
+        => await _patients
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.PatientId == patientId);
+
     public async Task<IReadOnlyList<Patient>> GetAllPatientsAsync(int pageIndex, int pageSize)
         => await _patients
             .Include(x => x.Department)

@@ -1,9 +1,14 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands.Discharges;
+using Asklepios.Application.Events;
 using Asklepios.Application.Queries.Discharges;
+using Asklepios.Application.Services.Patients;
 using Asklepios.Core.DTO.Patients;
+using Asklepios.Infrastructure.DAL.PostgreSQL;
+using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asklepios.Api.Controllers.Patients;
 
@@ -11,17 +16,24 @@ public class DischargesController : BaseController
 {
     private readonly ICommandHandler<AddDischarge> _addDischargeHandler;
     private readonly ICommandHandler<DeleteDischarge> _deleteDischargeHandler;
-    private readonly ICommandHandler<UpdateDischarge> _updateDischargeHandler;
+    //private readonly ICommandHandler<UpdateDischarge> _updateDischargeHandler;
     private readonly IQueryHandler<GetDischargeById, DischargeItemDto> _getDischargeByIdHandler;
     private readonly IQueryHandler<GetDischargeByPesel, DischargeItemDto> _getDischargeByPeselHandler;
+    private readonly IBusPublisher _busPublisher;
+    private readonly IPatientService _patientService;
+    private readonly AsklepiosDbContext _asklepiosDbContext;
+    private readonly ILogger<DischargesController> _logger;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, ICommandHandler<UpdateDischarge> updateDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, AsklepiosDbContext asklepiosDbContext, ILogger<DischargesController> logger)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
-        _updateDischargeHandler = updateDischargeHandler;
         _getDischargeByIdHandler = getDischargeByIdHandler;
         _getDischargeByPeselHandler = getDischargeByPeselHandler;
+        _busPublisher = busPublisher;
+        _patientService = patientService;
+        _asklepiosDbContext = asklepiosDbContext;
+        _logger = logger;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -84,7 +96,7 @@ public class DischargesController : BaseController
         return Ok(discharge);
     }
     
-    [Authorize(Roles = "Admin, Doctor")]
+    /*[Authorize(Roles = "Admin, Doctor")]
     [HttpPut("{dischargeId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -94,6 +106,29 @@ public class DischargesController : BaseController
     public async Task<ActionResult> UpdateDischarge(Guid dischargeId, UpdateDischarge command)
     {
         await _updateDischargeHandler.HandlerAsync(command with { DischargeId = dischargeId});
+        return Ok();
+    }*/
+
+    [HttpPost("dischargePatient")]
+    public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
+    {
+        var patients = _asklepiosDbContext.Patients
+            .AsNoTracking()
+            .FirstOrDefault(x => x.PatientId == dto.PatientId);
+        
+        var dischargeEvent = new DischargePatient(
+            DischargeId: Guid.NewGuid(),
+            PatientName: patients.PatientName,
+            PatientSurname: patients.PatientSurname,
+            PeselNumber: patients.PeselNumber,
+            Date: dto.DischargeDate,
+            DischargeReasson: dto.DischargeReason,
+            Summary: dto.Summary,
+            MedicalStaffId: dto.MedicalStaffId
+        );
+        
+        await _busPublisher.PublishAsync(dischargeEvent);
+
         return Ok();
     }
 }
