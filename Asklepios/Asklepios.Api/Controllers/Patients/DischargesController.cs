@@ -8,7 +8,6 @@ using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Asklepios.Api.Controllers.Patients;
 
@@ -16,15 +15,13 @@ public class DischargesController : BaseController
 {
     private readonly ICommandHandler<AddDischarge> _addDischargeHandler;
     private readonly ICommandHandler<DeleteDischarge> _deleteDischargeHandler;
-    //private readonly ICommandHandler<UpdateDischarge> _updateDischargeHandler;
+    private readonly ICommandHandler<UpdateDischarge> _updateDischargeHandler;
     private readonly IQueryHandler<GetDischargeById, DischargeItemDto> _getDischargeByIdHandler;
     private readonly IQueryHandler<GetDischargeByPesel, DischargeItemDto> _getDischargeByPeselHandler;
     private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
-    private readonly AsklepiosDbContext _asklepiosDbContext;
-    private readonly ILogger<DischargesController> _logger;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, AsklepiosDbContext asklepiosDbContext, ILogger<DischargesController> logger)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
@@ -32,8 +29,7 @@ public class DischargesController : BaseController
         _getDischargeByPeselHandler = getDischargeByPeselHandler;
         _busPublisher = busPublisher;
         _patientService = patientService;
-        _asklepiosDbContext = asklepiosDbContext;
-        _logger = logger;
+        _updateDischargeHandler = updateDischargeHandler;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -96,7 +92,7 @@ public class DischargesController : BaseController
         return Ok(discharge);
     }
     
-    /*[Authorize(Roles = "Admin, Doctor")]
+    [Authorize(Roles = "Admin, Doctor")]
     [HttpPut("{dischargeId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -107,14 +103,18 @@ public class DischargesController : BaseController
     {
         await _updateDischargeHandler.HandlerAsync(command with { DischargeId = dischargeId});
         return Ok();
-    }*/
+    }
 
+    [Authorize(Roles = "Doctor")]
     [HttpPost("dischargePatient")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
     {
-        var patients = _asklepiosDbContext.Patients
-            .AsNoTracking()
-            .FirstOrDefault(x => x.PatientId == dto.PatientId);
+        var patients = await _patientService.GetPatientDataAsync(dto.PatientId);
         
         var dischargeEvent = new DischargePatient(
             DischargeId: Guid.NewGuid(),

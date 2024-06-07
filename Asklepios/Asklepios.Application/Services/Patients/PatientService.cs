@@ -45,6 +45,18 @@ public class PatientService : IPatientService
         });
     }
 
+    public async Task<PatientDto> GetPatientDataAsync(Guid id)
+    {
+        var patient = await _patientRepository.GetPatientByIdAsync(id);
+        if (patient is null)
+        {
+            throw new PatientNotFoundException(id);
+        }
+
+        var dto = Map<PatientDto>(patient);
+        return dto;
+    }
+
     public async Task<PatientDetailsDto> GetPatientAsync(Guid id)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(id);
