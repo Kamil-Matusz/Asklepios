@@ -4,7 +4,6 @@ using Asklepios.Application.Events;
 using Asklepios.Application.Queries.Discharges;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Core.DTO.Patients;
-using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -126,9 +125,15 @@ public class DischargesController : BaseController
             Summary: dto.Summary,
             MedicalStaffId: dto.MedicalStaffId
         );
+
+        var updateDischargeStatusEvent = new UpdateDischargeStatus(
+            PatientId: dto.PatientId,
+            DischargeStatus: true
+        );
         
         await _busPublisher.PublishAsync(dischargeEvent);
-
+        await _busPublisher.PublishAsync(updateDischargeStatusEvent);
+        
         return Ok();
     }
 }
