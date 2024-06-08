@@ -7,6 +7,7 @@ using Asklepios.Core.DTO.Patients;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UpdateDischargeStatus = Asklepios.Application.Commands.Discharges.UpdateDischargeStatus;
 
 namespace Asklepios.Api.Controllers.Patients;
 
@@ -17,10 +18,11 @@ public class DischargesController : BaseController
     private readonly ICommandHandler<UpdateDischarge> _updateDischargeHandler;
     private readonly IQueryHandler<GetDischargeById, DischargeItemDto> _getDischargeByIdHandler;
     private readonly IQueryHandler<GetDischargeByPesel, DischargeItemDto> _getDischargeByPeselHandler;
+    private readonly ICommandHandler<UpdateDischargeStatus> _updateDischargeStatusHandler;
     private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
@@ -29,6 +31,7 @@ public class DischargesController : BaseController
         _busPublisher = busPublisher;
         _patientService = patientService;
         _updateDischargeHandler = updateDischargeHandler;
+        _updateDischargeStatusHandler = updateDischargeStatusHandler;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -104,7 +107,7 @@ public class DischargesController : BaseController
         return Ok();
     }
 
-    [Authorize(Roles = "Doctor")]
+    /*[Authorize(Roles = "Doctor")]
     [HttpPost("dischargePatient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -133,6 +136,41 @@ public class DischargesController : BaseController
         
         await _busPublisher.PublishAsync(dischargeEvent);
         await _busPublisher.PublishAsync(updateDischargeStatusEvent);
+        
+        return Ok();
+    }*/
+    
+    [Authorize(Roles = "Doctor")]
+    [HttpPost("dischargePatient")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
+    {
+        var patients = await _patientService.GetPatientDataAsync(dto.PatientId);
+        bool status = true;
+
+        var addDischargeCommand = new AddDischarge(
+            DischargeId: Guid.NewGuid(),
+            PatientName: patients.PatientName,
+            PatientSurname: patients.PatientSurname,
+            PeselNumber: patients.PeselNumber,
+            Address: "Urocza 3",
+            Date: dto.DischargeDate,
+            DischargeReasson: dto.DischargeReason,
+            Summary: dto.Summary,
+            MedicalStaffId: dto.MedicalStaffId
+        );
+
+        var updateDischargeStatusCommand = new UpdateDischargeStatus(
+            PatientId: dto.PatientId,
+            IsDischarged: status
+        );
+        
+        await _addDischargeHandler.HandlerAsync(addDischargeCommand);
+        await _updateDischargeStatusHandler.HandlerAsync(updateDischargeStatusCommand);
         
         return Ok();
     }
