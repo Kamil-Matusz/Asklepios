@@ -142,7 +142,7 @@ public class UsersController : BaseController
     public async Task<ActionResult> Logout()
     {
         _tokenStorage.ClearToken();
-
+        
         return Ok();
     }
 }
