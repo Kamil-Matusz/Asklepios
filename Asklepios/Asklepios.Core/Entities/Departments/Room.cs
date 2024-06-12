@@ -11,4 +11,17 @@ public class Room
     public Guid DepartmentId { get; set; }
     public Department Department { get; set; }
     public IEnumerable<Patient> Patients { get; set; }
+
+    public Room(Guid roomId, int roomNumber, string roomType, int numberOfBeds, Guid departmentId)
+    {
+        RoomId = roomId;
+        RoomNumber = roomNumber;
+        RoomType = roomType;
+        NumberOfBeds = numberOfBeds;
+        DepartmentId = departmentId;
+    }
+
+    public Room()
+    {
+    }
 }

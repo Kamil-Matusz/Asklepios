@@ -13,4 +13,17 @@ public class Nurse
     
     public Guid DepartmentId { get; set; } 
     public Department Department { get; set; }
+
+    public Nurse()
+    {
+    }
+
+    public Nurse(Guid nurseId, string name, string surname, Guid userId, Guid departmentId)
+    {
+        NurseId = nurseId;
+        Name = name;
+        Surname = surname;
+        UserId = userId;
+        DepartmentId = departmentId;
+    }
 }

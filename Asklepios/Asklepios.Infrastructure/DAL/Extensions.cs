@@ -3,11 +3,15 @@ using Asklepios.Core.Repositories.Examinations;
 using Asklepios.Core.Repositories.Patients;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
-using Asklepios.Infrastructure.DAL.Repositories;
 using Asklepios.Infrastructure.DAL.Repositories.Departments;
 using Asklepios.Infrastructure.DAL.Repositories.Examinations;
 using Asklepios.Infrastructure.DAL.Repositories.Patients;
 using Asklepios.Infrastructure.DAL.Repositories.Users;
+using Asklepios.Infrastructure.DAL.Seeders;
+using Asklepios.Infrastructure.DAL.Seeders.Departments;
+using Asklepios.Infrastructure.DAL.Seeders.Examinations;
+using Asklepios.Infrastructure.DAL.Seeders.Patients;
+using Asklepios.Infrastructure.DAL.Seeders.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +40,14 @@ public static class Extensions
         services.AddScoped<IExaminationRepository, ExaminationRepository>();
         services.AddScoped<IExamResultRepository, ExamResultRepository>();
         services.AddScoped<IOperationRepository, OperationRepository>();
+        
+        services.AddTransient<IDataSeeder, UsersSeeder>();
+        services.AddTransient<IDataSeeder, DepartmentsSeeder>();
+        services.AddTransient<IDataSeeder, RoomsSeeder>();
+        services.AddTransient<IDataSeeder, NursesSeeder>();
+        services.AddTransient<IDataSeeder, DoctorsSeeder>();
+        services.AddTransient<IDataSeeder, ExaminationsSeeder>();
+        services.AddTransient<IDataSeeder, PatientsSeeder>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

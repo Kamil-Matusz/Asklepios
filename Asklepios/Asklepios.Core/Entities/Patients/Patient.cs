@@ -22,4 +22,21 @@ public class Patient
     public IEnumerable<ExamResult> ExamResults { get; set; }
     
     public IEnumerable<Operation> Operations { get; set; }
+
+    public Patient()
+    {
+    }
+
+    public Patient(Guid patientId, string patientName, string patientSurname, string peselNumber, string initialDiagnosis, bool isDischarged, string treatment, Guid departmentId, Guid roomId)
+    {
+        PatientId = patientId;
+        PatientName = patientName;
+        PatientSurname = patientSurname;
+        PeselNumber = peselNumber;
+        InitialDiagnosis = initialDiagnosis;
+        IsDischarged = isDischarged;
+        Treatment = treatment;
+        DepartmentId = departmentId;
+        RoomId = roomId;
+    }
 }

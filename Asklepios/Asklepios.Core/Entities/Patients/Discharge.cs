@@ -28,4 +28,8 @@ public class Discharge
         Summary = summary;
         MedicalStaffId = medicalStaffId;
     }
+
+    public Discharge()
+    {
+    }
 }

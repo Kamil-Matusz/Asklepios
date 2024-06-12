@@ -45,6 +45,18 @@ public class PatientService : IPatientService
         });
     }
 
+    public async Task<PatientDto> GetPatientDataAsync(Guid id)
+    {
+        var patient = await _patientRepository.GetPatientByIdAsync(id);
+        if (patient is null)
+        {
+            throw new PatientNotFoundException(id);
+        }
+
+        var dto = Map<PatientDto>(patient);
+        return dto;
+    }
+
     public async Task<PatientDetailsDto> GetPatientAsync(Guid id)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(id);
@@ -78,6 +90,7 @@ public class PatientService : IPatientService
         return dto;
     }
 
+    
     public async Task<IReadOnlyList<PatientListDto>> GetAllPatientsAsync(int pageIndex, int pageSize)
     {
         var patients = await _patientRepository.GetAllPatientsAsync(pageIndex, pageSize);
