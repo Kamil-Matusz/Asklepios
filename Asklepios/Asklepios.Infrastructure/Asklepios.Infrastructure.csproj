@@ -33,5 +33,9 @@
       <ProjectReference Include="..\Asklepios.Application\Asklepios.Application.csproj" />
       <ProjectReference Include="..\Asklepios.Core\Asklepios.Core.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="Asklepios.IntegrationTests" />
+    </ItemGroup>
 
 </Project>
