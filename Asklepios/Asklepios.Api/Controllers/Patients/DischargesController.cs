@@ -3,7 +3,9 @@ using Asklepios.Application.Commands.Discharges;
 using Asklepios.Application.Events;
 using Asklepios.Application.Queries.Discharges;
 using Asklepios.Application.Services.Patients;
+using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
+using Asklepios.Core.Repositories.Users;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +23,9 @@ public class DischargesController : BaseController
     private readonly ICommandHandler<UpdateDischargeStatus> _updateDischargeStatusHandler;
     private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
+    private readonly IMedicalStaffService _medicalStaffService;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
@@ -32,6 +35,7 @@ public class DischargesController : BaseController
         _patientService = patientService;
         _updateDischargeHandler = updateDischargeHandler;
         _updateDischargeStatusHandler = updateDischargeStatusHandler;
+        _medicalStaffService = medicalStaffService;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -42,7 +46,9 @@ public class DischargesController : BaseController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> AddDischarge(AddDischarge command)
     {
-        command = command with {DischargeId = Guid.NewGuid()};
+        var userId = Guid.Parse(User.Identity?.Name);
+        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
+        command = command with {DischargeId = Guid.NewGuid(), MedicalStaffId = doctorId};
         await _addDischargeHandler.HandlerAsync(command);
         return Ok();
     }
@@ -117,6 +123,8 @@ public class DischargesController : BaseController
     public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
     {
         var patients = await _patientService.GetPatientDataAsync(dto.PatientId);
+        var userId = Guid.Parse(User.Identity?.Name);
+        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
         
         var dischargeEvent = new DischargePatient(
             DischargeId: Guid.NewGuid(),
@@ -126,7 +134,7 @@ public class DischargesController : BaseController
             Date: dto.DischargeDate,
             DischargeReasson: dto.DischargeReason,
             Summary: dto.Summary,
-            MedicalStaffId: dto.MedicalStaffId
+            MedicalStaffId: doctorId
         );
 
         var updateDischargeStatusEvent = new UpdateDischargeStatus(
@@ -150,6 +158,8 @@ public class DischargesController : BaseController
     public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
     {
         var patients = await _patientService.GetPatientDataAsync(dto.PatientId);
+        var userId = Guid.Parse(User.Identity?.Name);
+        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
         bool status = true;
 
         var addDischargeCommand = new AddDischarge(
@@ -161,7 +171,7 @@ public class DischargesController : BaseController
             Date: dto.DischargeDate,
             DischargeReasson: dto.DischargeReason,
             Summary: dto.Summary,
-            MedicalStaffId: dto.MedicalStaffId
+            MedicalStaffId: doctorId
         );
 
         var updateDischargeStatusCommand = new UpdateDischargeStatus(

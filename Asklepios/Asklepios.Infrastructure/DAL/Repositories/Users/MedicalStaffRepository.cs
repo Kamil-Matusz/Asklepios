@@ -22,6 +22,15 @@ public class MedicalStaffRepository : IMedicalStaffRepository
             .Include(x => x.Department)
             .SingleOrDefaultAsync(x => x.DoctorId == doctorId);
 
+    public async Task<Guid> GetDoctorIdAsync(Guid userId)
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .Select(x => x.DoctorId)
+            .SingleOrDefaultAsync();
+    }
+
     public async Task<IReadOnlyList<MedicalStaff>> GetAllNDoctorsAsync(int pageIndex, int pageSize)
         => await _medicalStaves
             .AsNoTracking()
