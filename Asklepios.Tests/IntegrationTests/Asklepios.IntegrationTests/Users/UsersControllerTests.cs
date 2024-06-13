@@ -8,8 +8,9 @@ using Asklepios.Infrastructure.Security;
 using Microsoft.AspNetCore.Identity;
 using Shouldly;
 
-namespace Asklepios.IntegrationTests.UsersControllers;
+namespace Asklepios.IntegrationTests.Users;
 
+[Collection("users")]
 public class UsersControllerTests : BaseControllerTest, IDisposable
 {
     private readonly TestDatabase _testDatabase;
@@ -38,7 +39,7 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
     }
     
     [Fact]
-    public async Task SignIn_ShouldReturn_OkStatus()
+    public async Task SignIn_ShouldReturn_Ok_Status()
     {
         // Arrange
         var passwordManager = new PasswordManager(new PasswordHasher<User>());
@@ -61,7 +62,7 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
     }
 
     [Fact]
-    public async Task GetMyAccount_ShouldReturn_Ok_Status_And_User()
+    public async Task GetMyAccount_Should_Return_Ok_Status_And_User()
     {
         // Arrange
         var passwordManager = new PasswordManager(new PasswordHasher<User>());

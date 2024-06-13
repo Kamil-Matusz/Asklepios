@@ -6,9 +6,8 @@ using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.Extensions.Options;
 
-namespace Asklepios.IntegrationTests.UsersControllers;
+namespace Asklepios.IntegrationTests;
 
-[Collection("users")]
 public abstract class BaseControllerTest : IClassFixture<OptionsProvider>
 {
     protected HttpClient Client { get; }
