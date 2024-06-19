@@ -25,6 +25,20 @@ public class PatientsControllerTests : BaseControllerTest, IDisposable
     }
     
     [Fact]
+    public async Task GetPatientById_ShouldReturnUnauthorized_WhenUserIsNotAuthorized()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        Client.DefaultRequestHeaders.Authorization = null;
+
+        // Act
+        var response = await Client.GetAsync($"/patients-module/Patients/{id}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+    
+    [Fact]
     public async Task Create_Patient_Should_Return_Ok_Status()
     {
         // Arrange

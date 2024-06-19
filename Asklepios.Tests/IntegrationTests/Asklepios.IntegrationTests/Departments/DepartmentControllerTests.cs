@@ -52,4 +52,18 @@ public class DepartmentControllerTests : BaseControllerTest, IDisposable
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
     }
+    
+    [Fact]
+    public async Task GetDepartmentById_ShouldReturnUnauthorized_WhenUserIsNotAuthorized()
+    {
+        // Arrange
+        var id = Guid.NewGuid();
+        Client.DefaultRequestHeaders.Authorization = null;
+
+        // Act
+        var response = await Client.GetAsync($"/departments-module/Departments/{id}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
 }

@@ -25,6 +25,20 @@ public class ExaminationControllerTests : BaseControllerTest, IDisposable
     }
     
     [Fact]
+    public async Task GetExaminationById_ShouldReturnUnauthorized_WhenUserIsNotAuthorized()
+    {
+        // Arrange
+        var id = 258;
+        Client.DefaultRequestHeaders.Authorization = null;
+
+        // Act
+        var response = await Client.GetAsync($"/examinations-module/Examinations/{id}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+    
+    [Fact]
     public async Task Create_Examination_Should_Return_Ok_Status()
     {
         // Arrange
