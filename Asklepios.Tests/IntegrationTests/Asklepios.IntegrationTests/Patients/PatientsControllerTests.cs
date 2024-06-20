@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using Asklepios.Core.DTO.Patients;
+using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.ValueObjects;
 using Asklepios.Infrastructure.Security;
@@ -70,5 +72,51 @@ public class PatientsControllerTests : BaseControllerTest, IDisposable
         
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
+    }
+    
+    [Fact]
+    public async Task GetAllPatients_ShouldReturn_Ok_Status_And_Patients()
+    {
+        // Arrange
+        const int pageIndex = 1;
+        const int pageSize = 10;
+
+        var department = new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Department 1", NumberOfBeds = 50, ActualNumberOfPatients = 20 };
+        var room = new Room {RoomId = Guid.NewGuid(), RoomNumber = 115, RoomType = "Normal", NumberOfBeds = 4, DepartmentId = department.DepartmentId};
+            
+        var patients = new List<Patient>
+        {
+            new Patient {
+                PatientId = Guid.NewGuid(),
+                PatientName = "Test",
+                PatientSurname = "Test",
+                PeselNumber = "01300406342",
+                InitialDiagnosis = "Test",
+                IsDischarged = false,
+                Treatment = "test",
+                DepartmentId = department.DepartmentId,
+                RoomId = room.RoomId }
+        };
+
+        await _testDatabase.DbContext.Departments.AddAsync(department);
+        await _testDatabase.DbContext.Rooms.AddAsync(room);
+        await _testDatabase.DbContext.Patients.AddRangeAsync(patients);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        var nurse = new User(Guid.NewGuid(), "katarzynawacnik@test.com", "password", Role.Nurse(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(nurse);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        // Act
+        Authorize(nurse.UserId, nurse.Role);
+    
+        var response = await Client.GetAsync($"/patients-module/Patients?pageIndex={pageIndex}&pageSize={pageSize}");
+        response.EnsureSuccessStatusCode();
+
+        var departmentDtos = await response.Content.ReadFromJsonAsync<IReadOnlyList<PatientListDto>>();
+
+        // Assert
+        departmentDtos.ShouldNotBeNull();
+        departmentDtos.Count.ShouldBe(patients.Count);
     }
 }

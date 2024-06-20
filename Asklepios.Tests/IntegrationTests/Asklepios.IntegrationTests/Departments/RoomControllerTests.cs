@@ -1,4 +1,9 @@
 using System.Net;
+using System.Net.Http.Json;
+using Asklepios.Core.DTO.Departments;
+using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Users;
+using Asklepios.Core.ValueObjects;
 using Shouldly;
 
 namespace Asklepios.IntegrationTests.Departments;
@@ -27,6 +32,20 @@ public class RoomControllerTests : BaseControllerTest, IDisposable
 
         // Act
         var response = await Client.GetAsync($"/departments-module/Rooms/{id}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+    
+    [Fact]
+    public async Task GetAllRooms_ShouldReturn_Unauthorized_WhenUserIsNotAuthenticated()
+    {
+        // Arrange
+        const int pageIndex = 1;
+        const int pageSize = 10;
+
+        // Act
+        var response = await Client.GetAsync($"/departments-module/Rooms?pageIndex={pageIndex}&pageSize={pageSize}");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
