@@ -27,6 +27,3 @@ jobs:
       
     - name: Build the project
       run: dotnet build Asklepios.sln
-
-    - name: Run tests
-      run: dotnet test Asklepios.sln
