@@ -3,7 +3,7 @@ using Shouldly;
 
 namespace Asklepios.IntegrationTests.Examinations;
 
-[Collection("examination")]
+[Collection("operations")]
 public class OperationControllerTests : BaseControllerTest, IDisposable
 {
     private readonly TestDatabase _testDatabase;
@@ -27,6 +27,20 @@ public class OperationControllerTests : BaseControllerTest, IDisposable
 
         // Act
         var response = await Client.GetAsync($"/examinations-module/Operations/{id}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+    
+    [Fact]
+    public async Task GetAllOperations_ShouldReturn_Unauthorized_WhenUserIsNotAuthenticated()
+    {
+        // Arrange
+        const int pageIndex = 1;
+        const int pageSize = 10;
+
+        // Act
+        var response = await Client.GetAsync($"/examinations-module/Operations?pageIndex={pageIndex}&pageSize={pageSize}");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);

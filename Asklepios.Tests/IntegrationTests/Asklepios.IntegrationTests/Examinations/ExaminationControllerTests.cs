@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace Asklepios.IntegrationTests.Examinations;
 
-[Collection("examination")]
+[Collection("examinations")]
 public class ExaminationControllerTests : BaseControllerTest, IDisposable
 {
     private readonly TestDatabase _testDatabase;

@@ -133,5 +133,29 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
+    
+    /*[Fact]
+    public async Task DeleteUserAccount_ShouldReturn_No_Content()
+    {
+        // Arrange
+        var passwordManager = new PasswordManager(new PasswordHasher<User>());
+        const string password = "password";
+        
+        var admin = new User(Guid.NewGuid(), "deleteAccountAdmin@test.com", passwordManager.Secure(password), Role.Admin(), true,
+            DateTime.Now);
+        
+        var user = new User(Guid.NewGuid(), "deleteAccount@test.com", passwordManager.Secure(password), Role.No_Role(), false,
+            DateTime.Now);
+        
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.Users.AddAsync(user);
+        await _testDatabase.DbContext.SaveChangesAsync();
+        
+        // Act
+        Authorize(admin.UserId, admin.Role);
+        var response = await Client.DeleteAsync($"/users-module/Users/{user.UserId}");
 
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+    }*/
 }

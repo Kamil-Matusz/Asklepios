@@ -119,4 +119,47 @@ public class PatientsControllerTests : BaseControllerTest, IDisposable
         departmentDtos.ShouldNotBeNull();
         departmentDtos.Count.ShouldBe(patients.Count);
     }
+    
+    /*[Fact]
+    public async Task DeletePatient_ShouldReturn_NoContent()
+    {
+        var department = new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Department 1", NumberOfBeds = 50, ActualNumberOfPatients = 20 };
+        var room = new Room {RoomId = Guid.NewGuid(), RoomNumber = 115, RoomType = "Normal", NumberOfBeds = 4, DepartmentId = department.DepartmentId};
+        
+        var patientId = Guid.NewGuid();
+        
+        var patient = new Patient
+        {
+            PatientId = patientId,
+            PatientName = "Test",
+            PatientSurname = "Test",
+            PeselNumber = "01300406242",
+            InitialDiagnosis = "Test",
+            IsDischarged = false,
+            Treatment = "test",
+            DepartmentId = department.DepartmentId,
+            RoomId = room.RoomId
+        };
+        
+        await _testDatabase.DbContext.Departments.AddAsync(department);
+        await _testDatabase.DbContext.Rooms.AddAsync(room);
+        await _testDatabase.DbContext.Patients.AddAsync(patient);
+        await _testDatabase.DbContext.SaveChangesAsync();
+        
+        var nurse = new User(Guid.NewGuid(), "nurse@test.com", "password", Role.Nurse(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(nurse);
+        await _testDatabase.DbContext.SaveChangesAsync();
+        
+        Authorize(nurse.UserId, nurse.Role);
+
+        // Act
+        var response = await Client.DeleteAsync($"/patients-module/Patients/{patientId}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        
+        var deletedPatient = await _testDatabase.DbContext.Patients.FindAsync(patientId);
+        deletedPatient.ShouldBeNull();
+    }*/
+    
 }
