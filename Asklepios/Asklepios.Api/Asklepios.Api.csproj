@@ -24,4 +24,8 @@
       <Folder Include="logs\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Asklepios.IntegrationTests" />
+    </ItemGroup>
+
 </Project>

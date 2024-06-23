@@ -20,7 +20,8 @@ public static class Extensions
                     rollingInterval: RollingInterval.Day,
                     restrictedToMinimumLevel: LogEventLevel.Error,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
-                );
+                )
+                .WriteTo.Seq("http://localhost:5341");
         });
 
         return builder;
