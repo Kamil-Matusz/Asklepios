@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    shm_size: '4gb'
+    container_name: asklepios_postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: asklepios_rabbitMQ
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+
+  seq:
+    image: datalust/seq
+    container_name: asklepios_seq
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - 5341:80
+    volumes:
+      - seq-data:/data
+
+volumes:
+  postgres:
+    driver: local
+  seq-data:
+    driver: local
