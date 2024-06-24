@@ -9,8 +9,13 @@ A system supporting and offering support for medical facilities.It is a complete
 - Fluent Validation
 - PostgreSQL
 - Docker
+- Azure Key Vault
 - SendGrid
+- Seq
 
 ## Database
 The project uses a Postgres database using Docker. Docker settings are in the <b>docker-compose.yml</b> file. 
 For the database to work properly, create a migration and apply the appropriate data in the file <b>appsettings.json</b> in the Asklepios.Api project on line 16 <b>"connectionString"</b> change the database path to your database path.
+
+### Database Diagram
+![](/assets/DatabaseDiagram.png)
