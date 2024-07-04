@@ -1,17 +1,27 @@
 <script setup lang="ts">
 import BasePage from '@/components/pages/BasePage.vue'
 import { onMounted, ref } from 'vue'
-import { useUserStore } from '@/stores/userStore'
 import { type User } from '@/models/Users/user'
 import { useJwtStore } from '@/stores/jwtStore'
 
-const userStore = useUserStore()
-const jwtStore = useJwtStore()
 const user = ref<User | null>(null)
+const jwtStore = useJwtStore();
 
-onMounted(async () => {
-  await userStore.dispatchGetAccountInfo()
-  user.value = userStore.accountInfo
+
+/*const handleChangePassword = () => {
+  if (user.value) {
+    userStore.dispatchChangePassword(dataToPasswordChange.value, user.value.userId).then(() => {
+      toast.success('Pomyślnie zmieniono hasło!')
+      dataToPasswordChange.value = new InputPasswordChange()
+    }).catch(() => {
+      toast.error('Wystąpił błąd podczas zmiany hasła.')
+    })
+  }
+}*/
+
+onMounted(() => {
+  user.value = jwtStore.getUser()
+  console.log(user.value);
 })
 </script>
 
@@ -54,6 +64,7 @@ onMounted(async () => {
                 style="width: 15rem"
                 >Zmień hasło</v-btn>
             </template>
+
           </v-dialog>
         </v-card>
       </v-col>
