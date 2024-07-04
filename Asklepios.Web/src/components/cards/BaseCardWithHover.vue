@@ -12,12 +12,12 @@ const emit = defineEmits(['click']);
 </script>
 
 <template>
-    <div :class="`magicCard ${noPadding ? 'no-padding' : ''}`" @click="emit('click')">
-        <div :class="`magicCard-content ${overflowHidden ? 'overflow-hidden' : ''}`">
-            <h6 v-if="title" class="text-h6 side-line mb-4" color="primary">
-                {{ title }}
+    <div :class="`magicCard ${props.noPadding ? 'no-padding' : ''}`" @click="emit('click')">
+        <div :class="`magicCard-content ${props.overflowHidden ? 'overflow-hidden' : ''}`">
+            <h6 v-if="props.title" class="text-h6 side-line mb-4" color="primary">
+                {{ props.title }}
             </h6>
-            <p class="text-body mb-4" v-if="subtitle">{{ subtitle }}</p>
+            <p class="text-body mb-4" v-if="props.subtitle">{{ props.subtitle }}</p>
             <slot></slot>
         </div>
     </div>
