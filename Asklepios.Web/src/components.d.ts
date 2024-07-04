@@ -8,8 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
+    BaseCardWithHover: typeof import('./components/cards/BaseCardWithHover.vue')['default']
+    BasePage: typeof import('./components/pages/BasePage.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ValidatedTextField: typeof import('./components/ui/ValidatedTextField.vue')['default']
   }
 }
