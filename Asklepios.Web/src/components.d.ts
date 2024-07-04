@@ -11,6 +11,7 @@ declare module 'vue' {
     BaseCardWithHover: typeof import('./components/cards/BaseCardWithHover.vue')['default']
     BasePage: typeof import('./components/pages/BasePage.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    Navigation: typeof import('./components/layout/Navigation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ValidatedTextField: typeof import('./components/ui/ValidatedTextField.vue')['default']

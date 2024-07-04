@@ -1,31 +1,38 @@
-
-import { type PaginationParams } from '@/models/paginationParams'
-import httpClient from '../httpClient'
-import { type User, InputCreateUser } from '@/models/Users/user'
+import { type PaginationParams } from '@/models/paginationParams';
+import httpClient from '../httpClient';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount } from '@/models/Users/user';
 
 const base = 'users-module/Users';
 
 async function getPaginatedUsers(pagination: PaginationParams) {
-  return await httpClient.get<User[]>(base, { params: pagination })
+  return await httpClient.get<User[]>(base, { params: pagination });
 }
 
-async function createUser(input: InputCreateUser) {
-  return await httpClient.post<User>(base, input)
+async function deleteUser(userId: string) {
+  return await httpClient.delete<boolean>(`${base}/${userId}`);
 }
 
-async function deleteUser(id: string) {
-  return await httpClient.delete<boolean>(`${base}/${id}`)
+async function signUp(input: InputCreateUser) {
+  return await httpClient.post<AccountDto>(`${base}/signUp`, input);
 }
 
-async function updateUser(input: InputCreateUser, id: number) {
-  return await httpClient.put<User>(`${base}/${id}`, input)
+async function getAccountInfo(userId: string) {
+  return await httpClient.get<AccountDto>(`${base}/${userId}`);
 }
 
+async function myAccount() {
+  return await httpClient.get<AccountDto>(`${base}/myAccount`);
+}
+async function generateUserAccount(command: GenerateUserAccount) {
+  return await httpClient.post<User>(`${base}/generateUserAccount`, command);
+}
 
 
 export default {
   getPaginatedUsers,
-  createUser,
   deleteUser,
-  updateUser,
-}
+  signUp,
+  getAccountInfo,
+  myAccount,
+  generateUserAccount
+};
