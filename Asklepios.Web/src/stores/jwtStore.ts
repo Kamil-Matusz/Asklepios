@@ -15,8 +15,8 @@ export const useJwtStore = defineStore("JwtStore", () => {
   async function dispatchLogin(loginData: InputLoginData) {
     try {
       const { data } = await API.jwt.login(loginData);
-      token.value.jwt = data.jwt;
-      localStorage.setItem("jwtToken", data.jwt);
+      token.value.jwt = data.accessToken;
+      localStorage.setItem("jwtToken", data.accessToken);
       toast.success("Zalogowano pomyślnie!");
       isLoggedIn.value = true;
       router.push("/profile");
