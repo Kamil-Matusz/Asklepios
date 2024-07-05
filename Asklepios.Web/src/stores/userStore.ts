@@ -8,6 +8,7 @@ export const useUserStore = defineStore('usersStore', () => {
   const users = ref<User[]>([]);
   const totalItems = ref(0);
   const accountInfo = ref<AccountDto | null>(null);
+  const currentUser = ref<User | null>(null);
 
   function addNewUser(user: User) {
     users.value.push(user);
@@ -61,15 +62,26 @@ export const useUserStore = defineStore('usersStore', () => {
     addNewUser(data);
   }
 
+  async function fetchCurrentUser() {
+    try {
+      const { data } = await API.users.myAccount();
+      currentUser.value = data;
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+    }
+  }
+
   return {
     users,
     totalItems,
     accountInfo,
+    currentUser,
     dispatchCreateUser,
     dispatchGetUsers,
     dispatchDeleteUser,
     dispatchGetUser,
     dispatchGetAccountInfo,
-    dispatchGenerateUserAccount
+    dispatchGenerateUserAccount,
+    fetchCurrentUser,
   };
 });
