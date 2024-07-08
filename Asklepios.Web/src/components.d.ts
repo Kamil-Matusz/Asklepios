@@ -10,6 +10,7 @@ declare module 'vue' {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     BaseCardWithHover: typeof import('./components/cards/BaseCardWithHover.vue')['default']
     BasePage: typeof import('./components/pages/BasePage.vue')['default']
+    GenerateUserForm: typeof import('./components/users/GenerateUserForm.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Navigation: typeof import('./components/layout/Navigation.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

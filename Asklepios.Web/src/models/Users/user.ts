@@ -27,4 +27,5 @@ export interface AccountDto {
 export interface GenerateUserAccount {
   role: string;
   email: string;
+  isActive: boolean;
 }
