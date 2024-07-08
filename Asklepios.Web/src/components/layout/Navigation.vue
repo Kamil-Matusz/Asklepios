@@ -37,13 +37,13 @@ onMounted(() => {
           ></v-list-item>
           <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'IT Employee'"
-            prepend-icon="mdi-view-dashboard"
+            prepend-icon="mdi-account-multiple"
             title="Panel Uytkowników"
             to="/userManagment"
           ></v-list-item>
           <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'IT Employee'"
-            prepend-icon="mdi-view-dashboard"
+            prepend-icon="mdi-book"
             title="Oddziały"
             to="/dashboard"
           ></v-list-item>

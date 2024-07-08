@@ -2,41 +2,47 @@
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'vue-toastification';
-import { type User, type GenerateUserAccount, type InputCreateUser } from '@/models/Users/user';
-import { type PaginationParams, InputPagination } from '@/models/paginationParams';
+import { User, GenerateUserAccount } from '@/models/Users/user';
+import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
 import GenerateUserForm from '@/components/users/GenerateUserForm.vue';
-
 
 const usersStore = useUserStore();
 const toast = useToast();
 
-const pagination = ref<PaginationParams>(new InputPagination());
+const pagination = ref<InputPagination>({
+  PageIndex: 1,
+  PageSize: 10
+});
 
-const headers: ReadonlyHeaders = [
-  { title: 'Id', align: 'start', sortable: false, key: 'userId' },
-  { title: 'Nazwa', key: 'email', align: 'start' },
+const headers = [
   { title: 'Email', key: 'email', align: 'start' },
   { title: 'Rola', key: 'role', align: 'start' },
+  { title: 'Aktywne', key: 'isActive', align: 'start' },
+  { title: 'Utworzone', key: 'createdAt', align: 'start' },
   { title: 'Akcje', key: 'actions', align: 'center', sortable: false }
 ];
 
 const options = ref({
-  itemsPerPage: pagination.value.size,
+  itemsPerPage: pagination.value.PageSize,
   loading: true,
   totalItems: 0
 });
 
-const userToAdd = ref<InputCreateUser>({ email: '', password: '', role: '' });
-const userToEdit = ref<User>({ userId: '', email: '', role: '', isActive: true, createdAt: new Date() });
-const isActive = ref(false);
-const numToEdit = ref('');
-
 const getUsers = async () => {
   options.value.loading = true;
-  await usersStore.dispatchGetUsers(pagination.value);
-  options.value.totalItems = usersStore.totalItems;
-  options.value.loading = false;
+  try {
+    await usersStore.dispatchGetUsers({
+      PageIndex: pagination.value.PageIndex,
+      PageSize: pagination.value.PageSize
+    });
+    options.value.totalItems = usersStore.totalItems;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    toast.error('Wystąpił problem podczas pobierania użytkowników');
+  } finally {
+    options.value.loading = false;
+  }
 };
 
 const addUser = async () => {
@@ -52,7 +58,7 @@ const deleteUser = async (id: string) => {
   getUsers();
 };
 
-const updateUser = async (id: string) => {
+const updateUser = async () => {
   await usersStore.updateUser(userToEdit.value);
   toast.success('Pomyślnie zaktualizowano dane użytkownika!');
   getUsers();
@@ -65,8 +71,8 @@ const openEditDialog = (user: User) => {
 };
 
 const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: number }) => {
-  pagination.value.page = page - 1;
-  pagination.value.size = itemsPerPage;
+  pagination.value.PageIndex = page;
+  pagination.value.PageSize = itemsPerPage;
   getUsers();
 };
 
@@ -148,6 +154,14 @@ onMounted(getUsers);
           </template>
         </v-dialog>
       </template>
+
+      <template #item.isActive="{ item }">
+        {{ item.isActive ? 'Tak' : 'Nie' }}
+      </template>
+
+      <template #item.createdAt="{ item }">
+        {{ new Date(item.createdAt).toLocaleString() }}
+      </template>
     </v-data-table-server>
 
     <v-dialog max-width="500" v-model="isActive">
@@ -155,7 +169,7 @@ onMounted(getUsers);
         <v-card title="Edytuj użytkownika" rounded="lg">
           <GenerateUserForm
             v-model="userToEdit"
-            @on-valid-submit="() => { updateUser(numToEdit.value); isActive.value = false; }"
+            @on-valid-submit="() => { updateUser(); isActive.value = false; }"
           ></GenerateUserForm>
         </v-card>
       </template>

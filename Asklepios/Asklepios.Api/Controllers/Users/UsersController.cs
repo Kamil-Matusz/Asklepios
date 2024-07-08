@@ -18,9 +18,10 @@ public class UsersController : BaseController
     private readonly ICommandHandler<ChangeUserRole> _changeUserRoleHandler;
     private readonly ICommandHandler<GenerateUserAccount> _generateUserAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
+    private readonly IQueryHandler<GetAllUsers, IEnumerable<UserDto>> _getAllUsersHandler;
     private readonly ITokenStorage _tokenStorage;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -29,6 +30,7 @@ public class UsersController : BaseController
         _deleteAccountHandler = deleteAccountHandler;
         _changeUserRoleHandler = changeUserRoleHandler;
         _generateUserAccountHandler = generateUserAccountHandler;
+        _getAllUsersHandler = getAllUsersHandler;
     }
     
     [HttpPost("signUp")]
@@ -145,4 +147,12 @@ public class UsersController : BaseController
         
         return Ok();
     }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] GetAllUsers query)
+        => Ok(await _getAllUsersHandler.HandlerAsync(query));
 }

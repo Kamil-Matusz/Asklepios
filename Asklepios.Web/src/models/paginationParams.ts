@@ -1,9 +1,9 @@
 export interface PaginationParams {
-  page:number
-  size:number
+  PageIndex: number;
+  PageSize: number;
 }
 
 export class InputPagination {
-  page:number = 0
-  size:number = 10
+  PageIndex: number = 1;
+  PageSize: number = 10;
 }
