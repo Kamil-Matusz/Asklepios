@@ -23,9 +23,21 @@ async function getAccountInfo(userId: string) {
 async function myAccount() {
   return await httpClient.get<AccountDto>(`${base}/myAccount`);
 }
+
 async function generateUserAccount(command: GenerateUserAccount) {
-  return await httpClient.post<User>(`${base}/generateUserAccount`, command);
+  try {
+    console.log('Sending command:', JSON.stringify(command));
+    return await httpClient.post<User>(`${base}/generateUserAccount`, command, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error('Error generating user account:', error);
+    throw error;
+  }
 }
+
 
 
 export default {

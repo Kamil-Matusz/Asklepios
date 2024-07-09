@@ -1,19 +1,18 @@
 <script setup lang="ts">
+import { defineProps } from 'vue';
 
 defineProps<{
-    validationProp: any,
-    isNumber?: boolean
+  errorMessage: string,
+  isNumber?: boolean
 }>();
-
 </script>
 
 <template>
-    <v-text-field v-if="!isNumber" density="compact" variant="outlined" v-model="validationProp.$model" :v-bind="$props"
-        :error-messages="validationProp.$errors.map((e: any) => e.$message)" required @blur="validationProp.$touch"
-        @input="validationProp.$touch">
-    </v-text-field>
-    <v-text-field v-else density="compact" variant="outlined" v-model.number="validationProp.$model" :v-bind="$props"
-        :error-messages="validationProp.$errors.map((e: any) => e.$message)" required @blur="validationProp.$touch"
-        @input="validationProp.$touch">
-    </v-text-field>
+    <v-text-field
+        density="compact"
+        variant="outlined"
+        :error-messages="[props.errorMessage]"
+        required
+        v-bind="$props"
+    ></v-text-field>
 </template>

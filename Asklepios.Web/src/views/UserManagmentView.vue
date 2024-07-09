@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'vue-toastification';
-import { User, GenerateUserAccount } from '@/models/Users/user';
+import { GenerateUserAccount } from '@/models/Users/user';
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
 import GenerateUserForm from '@/components/users/GenerateUserForm.vue';
@@ -29,6 +29,15 @@ const options = ref({
   totalItems: 0
 });
 
+const userToAdd = ref<GenerateUserAccount>({
+  email: '',
+  role: '',
+  isActive: true
+});
+
+const userToEdit = ref<GenerateUserAccount | null>(null);
+const isActive = ref(false);
+
 const getUsers = async () => {
   options.value.loading = true;
   try {
@@ -46,10 +55,20 @@ const getUsers = async () => {
 };
 
 const addUser = async () => {
-  await usersStore.dispatchCreateUser(userToAdd.value);
-  toast.success('Pomyślnie dodano nowego użytkownika!');
-  userToAdd.value = { email: '', password: '', role: '' };
-  getUsers();
+  try {
+    if (!userToAdd.value.email || !userToAdd.value.role) {
+      console.error('Wymagane są wszystkie pola: Email i Rola');
+      throw new Error('Wszystkie pola muszą być wypełnione');
+    }
+    console.log('Adding user with data:', userToAdd.value);
+    await usersStore.dispatchGenerateUserAccount(userToAdd.value);
+    toast.success('Pomyślnie dodano nowego użytkownika!');
+    userToAdd.value = { email: '', role: '', isActive: true };
+    getUsers();
+  } catch (error) {
+    console.error('Error adding user:', error);
+    toast.error('Wystąpił problem podczas dodawania użytkownika');
+  }
 };
 
 const deleteUser = async (id: string) => {
@@ -59,14 +78,15 @@ const deleteUser = async (id: string) => {
 };
 
 const updateUser = async () => {
-  await usersStore.updateUser(userToEdit.value);
-  toast.success('Pomyślnie zaktualizowano dane użytkownika!');
-  getUsers();
+  if (userToEdit.value) {
+    await usersStore.updateUser(userToEdit.value);
+    toast.success('Pomyślnie zaktualizowano dane użytkownika!');
+    getUsers();
+  }
 };
 
-const openEditDialog = (user: User) => {
+const openEditDialog = (user: GenerateUserAccount) => {
   userToEdit.value = { ...user };
-  numToEdit.value = user.userId;
   isActive.value = true;
 };
 

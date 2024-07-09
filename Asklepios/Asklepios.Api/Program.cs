@@ -6,9 +6,9 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var keyVaultEndpoint = new Uri(builder.Configuration["KeyVault:VaultUri"]);
+//var keyVaultEndpoint = new Uri(builder.Configuration["KeyVault:VaultUri"]);
 
-builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+//builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 builder.Services
     .AddCore()
