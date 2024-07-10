@@ -54,14 +54,14 @@ const getUsers = async () => {
   }
 };
 
-const addUser = async () => {
+const addUser = async (user: GenerateUserAccount) => {
   try {
-    if (!userToAdd.value.email || !userToAdd.value.role) {
+    if (!user.email || !user.role) {
       console.error('Wymagane są wszystkie pola: Email i Rola');
       throw new Error('Wszystkie pola muszą być wypełnione');
     }
-    console.log('Adding user with data:', userToAdd.value);
-    await usersStore.dispatchGenerateUserAccount(userToAdd.value);
+    console.log('Adding user with data:', user);
+    await usersStore.dispatchGenerateUserAccount(user);
     toast.success('Pomyślnie dodano nowego użytkownika!');
     userToAdd.value = { email: '', role: '', isActive: true };
     getUsers();
@@ -117,7 +117,7 @@ onMounted(getUsers);
           <v-card title="Nowy użytkownik" rounded="lg">
             <GenerateUserForm
               v-model="userToAdd"
-              @on-valid-submit="() => { addUser(); isActive.value = false; }"
+              @on-valid-submit="(user) => { addUser(user); isActive.value = false; }"
             ></GenerateUserForm>
           </v-card>
         </template>
@@ -189,7 +189,7 @@ onMounted(getUsers);
         <v-card title="Edytuj użytkownika" rounded="lg">
           <GenerateUserForm
             v-model="userToEdit"
-            @on-valid-submit="() => { updateUser(); isActive.value = false; }"
+            @on-valid-submit="(user) => { updateUser(user); isActive.value = false; }"
           ></GenerateUserForm>
         </v-card>
       </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 
 export interface GenerateUserAccount {
   email: string;
@@ -54,6 +54,8 @@ const validateForm = () => {
 
   return !errors.value.email && !errors.value.role && !errors.value.isActive;
 };
+
+watch(user, validateForm, { deep: true });
 
 const submit = async () => {
   if (validateForm()) {
