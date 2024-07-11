@@ -16,12 +16,13 @@ public class UsersController : BaseController
     private readonly ICommandHandler<SignIn> _signInHandler;
     private readonly ICommandHandler<DeleteUserAccount> _deleteAccountHandler;
     private readonly ICommandHandler<ChangeUserRole> _changeUserRoleHandler;
+    private readonly ICommandHandler<ChangeAccountStatus> _changeAccountStatus;
     private readonly ICommandHandler<GenerateUserAccount> _generateUserAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
     private readonly IQueryHandler<GetAllUsers, IEnumerable<UserDto>> _getAllUsersHandler;
     private readonly ITokenStorage _tokenStorage;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -31,6 +32,7 @@ public class UsersController : BaseController
         _changeUserRoleHandler = changeUserRoleHandler;
         _generateUserAccountHandler = generateUserAccountHandler;
         _getAllUsersHandler = getAllUsersHandler;
+        _changeAccountStatus = changeAccountStatus;
     }
     
     [HttpPost("signUp")]
@@ -117,11 +119,12 @@ public class UsersController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteUserAccount(Guid userId, DeleteUserAccount command)
+    public async Task<ActionResult> DeleteUserAccount(Guid userId)
     {
-        await _deleteAccountHandler.HandlerAsync(command with { UserId = userId});
+        await _deleteAccountHandler.HandlerAsync(new DeleteUserAccount(userId));
         return NoContent();
     }
+
     
     [Authorize(Roles = "Admin")]
     [HttpPut("{userId:guid}/changeUserRole")]
@@ -133,6 +136,19 @@ public class UsersController : BaseController
     public async Task<ActionResult> ChangeUserRole(Guid userId, ChangeUserRole command)
     {
         await _changeUserRoleHandler.HandlerAsync(command with { UserId = userId, Role  = command.Role });
+        return Ok();
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{userId:guid}/changeAccountStatus")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> ChangeAccountStatus(Guid userId, ChangeAccountStatus command)
+    {
+        await _changeAccountStatus.HandlerAsync(command with { UserId = userId, status  = command.status });
         return Ok();
     }
     

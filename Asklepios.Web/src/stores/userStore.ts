@@ -71,6 +71,22 @@ export const useUserStore = defineStore('usersStore', () => {
     }
   }
 
+  async function dispatchChangeUserRole(userId: string, role: string) {
+    await API.users.changeUserRole(userId, role);
+    const updatedUser = users.value.find((user) => user.userId === userId);
+    if (updatedUser) {
+      updatedUser.role = role;
+    }
+  }
+
+  async function dispatchChangeAccountStatus(userId: string, status: boolean) {
+    await API.users.changeAccountStatus(userId, status);
+    const user = users.value.find((u) => u.userId === userId);
+    if (user) {
+      user.isActive = status;
+    }
+  }
+
   return {
     users,
     totalItems,
@@ -83,5 +99,7 @@ export const useUserStore = defineStore('usersStore', () => {
     dispatchGetAccountInfo,
     dispatchGenerateUserAccount,
     fetchCurrentUser,
+    dispatchChangeUserRole,
+    dispatchChangeAccountStatus
   };
 });

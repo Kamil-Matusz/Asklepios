@@ -6,6 +6,7 @@ import { GenerateUserAccount } from '@/models/Users/user';
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
 import GenerateUserForm from '@/components/users/GenerateUserForm.vue';
+import ChangeUserRoleForm from '@/components/users/ChangeUserRoleForm.vue';
 
 const usersStore = useUserStore();
 const toast = useToast();
@@ -36,7 +37,10 @@ const userToAdd = ref<GenerateUserAccount>({
 });
 
 const userToEdit = ref<GenerateUserAccount | null>(null);
-const isActive = ref(false);
+const isEditDialogActive = ref(false);
+
+const userToChangeRole = ref<GenerateUserAccount | null>(null);
+const isRoleDialogActive = ref(false);
 
 const getUsers = async () => {
   options.value.loading = true;
@@ -87,7 +91,28 @@ const updateUser = async () => {
 
 const openEditDialog = (user: GenerateUserAccount) => {
   userToEdit.value = { ...user };
-  isActive.value = true;
+  isEditDialogActive.value = true;
+};
+
+const openRoleDialog = (user: GenerateUserAccount) => {
+  userToChangeRole.value = { ...user };
+  isRoleDialogActive.value = true;
+};
+
+const handleChangeUserRole = async (updatedUser: { userId: string, role: string }) => {
+  try {
+    await usersStore.dispatchChangeUserRole(updatedUser.userId, updatedUser.role);
+    toast.success('Pomyślnie zaktualizowano rolę użytkownika!');
+    isRoleDialogActive.value = false;
+    getUsers();
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    toast.error('Wystąpił problem podczas aktualizacji roli użytkownika');
+  }
+};
+
+const handleInvalidSubmit = () => {
+  toast.error('Formularz zawiera błędy. Proszę poprawić i spróbować ponownie.');
 };
 
 const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: number }) => {
@@ -119,6 +144,18 @@ onMounted(getUsers);
               v-model="userToAdd"
               @on-valid-submit="(user) => { addUser(user); isActive.value = false; }"
             ></GenerateUserForm>
+          </v-card>
+        </template>
+      </v-dialog>
+
+      <v-dialog v-model="isRoleDialogActive" max-width="500">
+        <template #default>
+          <v-card title="Edytuj rolę użytkownika" rounded="lg">
+            <ChangeUserRoleForm
+              :user="userToChangeRole"
+              @onValidSubmit="handleChangeUserRole"
+              @onInvalidSubmit="handleInvalidSubmit"
+            ></ChangeUserRoleForm>
           </v-card>
         </template>
       </v-dialog>
@@ -173,6 +210,15 @@ onMounted(getUsers);
             </v-card>
           </template>
         </v-dialog>
+
+        <v-btn
+          @click="openRoleDialog(item)"
+          rounded="lg"
+          size="small"
+          color="secondary"
+          class="ml-2"
+          icon="mdi-account-edit"
+        ></v-btn>
       </template>
 
       <template #item.isActive="{ item }">
@@ -184,12 +230,12 @@ onMounted(getUsers);
       </template>
     </v-data-table-server>
 
-    <v-dialog max-width="500" v-model="isActive">
+    <v-dialog max-width="500" v-model="isEditDialogActive">
       <template #default>
         <v-card title="Edytuj użytkownika" rounded="lg">
           <GenerateUserForm
             v-model="userToEdit"
-            @on-valid-submit="(user) => { updateUser(user); isActive.value = false; }"
+            @on-valid-submit="(user) => { updateUser(user); isEditDialogActive.value = false; }"
           ></GenerateUserForm>
         </v-card>
       </template>

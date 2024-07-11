@@ -38,6 +38,22 @@ async function generateUserAccount(command: GenerateUserAccount) {
   }
 }
 
+async function changeUserRole(userId: string, role: string) {
+  try {
+    return await httpClient.put<void>(`${base}/${userId}/changeUserRole`, { role }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    throw error;
+  }
+}
+
+async function changeAccountStatus(userId: string, status: boolean) {
+  return await httpClient.put<boolean>(`${base}/${userId}/changeAccountStatus`, { status });
+}
 
 
 export default {
@@ -46,5 +62,7 @@ export default {
   signUp,
   getAccountInfo,
   myAccount,
-  generateUserAccount
+  generateUserAccount,
+  changeUserRole,
+  changeAccountStatus
 };
