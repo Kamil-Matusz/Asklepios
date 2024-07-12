@@ -7,6 +7,7 @@ import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
 import GenerateUserForm from '@/components/users/GenerateUserForm.vue';
 import ChangeUserRoleForm from '@/components/users/ChangeUserRoleForm.vue';
+import ChangeUserStatusForm from '@/components/users/ChangeAccountStatusForm.vue';
 
 const usersStore = useUserStore();
 const toast = useToast();
@@ -41,6 +42,9 @@ const isEditDialogActive = ref(false);
 
 const userToChangeRole = ref<GenerateUserAccount | null>(null);
 const isRoleDialogActive = ref(false);
+
+const userToChangeStatus = ref<{ userId: string, isActive: boolean } | null>(null);
+const isStatusDialogActive = ref(false);
 
 const getUsers = async () => {
   options.value.loading = true;
@@ -99,6 +103,11 @@ const openRoleDialog = (user: GenerateUserAccount) => {
   isRoleDialogActive.value = true;
 };
 
+const openStatusDialog = (user: GenerateUserAccount) => {
+  userToChangeStatus.value = { userId: user.userId, isActive: user.isActive };
+  isStatusDialogActive.value = true;
+};
+
 const handleChangeUserRole = async (updatedUser: { userId: string, role: string }) => {
   try {
     await usersStore.dispatchChangeUserRole(updatedUser.userId, updatedUser.role);
@@ -108,6 +117,18 @@ const handleChangeUserRole = async (updatedUser: { userId: string, role: string 
   } catch (error) {
     console.error('Error changing user role:', error);
     toast.error('Wystąpił problem podczas aktualizacji roli użytkownika');
+  }
+};
+
+const handleChangeUserStatus = async (updatedUser: { userId: string, isActive: boolean }) => {
+  try {
+    await usersStore.dispatchChangeAccountStatus(updatedUser.userId, updatedUser.isActive);
+    toast.success('Pomyślnie zaktualizowano status użytkownika!');
+    isStatusDialogActive.value = false;
+    getUsers();
+  } catch (error) {
+    console.error('Error changing user status:', error);
+    toast.error('Wystąpił problem podczas aktualizacji statusu użytkownika');
   }
 };
 
@@ -156,6 +177,18 @@ onMounted(getUsers);
               @onValidSubmit="handleChangeUserRole"
               @onInvalidSubmit="handleInvalidSubmit"
             ></ChangeUserRoleForm>
+          </v-card>
+        </template>
+      </v-dialog>
+
+      <v-dialog v-model="isStatusDialogActive" max-width="500">
+        <template #default>
+          <v-card title="Edytuj status użytkownika" rounded="lg">
+            <ChangeUserStatusForm
+              :user="userToChangeStatus"
+              @onValidSubmit="handleChangeUserStatus"
+              @onInvalidSubmit="handleInvalidSubmit"
+            ></ChangeUserStatusForm>
           </v-card>
         </template>
       </v-dialog>
@@ -218,6 +251,15 @@ onMounted(getUsers);
           color="secondary"
           class="ml-2"
           icon="mdi-account-edit"
+        ></v-btn>
+
+        <v-btn
+          @click="openStatusDialog(item)"
+          rounded="lg"
+          size="small"
+          color="secondary"
+          class="ml-2"
+          icon="mdi-shield-account"
         ></v-btn>
       </template>
 

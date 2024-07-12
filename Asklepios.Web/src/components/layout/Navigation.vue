@@ -38,7 +38,7 @@ onMounted(() => {
           <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'IT Employee'"
             prepend-icon="mdi-account-multiple"
-            title="Panel Uytkowników"
+            title="Panel Użytkowników"
             to="/userManagment"
           ></v-list-item>
           <v-list-item
