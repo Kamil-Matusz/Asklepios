@@ -24,10 +24,17 @@ async function deleteDepartment(id: string) {
   return await httpClient.delete<void>(`${base}/${id}`);
 }
 
+async function getDepartmentsAutocomplete(search: string, limit: number = 10) {
+  return await httpClient.get<DepartmentDto[]>(`${base}/departmentsAutocomplete`, {
+    params: { search, limit }
+  });
+}
+
 export default {
   getDepartment,
   getAllDepartments,
   createDepartment,
   updateDepartment,
   deleteDepartment,
+  getDepartmentsAutocomplete
 };

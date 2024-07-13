@@ -175,7 +175,7 @@ public class UsersController : BaseController
     public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] GetAllUsers query)
         => Ok(await _getAllUsersHandler.HandlerAsync(query));
     
-    //[Authorize]
+    [Authorize]
     [HttpGet("usersAutocomplete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

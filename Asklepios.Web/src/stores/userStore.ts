@@ -87,6 +87,11 @@ export const useUserStore = defineStore('usersStore', () => {
     }
   }
 
+  async function dispatchGetUsersAutocomplete(search: string, limit: number = 10) {
+    const { data } = await API.users.getUsersAutocomplete(search, limit);
+    users.value = data;
+  }
+
   return {
     users,
     totalItems,
@@ -100,6 +105,7 @@ export const useUserStore = defineStore('usersStore', () => {
     dispatchGenerateUserAccount,
     fetchCurrentUser,
     dispatchChangeUserRole,
-    dispatchChangeAccountStatus
+    dispatchChangeAccountStatus,
+    dispatchGetUsersAutocomplete
   };
 });

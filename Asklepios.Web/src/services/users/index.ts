@@ -55,6 +55,11 @@ async function changeAccountStatus(userId: string, status: boolean) {
   return await httpClient.put<boolean>(`${base}/${userId}/changeAccountStatus`, { status });
 }
 
+async function getUsersAutocomplete(search: string, limit: number = 10) {
+  return await httpClient.get<User[]>(`users-module/Users/usersAutocomplete`, {
+    params: { search, limit }
+  });
+}
 
 export default {
   getPaginatedUsers,
@@ -64,5 +69,6 @@ export default {
   myAccount,
   generateUserAccount,
   changeUserRole,
-  changeAccountStatus
+  changeAccountStatus,
+  getUsersAutocomplete
 };
