@@ -1,3 +1,5 @@
+import {RoomDto} from "@/models/Departments/room"
+
 export interface Department {
   departmentId: string
   departmentName: string

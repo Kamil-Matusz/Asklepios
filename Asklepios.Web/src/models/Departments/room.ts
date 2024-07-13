@@ -13,3 +13,11 @@ export class InputCreateRoom {
   departmentId: string = ''
 }
 
+export interface RoomDto {
+  roomId: string
+  roomNumber: number
+  roomType: string
+  numberOfBeds: number
+  departmentName: string
+}
+
