@@ -12,6 +12,7 @@ declare module 'vue' {
     BasePage: typeof import('./components/pages/BasePage.vue')['default']
     ChangeAccountStatusForm: typeof import('./components/users/ChangeAccountStatusForm.vue')['default']
     ChangeUserRoleForm: typeof import('./components/users/ChangeUserRoleForm.vue')['default']
+    DepartmentForm: typeof import('./components/departments/DepartmentForm.vue')['default']
     GenerateUserForm: typeof import('./components/users/GenerateUserForm.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Navigation: typeof import('./components/layout/Navigation.vue')['default']
