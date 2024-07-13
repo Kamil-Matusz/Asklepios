@@ -45,7 +45,7 @@ onMounted(() => {
           v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'IT Employee'"
             prepend-icon="mdi-book"
             title="Oddziały"
-            to="/dashboard"
+            to="/departments"
           ></v-list-item>
         </v-list>
         <template v-slot:append>
