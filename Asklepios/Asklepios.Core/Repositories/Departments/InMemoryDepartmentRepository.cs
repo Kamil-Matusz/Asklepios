@@ -52,4 +52,9 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
         var department = _departments.FirstOrDefault(d => d.DepartmentId == departmentId);
         return department?.NumberOfBeds ?? 0;
     }
+
+    public Task<List<Department>> GetAutocompleteDepartments(string search, int limit = 10)
+    {
+        throw new NotImplementedException();
+    }
 }

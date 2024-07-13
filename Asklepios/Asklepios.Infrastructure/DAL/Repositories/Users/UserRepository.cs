@@ -60,4 +60,13 @@ internal sealed class UserRepository : IUserRepository
         _users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<User>> GetAutocompleteUsers(string search, int limit = 10)
+    {
+        return await _users
+            .Where(d => d.Email.Contains(search))
+            .OrderBy(d => d.Email)
+            .Take(limit)
+            .ToListAsync();
+    }
 }

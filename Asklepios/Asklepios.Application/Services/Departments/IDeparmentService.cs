@@ -9,4 +9,5 @@ public interface IDeparmentService
     Task<IReadOnlyList<DepartmentListDto>> GetAllDepartmentsAsync(int pageIndex, int pageSize);
     Task UpdateDepartmentAsync(DepartmentDetailsDto dto);
     Task DeleteDepartmentAsync(Guid id);
+    Task<List<DepartmentDto>> GetAutocompleteAsync(string search, int limit = 10);
 }

@@ -4,6 +4,7 @@ using Asklepios.Application.Commands.Users;
 using Asklepios.Application.Queries;
 using Asklepios.Application.Queries.Users;
 using Asklepios.Application.Security;
+using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,9 @@ public class UsersController : BaseController
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
     private readonly IQueryHandler<GetAllUsers, IEnumerable<UserDto>> _getAllUsersHandler;
     private readonly ITokenStorage _tokenStorage;
+    private readonly IUserService _userService;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -33,6 +35,7 @@ public class UsersController : BaseController
         _generateUserAccountHandler = generateUserAccountHandler;
         _getAllUsersHandler = getAllUsersHandler;
         _changeAccountStatus = changeAccountStatus;
+        _userService = userService;
     }
     
     [HttpPost("signUp")]
@@ -171,4 +174,14 @@ public class UsersController : BaseController
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] GetAllUsers query)
         => Ok(await _getAllUsersHandler.HandlerAsync(query));
+    
+    //[Authorize]
+    [HttpGet("usersAutocomplete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAutocomplete([FromQuery] string search, [FromQuery] int limit = 10)
+    {
+        var users = await _userService.GetAutocompleteAsync(search, limit);
+        return Ok(users);
+    }
 }

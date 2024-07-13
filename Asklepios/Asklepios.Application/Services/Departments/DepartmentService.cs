@@ -95,6 +95,12 @@ public class DepartmentService : IDeparmentService
 
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
+    
+    public async Task<List<DepartmentDto>> GetAutocompleteAsync(string search, int limit = 10)
+    {
+        var departments = await _departmentRepository.GetAutocompleteDepartments(search, limit);
+        return departments.Select(Map<DepartmentDto>).ToList();
+    }
 
     private static T Map<T>(Department department) where T : DepartmentDto, new() => new T()
     {
