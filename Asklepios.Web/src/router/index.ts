@@ -12,6 +12,8 @@ import ProfileView from '@/views/ProfileView.vue'
 import UserManagmentView from '@/views/UserManagmentView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
 import ExaminationView from '@/views/ExaminationView.vue'
+import OperationView from '@/views/OperationView.vue'
+import OperationDetailsView from '@/views/OperationDetailsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +43,17 @@ const router = createRouter({
       name: 'examinations',
       component: ExaminationView
     },
+    {
+      path: '/operations',
+      name: 'operations',
+      component: OperationView
+    },
+    {
+      path: '/operation/:id',
+      name: 'operationDetails',
+      component: OperationDetailsView,
+      props: true
+    }
   ]
 })
 

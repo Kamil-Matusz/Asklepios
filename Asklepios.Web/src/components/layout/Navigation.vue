@@ -53,6 +53,12 @@ onMounted(() => {
             title="Spis badań"
             to="/examinations"
           ></v-list-item>
+          <v-list-item
+          v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
+            prepend-icon="mdi-book"
+            title="Operacja"
+            to="/operations"
+          ></v-list-item>
         </v-list>
         <template v-slot:append>
           <v-list-item prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>
