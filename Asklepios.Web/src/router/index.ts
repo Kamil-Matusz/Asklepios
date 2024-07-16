@@ -14,6 +14,8 @@ import DepartmentView from '@/views/DepartmentView.vue'
 import ExaminationView from '@/views/ExaminationView.vue'
 import OperationView from '@/views/OperationView.vue'
 import OperationDetailsView from '@/views/OperationDetailsView.vue';
+import DoctorView from '@/views/DoctorView.vue';
+import NurseView from '@/views/NurseView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,7 +55,17 @@ const router = createRouter({
       name: 'operationDetails',
       component: OperationDetailsView,
       props: true
-    }
+    },
+    {
+      path: '/doctors',
+      name: 'doctors',
+      component: DoctorView
+    },
+    {
+      path: '/nurses',
+      name: 'nurses',
+      component: NurseView
+    },
   ]
 })
 

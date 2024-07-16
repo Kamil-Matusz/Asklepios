@@ -49,15 +49,27 @@ onMounted(() => {
           ></v-list-item>
           <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
-            prepend-icon="mdi-book"
+            prepend-icon="mdi mdi-head-plus"
             title="Spis badań"
             to="/examinations"
           ></v-list-item>
           <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
-            prepend-icon="mdi-book"
-            title="Operacja"
+            prepend-icon="mdi mdi-heart-cog"
+            title="Operacje"
             to="/operations"
+          ></v-list-item>
+          <v-list-item
+          v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
+            prepend-icon="mdi mdi-doctor"
+            title="Lekarze"
+            to="/doctors"
+          ></v-list-item>
+          <v-list-item
+          v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
+            prepend-icon="mdi mdi-mother-nurse"
+            title="Pielęgniarki"
+            to="/nurses"
           ></v-list-item>
         </v-list>
         <template v-slot:append>

@@ -2,7 +2,7 @@ import httpClient from '../httpClient';
 import { type PaginationParams } from '@/models/paginationParams';
 import { type NurseDto, type NurseListDto } from '@/models/Users/nurse';
 
-const base = 'users-module/Nurses';
+const base = 'users-module/Nurse';
 
 async function getNurse(id: string) {
   return await httpClient.get<NurseDto>(`${base}/${id}`);
