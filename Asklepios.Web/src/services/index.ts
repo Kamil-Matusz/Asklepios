@@ -5,6 +5,7 @@ import examinationStoreController from "./examinations";
 import operationStoreController from "./operations";
 import doctorStoreController from "./doctors";
 import nurseStoreController from "./nurses";
+import patientStoreControler from "./patients"
 
 export const API = {
   jwt: jwtStoreController,
@@ -13,5 +14,6 @@ export const API = {
   examinations: examinationStoreController,
   operations: operationStoreController,
   doctors: doctorStoreController,
-  nurses: nurseStoreController
+  nurses: nurseStoreController,
+  patients: patientStoreControler
 };

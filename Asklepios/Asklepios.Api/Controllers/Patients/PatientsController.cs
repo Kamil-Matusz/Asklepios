@@ -59,7 +59,7 @@ public class PatientsController : BaseController
         return NoContent();
     }
     
-    [Authorize(Roles = "Nurse, Doctor")]
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

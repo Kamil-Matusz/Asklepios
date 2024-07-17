@@ -1,4 +1,5 @@
 import {RoomDto} from "@/models/Departments/room"
+import {PatientDto} from "@/models/Patients/patient"
 
 export interface Department {
   departmentId: string

@@ -71,6 +71,12 @@ onMounted(() => {
             title="Pielęgniarki"
             to="/nurses"
           ></v-list-item>
+          <v-list-item
+          v-if="getUserRole() === 'Admin'"
+            prepend-icon="mdi mdi-account-injury"
+            title="Pacjenci"
+            to="/patients"
+          ></v-list-item>
         </v-list>
         <template v-slot:append>
           <v-list-item prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>

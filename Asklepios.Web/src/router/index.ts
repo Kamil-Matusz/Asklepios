@@ -17,6 +17,7 @@ import OperationDetailsView from '@/views/OperationDetailsView.vue';
 import DoctorView from '@/views/DoctorView.vue';
 import NurseView from '@/views/NurseView.vue';
 import DoctorDetailView from '@/views/DoctorDetailsView.vue';
+import PatientView from '@/views/PatientView.vue'
 
 
 const router = createRouter({
@@ -73,6 +74,11 @@ const router = createRouter({
       path: '/nurses',
       name: 'nurses',
       component: NurseView
+    },
+    {
+      path: '/patients',
+      name: 'patients',
+      component: PatientView
     },
   ]
 })
