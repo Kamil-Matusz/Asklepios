@@ -6,9 +6,12 @@ import { type DepartmentDto, type DepartmentDetailsDto } from '@/models/Departme
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
 import DepartmentForm from '@/components/departments/DepartmentForm.vue';
+import type { User } from '@/models/Users/user';
+import { useJwtStore } from '@/stores/jwtStore';
 
 const departmentStore = useDepartmentStore();
 const toast = useToast();
+const { getUserRole, getUser } = useJwtStore();
 
 const pagination = ref<InputPagination>({
   PageIndex: 1,
@@ -37,6 +40,8 @@ const departmentToAdd = ref<DepartmentDto>({
 
 const departmentToEdit = ref<DepartmentDetailsDto | null>(null);
 const isEditDialogActive = ref(false);
+const user = ref<User | null>(null);
+const role = ref<string | null>(null);
 
 const getDepartments = async () => {
   options.value.loading = true;
@@ -96,7 +101,11 @@ const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: 
   getDepartments();
 };
 
-onMounted(getDepartments);
+onMounted(() => {
+  getDepartments();
+  user.value = getUser();
+  role.value = getUserRole();
+});
 </script>
 
 <template>
@@ -105,6 +114,7 @@ onMounted(getDepartments);
       <v-dialog max-width="500">
         <template #activator="{ props: activatorProps }">
           <v-btn
+            v-if="user && (role === 'Admin' || role === 'IT Employee')"
             v-bind="activatorProps"
             color="primary"
             variant="flat"

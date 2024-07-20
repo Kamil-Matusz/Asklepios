@@ -5,9 +5,12 @@ import { useToast } from 'vue-toastification';
 import { type RoomDto, type RoomDetailsDto, InputCreateRoom } from '@/models/Departments/room';
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
+import type { User } from '@/models/Users/user';
+import { useJwtStore } from '@/stores/jwtStore';
 
 const roomStore = useRoomStore();
 const toast = useToast();
+const { getUserRole, getUser } = useJwtStore();
 
 const pagination = ref<InputPagination>({
   PageIndex: 1,
@@ -37,6 +40,8 @@ const roomToAdd = ref<InputCreateRoom>({
 
 const roomToEdit = ref<RoomDetailsDto | null>(null);
 const isEditDialogActive = ref(false);
+const user = ref<User | null>(null);
+const role = ref<string | null>(null);
 
 const getRooms = async () => {
   options.value.loading = true;
@@ -96,7 +101,11 @@ const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: 
   getRooms();
 };
 
-onMounted(getRooms);
+onMounted(() => {
+  getRooms();
+  user.value = getUser();
+  role.value = getUserRole();
+});
 </script>
 
 <template>
@@ -105,6 +114,7 @@ onMounted(getRooms);
       <v-dialog max-width="500">
         <template #activator="{ props: activatorProps }">
           <v-btn
+            v-if="user && (role === 'Admin' || role === 'IT Employee')"
             v-bind="activatorProps"
             color="primary"
             variant="flat"
