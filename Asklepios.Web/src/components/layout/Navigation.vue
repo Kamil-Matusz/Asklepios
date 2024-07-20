@@ -48,6 +48,12 @@ onMounted(() => {
             to="/departments"
           ></v-list-item>
           <v-list-item
+          v-if="getUserRole() === 'Admin' || getUserRole() === 'IT Employee'"
+            prepend-icon="mdi-book"
+            title="Pokoje w Oddziałach"
+            to="/rooms"
+          ></v-list-item>
+          <v-list-item
           v-if="getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse'"
             prepend-icon="mdi mdi-head-plus"
             title="Spis badań"

@@ -58,6 +58,11 @@ export const useRoomStore = defineStore('roomsStore', () => {
     updateRoomDetails(room);
   }
 
+  async function dispatchGetRoomsAutocomplete(search: string, limit: number = 10) {
+    const { data } = await API.rooms.getRoomsAutocomplete(search, limit);
+    return data;
+  }
+
   return {
     rooms,
     totalItems,
@@ -67,5 +72,6 @@ export const useRoomStore = defineStore('roomsStore', () => {
     dispatchDeleteRoom,
     dispatchGetRoom,
     dispatchUpdateRoom,
+    dispatchGetRoomsAutocomplete
   };
 });

@@ -1,3 +1,5 @@
+import {PatientDto} from "@/models/Patients/patient"
+
 export interface Room {
   roomId: string
   roomNumber: number
@@ -18,6 +20,18 @@ export interface RoomDto {
   roomNumber: number
   roomType: string
   numberOfBeds: number
+  departmentId: string
+}
+
+export interface RoomListDto {
+  roomId: string
+  roomNumber: number
+  roomType: string
+  numberOfBeds: number
   departmentName: string
+}
+
+export interface RoomDetailsDto extends RoomDto {
+  patients: PatientDto[];
 }
 

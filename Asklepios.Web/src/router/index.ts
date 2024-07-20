@@ -17,7 +17,8 @@ import OperationDetailsView from '@/views/OperationDetailsView.vue';
 import DoctorView from '@/views/DoctorView.vue';
 import NurseView from '@/views/NurseView.vue';
 import DoctorDetailView from '@/views/DoctorDetailsView.vue';
-import PatientView from '@/views/PatientView.vue'
+import PatientView from '@/views/PatientView.vue';
+import RoomView from '@/views/RoomView.vue';
 
 
 const router = createRouter({
@@ -42,6 +43,11 @@ const router = createRouter({
       path: '/departments',
       name: 'departments',
       component: DepartmentView
+    },
+    {
+      path: '/rooms',
+      name: 'rooms',
+      component: RoomView
     },
     {
       path: '/examinations',
