@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type DepartmentDto, type DepartmentDetailsDto, type DepartmentListDto } from '@/models/Departments/department';
+import { type DepartmentDto, type DepartmentDetailsDto, type DepartmentListDto, DepartmentAutocompleteDto } from '@/models/Departments/department';
 import { type PaginationParams } from '@/models/paginationParams';
 
 export const useDepartmentStore = defineStore('departmentsStore', () => {
@@ -59,7 +59,7 @@ export const useDepartmentStore = defineStore('departmentsStore', () => {
 
   async function dispatchGetDepartmentsAutocomplete(search: string, limit: number = 10) {
     const { data } = await API.departments.getDepartmentsAutocomplete(search, limit);
-    return data;
+    return data as DepartmentAutocompleteDto[];
   }
 
   return {

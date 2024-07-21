@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { type DepartmentDto, type DepartmentDetailsDto, type DepartmentListDto } from '@/models/Departments/department';
+import { type DepartmentDto, type DepartmentDetailsDto, type DepartmentListDto, DepartmentAutocompleteDto } from '@/models/Departments/department';
 
 const base = 'departments-module/Departments';
 
@@ -25,10 +25,11 @@ async function deleteDepartment(id: string) {
 }
 
 async function getDepartmentsAutocomplete(search: string, limit: number = 10) {
-  return await httpClient.get<DepartmentDto[]>(`${base}/departmentsAutocomplete`, {
+  return await httpClient.get<DepartmentAutocompleteDto[]>(`${base}/departmentsAutocomplete`, {
     params: { search, limit }
   });
 }
+
 
 export default {
   getDepartment,
