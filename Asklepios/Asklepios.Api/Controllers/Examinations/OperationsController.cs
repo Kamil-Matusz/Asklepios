@@ -73,7 +73,7 @@ public class OperationsController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteExamResult(Guid id)
+    public async Task<ActionResult> DeleteOperation(Guid id)
     {
         await _operationService.DeleteOperationAsync(id);
         return NoContent();

@@ -51,4 +51,22 @@ internal sealed class UserRepository : IUserRepository
         _users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task ChangeAccountStatusAsync(Guid userId, bool status)
+    {
+        var user = await _users.SingleOrDefaultAsync(x => x.UserId == userId);
+        user.IsActive = status;
+
+        _users.Update(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<User>> GetAutocompleteUsers(string search, int limit = 10)
+    {
+        return await _users
+            .Where(d => d.Email.Contains(search))
+            .OrderBy(d => d.Email)
+            .Take(limit)
+            .ToListAsync();
+    }
 }

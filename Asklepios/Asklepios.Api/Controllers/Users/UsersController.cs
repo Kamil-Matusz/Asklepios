@@ -4,6 +4,7 @@ using Asklepios.Application.Commands.Users;
 using Asklepios.Application.Queries;
 using Asklepios.Application.Queries.Users;
 using Asklepios.Application.Security;
+using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,14 @@ public class UsersController : BaseController
     private readonly ICommandHandler<SignIn> _signInHandler;
     private readonly ICommandHandler<DeleteUserAccount> _deleteAccountHandler;
     private readonly ICommandHandler<ChangeUserRole> _changeUserRoleHandler;
+    private readonly ICommandHandler<ChangeAccountStatus> _changeAccountStatus;
     private readonly ICommandHandler<GenerateUserAccount> _generateUserAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
+    private readonly IQueryHandler<GetAllUsers, IEnumerable<UserDto>> _getAllUsersHandler;
     private readonly ITokenStorage _tokenStorage;
+    private readonly IUserService _userService;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -29,6 +33,9 @@ public class UsersController : BaseController
         _deleteAccountHandler = deleteAccountHandler;
         _changeUserRoleHandler = changeUserRoleHandler;
         _generateUserAccountHandler = generateUserAccountHandler;
+        _getAllUsersHandler = getAllUsersHandler;
+        _changeAccountStatus = changeAccountStatus;
+        _userService = userService;
     }
     
     [HttpPost("signUp")]
@@ -115,11 +122,12 @@ public class UsersController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteUserAccount(Guid userId, DeleteUserAccount command)
+    public async Task<ActionResult> DeleteUserAccount(Guid userId)
     {
-        await _deleteAccountHandler.HandlerAsync(command with { UserId = userId});
+        await _deleteAccountHandler.HandlerAsync(new DeleteUserAccount(userId));
         return NoContent();
     }
+
     
     [Authorize(Roles = "Admin")]
     [HttpPut("{userId:guid}/changeUserRole")]
@@ -134,6 +142,19 @@ public class UsersController : BaseController
         return Ok();
     }
     
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{userId:guid}/changeAccountStatus")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> ChangeAccountStatus(Guid userId, ChangeAccountStatus command)
+    {
+        await _changeAccountStatus.HandlerAsync(command with { UserId = userId, status  = command.status });
+        return Ok();
+    }
+    
     [Authorize]
     [HttpPost("logout")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -144,5 +165,23 @@ public class UsersController : BaseController
         _tokenStorage.ClearToken();
         
         return Ok();
+    }
+    
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] GetAllUsers query)
+        => Ok(await _getAllUsersHandler.HandlerAsync(query));
+    
+    [Authorize]
+    [HttpGet("usersAutocomplete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAutocomplete([FromQuery] string search, [FromQuery] int limit = 10)
+    {
+        var users = await _userService.GetAutocompleteAsync(search, limit);
+        return Ok(users);
     }
 }

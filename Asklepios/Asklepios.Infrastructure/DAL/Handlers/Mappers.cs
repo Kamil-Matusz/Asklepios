@@ -31,4 +31,16 @@ public static class Mappers
             DoctorName = entity.MedicalStaff.Name,
             DoctorSurname = entity.MedicalStaff.Surname,
         };
+    
+    public static UserDto AsUsersDto(this User entity)
+    {
+        return new UserDto
+        {
+            UserId = entity.UserId,
+            Email = entity.Email,
+            Role = entity.Role,
+            IsActive = entity.IsActive,
+            CreatedAt = entity.CreatedAt
+        };
+    }
 }
