@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { API } from '../services';
 import { RoomDto, RoomDetailsDto, RoomListDto } from '@/models/Departments/room';
 import { PaginationParams } from '@/models/paginationParams';
+import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
 export const useRoomStore = defineStore('roomsStore', () => {
   const rooms = ref<RoomListDto[]>([]);
@@ -63,6 +64,11 @@ export const useRoomStore = defineStore('roomsStore', () => {
     return data;
   }
 
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
+    return data as DepartmentAutocompleteDto[];
+  }
+
   return {
     rooms,
     totalItems,
@@ -72,6 +78,7 @@ export const useRoomStore = defineStore('roomsStore', () => {
     dispatchDeleteRoom,
     dispatchGetRoom,
     dispatchUpdateRoom,
-    dispatchGetRoomsAutocomplete
+    dispatchGetRoomsAutocomplete,
+    dispatchGetDepartmentsAutocomplete
   };
 });

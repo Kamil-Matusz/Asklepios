@@ -14,6 +14,8 @@ declare module 'vue' {
     ChangeUserRoleForm: typeof import('./components/users/ChangeUserRoleForm.vue')['default']
     CreateExaminationForm: typeof import('./components/examinations/CreateExaminationForm.vue')['default']
     CreateOperationForm: typeof import('./components/operations/CreateOperationForm.vue')['default']
+    CreateRoomFom: typeof import('./components/rooms/CreateRoomFom.vue')['default']
+    CreateRoomForm: typeof import('./components/rooms/CreateRoomForm.vue')['default']
     DepartmentForm: typeof import('./components/departments/DepartmentForm.vue')['default']
     GenerateUserForm: typeof import('./components/users/GenerateUserForm.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']

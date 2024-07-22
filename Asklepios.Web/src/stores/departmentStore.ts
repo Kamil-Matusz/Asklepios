@@ -57,8 +57,8 @@ export const useDepartmentStore = defineStore('departmentsStore', () => {
     updateDepartmentDetails(department);
   }
 
-  async function dispatchGetDepartmentsAutocomplete(search: string, limit: number = 10) {
-    const { data } = await API.departments.getDepartmentsAutocomplete(search, limit);
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
     return data as DepartmentAutocompleteDto[];
   }
 

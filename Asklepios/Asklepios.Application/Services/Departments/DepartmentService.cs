@@ -95,10 +95,10 @@ public class DepartmentService : IDeparmentService
 
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
-    
-    public async Task<List<DepartmentAutocompleteDto>> GetAutocompleteAsync(string search, int limit = 10)
+
+    public async Task<IReadOnlyList<DepartmentAutocompleteDto>> GetDepartmentsListAsync()
     {
-        var departments = await _departmentRepository.GetAutocompleteDepartments(search, limit);
+        var departments = await _departmentRepository.GetDepartmentsList();
         return departments.Select(MapDepartmentAutocomplete<DepartmentAutocompleteDto>).ToList();
     }
 

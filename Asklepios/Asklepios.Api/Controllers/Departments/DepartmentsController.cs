@@ -73,9 +73,9 @@ public class DepartmentsController : BaseController
     [HttpGet("departmentsAutocomplete")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<DepartmentAutocompleteDto>>> GetAutocomplete([FromQuery] string search, [FromQuery] int limit = 10)
+    public async Task<ActionResult<IEnumerable<DepartmentAutocompleteDto>>> GetAutocomplete()
     {
-        var departments = await _departmentService.GetAutocompleteAsync(search, limit);
+        var departments = await _departmentService.GetDepartmentsListAsync();
         return Ok(departments);
     }
 }

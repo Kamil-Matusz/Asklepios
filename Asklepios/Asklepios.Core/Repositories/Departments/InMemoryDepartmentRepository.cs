@@ -53,7 +53,7 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
         return department?.NumberOfBeds ?? 0;
     }
 
-    public Task<List<Department>> GetAutocompleteDepartments(string search, int limit = 10)
+    public Task<IReadOnlyList<Department>> GetDepartmentsList()
     {
         throw new NotImplementedException();
     }
