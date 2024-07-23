@@ -6,31 +6,36 @@
       type="number"
       required
     ></v-text-field>
-    <v-text-field
-      label="Typ pokoju"
+    <v-select
       v-model="form.roomType"
+      :items="roomTypes"
+      item-title="text"
+      item-value="value"
+      label="Typ pokoju"
       required
-    ></v-text-field>
+    ></v-select>
     <v-text-field
       label="Liczba łóżek"
       v-model="form.numberOfBeds"
       type="number"
       required
     ></v-text-field>
-    <v-autocomplete
-      label="Oddział"
+    <v-select
       v-model="form.departmentId"
-      :items="departments"
-      item-text="departmentName"
-      item-value="departmentId"
+      label="Oddział"
+      class="ml-4 mr-4"
+      variant="outlined"
+      :items="formattedDepartments"
+      item-title="text"
+      item-value="value"
       required
-    ></v-autocomplete>
+    ></v-select>
     <v-btn type="submit" color="primary">Zatwierdź</v-btn>
   </v-form>
 </template>
 
-<script setup>
-import { ref, watch, defineProps, defineEmits } from 'vue';
+<script setup lang="ts">
+import { ref, computed, watch, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   room: Object,
@@ -38,17 +43,31 @@ const props = defineProps({
 });
 const emits = defineEmits(['update:room', 'on-valid-submit']);
 
+const roomTypes = ref([
+  { text: 'Sala Ogólna', value: 'Sala Ogólna' },
+  { text: 'Sala Operacyjna', value: 'Sala Operacyjna' },
+  { text: 'Izolatka', value: 'Izolatka' },
+]);
+
 const form = ref({ ...props.room });
 
 watch(() => props.room, (newRoom) => {
   form.value = { ...newRoom };
 });
 
+const formattedDepartments = computed(() =>
+  props.departments.map(department => ({
+    text: department.departmentName,
+    value: department.departmentId
+  }))
+);
+
+const updateDepartment = (value: string) => {
+  form.value.departmentId = value;
+  emits('update:room', form.value);
+};
+
 const handleSubmit = () => {
   emits('on-valid-submit', form.value);
 };
 </script>
-
-<style scoped>
-/* Add any scoped styles if necessary */
-</style>
