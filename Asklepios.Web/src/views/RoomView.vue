@@ -38,7 +38,7 @@
     >
       <template #item.actions="{ item }" dense>
         <v-btn
-          @click="openEditDialog(item)"
+          @click="goToEditPage(item.roomId)"
           rounded="lg"
           size="small"
           color="primary"
@@ -82,18 +82,6 @@
         {{ item.numberOfBeds }}
       </template>
     </v-data-table-server>
-
-    <v-dialog max-width="500" v-model="isEditDialogActive">
-      <template #default>
-        <v-card title="Edytuj pokój" rounded="lg">
-          <RoomForm
-            v-model="roomToEdit"
-            :departments="departments"
-            @on-valid-submit="(room) => { updateRoom(room); isEditDialogActive.value = false; }"
-          ></RoomForm>
-        </v-card>
-      </template>
-    </v-dialog>
   </BasePage>
 </template>
 
@@ -105,10 +93,12 @@ import { InputCreateRoom } from '@/models/Departments/room';
 import BasePage from '@/components/pages/BasePage.vue';
 import { useJwtStore } from '@/stores/jwtStore';
 import RoomForm from '@/components/rooms/CreateRoomForm.vue';
+import { useRouter } from 'vue-router'; // Import router
 
 const roomStore = useRoomStore();
 const toast = useToast();
 const { getUserRole, getUser } = useJwtStore();
+const router = useRouter(); // Initialize router
 
 const pagination = ref({
   PageIndex: 1,
@@ -136,8 +126,6 @@ const roomToAdd = ref<InputCreateRoom>({
   departmentId: ''
 });
 
-const roomToEdit = ref(null);
-const isEditDialogActive = ref(false);
 const user = ref(null);
 const role = ref(null);
 
@@ -182,17 +170,8 @@ const deleteRoom = async (id) => {
   getRooms();
 };
 
-const updateRoom = async () => {
-  if (roomToEdit.value) {
-    await roomStore.dispatchUpdateRoom(roomToEdit.value.roomId, roomToEdit.value);
-    toast.success('Pomyślnie zaktualizowano dane pokoju!');
-    getRooms();
-  }
-};
-
-const openEditDialog = (room) => {
-  roomToEdit.value = { ...room };
-  isEditDialogActive.value = true;
+const goToEditPage = (roomId) => {
+  router.push({ name: 'RoomEdit', params: { id: roomId } });
 };
 
 const handlePagination = ({ page, itemsPerPage }) => {

@@ -66,6 +66,8 @@ public class RoomService : IRoomService
 
         room.RoomNumber = dto.RoomNumber;
         room.RoomType = dto.RoomType;
+        room.NumberOfBeds = dto.NumberOfBeds;
+        room.DepartmentId = dto.DepartmentId;
 
         await _roomRepository.UpdateRoomAsync(room);
     }

@@ -19,6 +19,7 @@ import NurseView from '@/views/NurseView.vue';
 import DoctorDetailView from '@/views/DoctorDetailsView.vue';
 import PatientView from '@/views/PatientView.vue';
 import RoomView from '@/views/RoomView.vue';
+import EditRoomView from '@/views/EditRoomView.vue';
 
 
 const router = createRouter({
@@ -48,6 +49,12 @@ const router = createRouter({
       path: '/rooms',
       name: 'rooms',
       component: RoomView
+    },
+    {
+      path: '/rooms/edit/:id',
+      name: 'RoomEdit',
+      component: EditRoomView,
+      props: true // Pozwól na przekazywanie parametrów jako props
     },
     {
       path: '/examinations',
