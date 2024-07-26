@@ -11,6 +11,7 @@ import LoginView from '@/views/LoginView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import UserManagmentView from '@/views/UserManagmentView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
+import EditDepartmentView from '@/views/EditDepartmentView.vue'
 import ExaminationView from '@/views/ExaminationView.vue'
 import OperationView from '@/views/OperationView.vue'
 import OperationDetailsView from '@/views/OperationDetailsView.vue';
@@ -44,6 +45,12 @@ const router = createRouter({
       path: '/departments',
       name: 'departments',
       component: DepartmentView
+    },
+    {
+      path: '/departments/edit/:id',
+      name: 'DepartmentEdit',
+      component: EditDepartmentView,
+      props: true // Pozwól na przekazywanie parametrów jako props
     },
     {
       path: '/rooms',
