@@ -13,6 +13,7 @@ import UserManagmentView from '@/views/UserManagmentView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
 import EditDepartmentView from '@/views/EditDepartmentView.vue'
 import ExaminationView from '@/views/ExaminationView.vue'
+import EditExaminationView from '@/views/EditExaminationView.vue';
 import OperationView from '@/views/OperationView.vue'
 import OperationDetailsView from '@/views/OperationDetailsView.vue';
 import DoctorView from '@/views/DoctorView.vue';
@@ -50,7 +51,7 @@ const router = createRouter({
       path: '/departments/edit/:id',
       name: 'DepartmentEdit',
       component: EditDepartmentView,
-      props: true // Pozwól na przekazywanie parametrów jako props
+      props: true
     },
     {
       path: '/rooms',
@@ -61,12 +62,18 @@ const router = createRouter({
       path: '/rooms/edit/:id',
       name: 'RoomEdit',
       component: EditRoomView,
-      props: true // Pozwól na przekazywanie parametrów jako props
+      props: true
     },
     {
       path: '/examinations',
       name: 'examinations',
       component: ExaminationView
+    },
+    {
+      path: '/examinations/edit/:id',
+      name: 'ExaminationEdit',
+      component: EditExaminationView,
+      props: true
     },
     {
       path: '/operations',
