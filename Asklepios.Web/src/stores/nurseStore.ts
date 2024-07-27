@@ -38,7 +38,7 @@ export const useNurseStore = defineStore('nurseStore', () => {
 
   async function dispatchCreateNurse(nurse: NurseDto) {
     await API.nurses.createNurse(nurse);
-    await dispatchGetNurses({ pageIndex: 0, pageSize: 10 });
+    await dispatchGetNurses({ pageIndex: 1, pageSize: 10 });
   }
 
   async function dispatchDeleteNurse(id: string) {

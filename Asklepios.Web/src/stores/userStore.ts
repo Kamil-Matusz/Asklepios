@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount } from '@/models/Users/user';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
 import { type PaginationParams } from '@/models/paginationParams';
 
 export const useUserStore = defineStore('usersStore', () => {
@@ -89,7 +89,7 @@ export const useUserStore = defineStore('usersStore', () => {
 
   async function dispatchGetUsersAutocomplete(search: string, limit: number = 10) {
     const { data } = await API.users.getUsersAutocomplete(search, limit);
-    users.value = data;
+    return data as UserAutocompleteDto[];
   }
 
   return {

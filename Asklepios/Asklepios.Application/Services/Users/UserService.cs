@@ -13,10 +13,10 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<List<UserDto>> GetAutocompleteAsync(string search, int limit = 10)
+    public async Task<List<UserAutocompleteDto>> GetAutocompleteAsync(string search, int limit = 10)
     {
         var users = await _userRepository.GetAutocompleteUsers(search, limit);
-        return users.Select(Map<UserDto>).ToList();
+        return users.Select(MapUserAutocomplete<UserAutocompleteDto>).ToList();
     }
     
     private static T Map<T>(User user) where T : UserDto, new() => new T()
@@ -24,5 +24,11 @@ public class UserService : IUserService
         UserId = user.UserId,
         Email = user.Email,
         Role = user.Role,
+    };
+    
+    private static T MapUserAutocomplete<T>(User user) where T : UserAutocompleteDto, new() => new T()
+    {
+        UserId = user.UserId,
+        Email = user.Email,
     };
 }

@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount } from '@/models/Users/user';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
 
 const base = 'users-module/Users';
 
@@ -56,7 +56,7 @@ async function changeAccountStatus(userId: string, status: boolean) {
 }
 
 async function getUsersAutocomplete(search: string, limit: number = 10) {
-  return await httpClient.get<User[]>(`users-module/Users/usersAutocomplete`, {
+  return await httpClient.get<UserAutocompleteDto[]>(`${base}/usersAutocomplete`, {
     params: { search, limit }
   });
 }
