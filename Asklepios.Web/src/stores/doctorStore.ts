@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff } from '@/models/Users/doctor';
+import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto } from '@/models/Users/doctor';
 import { type PaginationParams } from '@/models/paginationParams';
 
 export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
@@ -57,6 +57,11 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
     updateDoctorDetails(doctor);
   }
 
+  async function dispatchGetDoctorsList() {
+    const { data } = await API.doctors.getDoctorsList();
+    return data as MedicalStaffAutocompleteDto[];
+  }
+
   return {
     doctors,
     totalItems,
@@ -65,6 +70,7 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
     dispatchCreateDoctor,
     dispatchDeleteDoctor,
     dispatchGetDoctor,
-    dispatchUpdateDoctor
+    dispatchUpdateDoctor,
+    dispatchGetDoctorsList
   };
 });
