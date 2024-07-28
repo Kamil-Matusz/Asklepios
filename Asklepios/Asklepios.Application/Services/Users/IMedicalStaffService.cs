@@ -10,4 +10,5 @@ public interface IMedicalStaffService
     Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize);
     Task UpdateDoctorAsync(MedicalStaffDto dto);
     Task DeleteDoctorAsync(Guid id);
+    Task<List<MedicalStaffAutocompleteDto>> GetDoctorsList();
 }

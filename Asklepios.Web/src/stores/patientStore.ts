@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type PatientDto, type PatientDetailsDto, type PatientListDto } from '@/models/Patients/patient';
+import { type PatientDto, type PatientDetailsDto, type PatientListDto, PatientAutocompleteDto } from '@/models/Patients/patient';
 import { type PaginationParams } from '@/models/paginationParams';
 
 export const usePatientStore = defineStore('patientsStore', () => {
@@ -57,6 +57,11 @@ export const usePatientStore = defineStore('patientsStore', () => {
     updatePatientDetails(patient);
   }
 
+  async function dispatchGetPatientsList() {
+    const { data } = await API.patients.getPatientsList();
+    return data as PatientAutocompleteDto[];
+  }
+
   return {
     patients,
     totalItems,
@@ -65,6 +70,7 @@ export const usePatientStore = defineStore('patientsStore', () => {
     dispatchCreatePatient,
     dispatchDeletePatient,
     dispatchGetPatient,
-    dispatchUpdatePatient
+    dispatchUpdatePatient,
+    dispatchGetPatientsList
   };
 });

@@ -70,4 +70,14 @@ public class PatientsController : BaseController
         await _patientService.DeletePatientAsync(id);
         return NoContent();
     }
+    
+    [Authorize]
+    [HttpGet("patientsList")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<PatientAutocompleteDto>>> GetPatientsList()
+    {
+        var patients = await _patientService.GetPatientsList();
+        return Ok(patients);
+    }
 }

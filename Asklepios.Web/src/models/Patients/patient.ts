@@ -28,3 +28,11 @@ export interface PatientDetailsDto extends PatientDto {
   operations: OperationDto[];
   examResults: ExamResultDto[];
 }
+
+export interface PatientAutocompleteDto {
+  patientId: string;
+  patientName: string;
+  patientSurname: number;
+}
+
+

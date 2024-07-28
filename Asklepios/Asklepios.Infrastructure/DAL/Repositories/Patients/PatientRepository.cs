@@ -85,4 +85,11 @@ public class PatientRepository : IPatientRepository
         _patients.Remove(patient);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Patient>> GetPatientsList()
+        => await _patients
+            .AsNoTracking()
+            .OrderBy(x => x.PatientSurname)
+            .Where(x => x.IsDischarged == false)
+            .ToListAsync();
 }
