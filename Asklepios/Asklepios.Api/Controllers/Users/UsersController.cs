@@ -184,4 +184,14 @@ public class UsersController : BaseController
         var users = await _userService.GetNursesList();
         return Ok(users);
     }
+    
+    [Authorize]
+    [HttpGet("doctorsList")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<UserAutocompleteDto>>> GetDoctorsList()
+    {
+        var users = await _userService.GetDoctorsList();
+        return Ok(users);
+    }
 }

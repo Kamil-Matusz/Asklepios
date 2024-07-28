@@ -38,7 +38,7 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
 
   async function dispatchCreateDoctor(doctor: InputCreateMedicalStaff) {
     await API.doctors.createDoctor(doctor);
-    await dispatchGetDoctors({ pageIndex: 0, pageSize: 10 });
+    await dispatchGetDoctors({ pageIndex: 1, pageSize: 10 });
   }
 
   async function dispatchDeleteDoctor(id: string) {

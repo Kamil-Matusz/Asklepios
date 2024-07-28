@@ -6,4 +6,5 @@ public interface IUserService
 {
     Task<List<UserAutocompleteDto>> GetAutocompleteAsync(string search, int limit = 10);
     Task<List<UserAutocompleteDto>> GetNursesList();
+    Task<List<UserAutocompleteDto>> GetDoctorsList();
 }

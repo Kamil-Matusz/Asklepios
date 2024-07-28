@@ -59,6 +59,10 @@ async function getNursesList() {
   return await httpClient.get<UserAutocompleteDto[]>(`${base}/nursesList`);
 }
 
+async function getDoctorsList() {
+  return await httpClient.get<UserAutocompleteDto[]>(`${base}/doctorsList`);
+}
+
 export default {
   getPaginatedUsers,
   deleteUser,
@@ -68,5 +72,6 @@ export default {
   generateUserAccount,
   changeUserRole,
   changeAccountStatus,
-  getNursesList
+  getNursesList,
+  getDoctorsList
 };
