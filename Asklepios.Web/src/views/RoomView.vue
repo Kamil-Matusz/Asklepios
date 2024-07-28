@@ -93,12 +93,12 @@ import { InputCreateRoom } from '@/models/Departments/room';
 import BasePage from '@/components/pages/BasePage.vue';
 import { useJwtStore } from '@/stores/jwtStore';
 import RoomForm from '@/components/rooms/CreateRoomForm.vue';
-import { useRouter } from 'vue-router'; // Import router
+import { useRouter } from 'vue-router';
 
 const roomStore = useRoomStore();
 const toast = useToast();
 const { getUserRole, getUser } = useJwtStore();
-const router = useRouter(); // Initialize router
+const router = useRouter();
 
 const pagination = ref({
   PageIndex: 1,
@@ -129,7 +129,7 @@ const roomToAdd = ref<InputCreateRoom>({
 const user = ref(null);
 const role = ref(null);
 
-const departments = ref([]); // Store departments
+const departments = ref([]);
 
 const getRooms = async () => {
   options.value.loading = true;
@@ -187,7 +187,7 @@ const getDepartments = async () => {
       departmentName: department.departmentName,
       departmentId: department.departmentId
     }));
-    console.log('Departments:', departments.value); // Add this to verify the structure
+    console.log('Departments:', departments.value);
   } catch (error) {
     console.error('Error fetching departments:', error);
     toast.error('Wystąpił problem podczas pobierania oddziałów');

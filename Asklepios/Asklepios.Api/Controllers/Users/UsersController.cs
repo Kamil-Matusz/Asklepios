@@ -176,12 +176,12 @@ public class UsersController : BaseController
         => Ok(await _getAllUsersHandler.HandlerAsync(query));
     
     [Authorize]
-    [HttpGet("usersAutocomplete")]
+    [HttpGet("nursesList")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<UserAutocompleteDto>>> GetAutocomplete([FromQuery] string search, [FromQuery] int limit = 10)
+    public async Task<ActionResult<IEnumerable<UserAutocompleteDto>>> GetNursesList()
     {
-        var users = await _userService.GetAutocompleteAsync(search, limit);
+        var users = await _userService.GetNursesList();
         return Ok(users);
     }
 }

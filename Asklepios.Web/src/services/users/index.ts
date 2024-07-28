@@ -55,10 +55,8 @@ async function changeAccountStatus(userId: string, status: boolean) {
   return await httpClient.put<boolean>(`${base}/${userId}/changeAccountStatus`, { status });
 }
 
-async function getUsersAutocomplete(search: string, limit: number = 10) {
-  return await httpClient.get<UserAutocompleteDto[]>(`${base}/usersAutocomplete`, {
-    params: { search, limit }
-  });
+async function getNursesList() {
+  return await httpClient.get<UserAutocompleteDto[]>(`${base}/nursesList`);
 }
 
 export default {
@@ -70,5 +68,5 @@ export default {
   generateUserAccount,
   changeUserRole,
   changeAccountStatus,
-  getUsersAutocomplete
+  getNursesList
 };

@@ -3,11 +3,13 @@
     <v-text-field
       label="Imię"
       v-model="form.name"
+      :rules="nameRules"
       required
     ></v-text-field>
     <v-text-field
       label="Nazwisko"
       v-model="form.surname"
+      :rules="surnameRules"
       required
     ></v-text-field>
     <v-select
@@ -16,13 +18,18 @@
       :items="formattedDepartments"
       item-title="text"
       item-value="value"
+      :rules="departmentRules"
       required
     ></v-select>
-    <v-text-field
-      label="Uzytkownik"
+    <v-select
       v-model="form.userId"
+      label="Użytkownik"
+      :items="formattedUsers"
+      item-title="text"
+      item-value="value"
+      :rules="userRules"
       required
-    ></v-text-field>
+    ></v-select>
     <v-btn type="submit" color="primary">Zatwierdź</v-btn>
   </v-form>
 </template>
@@ -33,7 +40,14 @@ import { InputCreateNurse } from '@/models/Users/nurse';
 
 const props = defineProps({
   nurse: Object,
-  departments: Array
+  departments: {
+    type: Array,
+    default: () => []
+  },
+  users: {
+    type: Array,
+    default: () => []
+  }
 });
 const emits = defineEmits(['update:nurse', 'on-valid-submit']);
 
@@ -50,7 +64,30 @@ const formattedDepartments = computed(() =>
   }))
 );
 
+const formattedUsers = computed(() =>
+  props.users.map(user => ({
+    text: user.email,
+    value: user.userId
+  }))
+);
+
 const handleSubmit = () => {
   emits('on-valid-submit', form.value);
 };
+
+const nameRules = [
+  (v: string) => !!v || 'Imie pielęgnarki jest wymagane',
+];
+
+const surnameRules = [
+  (v: string) => !!v || 'Nazwisko pielęgnarki jest wymagane',
+];
+
+const userRules = [
+  v => !!v || 'Użytkownik jest wymagany',
+];
+
+const departmentRules = [
+  v => !!v || 'Oddział jest wymagany',
+];
 </script>

@@ -87,8 +87,8 @@ export const useUserStore = defineStore('usersStore', () => {
     }
   }
 
-  async function dispatchGetUsersAutocomplete(search: string, limit: number = 10) {
-    const { data } = await API.users.getUsersAutocomplete(search, limit);
+  async function dispatchGetNurses() {
+    const { data } = await API.users.getNursesList();
     return data as UserAutocompleteDto[];
   }
 
@@ -106,6 +106,6 @@ export const useUserStore = defineStore('usersStore', () => {
     fetchCurrentUser,
     dispatchChangeUserRole,
     dispatchChangeAccountStatus,
-    dispatchGetUsersAutocomplete
+    dispatchGetNurses
   };
 });

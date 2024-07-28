@@ -19,6 +19,7 @@
             <NurseForm
               v-model="nurseToAdd"
               :departments="departments"
+              :users="users"
               @on-valid-submit="(nurse) => { addNurse(nurse); isActive.value = false; }"
             ></NurseForm>
           </v-card>
@@ -89,6 +90,7 @@ const totalNurses = ref(0);
 const nurseToAdd = ref(new InputCreateNurse());
 
 const departments = ref([]);
+const users = ref([]);
 
 const getNurses = async () => {
   try {
@@ -140,9 +142,23 @@ const getDepartments = async () => {
   }
 };
 
+const getUsers = async () => {
+  try {
+    const data = await userStore.dispatchGetNurses();
+    users.value = data.map(user => ({
+      email: user.email,
+      userId: user.userId
+    }));
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    toast.error('Wystąpił problem podczas pobierania uzytkownikow');
+  }
+};
+
 onMounted(() => {
   getNurses();
   getDepartments();
+  getUsers();
 });
 
 watch([currentPage, itemsPerPage], getNurses);

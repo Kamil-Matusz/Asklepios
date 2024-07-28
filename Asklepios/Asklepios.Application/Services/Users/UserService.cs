@@ -18,7 +18,13 @@ public class UserService : IUserService
         var users = await _userRepository.GetAutocompleteUsers(search, limit);
         return users.Select(MapUserAutocomplete<UserAutocompleteDto>).ToList();
     }
-    
+
+    public async Task<List<UserAutocompleteDto>> GetNursesList()
+    {
+        var nurses = await _userRepository.GetNursesList();
+        return nurses.Select(MapUserAutocomplete<UserAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(User user) where T : UserDto, new() => new T()
     {
         UserId = user.UserId,
