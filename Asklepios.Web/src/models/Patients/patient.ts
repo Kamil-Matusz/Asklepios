@@ -33,6 +33,7 @@ export interface PatientAutocompleteDto {
   patientId: string;
   patientName: string;
   patientSurname: number;
+  peselNumber: string;
 }
 
 

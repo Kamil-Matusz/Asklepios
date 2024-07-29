@@ -18,12 +18,15 @@
       :rules="dateRules"
       required
     ></v-date-picker>
-    <v-text-field
-      label="Typ znieczulenia"
+    <v-select
       v-model="form.anesthesiaType"
+      label="Typ znieczulenia"
+      :items="anesthesiaTypes"
+      item-title="text"
+      item-value="value"
       :rules="anesthesiaTypeRules"
       required
-    ></v-text-field>
+></v-select>
     <v-text-field
       label="Wynik"
       v-model="form.result"
@@ -35,12 +38,13 @@
     ></v-text-field>
     <v-select
       v-model="form.patientId"
-      label="Pacjent"
+      label="Pacjent (dodaj po peselu)"
       :items="formattedPatients"
       item-title="text"
       item-value="value"
       :rules="patientRules"
       required
+      no-data-text="Brak pacjentów"
     ></v-select>
     <v-select
       v-model="form.medicalStaffId"
@@ -115,4 +119,11 @@ const patientRules = [
 const medicalStaffRules = [
   (v: string) => !!v || 'Personel medyczny jest wymagany',
 ];
+
+const anesthesiaTypes = ref([
+  { text: 'Ogólne', value: 'Ogólne' },
+  { text: 'Miejscowe', value: 'Miejscowe' },
+  { text: 'Regionalne', value: 'Regionalne' },
+  { text: 'Rdzeniowe', value: 'Rdzeniowe' },
+]);
 </script>

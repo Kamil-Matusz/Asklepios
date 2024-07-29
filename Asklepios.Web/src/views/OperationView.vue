@@ -132,7 +132,7 @@ const getPatients = async () => {
   try {
     const data = await patientStore.dispatchGetPatientsList();
     patients.value = data.map(patient => ({
-      text: `${patient.surname}`,
+      text: `${patient.peselNumber}`,
       value: patient.patientId
     }));
   } catch (error) {

@@ -165,5 +165,6 @@ public class PatientService : IPatientService
         PatientId = patient.PatientId,
         PatientName = patient.PatientName,
         PatientSurname = patient.PatientSurname,
+        PeselNumber = patient.PeselNumber
     };
 }
