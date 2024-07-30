@@ -16,6 +16,7 @@ declare module 'vue' {
     CreateExaminationForm: typeof import('./components/examinations/CreateExaminationForm.vue')['default']
     CreateNurseForm: typeof import('./components/nurses/CreateNurseForm.vue')['default']
     CreateOperationForm: typeof import('./components/operations/CreateOperationForm.vue')['default']
+    CreatePatientForm: typeof import('./components/patients/CreatePatientForm.vue')['default']
     CreateRoomFom: typeof import('./components/rooms/CreateRoomFom.vue')['default']
     CreateRoomForm: typeof import('./components/rooms/CreateRoomForm.vue')['default']
     DepartmentForm: typeof import('./components/departments/DepartmentForm.vue')['default']

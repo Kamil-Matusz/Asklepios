@@ -1,5 +1,9 @@
 <template>
   <BasePage title="Zarządzanie pacjentami">
+    <v-btn @click="showCreatePatientDialog = true" color="primary" class="mb-4" style="max-width: 20rem">
+      + Dodaj nowego pacjenta
+    </v-btn>
+
     <v-data-table-server
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
@@ -122,6 +126,21 @@
         </v-card>
       </template>
     </v-dialog>
+
+    <v-dialog v-model="showCreatePatientDialog" max-width="500">
+      <template #default>
+        <v-card>
+          <v-card-title>Dodaj nowego pacjenta</v-card-title>
+          <v-card-text>
+            <CreatePatientForm
+              :departments="departments"
+              :rooms="rooms"
+              @on-valid-submit="createPatient"
+            />
+          </v-card-text>
+        </v-card>
+      </template>
+    </v-dialog>
   </BasePage>
 </template>
 
@@ -131,9 +150,14 @@ import { usePatientStore } from '@/stores/patientStore';
 import { useToast } from 'vue-toastification';
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
-import { type PatientDetailsDto} from '@/models/Patients/patient';
+import CreatePatientForm from '@/components/patients/CreatePatientForm.vue';
+import { type PatientDetailsDto } from '@/models/Patients/patient';
+import { useDepartmentStore } from '@/stores/departmentStore';
+import { useRoomStore } from '@/stores/roomStore';
 
 const patientStore = usePatientStore();
+const departmentStore = useDepartmentStore();
+const roomStore = useRoomStore();
 const toast = useToast();
 
 const pagination = ref<InputPagination>({
@@ -155,7 +179,11 @@ const options = ref({
   totalItems: 0
 });
 
+const departments = ref([]);
+const rooms = ref([]);
+
 const isDetailsDialogActive = ref(false);
+const showCreatePatientDialog = ref(false);
 const patientDetails = ref<PatientDetailsDto | null>(null);
 
 const getPatients = async () => {
@@ -190,13 +218,54 @@ const deletePatient = async (id: string) => {
   getPatients();
 };
 
+const createPatient = async (patient) => {
+  try {
+    await patientStore.dispatchCreatePatient(patient);
+    toast.success('Pomyślnie dodano nowego pacjenta');
+    showCreatePatientDialog.value = false;
+    getPatients();
+  } catch (error) {
+    console.error('Error creating patient:', error);
+    toast.error('Wystąpił problem podczas dodawania pacjenta');
+  }
+};
+
 const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: number }) => {
   pagination.value.PageIndex = page;
   pagination.value.PageSize = itemsPerPage;
   getPatients();
 };
 
-onMounted(getPatients);
+const getDepartments = async () => {
+  try {
+    const data = await departmentStore.dispatchGetDepartmentsAutocomplete();
+    departments.value = data.map(department => ({
+      departmentName: department.departmentName,
+      departmentId: department.departmentId
+    }));
+  } catch (error) {
+    toast.error('Wystąpił problem podczas pobierania oddziałów');
+  }
+};
+
+const getRooms = async () => {
+  try {
+    const data = await roomStore.dispatchGetRoomsList();
+    rooms.value = data.map(room => ({
+      roomNumber: room.roomNumber,
+      roomId: room.roomId
+    }));
+  } catch (error) {
+    console.error('Error fetching rooms:', error);
+    toast.error('Wystąpił problem podczas pobierania pokoi');
+  }
+};
+
+onMounted(() => {
+  getPatients();
+  getDepartments();
+  getRooms();
+});
 </script>
 
 <style scoped>

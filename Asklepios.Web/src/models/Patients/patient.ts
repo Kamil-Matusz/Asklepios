@@ -43,7 +43,7 @@ export class InputCreatePatient {
   initialDiagnosis: string = '';
   isDischarged: boolean = false;
   treatment: string = '';
-  departmentId: string = ';'
+  departmentId: string = '';
   roomId: string = '';
 }
 
