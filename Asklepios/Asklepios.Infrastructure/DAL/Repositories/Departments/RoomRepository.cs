@@ -67,4 +67,10 @@ public class RoomRepository : IRoomRepository
 
         return room?.NumberOfBeds ?? 0;
     }
+
+    public async Task<IReadOnlyList<Room>> GetRoomsList()
+        => await _rooms
+            .AsNoTracking()
+            .OrderBy(x => x.Department.DepartmentName)
+            .ToListAsync();
 }

@@ -15,7 +15,7 @@ export interface PatientDto {
 export interface PatientListDto {
   patientId: string;
   patientName: string;
-  patientSurname: number;
+  patientSurname: string;
   peselNumber: string;
   initialDiagnosis: string;
   isDischarged: boolean;
@@ -34,6 +34,17 @@ export interface PatientAutocompleteDto {
   patientName: string;
   patientSurname: number;
   peselNumber: string;
+}
+
+export class InputCreatePatient {
+  patientName: string = '';
+  patientSurname: string = '';
+  peselNumber: string = '';
+  initialDiagnosis: string = '';
+  isDischarged: boolean = false;
+  treatment: string = '';
+  departmentId: string = ';'
+  roomId: string = '';
 }
 
 

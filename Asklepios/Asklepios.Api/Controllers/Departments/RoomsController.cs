@@ -68,4 +68,14 @@ public class RoomsController : BaseController
         await _roomService.DeleteRoomAsync(id);
         return NoContent();
     }
+    
+    [Authorize]
+    [HttpGet("roomsList")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<RoomAutocompleteDto>>> GetRoomsList()
+    {
+        var departments = await _roomService.GetRoomsListAsync();
+        return Ok(departments);
+    }
 }

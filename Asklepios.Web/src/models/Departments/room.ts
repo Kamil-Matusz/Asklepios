@@ -35,3 +35,9 @@ export interface RoomDetailsDto extends RoomDto {
   patients: PatientDto[];
 }
 
+export interface RoomAutocompleteDto {
+  roomId: string
+  roomNumber: number
+  roomType: string
+}
+

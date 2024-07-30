@@ -52,4 +52,9 @@ public class InMemoryRoomRepository : IRoomRepository
         var room = _rooms.FirstOrDefault(d => d.RoomId == roomId);
         return room?.NumberOfBeds ?? 0;
     }
+
+    public Task<IReadOnlyList<Room>> GetRoomsList()
+    {
+        throw new NotImplementedException();
+    }
 }

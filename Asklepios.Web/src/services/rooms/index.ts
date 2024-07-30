@@ -1,7 +1,7 @@
 // roomsService.ts
 import { PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { RoomDto, RoomDetailsDto, RoomListDto } from '@/models/Departments/room';
+import { RoomDto, RoomDetailsDto, RoomListDto, RoomAutocompleteDto } from '@/models/Departments/room';
 
 const base = 'departments-module/Rooms';
 
@@ -31,11 +31,16 @@ async function getRoomsAutocomplete(search: string, limit: number = 10) {
   });
 }
 
+async function getRoomsList() {
+  return await httpClient.get<RoomAutocompleteDto[]>(`${base}/roomsList`);
+}
+
 export default {
   getRoom,
   getAllRooms,
   createRoom,
   updateRoom,
   deleteRoom,
-  getRoomsAutocomplete
+  getRoomsAutocomplete,
+  getRoomsList
 };

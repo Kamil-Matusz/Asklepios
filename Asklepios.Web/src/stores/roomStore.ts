@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { RoomDto, RoomDetailsDto, RoomListDto } from '@/models/Departments/room';
+import { RoomDto, RoomDetailsDto, RoomListDto, RoomAutocompleteDto } from '@/models/Departments/room';
 import { PaginationParams } from '@/models/paginationParams';
 import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
@@ -69,6 +69,11 @@ export const useRoomStore = defineStore('roomsStore', () => {
     return data as DepartmentAutocompleteDto[];
   }
 
+  async function dispatchGetRoomsList() {
+    const { data } = await API.rooms.getRoomsList();
+    return data as RoomAutocompleteDto[];
+  }
+
   return {
     rooms,
     totalItems,
@@ -79,6 +84,7 @@ export const useRoomStore = defineStore('roomsStore', () => {
     dispatchGetRoom,
     dispatchUpdateRoom,
     dispatchGetRoomsAutocomplete,
-    dispatchGetDepartmentsAutocomplete
+    dispatchGetDepartmentsAutocomplete,
+    dispatchGetRoomsList
   };
 });
