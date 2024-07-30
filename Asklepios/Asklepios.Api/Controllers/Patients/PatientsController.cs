@@ -31,7 +31,7 @@ public class PatientsController : BaseController
     public async Task<ActionResult<IReadOnlyList<PatientListDto>>> GetAllPatients([FromQuery] int pageIndex, [FromQuery] int pageSize)
         => Ok(await _patientService.GetAllPatientsAsync(pageIndex, pageSize));
     
-    [Authorize(Roles = "Nurse, Doctor")]
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

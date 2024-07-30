@@ -1,4 +1,3 @@
-// roomsStore.ts
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
@@ -10,6 +9,7 @@ export const useRoomStore = defineStore('roomsStore', () => {
   const rooms = ref<RoomListDto[]>([]);
   const totalItems = ref(0);
   const roomDetails = ref<RoomDetailsDto | null>(null);
+  const departments = ref<DepartmentAutocompleteDto[]>([]);
 
   function addNewRoom(room: RoomDto) {
     rooms.value.push(room);
@@ -66,6 +66,7 @@ export const useRoomStore = defineStore('roomsStore', () => {
 
   async function dispatchGetDepartmentsAutocomplete() {
     const { data } = await API.departments.getDepartmentsAutocomplete();
+    departments.value = data;
     return data as DepartmentAutocompleteDto[];
   }
 
@@ -78,6 +79,7 @@ export const useRoomStore = defineStore('roomsStore', () => {
     rooms,
     totalItems,
     roomDetails,
+    departments,
     dispatchGetRooms,
     dispatchCreateRoom,
     dispatchDeleteRoom,
