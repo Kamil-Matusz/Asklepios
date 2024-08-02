@@ -23,7 +23,7 @@ import PatientView from '@/views/PatientView.vue';
 import RoomView from '@/views/RoomView.vue';
 import EditRoomView from '@/views/EditRoomView.vue';
 import EditNurseView from '@/views/EditNurseView.vue';
-
+import EditDoctorView from '@/views/EditDoctorView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -96,6 +96,12 @@ const router = createRouter({
       path: '/doctor/:id',
       name: 'doctorsDetails',
       component: DoctorDetailView,
+      props: true
+    },
+    {
+      path: '/doctor/edit/:id',
+      name: 'DoctorEdit',
+      component: EditDoctorView,
       props: true
     },
     {

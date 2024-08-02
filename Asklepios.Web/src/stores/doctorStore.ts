@@ -3,11 +3,13 @@ import { ref } from 'vue';
 import { API } from '../services';
 import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto } from '@/models/Users/doctor';
 import { type PaginationParams } from '@/models/paginationParams';
+import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
 export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
   const doctors = ref<MedicalStaffListDto[]>([]);
   const totalItems = ref(0);
   const doctorDetails = ref<MedicalStaffDto | null>(null);
+  const departments = ref<DepartmentAutocompleteDto[]>([]);
 
   function addNewDoctor(doctor: MedicalStaffListDto) {
     doctors.value.push(doctor);
@@ -62,10 +64,18 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
     return data as MedicalStaffAutocompleteDto[];
   }
 
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
+    departments.value = data;
+    return data as DepartmentAutocompleteDto[];
+  }
+
   return {
     doctors,
     totalItems,
     doctorDetails,
+    departments,
+    dispatchGetDepartmentsAutocomplete,
     dispatchGetDoctors,
     dispatchCreateDoctor,
     dispatchDeleteDoctor,

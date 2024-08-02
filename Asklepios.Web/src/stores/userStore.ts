@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { API } from '../services';
 import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
 import { type PaginationParams } from '@/models/paginationParams';
+import { da } from 'vuetify/locale';
 
 export const useUserStore = defineStore('usersStore', () => {
   const users = ref<User[]>([]);
@@ -10,6 +11,7 @@ export const useUserStore = defineStore('usersStore', () => {
   const accountInfo = ref<AccountDto | null>(null);
   const currentUser = ref<User | null>(null);
   const nurses = ref<UserAutocompleteDto[]>([]);
+  const doctors = ref<UserAutocompleteDto[]>([]);
 
   function addNewUser(user: User) {
     users.value.push(user);
@@ -94,8 +96,9 @@ export const useUserStore = defineStore('usersStore', () => {
     return data as UserAutocompleteDto[];
   }
 
-  async function dispatchGetDocors() {
+  async function dispatchGetDoctors() {
     const { data } = await API.users.getDoctorsList();
+    doctors.value = data;
     return data as UserAutocompleteDto[];
   }
 
@@ -105,6 +108,7 @@ export const useUserStore = defineStore('usersStore', () => {
     accountInfo,
     currentUser,
     nurses,
+    doctors,
     dispatchCreateUser,
     dispatchGetUsers,
     dispatchDeleteUser,
@@ -115,6 +119,6 @@ export const useUserStore = defineStore('usersStore', () => {
     dispatchChangeUserRole,
     dispatchChangeAccountStatus,
     dispatchGetNurses,
-    dispatchGetDocors
+    dispatchGetDoctors
   };
 });

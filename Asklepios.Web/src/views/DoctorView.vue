@@ -40,6 +40,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="blue" text @click="goToDetails(doctor.doctorId)">Szczegóły</v-btn>
+              <v-btn color="green" text @click="goToEdit(doctor.doctorId)">Edytuj</v-btn> <!-- Nowy przycisk edycji -->
               <v-btn color="red" text @click="deleteDoctor(doctor.doctorId)">Usuń</v-btn>
             </v-card-actions>
           </v-card>
@@ -133,6 +134,10 @@ const goToDetails = (id) => {
   router.push(`/doctor/${id}`);
 };
 
+const goToEdit = (id) => {
+  router.push({ name: 'DoctorEdit', params: { id } });
+};
+
 const getDepartments = async () => {
   try {
     const data = await departmentStore.dispatchGetDepartmentsAutocomplete();
@@ -147,7 +152,7 @@ const getDepartments = async () => {
 
 const getUsers = async () => {
   try {
-    const data = await userStore.dispatchGetDocors();
+    const data = await userStore.dispatchGetDoctors();
     users.value = data.map(user => ({
       email: user.email,
       userId: user.userId
