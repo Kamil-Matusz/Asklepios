@@ -9,6 +9,7 @@ export const useUserStore = defineStore('usersStore', () => {
   const totalItems = ref(0);
   const accountInfo = ref<AccountDto | null>(null);
   const currentUser = ref<User | null>(null);
+  const nurses = ref<UserAutocompleteDto[]>([]);
 
   function addNewUser(user: User) {
     users.value.push(user);
@@ -89,6 +90,7 @@ export const useUserStore = defineStore('usersStore', () => {
 
   async function dispatchGetNurses() {
     const { data } = await API.users.getNursesList();
+    nurses.value = data;
     return data as UserAutocompleteDto[];
   }
 
@@ -102,6 +104,7 @@ export const useUserStore = defineStore('usersStore', () => {
     totalItems,
     accountInfo,
     currentUser,
+    nurses,
     dispatchCreateUser,
     dispatchGetUsers,
     dispatchDeleteUser,

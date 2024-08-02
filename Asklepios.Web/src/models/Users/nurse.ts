@@ -2,15 +2,15 @@ export interface NurseDto {
   nurseId: string
   name: string,
   surname: string,
-  departmenId: string,
+  departmentId: string,
   userId: string
 }
 
 export class InputCreateNurse {
   name: string = ''
   surname: string = ''
-  userId: string = ''
   departmentId: string = ''
+  userId: string = ''
 }
 
 export interface NurseListDto {

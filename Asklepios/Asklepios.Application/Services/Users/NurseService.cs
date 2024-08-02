@@ -64,6 +64,7 @@ public class NurseService : INurseService
         nurse.Name = dto.Name;
         nurse.Surname = dto.Surname;
         nurse.DepartmentId = dto.DepartmentId;
+        nurse.UserId = dto.UserId;
 
         await _nurseRepository.UpdateNurseAsync(nurse);
     }

@@ -14,7 +14,7 @@ public class NurseController : BaseController
         _nurseService = nurseService;
     }
     
-    //[Authorize]
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
