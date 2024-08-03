@@ -22,6 +22,14 @@
           class="ml-2"
           icon="mdi-eye"
         ></v-btn>
+        <v-btn
+          :to="{ name: 'PatientEdit', params: { id: item.patientId }}"
+          rounded="lg"
+          size="small"
+          color="yellow"
+          class="ml-2"
+          icon="mdi-pencil"
+        ></v-btn>
         <v-dialog max-width="500">
           <template #activator="{ props: activatorProps }">
             <v-btn
@@ -80,17 +88,9 @@
                       <v-container>
                         <v-row v-for="operation in patientDetails?.operations" :key="operation.operationId">
                           <v-col cols="12" md="6"><strong>Nazwa:</strong> {{ operation.operationName }}</v-col>
-                        </v-row>
-                        <v-row v-for="operation in patientDetails?.operations" :key="operation.operationId">
                           <v-col cols="12" md="6"><strong>Data rozpoczęcia:</strong> {{ operation.startDate }}</v-col>
-                        </v-row>
-                        <v-row v-for="operation in patientDetails?.operations" :key="operation.operationId">
                           <v-col cols="12" md="6"><strong>Typ znieczulenia:</strong> {{ operation.anesthesiaType }}</v-col>
-                        </v-row>
-                        <v-row v-for="operation in patientDetails?.operations" :key="operation.operationId">
                           <v-col cols="12" md="6"><strong>Wynik operacji:</strong> {{ operation.result }}</v-col>
-                        </v-row>
-                        <v-row v-for="operation in patientDetails?.operations" :key="operation.operationId">
                           <v-col cols="12" md="6"><strong>Kompilacje:</strong> {{ operation.complications }}</v-col>
                         </v-row>
                       </v-container>
@@ -146,6 +146,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { usePatientStore } from '@/stores/patientStore';
 import { useToast } from 'vue-toastification';
 import { InputPagination } from '@/models/paginationParams';
@@ -159,6 +160,7 @@ const patientStore = usePatientStore();
 const departmentStore = useDepartmentStore();
 const roomStore = useRoomStore();
 const toast = useToast();
+const router = useRouter();
 
 const pagination = ref<InputPagination>({
   PageIndex: 1,
@@ -267,7 +269,3 @@ onMounted(() => {
   getRooms();
 });
 </script>
-
-<style scoped>
-/* Add your styles here if needed */
-</style>

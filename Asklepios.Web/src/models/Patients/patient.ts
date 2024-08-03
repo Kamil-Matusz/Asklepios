@@ -3,7 +3,7 @@ import {OperationDto} from "@/models/Examinations/operation"
 export interface PatientDto {
   patientId: string;
   patientName: string;
-  patientSurname: number;
+  patientSurname: string;
   peselNumber: string;
   initialDiagnosis: string;
   isDischarged: boolean;

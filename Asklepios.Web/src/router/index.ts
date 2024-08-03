@@ -20,6 +20,7 @@ import DoctorView from '@/views/DoctorView.vue';
 import NurseView from '@/views/NurseView.vue';
 import DoctorDetailView from '@/views/DoctorDetailsView.vue';
 import PatientView from '@/views/PatientView.vue';
+import EditPatientView from '@/views/EditPatientView.vue';
 import RoomView from '@/views/RoomView.vue';
 import EditRoomView from '@/views/EditRoomView.vue';
 import EditNurseView from '@/views/EditNurseView.vue';
@@ -119,6 +120,12 @@ const router = createRouter({
       path: '/patients',
       name: 'patients',
       component: PatientView
+    },
+    {
+      path: '/patient/edit/:id',
+      name: 'PatientEdit',
+      component: EditPatientView,
+      props: true
     },
   ]
 })

@@ -3,11 +3,15 @@ import { ref } from 'vue';
 import { API } from '../services';
 import { type PatientDto, type PatientDetailsDto, type PatientListDto, PatientAutocompleteDto } from '@/models/Patients/patient';
 import { type PaginationParams } from '@/models/paginationParams';
+import { DepartmentAutocompleteDto } from '@/models/Departments/department';
+import { RoomAutocompleteDto } from '@/models/Departments/room';
 
 export const usePatientStore = defineStore('patientsStore', () => {
   const patients = ref<PatientListDto[]>([]);
   const totalItems = ref(0);
   const patientDetails = ref<PatientDetailsDto | null>(null);
+  const departments = ref<DepartmentAutocompleteDto[]>([]);
+  const rooms = ref<RoomAutocompleteDto[]>([]);
 
   function addNewPatient(patient: PatientDto) {
     patients.value.push(patient);
@@ -62,15 +66,31 @@ export const usePatientStore = defineStore('patientsStore', () => {
     return data as PatientAutocompleteDto[];
   }
 
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
+    departments.value = data;
+    return data as DepartmentAutocompleteDto[];
+  }
+
+  async function dispatchGetRoomsList() {
+    const { data } = await API.rooms.getRoomsList();
+    rooms.value = data;
+    return data as RoomAutocompleteDto[];
+  }
+
   return {
     patients,
     totalItems,
     patientDetails,
+    departments,
+    rooms,
     dispatchGetPatients,
     dispatchCreatePatient,
     dispatchDeletePatient,
     dispatchGetPatient,
     dispatchUpdatePatient,
-    dispatchGetPatientsList
+    dispatchGetPatientsList,
+    dispatchGetDepartmentsAutocomplete,
+    dispatchGetRoomsList
   };
 });

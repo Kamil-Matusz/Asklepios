@@ -46,7 +46,7 @@ public class PatientsController : BaseController
         }, null);
     }
     
-    [Authorize(Roles = "Nurse, Doctor")]
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
