@@ -25,6 +25,7 @@ import RoomView from '@/views/RoomView.vue';
 import EditRoomView from '@/views/EditRoomView.vue';
 import EditNurseView from '@/views/EditNurseView.vue';
 import EditDoctorView from '@/views/EditDoctorView.vue';
+import AddExamResultView from '@/views/AddExamResultView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -126,6 +127,11 @@ const router = createRouter({
       name: 'PatientEdit',
       component: EditPatientView,
       props: true
+    },
+    {
+      path: '/addExamResult',
+      name: 'AddExamResult',
+      component: AddExamResultView
     },
   ]
 })

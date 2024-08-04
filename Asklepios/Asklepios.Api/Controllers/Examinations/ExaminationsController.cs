@@ -79,4 +79,14 @@ public class ExaminationsController : BaseController
         await _examinationService.UpdateExaminationAsync(dto);
         return NoContent();
     }
+    
+    [Authorize]
+    [HttpGet("examinationsList")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<ExaminationAutocompleteDto>>> GetExaminationsList()
+    {
+        var examinations = await _examinationService.GetExaminationsList();
+        return Ok(examinations);
+    }
 }

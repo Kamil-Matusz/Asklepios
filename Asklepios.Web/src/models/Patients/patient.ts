@@ -1,4 +1,5 @@
 import {OperationDto} from "@/models/Examinations/operation"
+import { ExamResultDto } from "../Examinations/examResult";
 
 export interface PatientDto {
   patientId: string;

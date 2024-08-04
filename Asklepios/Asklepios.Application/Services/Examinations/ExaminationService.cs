@@ -73,11 +73,23 @@ public class ExaminationService : IExaminationService
         
         await _examinationRepository.DeleteExaminationAsync(examination);
     }
-    
+
+    public async Task<List<ExaminationAutocompleteDto>> GetExaminationsList()
+    {
+        var examinations = await _examinationRepository.GetExaminationsList();
+        return examinations.Select(MapExaminationsListAutocomplete<ExaminationAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(Examination examination) where T : ExaminationDto, new() => new T()
     {
         ExamId = examination.ExaminationId,
         ExamName = examination.ExamName,
         ExamCategory = examination.ExamCategory
+    };
+    
+    private static T MapExaminationsListAutocomplete<T>(Examination examination) where T : ExaminationAutocompleteDto, new() => new T()
+    {
+        ExamId = examination.ExaminationId,
+        ExamName = examination.ExamName,
     };
 }

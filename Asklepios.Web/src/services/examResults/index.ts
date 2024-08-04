@@ -1,4 +1,5 @@
 // examResultsService.ts
+import { ExaminationAutocompleteDto } from '@/models/Examinations/examination';
 import httpClient from '../httpClient';
 import { ExamResultDto, ExamResultListDto } from '@/models/Examinations/examResult';
 
@@ -29,5 +30,5 @@ export default {
   getAllExamResults,
   createExamResult,
   updateExamResult,
-  deleteExamResult
+  deleteExamResult,
 };

@@ -17,10 +17,10 @@ export interface ExamResultDto {
  }
 
  export class InputCreateExamResult {
-  examResultId  = '';
-  patientId = '';
-  date = '';
-  result = '';
-  comment = '';
-  examId = '';
+  examResultId:string = '';
+  patientId:string = '';
+  date: Date = new Date();
+  result:string = '';
+  comment:string = '';
+  examId:number = 0;
  }
