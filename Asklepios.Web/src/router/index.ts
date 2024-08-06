@@ -26,6 +26,7 @@ import EditRoomView from '@/views/EditRoomView.vue';
 import EditNurseView from '@/views/EditNurseView.vue';
 import EditDoctorView from '@/views/EditDoctorView.vue';
 import AddExamResultView from '@/views/AddExamResultView.vue';
+import DischargePatientView from '@/views/DischargePatientView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -126,6 +127,12 @@ const router = createRouter({
       path: '/patient/edit/:id',
       name: 'PatientEdit',
       component: EditPatientView,
+      props: true
+    },
+    {
+      path: '/patient/dischargePatient/:id',
+      name: 'PatientDischarge',
+      component: DischargePatientView,
       props: true
     },
     {

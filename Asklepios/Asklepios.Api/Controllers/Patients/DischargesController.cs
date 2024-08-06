@@ -146,7 +146,7 @@ public class DischargesController : BaseController
         return Ok();
     }*/
     
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor, Admin")]
     [HttpPost("dischargePatient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

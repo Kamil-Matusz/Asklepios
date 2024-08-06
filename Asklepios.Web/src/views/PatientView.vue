@@ -30,6 +30,14 @@
           class="ml-2"
           icon="mdi-pencil"
         ></v-btn>
+        <v-btn
+          :to="{ name: 'PatientDischarge', params: { id: item.patientId }}"
+          rounded="lg"
+          size="small"
+          color="green"
+          class="ml-2"
+          icon="mdi-exit-to-app"
+        ></v-btn>
         <v-dialog max-width="500">
           <template #activator="{ props: activatorProps }">
             <v-btn
