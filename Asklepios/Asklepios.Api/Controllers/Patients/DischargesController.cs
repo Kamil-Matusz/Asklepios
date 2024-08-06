@@ -1,11 +1,9 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands.Discharges;
-using Asklepios.Application.Events;
 using Asklepios.Application.Queries.Discharges;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
-using Asklepios.Core.Repositories.Users;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

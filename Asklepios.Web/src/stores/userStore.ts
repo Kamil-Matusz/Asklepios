@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { API } from '../services';
 import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
 import { type PaginationParams } from '@/models/paginationParams';
-import { da } from 'vuetify/locale';
 
 export const useUserStore = defineStore('usersStore', () => {
   const users = ref<User[]>([]);
