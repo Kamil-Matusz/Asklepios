@@ -23,7 +23,6 @@ export interface InputCreateDischarge {
 }
 export interface DischargePersonDto {
   patientId: string;
-  dischargeDate: Date;
   dischargeReasson: string;
   summary: string;
   medicalStaffId: string;

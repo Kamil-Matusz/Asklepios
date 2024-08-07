@@ -59,7 +59,6 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
 
   async function dispatchDischargePatient(input: DischargePersonDto) {
     await API.discharges.dischargePatient(input);
-    await dispatchGetDischarges({ pageIndex: 1, pageSize: 10 });
   }
 
   return {

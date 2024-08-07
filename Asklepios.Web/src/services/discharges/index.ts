@@ -25,9 +25,16 @@ async function updateDischarge(dischargeId: string, discharge: DischargeDto) {
 }
 
 async function dischargePatient(input: DischargePersonDto) {
-  return await httpClient.post<void>(`${base}/dischargePatient`, input);
+  console.log('Sending dischargePatient request:', input); // Logowanie żądania
+  try {
+    const response = await httpClient.post<void>(`${base}/dischargePatient`, input);
+    console.log('dischargePatient response:', response); // Logowanie odpowiedzi
+    return response;
+  } catch (error) {
+    console.error('Error in dischargePatient:', error); // Logowanie błędu
+    throw error;
+  }
 }
-
 export default {
   getPaginatedDischarges,
   deleteDischarge,

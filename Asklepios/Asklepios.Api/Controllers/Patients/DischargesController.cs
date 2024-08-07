@@ -166,8 +166,8 @@ public class DischargesController : BaseController
             PatientSurname: patients.PatientSurname,
             PeselNumber: patients.PeselNumber,
             Address: "Urocza 3",
-            Date: dto.DischargeDate,
-            DischargeReasson: dto.DischargeReason,
+            Date: DateOnly.FromDateTime(DateTime.Now),
+            DischargeReasson: dto.DischargeReasson,
             Summary: dto.Summary,
             MedicalStaffId: doctorId
         );

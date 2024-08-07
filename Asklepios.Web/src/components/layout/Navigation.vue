@@ -76,7 +76,7 @@ onMounted(() => {
             to="/nurses"
           ></v-list-item>
           <v-list-item
-            v-if="user && getUserRole() === 'Admin'"
+            v-if="user && getUserRole() === 'Admin' || getUserRole() === 'Doctor'"
             prepend-icon="mdi mdi-account-injury"
             title="Pacjenci"
             to="/patients"
