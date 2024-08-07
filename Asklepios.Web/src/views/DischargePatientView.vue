@@ -10,6 +10,21 @@
             <v-card-text>
               <v-form @submit.prevent="handleSubmit">
                 <v-text-field
+                  v-model="patientDetails.patientName"
+                  label="Imię"
+                  disabled
+                ></v-text-field>
+                <v-text-field
+                  v-model="patientDetails.patientSurname"
+                  label="Nazwisko"
+                  disabled
+                ></v-text-field>
+                <v-text-field
+                  v-model="patientDetails.peselNumber"
+                  label="Pesel"
+                  disabled
+                ></v-text-field>
+                <v-text-field
                   v-model="form.dischargeReasson"
                   label="Powód wypisu"
                   :rules="dischargeReassonRules"
@@ -35,13 +50,16 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useDischargeStore } from '@/stores/dischargeStore';
+import { usePatientStore } from '@/stores/patientStore';
 import { useToast } from 'vue-toastification';
 import { DischargePersonDto } from '@/models/Patients/discharge';
+import { PatientDetailsDto } from '@/models/Patients/patient';
 
 const route = useRoute();
 const router = useRouter();
 const toast = useToast();
 const dischargeStore = useDischargeStore();
+const patientStore = usePatientStore();
 
 const form = ref<DischargePersonDto>({
   patientId: '',
@@ -49,10 +67,31 @@ const form = ref<DischargePersonDto>({
   summary: '',
 });
 
+const patientDetails = ref<PatientDetailsDto>({
+  patientName: '',
+  patientSurname: '',
+  peselNumber: '',
+});
+
 const dischargeReassonRules = [(v: string) => !!v || 'Powód wypisu jest wymagany'];
 const summaryRules = [(v: string) => !!v || 'Podsumowanie jest wymagane'];
 
+const fetchPatientDetails = async () => {
+  try {
+    const details = await patientStore.dispatchGetPatient(route.params.id as string);
+    if (details) {
+      patientDetails.value.patientName = details.patientName;
+      patientDetails.value.patientSurname = details.patientSurname;
+      patientDetails.value.peselNumber = details.peselNumber;
+    }
+  } catch (error) {
+    console.error('Error fetching patient details:', error);
+    toast.error('Wystąpił problem podczas pobierania szczegółów pacjenta');
+  }
+};
+
 onMounted(() => {
+  fetchPatientDetails();
   const patientId = route.params.id as string;
   form.value.patientId = patientId;
 });
