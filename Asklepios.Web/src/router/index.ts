@@ -27,6 +27,8 @@ import EditNurseView from '@/views/EditNurseView.vue';
 import EditDoctorView from '@/views/EditDoctorView.vue';
 import AddExamResultView from '@/views/AddExamResultView.vue';
 import DischargePatientView from '@/views/DischargePatientView.vue';
+import DoctorDischargesView from '@/views/DoctorDischargesView.vue';
+import DischargesView from '@/views/DischargesView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -134,6 +136,16 @@ const router = createRouter({
       name: 'PatientDischarge',
       component: DischargePatientView,
       props: true
+    },
+    {
+      path: '/yourDischarges',
+      name: 'yourDischarges',
+      component: DoctorDischargesView
+    },
+    {
+      path: '/allDischarges',
+      name: 'allDischarges',
+      component: DischargesView
     },
     {
       path: '/addExamResult',

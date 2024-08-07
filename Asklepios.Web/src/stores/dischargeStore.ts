@@ -61,6 +61,18 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
     await API.discharges.dischargePatient(input);
   }
 
+  async function dispatchGetDoctorDischarges() {
+    const { data } = await API.discharges.getDoctorDischarges();
+    discharges.value = data;
+    totalItems.value = data.length;
+  }
+
+  async function dispatchGetAllDischarges() {
+    const { data } = await API.discharges.getAllDischarges();
+    discharges.value = data;
+    totalItems.value = data.length;
+  }
+
   return {
     discharges,
     totalItems,
@@ -71,5 +83,7 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
     dispatchGetDischarge,
     dispatchUpdateDischarge,
     dispatchDischargePatient,
+    dispatchGetDoctorDischarges,
+    dispatchGetAllDischarges
   };
 });

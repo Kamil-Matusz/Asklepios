@@ -37,7 +37,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="blue" text @click="goToDetails(nurse.nurseId)">Szczegóły</v-btn>
-              <v-btn color="green" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn> <!-- Nowy przycisk edycji -->
+              <v-btn color="green" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
               <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
           </v-card>
@@ -131,7 +131,7 @@ const goToDetails = (id) => {
   router.push(`/nurse/${id}`);
 };
 
-const goToEdit = (id) => { // Funkcja do nawigacji do widoku edycji
+const goToEdit = (id) => {
   router.push(`/nurse/edit/${id}`);
 };
 
