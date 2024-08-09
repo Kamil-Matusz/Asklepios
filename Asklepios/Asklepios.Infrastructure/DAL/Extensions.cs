@@ -1,11 +1,13 @@
 using Asklepios.Core.Repositories.Departments;
 using Asklepios.Core.Repositories.Examinations;
 using Asklepios.Core.Repositories.Patients;
+using Asklepios.Core.Repositories.Statistics;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Asklepios.Infrastructure.DAL.Repositories.Departments;
 using Asklepios.Infrastructure.DAL.Repositories.Examinations;
 using Asklepios.Infrastructure.DAL.Repositories.Patients;
+using Asklepios.Infrastructure.DAL.Repositories.Statistics;
 using Asklepios.Infrastructure.DAL.Repositories.Users;
 using Asklepios.Infrastructure.DAL.Seeders;
 using Asklepios.Infrastructure.DAL.Seeders.Departments;
@@ -40,6 +42,7 @@ public static class Extensions
         services.AddScoped<IExaminationRepository, ExaminationRepository>();
         services.AddScoped<IExamResultRepository, ExamResultRepository>();
         services.AddScoped<IOperationRepository, OperationRepository>();
+        services.AddScoped<IDepartmentStatisticsRepository, DepartmentStatisticsRepository>();
         
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();
