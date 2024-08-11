@@ -15,8 +15,13 @@ async function getTotalPatientsCount() {
   return await httpClient.get<number>(`${base}/totalPatients`);
 }
 
+async function getTotalDepartmentsCount() {
+  return await httpClient.get<number>(`${base}/totalDepartments`);
+}
+
 export default {
   getDepartmentStats,
   getAllDepartmentStats,
-  getTotalPatientsCount
+  getTotalPatientsCount,
+  getTotalDepartmentsCount
 };

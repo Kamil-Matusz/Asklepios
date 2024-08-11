@@ -53,4 +53,16 @@ public class DepartmentStatisticsController : BaseController
         var totalPatients = await _departmentStatisticsService.GetTotalPatientsCountAsync();
         return Ok(totalPatients);
     }
+    
+    [Authorize(Roles = "Admin, IT Employee")]
+    [HttpGet("totalDepartments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<int>> GetTotalDepartmentsCount()
+    {
+        var totalDepartments = await _departmentStatisticsService.GetTotalDepartmentsCountAsync();
+        return Ok(totalDepartments);
+    }
 }

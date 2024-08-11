@@ -7,4 +7,5 @@ public interface IDepartmentStatisticsRepository
     Task<List<DepartmentStatsDto>> GetDepartmentStatsAsync(Guid departmentId);
     Task<DepartmentStatsDto> GetAllDepartmentStatsAsync();
     Task<int> GetTotalPatientsCountAsync();
+    Task<int> GetTotalDepartmentsCountAsync();
 }

@@ -67,4 +67,9 @@ public class DepartmentStatisticsRepository : IDepartmentStatisticsRepository
     {
         return await _context.Patients.CountAsync(p => !p.IsDischarged);
     }
+
+    public async Task<int> GetTotalDepartmentsCountAsync()
+    {
+        return await _context.Departments.CountAsync();
+    }
 }

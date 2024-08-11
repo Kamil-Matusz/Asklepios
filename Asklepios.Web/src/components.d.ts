@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AnimatedNumber: typeof import('./components/animations/AnimatedNumber.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     BaseCardWithHover: typeof import('./components/cards/BaseCardWithHover.vue')['default']
     BasePage: typeof import('./components/pages/BasePage.vue')['default']

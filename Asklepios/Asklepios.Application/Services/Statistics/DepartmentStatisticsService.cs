@@ -38,4 +38,9 @@ public class DepartmentStatisticsService : IDepartmentStatisticsService
     {
         return await _departmentStatisticsRepository.GetTotalPatientsCountAsync();
     }
+
+    public async Task<int> GetTotalDepartmentsCountAsync()
+    {
+        return await _departmentStatisticsRepository.GetTotalDepartmentsCountAsync();
+    }
 }
