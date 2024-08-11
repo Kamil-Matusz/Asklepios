@@ -33,7 +33,7 @@ public static class Extensions
         services.AddScoped<IExamResultService, ExamResultService>();
         services.AddScoped<IOperationService, OperationService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IDepartmentStatisticsService, DepartmentStatisticsService>();
+        services.AddScoped<IStatisticsService, StatisticsService>();
 
         services.AddSendGrid(configuration);
         

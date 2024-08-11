@@ -8,6 +8,8 @@ export const useDepartmentStatsStore = defineStore('departmentStatsStore', () =>
   const allDepartmentStats = ref<DepartmentStatsDto | null>(null);
   const totalPatientsCount = ref<number>(0);
   const totalDepartmentsCount = ref<number>(0);
+  const totalDoctorsCount = ref<number>(0);
+  const totalNursesCount = ref<number>(0);
 
   async function dispatchGetDepartmentStats(departmentId: string) {
     const { data } = await API.statistic.getDepartmentStats(departmentId);
@@ -33,14 +35,30 @@ export const useDepartmentStatsStore = defineStore('departmentStatsStore', () =>
     return data;
   }
 
+  async function dispatchGetTotalDoctorsCount() {
+    const { data } = await API.statistic.getTotalDoctorsCount();
+    totalDoctorsCount.value = data;
+    return data;
+  }
+
+  async function dispatchGetTotalNursesCount() {
+    const { data } = await API.statistic.getTotalNursesCount();
+    totalNursesCount.value = data;
+    return data;
+  }
+
   return {
     departmentStats,
     allDepartmentStats,
     totalPatientsCount,
     totalDepartmentsCount,
+    totalDoctorsCount,
+    totalNursesCount,
     dispatchGetDepartmentStats,
     dispatchGetAllDepartmentStats,
     dispatchGetTotalPatientsCount,
-    dispatchGetTotalDepartmentsCount
+    dispatchGetTotalDepartmentsCount,
+    dispatchGetTotalDoctorsCount,
+    dispatchGetTotalNursesCount
   };
 });

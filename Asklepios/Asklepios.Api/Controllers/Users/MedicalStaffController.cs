@@ -14,7 +14,7 @@ public class MedicalStaffController : BaseController
         _medicalStaffService = medicalStaffService;
     }
     
-    [Authorize]
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

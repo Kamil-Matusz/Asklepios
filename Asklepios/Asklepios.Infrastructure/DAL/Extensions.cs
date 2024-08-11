@@ -42,7 +42,7 @@ public static class Extensions
         services.AddScoped<IExaminationRepository, ExaminationRepository>();
         services.AddScoped<IExamResultRepository, ExamResultRepository>();
         services.AddScoped<IOperationRepository, OperationRepository>();
-        services.AddScoped<IDepartmentStatisticsRepository, DepartmentStatisticsRepository>();
+        services.AddScoped<IStatisticsRepository, StatisticsRepository>();
         
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();

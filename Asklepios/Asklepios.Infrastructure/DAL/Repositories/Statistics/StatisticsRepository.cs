@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Asklepios.Infrastructure.DAL.Repositories.Statistics;
 
-public class DepartmentStatisticsRepository : IDepartmentStatisticsRepository
+public class StatisticsRepository : IStatisticsRepository
 {
     private readonly AsklepiosDbContext _context;
 
-    public DepartmentStatisticsRepository(AsklepiosDbContext context)
+    public StatisticsRepository(AsklepiosDbContext context)
     {
         _context = context;
     }
@@ -71,5 +71,15 @@ public class DepartmentStatisticsRepository : IDepartmentStatisticsRepository
     public async Task<int> GetTotalDepartmentsCountAsync()
     {
         return await _context.Departments.CountAsync();
+    }
+
+    public async Task<int> GetTotalDoctorsCountAsync()
+    {
+        return await _context.MedicalStaff.CountAsync();
+    }
+
+    public async Task<int> GetTotalNursesCountAsync()
+    {
+        return await _context.Nurses.CountAsync();
     }
 }
