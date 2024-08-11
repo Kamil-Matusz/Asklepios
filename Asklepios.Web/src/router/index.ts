@@ -29,6 +29,7 @@ import AddExamResultView from '@/views/AddExamResultView.vue';
 import DischargePatientView from '@/views/DischargePatientView.vue';
 import DoctorDischargesView from '@/views/DoctorDischargesView.vue';
 import DischargesView from '@/views/DischargesView.vue';
+import DashboardView from '@/views/DashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -151,6 +152,11 @@ const router = createRouter({
       path: '/addExamResult',
       name: 'AddExamResult',
       component: AddExamResultView
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: DashboardView
     },
   ]
 })
