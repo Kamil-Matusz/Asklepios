@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useExaminationStore } from '@/stores/examinationStore';
 import { useToast } from 'vue-toastification';
 import { type ExaminationDto, type Examination } from '@/models/Examinations/examination';
@@ -9,6 +10,7 @@ import ExaminationForm from '@/components/examinations/CreateExaminationForm.vue
 
 const examinationStore = useExaminationStore();
 const toast = useToast();
+const router = useRouter();
 
 const pagination = ref<InputPagination>({
   PageIndex: 1,
@@ -74,6 +76,10 @@ const deleteExamination = async (id: number) => {
   getExaminations();
 };
 
+const editExamination = (id: number) => {
+  router.push({ name: 'ExaminationEdit', params: { id } });
+};
+
 const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: number }) => {
   pagination.value.PageIndex = page;
   pagination.value.PageSize = itemsPerPage;
@@ -118,6 +124,14 @@ onMounted(getExaminations);
       @update:options="handlePagination"
     >
       <template #item.actions="{ item }" dense>
+        <v-btn
+          rounded="lg"
+          size="small"
+          color="blue"
+          class="ml-2"
+          icon="mdi-pencil"
+          @click="() => editExamination(item.examId)"
+        ></v-btn>
         <v-btn
           rounded="lg"
           size="small"

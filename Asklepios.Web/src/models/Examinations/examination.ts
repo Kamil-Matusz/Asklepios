@@ -14,3 +14,8 @@ export interface ExaminationDto {
   examName: string;
   examCategory: string
  }
+
+ export interface ExaminationAutocompleteDto {
+  examId: number;
+  examName: string;
+}

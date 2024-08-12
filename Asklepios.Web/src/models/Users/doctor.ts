@@ -21,6 +21,12 @@ export interface MedicalStaffDto {
   departmentId: string;
 }
 
+export interface MedicalStaffAutocompleteDto {
+  doctorId: string;
+  name: string;
+  surname: string;
+}
+
 export interface MedicalStaffListDto {
   doctorId: string;
   name: string;

@@ -1,14 +1,15 @@
-// roomsStore.ts
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { RoomDto, RoomDetailsDto, RoomListDto } from '@/models/Departments/room';
+import { RoomDto, RoomDetailsDto, RoomListDto, RoomAutocompleteDto } from '@/models/Departments/room';
 import { PaginationParams } from '@/models/paginationParams';
+import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
 export const useRoomStore = defineStore('roomsStore', () => {
   const rooms = ref<RoomListDto[]>([]);
   const totalItems = ref(0);
   const roomDetails = ref<RoomDetailsDto | null>(null);
+  const departments = ref<DepartmentAutocompleteDto[]>([]);
 
   function addNewRoom(room: RoomDto) {
     rooms.value.push(room);
@@ -63,15 +64,29 @@ export const useRoomStore = defineStore('roomsStore', () => {
     return data;
   }
 
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
+    departments.value = data;
+    return data as DepartmentAutocompleteDto[];
+  }
+
+  async function dispatchGetRoomsList() {
+    const { data } = await API.rooms.getRoomsList();
+    return data as RoomAutocompleteDto[];
+  }
+
   return {
     rooms,
     totalItems,
     roomDetails,
+    departments,
     dispatchGetRooms,
     dispatchCreateRoom,
     dispatchDeleteRoom,
     dispatchGetRoom,
     dispatchUpdateRoom,
-    dispatchGetRoomsAutocomplete
+    dispatchGetRoomsAutocomplete,
+    dispatchGetDepartmentsAutocomplete,
+    dispatchGetRoomsList
   };
 });

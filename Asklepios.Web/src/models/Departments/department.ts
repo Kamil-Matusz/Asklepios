@@ -33,3 +33,8 @@ export interface DepartmentListDto {
   numberOfBeds: number;
   actualNumberOfPatients: number;
 }
+
+export interface DepartmentAutocompleteDto {
+  departmentId: string;
+  departmentName: string;
+}

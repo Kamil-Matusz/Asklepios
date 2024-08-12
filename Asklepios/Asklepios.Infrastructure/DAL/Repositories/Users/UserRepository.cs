@@ -69,4 +69,20 @@ internal sealed class UserRepository : IUserRepository
             .Take(limit)
             .ToListAsync();
     }
+    
+    public async Task<List<User>> GetNursesList()
+    {
+        return await _users
+            .AsNoTracking()
+            .Where(x => x.Role == "Nurse")
+            .ToListAsync();
+    }
+
+    public async Task<List<User>> GetDoctorsList()
+    {
+        return await _users
+            .AsNoTracking()
+            .Where(x => x.Role == "Doctor")
+            .ToListAsync();
+    }
 }

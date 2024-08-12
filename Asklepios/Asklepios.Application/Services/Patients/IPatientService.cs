@@ -11,4 +11,5 @@ public interface IPatientService
     Task<IReadOnlyList<PatientListDto>> GetAllPatientsAsync(int pageIndex, int pageSize);
     Task UpdatePatientAsync(PatientDto dto);
     Task DeletePatientAsync(Guid id);
+    Task<List<PatientAutocompleteDto>> GetPatientsList();
 }

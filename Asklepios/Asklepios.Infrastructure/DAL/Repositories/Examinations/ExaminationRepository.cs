@@ -55,4 +55,10 @@ public class ExaminationRepository : IExaminationRepository
         _examinations.Remove(examination);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Examination>> GetExaminationsList()
+        => await _examinations
+            .AsNoTracking()
+            .OrderBy(x => x.ExamName)
+            .ToListAsync();
 }

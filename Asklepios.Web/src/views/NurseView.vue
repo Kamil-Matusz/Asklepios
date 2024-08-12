@@ -1,5 +1,32 @@
 <template>
   <BasePage title="Zarządzanie pielęgniarkami">
+    <template #above-card>
+      <v-dialog max-width="500">
+        <template #activator="{ props: activatorProps }">
+          <v-btn
+            v-bind="activatorProps"
+            color="primary"
+            variant="flat"
+            class="mb-4"
+            style="max-width: 20rem"
+          >
+            +Dodaj nową pielęgniarkę
+          </v-btn>
+        </template>
+
+        <template #default="{ isActive }">
+          <v-card title="Nowa pielęgniarka" rounded="lg">
+            <NurseForm
+              v-model="nurseToAdd"
+              :departments="departments"
+              :users="users"
+              @on-valid-submit="(nurse) => { addNurse(nurse); isActive.value = false; }"
+            ></NurseForm>
+          </v-card>
+        </template>
+      </v-dialog>
+    </template>
+
     <v-container>
       <v-row>
         <v-col v-for="nurse in nurses" :key="nurse.nurseId" cols="12" md="6" lg="4">
@@ -10,6 +37,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="blue" text @click="goToDetails(nurse.nurseId)">Szczegóły</v-btn>
+              <v-btn color="green" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
               <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
           </v-card>
@@ -40,10 +68,16 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { useNurseStore } from '@/stores/nurseStore';
+import { useDepartmentStore } from '@/stores/departmentStore';
+import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
+import NurseForm from '@/components/nurses/CreateNurseForm.vue';
+import { InputCreateNurse } from '@/models/Users/nurse';
 
 const nurseStore = useNurseStore();
+const departmentStore = useDepartmentStore();
+const userStore = useUserStore();
 const toast = useToast();
 const router = useRouter();
 
@@ -53,6 +87,11 @@ const itemsPerPageOptions = ref([5, 10, 20, 50]);
 
 const nurses = ref([]);
 const totalNurses = ref(0);
+
+const nurseToAdd = ref(new InputCreateNurse());
+
+const departments = ref([]);
+const users = ref([]);
 
 const getNurses = async () => {
   try {
@@ -68,7 +107,17 @@ const getNurses = async () => {
   }
 };
 
-const deleteNurse = async (id: string) => {
+const addNurse = async (nurse) => {
+  try {
+    await nurseStore.dispatchCreateNurse(nurse);
+    toast.success('Pomyślnie dodano nową pielęgniarkę');
+    getNurses();
+  } catch (error) {
+    toast.error('Wystąpił problem podczas dodawania pielęgniarki');
+  }
+};
+
+const deleteNurse = async (id) => {
   try {
     await nurseStore.dispatchDeleteNurse(id);
     toast.success('Pomyślnie usunięto pielęgniarkę');
@@ -78,17 +127,50 @@ const deleteNurse = async (id: string) => {
   }
 };
 
-const goToDetails = (id: string) => {
+const goToDetails = (id) => {
   router.push(`/nurse/${id}`);
 };
 
-onMounted(getNurses);
+const goToEdit = (id) => {
+  router.push(`/nurse/edit/${id}`);
+};
+
+const getDepartments = async () => {
+  try {
+    const data = await departmentStore.dispatchGetDepartmentsAutocomplete();
+    departments.value = data.map(department => ({
+      departmentName: department.departmentName,
+      departmentId: department.departmentId
+    }));
+  } catch (error) {
+    toast.error('Wystąpił problem podczas pobierania oddziałów');
+  }
+};
+
+const getUsers = async () => {
+  try {
+    const data = await userStore.dispatchGetNurses();
+    users.value = data.map(user => ({
+      email: user.email,
+      userId: user.userId
+    }));
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    toast.error('Wystąpił problem podczas pobierania uzytkownikow');
+  }
+};
+
+onMounted(() => {
+  getNurses();
+  getDepartments();
+  getUsers();
+});
 
 watch([currentPage, itemsPerPage], getNurses);
 </script>
 
 <style scoped>
-.doctor-card {
+.nurse-card {
   margin-bottom: 20px;
 }
 </style>

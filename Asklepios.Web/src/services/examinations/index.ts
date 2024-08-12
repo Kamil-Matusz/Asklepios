@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { type Examination, type ExaminationDto, type InputCreateExamination } from '@/models/Examinations/examination';
+import { type Examination, type ExaminationDto, type InputCreateExamination, ExaminationAutocompleteDto } from '@/models/Examinations/examination';
 
 const base = 'examinations-module/Examinations';
 
@@ -28,6 +28,10 @@ async function updateExamination(examId: number, input: ExaminationDto) {
   });
 }
 
+async function getExaminationList() {
+  return await httpClient.get<ExaminationAutocompleteDto[]>(`${base}/examinationsList`);
+}
+
 async function getExaminationsByCategory(category: string, pagination: PaginationParams) {
   return await httpClient.get<Examination[]>(`${base}/examinationsByCategory/${category}`, { params: pagination });
 }
@@ -38,5 +42,6 @@ export default {
   createExamination,
   getExaminationInfo,
   updateExamination,
-  getExaminationsByCategory
+  getExaminationsByCategory,
+  getExaminationList
 };

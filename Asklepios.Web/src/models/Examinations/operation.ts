@@ -22,15 +22,15 @@ export interface Operation {
   medicalStaffId: string
 }
 
-export interface InputCreateOperation {
-  operationName: string;
-  startDate: Date;
-  endDate: Date;
-  anesthesiaType: string
-  result: string;
-  complications: string
-  patientId: string
-  medicalStaffId: string
+export class InputCreateOperation {
+  operationName: string = '';
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+  anesthesiaType: string = '';
+  result: string = '';
+  complications: string = '';
+  patientId: string = '';
+  medicalStaffId: string = '';
 }
 
 export interface OperationItemDto {

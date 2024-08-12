@@ -10,4 +10,5 @@ public interface IMedicalStaffRepository
     Task AddDoctorAsync(MedicalStaff medicalStaff);
     Task UpdateDoctorAsync(MedicalStaff medicalStaff);
     Task DeleteDoctorAsync(MedicalStaff medicalStaff);
+    Task<List<MedicalStaff>> GetDoctorsList();
 }

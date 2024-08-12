@@ -67,12 +67,9 @@ public class DepartmentRepository : IDepartmentRepository
         return department?.NumberOfBeds ?? 0;
     }
 
-    public async Task<List<Department>> GetAutocompleteDepartments(string search, int limit = 10)
-    {
-        return await _departments
-            .Where(d => d.DepartmentName.Contains(search))
-            .OrderBy(d => d.DepartmentName)
-            .Take(limit)
+    public async Task<IReadOnlyList<Department>> GetDepartmentsList()
+        => await _departments
+            .AsNoTracking()
+            .OrderBy(x => x.DepartmentName)
             .ToListAsync();
-    }
 }

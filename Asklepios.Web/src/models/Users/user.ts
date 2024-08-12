@@ -6,6 +6,11 @@ export interface User {
   createdAt: Date;
 }
 
+export interface UserAutocompleteDto {
+  userId: string;
+  email: string;
+}
+
 export interface InputCreateUser {
   email: string;
   password: string;

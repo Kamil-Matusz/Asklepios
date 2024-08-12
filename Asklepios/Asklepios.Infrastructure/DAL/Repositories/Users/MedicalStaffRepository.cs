@@ -57,4 +57,11 @@ public class MedicalStaffRepository : IMedicalStaffRepository
         _medicalStaves.Remove(medicalStaff);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<MedicalStaff>> GetDoctorsList()
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .ToListAsync();
+    }
 }

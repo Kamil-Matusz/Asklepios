@@ -12,4 +12,5 @@ public interface IPatientRepository
     Task AddPatientAsync(Patient patient);
     Task UpdatePatientAsync(Patient patient);
     Task DeletePatientAsync(Patient patient);
+    Task<List<Patient>> GetPatientsList();
 }

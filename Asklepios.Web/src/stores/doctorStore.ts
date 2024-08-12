@@ -1,13 +1,15 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff } from '@/models/Users/doctor';
+import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto } from '@/models/Users/doctor';
 import { type PaginationParams } from '@/models/paginationParams';
+import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
 export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
   const doctors = ref<MedicalStaffListDto[]>([]);
   const totalItems = ref(0);
   const doctorDetails = ref<MedicalStaffDto | null>(null);
+  const departments = ref<DepartmentAutocompleteDto[]>([]);
 
   function addNewDoctor(doctor: MedicalStaffListDto) {
     doctors.value.push(doctor);
@@ -38,7 +40,7 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
 
   async function dispatchCreateDoctor(doctor: InputCreateMedicalStaff) {
     await API.doctors.createDoctor(doctor);
-    await dispatchGetDoctors({ pageIndex: 0, pageSize: 10 });
+    await dispatchGetDoctors({ pageIndex: 1, pageSize: 10 });
   }
 
   async function dispatchDeleteDoctor(id: string) {
@@ -57,14 +59,28 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
     updateDoctorDetails(doctor);
   }
 
+  async function dispatchGetDoctorsList() {
+    const { data } = await API.doctors.getDoctorsList();
+    return data as MedicalStaffAutocompleteDto[];
+  }
+
+  async function dispatchGetDepartmentsAutocomplete() {
+    const { data } = await API.departments.getDepartmentsAutocomplete();
+    departments.value = data;
+    return data as DepartmentAutocompleteDto[];
+  }
+
   return {
     doctors,
     totalItems,
     doctorDetails,
+    departments,
+    dispatchGetDepartmentsAutocomplete,
     dispatchGetDoctors,
     dispatchCreateDoctor,
     dispatchDeleteDoctor,
     dispatchGetDoctor,
-    dispatchUpdateDoctor
+    dispatchUpdateDoctor,
+    dispatchGetDoctorsList
   };
 });

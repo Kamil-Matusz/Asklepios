@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router'; // Importuj useRouter
 import { useDepartmentStore } from '@/stores/departmentStore';
 import { useToast } from 'vue-toastification';
 import { type DepartmentDto, type DepartmentDetailsDto } from '@/models/Departments/department';
@@ -9,6 +10,7 @@ import DepartmentForm from '@/components/departments/DepartmentForm.vue';
 import type { User } from '@/models/Users/user';
 import { useJwtStore } from '@/stores/jwtStore';
 
+const router = useRouter(); // Inicjalizuj router
 const departmentStore = useDepartmentStore();
 const toast = useToast();
 const { getUserRole, getUser } = useJwtStore();
@@ -90,9 +92,8 @@ const updateDepartment = async () => {
   }
 };
 
-const openEditDialog = (department: DepartmentDetailsDto) => {
-  departmentToEdit.value = { ...department };
-  isEditDialogActive.value = true;
+const redirectToEditPage = (id: string) => {
+  router.push({ name: 'DepartmentEdit', params: { id } });
 };
 
 const handlePagination = ({ page, itemsPerPage }: { page: number; itemsPerPage: number }) => {
@@ -145,7 +146,7 @@ onMounted(() => {
     >
       <template #item.actions="{ item }" dense>
         <v-btn
-          @click="openEditDialog(item)"
+          @click="() => redirectToEditPage(item.departmentId)"
           rounded="lg"
           size="small"
           color="primary"
@@ -193,16 +194,5 @@ onMounted(() => {
         {{ item.actualNumberOfPatients }}
       </template>
     </v-data-table-server>
-
-    <v-dialog max-width="500" v-model="isEditDialogActive">
-      <template #default>
-        <v-card title="Edytuj oddział" rounded="lg">
-          <DepartmentForm
-            v-model="departmentToEdit"
-            @on-valid-submit="(department) => { updateDepartment(department); isEditDialogActive.value = false; }"
-          ></DepartmentForm>
-        </v-card>
-      </template>
-    </v-dialog>
   </BasePage>
 </template>

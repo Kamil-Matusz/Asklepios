@@ -11,4 +11,5 @@ public interface IExaminationService
     Task<IReadOnlyList<ExaminationDto>> GetAllExaminationsByCategoryAsync(string category, int pageIndex, int pageSize);
     Task UpdateExaminationAsync(ExaminationDto dto);
     Task DeleteExaminationAsync(int id);
+    Task<List<ExaminationAutocompleteDto>> GetExaminationsList();
 }

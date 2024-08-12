@@ -13,4 +13,6 @@ public interface IUserRepository
     Task ChangeUserRoleAsync(Guid userId, Role role);
     Task ChangeAccountStatusAsync(Guid userId, bool status);
     Task<List<User>> GetAutocompleteUsers(string search, int limit = 10);
+    Task<List<User>> GetNursesList();
+    Task<List<User>> GetDoctorsList();
 }

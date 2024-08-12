@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount } from '@/models/Users/user';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
 
 const base = 'users-module/Users';
 
@@ -55,10 +55,12 @@ async function changeAccountStatus(userId: string, status: boolean) {
   return await httpClient.put<boolean>(`${base}/${userId}/changeAccountStatus`, { status });
 }
 
-async function getUsersAutocomplete(search: string, limit: number = 10) {
-  return await httpClient.get<User[]>(`users-module/Users/usersAutocomplete`, {
-    params: { search, limit }
-  });
+async function getNursesList() {
+  return await httpClient.get<UserAutocompleteDto[]>(`${base}/nursesList`);
+}
+
+async function getDoctorsList() {
+  return await httpClient.get<UserAutocompleteDto[]>(`${base}/doctorsList`);
 }
 
 export default {
@@ -70,5 +72,6 @@ export default {
   generateUserAccount,
   changeUserRole,
   changeAccountStatus,
-  getUsersAutocomplete
+  getNursesList,
+  getDoctorsList
 };

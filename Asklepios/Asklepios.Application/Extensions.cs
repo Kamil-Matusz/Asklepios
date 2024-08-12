@@ -5,6 +5,7 @@ using Asklepios.Application.Services.Email;
 using Asklepios.Application.Services.Email.SendGrid;
 using Asklepios.Application.Services.Examinations;
 using Asklepios.Application.Services.Patients;
+using Asklepios.Application.Services.Statistics;
 using Asklepios.Application.Services.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ public static class Extensions
         services.AddScoped<IExamResultService, ExamResultService>();
         services.AddScoped<IOperationService, OperationService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IStatisticsService, StatisticsService>();
 
         services.AddSendGrid(configuration);
         

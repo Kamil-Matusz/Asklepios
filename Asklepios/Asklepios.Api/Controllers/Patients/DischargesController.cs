@@ -1,11 +1,9 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands.Discharges;
-using Asklepios.Application.Events;
 using Asklepios.Application.Queries.Discharges;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
-using Asklepios.Core.Repositories.Users;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +19,13 @@ public class DischargesController : BaseController
     private readonly IQueryHandler<GetDischargeById, DischargeItemDto> _getDischargeByIdHandler;
     private readonly IQueryHandler<GetDischargeByPesel, DischargeItemDto> _getDischargeByPeselHandler;
     private readonly ICommandHandler<UpdateDischargeStatus> _updateDischargeStatusHandler;
+    private readonly IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> _getDoctorDischarges;
+    private readonly IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> _getAllDischarges;
     private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
     private readonly IMedicalStaffService _medicalStaffService;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService, IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> getDoctorDischarges, IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> getAllDischarges)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
@@ -36,6 +36,8 @@ public class DischargesController : BaseController
         _updateDischargeHandler = updateDischargeHandler;
         _updateDischargeStatusHandler = updateDischargeStatusHandler;
         _medicalStaffService = medicalStaffService;
+        _getDoctorDischarges = getDoctorDischarges;
+        _getAllDischarges = getAllDischarges;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -148,7 +150,7 @@ public class DischargesController : BaseController
         return Ok();
     }*/
     
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor, Admin")]
     [HttpPost("dischargePatient")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -168,8 +170,8 @@ public class DischargesController : BaseController
             PatientSurname: patients.PatientSurname,
             PeselNumber: patients.PeselNumber,
             Address: "Urocza 3",
-            Date: dto.DischargeDate,
-            DischargeReasson: dto.DischargeReason,
+            Date: DateOnly.FromDateTime(DateTime.Now),
+            DischargeReasson: dto.DischargeReasson,
             Summary: dto.Summary,
             MedicalStaffId: doctorId
         );
@@ -184,4 +186,29 @@ public class DischargesController : BaseController
         
         return Ok();
     }
+
+    [Authorize(Roles = "Doctor")]
+    [HttpGet("yoursDischarges")]
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<IEnumerable<DischargeItemDto>>> GetDoctorDischarges(
+        [FromQuery] GetDoctorDischarges query)
+    {
+        var userId = Guid.Parse(User.Identity?.Name);
+        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
+        query.DoctorId = doctorId;
+
+        var discharges = await _getDoctorDischarges.HandlerAsync(query);
+
+        return Ok(discharges);
+    }
+    
+    [Authorize(Roles = "Doctor")]
+    [HttpGet("allDischarges")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<DischargeItemDto>>> GetAllDischarges([FromQuery] GetAllDischarges query)
+        => Ok(await _getAllDischarges.HandlerAsync(query));
 }

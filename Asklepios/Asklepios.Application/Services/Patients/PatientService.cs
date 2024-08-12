@@ -127,7 +127,13 @@ public class PatientService : IPatientService
         
         await _patientRepository.DeletePatientAsync(patient);
     }
-    
+
+    public async Task<List<PatientAutocompleteDto>> GetPatientsList()
+    {
+        var patients = await _patientRepository.GetPatientsList();
+        return patients.Select(MapPatientsListAutocomplete<PatientAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(Patient patient) where T : PatientDto, new() => new T()
     {
        PatientId = patient.PatientId,
@@ -152,5 +158,13 @@ public class PatientService : IPatientService
         Treatment = patient.Treatment,
         DepartmentName = patient.Department.DepartmentName,
         RoomNumber = patient.Room.RoomNumber
+    };
+    
+    private static T MapPatientsListAutocomplete<T>(Patient patient) where T : PatientAutocompleteDto, new() => new T()
+    {
+        PatientId = patient.PatientId,
+        PatientName = patient.PatientName,
+        PatientSurname = patient.PatientSurname,
+        PeselNumber = patient.PeselNumber
     };
 }

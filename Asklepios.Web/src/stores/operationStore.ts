@@ -38,7 +38,6 @@ export const useOperationStore = defineStore('operationsStore', () => {
 
   async function dispatchCreateOperation(input: InputCreateOperation) {
     const { data } = await API.operations.createOperation(input);
-    // Assuming the backend returns the created operation in the response
     addNewOperation(data);
   }
 

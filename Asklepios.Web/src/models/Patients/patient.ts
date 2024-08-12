@@ -1,9 +1,10 @@
 import {OperationDto} from "@/models/Examinations/operation"
+import { ExamResultDto } from "../Examinations/examResult";
 
 export interface PatientDto {
   patientId: string;
   patientName: string;
-  patientSurname: number;
+  patientSurname: string;
   peselNumber: string;
   initialDiagnosis: string;
   isDischarged: boolean;
@@ -15,7 +16,7 @@ export interface PatientDto {
 export interface PatientListDto {
   patientId: string;
   patientName: string;
-  patientSurname: number;
+  patientSurname: string;
   peselNumber: string;
   initialDiagnosis: string;
   isDischarged: boolean;
@@ -28,3 +29,23 @@ export interface PatientDetailsDto extends PatientDto {
   operations: OperationDto[];
   examResults: ExamResultDto[];
 }
+
+export interface PatientAutocompleteDto {
+  patientId: string;
+  patientName: string;
+  patientSurname: number;
+  peselNumber: string;
+}
+
+export class InputCreatePatient {
+  patientName: string = '';
+  patientSurname: string = '';
+  peselNumber: string = '';
+  initialDiagnosis: string = '';
+  isDischarged: boolean = false;
+  treatment: string = '';
+  departmentId: string = '';
+  roomId: string = '';
+}
+
+
