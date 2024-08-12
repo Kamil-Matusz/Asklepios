@@ -52,6 +52,6 @@ const handleSubmit = () => {
       :rules="actualNumberOfPatientsRules"
       required
     ></v-text-field>
-    <v-btn type="submit" color="primary">Zapisz</v-btn>
+    <v-btn type="submit" color="green">Zapisz</v-btn>
   </v-form>
 </template>

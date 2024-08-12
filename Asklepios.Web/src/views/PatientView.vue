@@ -1,6 +1,6 @@
 <template>
   <BasePage title="Zarządzanie pacjentami">
-    <v-btn @click="showCreatePatientDialog = true" color="primary" class="mb-4" style="max-width: 20rem">
+    <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 20rem">
       + Dodaj nowego pacjenta
     </v-btn>
 
@@ -18,7 +18,7 @@
           @click="fetchPatientDetails(item.patientId)"
           rounded="lg"
           size="small"
-          color="primary"
+          color="yellow"
           class="ml-2"
           icon="mdi-eye"
         ></v-btn>
@@ -26,7 +26,7 @@
           :to="{ name: 'PatientEdit', params: { id: item.patientId }}"
           rounded="lg"
           size="small"
-          color="yellow"
+          color="primary"
           class="ml-2"
           icon="mdi-pencil"
         ></v-btn>

@@ -5,7 +5,7 @@
         <template #activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
-            color="primary"
+            color="green"
             variant="flat"
             class="mb-4"
             style="max-width: 20rem"
@@ -37,7 +37,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="blue" text @click="goToDetails(nurse.nurseId)">Szczegóły</v-btn>
-              <v-btn color="green" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
+              <v-btn color="primary" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
               <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
           </v-card>

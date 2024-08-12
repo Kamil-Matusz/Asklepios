@@ -55,7 +55,7 @@
       :rules="medicalStaffRules"
       required
     ></v-select>
-    <v-btn type="submit" color="primary">Zatwierdź</v-btn>
+    <v-btn type="submit" color="green">Zatwierdź</v-btn>
   </v-form>
 </template>
 
