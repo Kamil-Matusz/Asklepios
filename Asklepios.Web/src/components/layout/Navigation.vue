@@ -13,12 +13,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card style="z-index: 100">
+  <v-card v-if="user" style="z-index: 100">
     <v-layout>
       <v-navigation-drawer expand-on-hover rail theme="dark" class="bg-black">
         <v-list>
           <v-list-item
-            v-if="user"
             prepend-icon="mdi-account"
             to="/profile"
           ></v-list-item>
@@ -89,7 +88,7 @@ onMounted(() => {
           ></v-list-item>
         </v-list>
         <template v-slot:append>
-          <v-list-item v-if="user" prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>
+          <v-list-item v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')" prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>
         </template>
       </v-navigation-drawer>
     </v-layout>
