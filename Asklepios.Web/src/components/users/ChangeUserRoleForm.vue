@@ -64,11 +64,7 @@ const submit = () => {
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn type="submit" text="Zatwierdź" color="primary" variant="flat"></v-btn>
+      <v-btn type="submit" text="Zatwierdź zmiany" color="green" variant="flat"></v-btn>
     </v-card-actions>
   </v-form>
 </template>
-
-<style scoped>
-/* Możesz dodać własne style tutaj */
-</style>

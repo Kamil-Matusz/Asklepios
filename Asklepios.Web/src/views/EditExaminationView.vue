@@ -72,7 +72,9 @@ onMounted(getExamination);
         label="Kategoria"
         required
       ></v-select>
-      <v-btn type="submit" color="yellow">ZATWIERDŹ</v-btn>
+      <v-btn type="submit" color="primary">ZATWIERDŹ</v-btn>
+      <br/>
+      <br/>
       <v-btn @click="cancelUpdate" color="green">Powrót</v-btn>
     </v-form>
   </BasePage>

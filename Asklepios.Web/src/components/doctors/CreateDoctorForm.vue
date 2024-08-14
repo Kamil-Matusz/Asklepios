@@ -54,7 +54,10 @@
       :rules="userRules"
       required
     ></v-select>
-    <v-btn type="submit" color="green">Zatwierdź</v-btn>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
+    </v-card-actions>
   </v-form>
 </template>
 

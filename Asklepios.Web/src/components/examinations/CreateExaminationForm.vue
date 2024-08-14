@@ -81,7 +81,7 @@ const handleInputChange = (key: keyof InputCreateExamination, value: string) => 
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn type="submit" color="green">Dodaj badanie</v-btn>
+      <v-btn type="submit" color="green" variant="flat">Dodaj badanie</v-btn>
     </v-card-actions>
   </v-form>
 </template>

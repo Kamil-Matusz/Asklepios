@@ -68,7 +68,7 @@ watch(
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn type="submit" text="Zapisz" color="primary" variant="flat"></v-btn>
+      <v-btn type="submit" text="Zapisz zmiany" color="green" variant="flat"></v-btn>
     </v-card-actions>
   </v-form>
 </template>
