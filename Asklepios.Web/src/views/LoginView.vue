@@ -18,6 +18,9 @@ const handleLogin = () => {
     <v-container >
       <v-row justify="center">
         <v-col cols="12" sm="8" md="6">
+          <h1 class="text-center">Asklepios - System Zarządzania</h1>
+          <br/>
+          <br/>
           <v-card>
             <v-card-title  class="headline text-center">Logowanie</v-card-title>
             <v-card-text>
@@ -33,3 +36,9 @@ const handleLogin = () => {
     </v-container>
   </body>
 </template>
+
+<style>
+h1 {
+  color: whitesmoke;
+}
+</style>
