@@ -47,7 +47,7 @@
         <BaseCardWithHover title="Dostępne operacje">
           <v-row>
             <v-col cols="6" class="text-center">
-              <v-btn color="primary" @click="goToRoute('allDischarges')" class="mx-2">
+              <v-btn color="secondary" @click="goToRoute('allDischarges')" class="mx-2">
                 Wypisy pacjentów
               </v-btn>
             </v-col>
@@ -71,13 +71,12 @@
       </v-col>
     </v-row>
 
-    <!-- Przycisk dla lekarza w osobnej karcie -->
     <v-row v-if="userRole === 'Doctor' && !isLoading">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne akcje dla Lekarza">
           <v-row>
             <v-col cols="12" class="text-center">
-              <v-btn color="primary" @click="goToRoute('yourDischarges')">
+              <v-btn color="secondary" @click="goToRoute('yourDischarges')">
                 Twoje Wypisy
               </v-btn>
             </v-col>

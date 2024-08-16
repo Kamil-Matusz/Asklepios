@@ -106,7 +106,10 @@ onMounted(async () => {
                 label="Data badania"
                 required
               ></v-date-picker>
-              <v-btn type="submit" color="green">Dodaj badanie</v-btn>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
+              </v-card-actions>
             </v-form>
           </v-card-text>
         </v-card>

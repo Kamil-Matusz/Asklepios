@@ -96,7 +96,7 @@ onMounted(getExaminations);
         <template #activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
-            color="primary"
+            color="green"
             variant="flat"
             class="mb-4"
             style="max-width: 20rem"
@@ -127,7 +127,7 @@ onMounted(getExaminations);
         <v-btn
           rounded="lg"
           size="small"
-          color="blue"
+          color="primary"
           class="ml-2"
           icon="mdi-pencil"
           @click="() => editExamination(item.examId)"

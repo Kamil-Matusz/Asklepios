@@ -1,27 +1,27 @@
 <template>
-  <BasePage title="Zarządzanie lekarzami">
+  <BasePage title="Zarządzanie pielęgniarkami">
     <template #above-card>
       <v-dialog max-width="500">
         <template #activator="{ props: activatorProps }">
           <v-btn
             v-bind="activatorProps"
-            color="primary"
+            color="green"
             variant="flat"
             class="mb-4"
             style="max-width: 20rem"
           >
-            +Dodaj nowego lekarza
+            +Dodaj nową pielęgniarkę
           </v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy lekarz" rounded="lg">
-            <CreateDoctorForm
-              v-model="doctorToAdd"
+          <v-card title="Nowa pielęgniarka" rounded="lg">
+            <NurseForm
+              v-model="nurseToAdd"
               :departments="departments"
               :users="users"
-              @on-valid-submit="(doctor) => { addDoctor(doctor); isActive.value = false; }"
-            ></CreateDoctorForm>
+              @on-valid-submit="(nurse) => { addNurse(nurse); isActive.value = false; }"
+            ></NurseForm>
           </v-card>
         </template>
       </v-dialog>
@@ -29,19 +29,16 @@
 
     <v-container>
       <v-row>
-        <v-col v-for="doctor in doctors" :key="doctor.doctorId" cols="12" md="6" lg="4">
+        <v-col v-for="nurse in nurses" :key="nurse.nurseId" cols="12" md="6" lg="4">
           <v-card>
-            <v-card-title>{{ doctor.name }} {{ doctor.surname }}</v-card-title>
+            <v-card-title>{{ nurse.name }} {{ nurse.surname }}</v-card-title>
             <v-card-text>
-              <div>Oddział: {{ doctor.departmentName }}</div>
-              <div>Specjalizacja: {{ doctor.specialization }}</div>
-              <div>Prywatny numer: {{ doctor.privatePhoneNumber }}</div>
-              <div>Numer w szpitalu: {{ doctor.hospitalPhoneNumber }}</div>
+              <div>Oddział: {{ nurse.departmentName }}</div>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="blue" text @click="goToDetails(doctor.doctorId)">Szczegóły</v-btn>
-              <v-btn color="green" text @click="goToEdit(doctor.doctorId)">Edytuj</v-btn> <!-- Nowy przycisk edycji -->
-              <v-btn color="red" text @click="deleteDoctor(doctor.doctorId)">Usuń</v-btn>
+              <v-btn color="blue" text @click="goToDetails(nurse.nurseId)">Szczegóły</v-btn>
+              <v-btn color="primary" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
+              <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -53,15 +50,15 @@
             v-model="itemsPerPage"
             :items="itemsPerPageOptions"
             label="Liczba obiektów na stronę"
-            @change="getDoctors"
+            @change="getNurses"
           ></v-select>
         </v-col>
       </v-row>
 
       <v-pagination
         v-model="currentPage"
-        :length="Math.ceil(totalDoctors / itemsPerPage)"
-        @input="getDoctors"
+        :length="Math.ceil(totalNurses / itemsPerPage)"
+        @input="getNurses"
         color="blue"
       ></v-pagination>
     </v-container>
@@ -70,15 +67,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-import { useMedicalStaffStore } from '@/stores/doctorStore';
+import { useNurseStore } from '@/stores/nurseStore';
 import { useDepartmentStore } from '@/stores/departmentStore';
 import { useUserStore } from '@/stores/userStore';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
-import CreateDoctorForm from '@/components/doctors/CreateDoctorForm.vue';
-import { InputCreateMedicalStaff } from '@/models/Users/doctor';
+import NurseForm from '@/components/nurses/CreateNurseForm.vue';
+import { InputCreateNurse } from '@/models/Users/nurse';
 
-const medicalStaffStore = useMedicalStaffStore();
+const nurseStore = useNurseStore();
 const departmentStore = useDepartmentStore();
 const userStore = useUserStore();
 const toast = useToast();
@@ -88,54 +85,54 @@ const currentPage = ref(1);
 const itemsPerPage = ref(10);
 const itemsPerPageOptions = ref([5, 10, 20, 50]);
 
-const doctors = ref([]);
-const totalDoctors = ref(0);
+const nurses = ref([]);
+const totalNurses = ref(0);
 
-const doctorToAdd = ref(new InputCreateMedicalStaff());
+const nurseToAdd = ref(new InputCreateNurse());
 
 const departments = ref([]);
 const users = ref([]);
 
-const getDoctors = async () => {
+const getNurses = async () => {
   try {
     const paginationParams = {
       pageIndex: currentPage.value,
       pageSize: itemsPerPage.value
     };
-    await medicalStaffStore.dispatchGetDoctors(paginationParams);
-    doctors.value = medicalStaffStore.doctors;
-    totalDoctors.value = medicalStaffStore.totalItems;
+    await nurseStore.dispatchGetNurses(paginationParams);
+    nurses.value = nurseStore.nurses;
+    totalNurses.value = nurseStore.totalItems;
   } catch (error) {
-    toast.error('Wystąpił problem podczas pobierania danych lekarzy');
+    toast.error('Wystąpił problem podczas pobierania danych pielęgniarek');
   }
 };
 
-const addDoctor = async (doctor) => {
+const addNurse = async (nurse) => {
   try {
-    await medicalStaffStore.dispatchCreateDoctor(doctor);
-    toast.success('Pomyślnie dodano nowego lekarza');
-    getDoctors();
+    await nurseStore.dispatchCreateNurse(nurse);
+    toast.success('Pomyślnie dodano nową pielęgniarkę');
+    getNurses();
   } catch (error) {
-    toast.error('Wystąpił problem podczas dodawania lekarza');
+    toast.error('Wystąpił problem podczas dodawania pielęgniarki');
   }
 };
 
-const deleteDoctor = async (id) => {
+const deleteNurse = async (id) => {
   try {
-    await medicalStaffStore.dispatchDeleteDoctor(id);
-    toast.success('Pomyślnie usunięto lekarza');
-    getDoctors();
+    await nurseStore.dispatchDeleteNurse(id);
+    toast.success('Pomyślnie usunięto pielęgniarkę');
+    getNurses();
   } catch (error) {
-    toast.error('Wystąpił problem podczas usuwania lekarza');
+    toast.error('Wystąpił problem podczas usuwania pielęgniarki');
   }
 };
 
 const goToDetails = (id) => {
-  router.push(`/doctor/${id}`);
+  router.push(`/nurse/${id}`);
 };
 
 const goToEdit = (id) => {
-  router.push({ name: 'DoctorEdit', params: { id } });
+  router.push(`/nurse/edit/${id}`);
 };
 
 const getDepartments = async () => {
@@ -152,22 +149,28 @@ const getDepartments = async () => {
 
 const getUsers = async () => {
   try {
-    const data = await userStore.dispatchGetDoctors();
+    const data = await userStore.dispatchGetNurses();
     users.value = data.map(user => ({
       email: user.email,
       userId: user.userId
     }));
   } catch (error) {
     console.error('Error fetching users:', error);
-    toast.error('Wystąpił problem podczas pobierania użytkowników');
+    toast.error('Wystąpił problem podczas pobierania uzytkownikow');
   }
 };
 
 onMounted(() => {
-  getDoctors();
+  getNurses();
   getDepartments();
   getUsers();
 });
 
-watch([currentPage, itemsPerPage], getDoctors);
+watch([currentPage, itemsPerPage], getNurses);
 </script>
+
+<style scoped>
+.nurse-card {
+  margin-bottom: 20px;
+}
+</style>

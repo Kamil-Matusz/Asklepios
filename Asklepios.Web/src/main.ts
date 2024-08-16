@@ -14,6 +14,8 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
+import pl from 'vuetify/lib/locale/pl'
+
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
@@ -72,6 +74,11 @@ const vuetify = createVuetify({
     sets: {
       mdi
     }
+  },
+  locale: {
+    locale: 'pl',
+    fallback: 'en',
+    messages: { pl },
   }
 })
 
