@@ -16,5 +16,6 @@ internal class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder.Property(x => x.IsDischarged).IsRequired();
         builder.Property(x => x.DepartmentId).IsRequired();
         builder.Property(x => x.RoomId).IsRequired();
+        builder.Property(x => x.MedicalStaffId).IsRequired();
     }
 }

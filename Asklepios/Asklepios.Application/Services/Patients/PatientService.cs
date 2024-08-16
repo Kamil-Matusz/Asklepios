@@ -113,6 +113,7 @@ public class PatientService : IPatientService
         patient.Treatment = dto.Treatment;
         patient.DepartmentId = dto.DepartmentId;
         patient.RoomId = dto.RoomId;
+        patient.MedicalStaffId = dto.MedicalStaffId;
 
         await _patientRepository.UpdatePatientAsync(patient);
     }
@@ -144,7 +145,8 @@ public class PatientService : IPatientService
        IsDischarged = patient.IsDischarged,
        Treatment = patient.Treatment,
        DepartmentId = patient.DepartmentId,
-       RoomId = patient.RoomId
+       RoomId = patient.RoomId,
+       MedicalStaffId = patient.MedicalStaffId
     };
     
     private static T MapPatientList<T>(Patient patient) where T : PatientListDto, new() => new T()
