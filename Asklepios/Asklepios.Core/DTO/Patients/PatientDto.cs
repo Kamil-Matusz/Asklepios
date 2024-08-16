@@ -11,4 +11,5 @@ public class PatientDto
     public string Treatment { get; set; }
     public Guid DepartmentId { get; set; }
     public Guid RoomId { get; set; }
+    public Guid MedicalStaffId { get; set; }
 }

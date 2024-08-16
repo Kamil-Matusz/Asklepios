@@ -16,5 +16,6 @@ public class PatientDtoValidator : AbstractValidator<PatientDto>
         RuleFor(dto => dto.IsDischarged).NotEmpty().WithMessage("Information about discharged is required");
         RuleFor(dto => dto.DepartmentId).NotEmpty().WithMessage("Department Id is required.");
         RuleFor(dto => dto.RoomId).NotEmpty().WithMessage("Room Id is required.");
+        RuleFor(dto => dto.MedicalStaffId).NotEmpty().WithMessage("Doctor Id is required.");
     }
 }

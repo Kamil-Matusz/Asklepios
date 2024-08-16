@@ -1,5 +1,6 @@
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Examinations;
+using Asklepios.Core.Entities.Users;
 
 namespace Asklepios.Core.Entities.Patients;
 
@@ -18,6 +19,9 @@ public class Patient
     
     public Guid RoomId { get; set; }
     public Room Room { get; set; }
+
+    public Guid MedicalStaffId { get; set; }
+    public MedicalStaff MedicalStaff { get; set; }
     
     public IEnumerable<ExamResult> ExamResults { get; set; }
     
@@ -27,7 +31,7 @@ public class Patient
     {
     }
 
-    public Patient(Guid patientId, string patientName, string patientSurname, string peselNumber, string initialDiagnosis, bool isDischarged, string treatment, Guid departmentId, Guid roomId)
+    public Patient(Guid patientId, string patientName, string patientSurname, string peselNumber, string initialDiagnosis, bool isDischarged, string treatment, Guid departmentId, Guid roomId, Guid medicalStaffId)
     {
         PatientId = patientId;
         PatientName = patientName;
@@ -38,5 +42,6 @@ public class Patient
         Treatment = treatment;
         DepartmentId = departmentId;
         RoomId = roomId;
+        MedicalStaffId = medicalStaffId;
     }
 }
