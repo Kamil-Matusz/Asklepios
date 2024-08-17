@@ -54,6 +54,15 @@
       required
       no-data-text="Brak pokoi"
     ></v-text-field>
+    <v-select
+      v-model="form.medicalStaffId"
+      label="Lekarz prowadzący"
+      :items="formattedMedicalStaff"
+      item-title="text"
+      item-value="value"
+      :rules="medicalStaffRules"
+      required
+    ></v-select>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
@@ -64,6 +73,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, defineProps, defineEmits } from 'vue';
 import { InputCreatePatient } from '@/models/Patients/patient';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   patient: Object,
@@ -74,11 +84,16 @@ const props = defineProps({
   rooms: {
     type: Array,
     default: () => []
+  },
+  medicalStaff: {
+    type: Array,
+    default: () => []
   }
 });
 const emits = defineEmits(['update:patient', 'on-valid-submit']);
 
 const form = ref(new InputCreatePatient());
+const router = useRouter();
 
 watch(() => props.patient, (newPatient) => {
   form.value = { ...newPatient };
@@ -98,8 +113,16 @@ const formattedRooms = computed(() =>
   }))
 );
 
+const formattedMedicalStaff = computed(() =>
+  props.medicalStaff.map(staff => ({
+    text: staff.text,
+    value: staff.value
+  }))
+);
+
 const handleSubmit = () => {
   emits('on-valid-submit', form.value);
+  router.push({ name: 'PatientView'});
 };
 
 const nameRules = [
@@ -128,5 +151,8 @@ const roomRules = [
 
 const treatmentRules = [
   v => !!v || 'Leczenie jest wymagane',
+];
+const medicalStaffRules = [
+  (v: string) => !!v || 'Personel medyczny jest wymagany',
 ];
 </script>

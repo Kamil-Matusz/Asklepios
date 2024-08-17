@@ -46,6 +46,7 @@ export class InputCreatePatient {
   treatment: string = '';
   departmentId: string = '';
   roomId: string = '';
+  medicalStaffId: string = '';
 }
 
 

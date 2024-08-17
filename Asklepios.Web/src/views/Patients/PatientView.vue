@@ -143,6 +143,7 @@
             <CreatePatientForm
               :departments="departments"
               :rooms="rooms"
+              :medicalStaff="medicalStaff"
               @on-valid-submit="createPatient"
             />
           </v-card-text>
@@ -163,10 +164,12 @@ import CreatePatientForm from '@/components/patients/CreatePatientForm.vue';
 import { type PatientDetailsDto } from '@/models/Patients/patient';
 import { useDepartmentStore } from '@/stores/departmentStore';
 import { useRoomStore } from '@/stores/roomStore';
+import { useMedicalStaffStore } from '@/stores/doctorStore';
 
 const patientStore = usePatientStore();
 const departmentStore = useDepartmentStore();
 const roomStore = useRoomStore();
+const medicalStaffStore = useMedicalStaffStore();
 const toast = useToast();
 const router = useRouter();
 
@@ -191,6 +194,7 @@ const options = ref({
 
 const departments = ref([]);
 const rooms = ref([]);
+const medicalStaff = ref([]);
 
 const isDetailsDialogActive = ref(false);
 const showCreatePatientDialog = ref(false);
@@ -271,9 +275,22 @@ const getRooms = async () => {
   }
 };
 
+const getMedicalStaff = async () => {
+  try {
+    const data = await medicalStaffStore.dispatchGetDoctorsList();
+    medicalStaff.value = data.map(staff => ({
+      text: `${staff.surname}`,
+      value: staff.doctorId
+    }));
+  } catch (error) {
+    toast.error('Wystąpił problem podczas pobierania personelu medycznego');
+  }
+};
+
 onMounted(() => {
   getPatients();
   getDepartments();
   getRooms();
+  getMedicalStaff();
 });
 </script>

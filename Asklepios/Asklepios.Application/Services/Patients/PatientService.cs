@@ -41,7 +41,8 @@ public class PatientService : IPatientService
             IsDischarged = dto.IsDischarged,
             Treatment = dto.Treatment,
             DepartmentId = dto.DepartmentId,
-            RoomId = dto.RoomId
+            RoomId = dto.RoomId,
+            MedicalStaffId = dto.MedicalStaffId
         });
     }
 
