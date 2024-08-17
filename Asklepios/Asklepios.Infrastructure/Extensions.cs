@@ -6,6 +6,7 @@ using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.Events;
 using Asklepios.Infrastructure.Events.Handlers;
 using Asklepios.Infrastructure.Security;
+using Asklepios.Infrastructure.SignalR;
 using Convey;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers.RabbitMQ;
@@ -35,9 +36,10 @@ public static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("*")
-                    .WithMethods("POST", "PUT", "DELETE")
-                    .WithHeaders("Content-Type", "Authorization");
+                x.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
             });
         });
         
@@ -88,6 +90,8 @@ public static class Extensions
             .Build();
 
         services.AddEvents();
+
+        services.AddSignalR();
         
         return services;
     }
@@ -112,6 +116,12 @@ public static class Extensions
         
         app.UseConvey();
         app.UseRabbitMq();
+        
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<HospitalHub>("/hospitalHub");
+        });
         
         return app;
     }
