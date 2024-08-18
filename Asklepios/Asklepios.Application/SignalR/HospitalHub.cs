@@ -1,4 +1,5 @@
 using Asklepios.Application.Services.Users;
+using Asklepios.Core.Exceptions.Users;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Asklepios.Application.SignalR;
@@ -21,6 +22,11 @@ public class HospitalHub : Hub
     public async Task NotifyDoctorAboutNewPatient(Guid doctorId, string message)
     {
         var userId = await _medicalStaffService.GetUserIdByDoctorAsync(doctorId);
+        if (userId == Guid.Empty)
+        {
+            throw new UserNotFoundException(userId);
+        }
+        
         await Clients.Group(userId.ToString()).SendAsync("ReceiveNotification", message);
     }
 }

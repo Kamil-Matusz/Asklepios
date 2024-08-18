@@ -84,7 +84,7 @@ const vuetify = createVuetify({
   }
 })
 
-const connection = new signalR.HubConnectionBuilder()
+/* const connection = new signalR.HubConnectionBuilder()
   .withUrl("http://localhost:5102/hospitalHub")
   .build();
 
@@ -92,7 +92,7 @@ connection.start()
   .then(() => {
     console.log("SignalR Connected");
   })
-  .catch(err => console.error("SignalR Connection Error: ", err));
+  .catch(err => console.error("SignalR Connection Error: ", err)); */
 
 const app = createApp(App)
 
