@@ -15,7 +15,7 @@ public class PatientServiceTests
     {
         // Arrange
         var patientRepositoryMock = new Mock<IPatientRepository>();
-        var patientService = new PatientService(patientRepositoryMock.Object, null);
+        var patientService = new PatientService(patientRepositoryMock.Object, null, null);
 
         patientRepositoryMock.Setup(pr => pr.GetAllPatientsAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Patient>());
 
@@ -32,7 +32,7 @@ public class PatientServiceTests
         // Arrange
         var patientRepositoryMock = new Mock<IPatientRepository>();
         var patientId = Guid.NewGuid();
-        var patientService = new PatientService(patientRepositoryMock.Object, null);
+        var patientService = new PatientService(patientRepositoryMock.Object, null, null);
 
         patientRepositoryMock.Setup(pr => pr.GetPatientByIdAsync(patientId)).ReturnsAsync((Patient) null);
 
@@ -48,7 +48,7 @@ public class PatientServiceTests
         var patientId = Guid.NewGuid();
         var patient = new Patient { PatientId = patientId };
 
-        var patientService = new PatientService(patientRepositoryMock.Object, null);
+        var patientService = new PatientService(patientRepositoryMock.Object, null, null);
 
         patientRepositoryMock.Setup(pr => pr.GetPatientByIdAsync(patientId)).ReturnsAsync(patient);
 
@@ -66,7 +66,7 @@ public class PatientServiceTests
         var patientRepositoryMock = new Mock<IPatientRepository>();
         var patientId = Guid.NewGuid();
 
-        var patientService = new PatientService(patientRepositoryMock.Object, null);
+        var patientService = new PatientService(patientRepositoryMock.Object, null, null);
 
         patientRepositoryMock.Setup(pr => pr.GetPatientByIdAsync(patientId)).ReturnsAsync((Patient) null);
 
@@ -95,7 +95,7 @@ public class PatientServiceTests
         var patientId = Guid.NewGuid();
         var patient = new Patient { PatientId = patientId };
 
-        var patientService = new PatientService(patientRepositoryMock.Object, null);
+        var patientService = new PatientService(patientRepositoryMock.Object, null, null);
 
         patientRepositoryMock.Setup(pr => pr.GetPatientByIdAsync(patientId)).ReturnsAsync(patient);
 

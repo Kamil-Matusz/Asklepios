@@ -1,3 +1,4 @@
+using Asklepios.Application.Services.Notification;
 using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
@@ -11,11 +12,13 @@ public class PatientService : IPatientService
 {
     private readonly IPatientRepository _patientRepository;
     private readonly IAddPatientPolicy _addPatientPolicy;
+    private readonly INotificationService _notificationService;
 
-    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy)
+    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy, INotificationService notificationService)
     {
         _patientRepository = patientRepository;
         _addPatientPolicy = addPatientPolicy;
+        _notificationService = notificationService;
     }
 
     public async Task AddPatientAsync(PatientDto dto)
@@ -44,6 +47,12 @@ public class PatientService : IPatientService
             RoomId = dto.RoomId,
             MedicalStaffId = dto.MedicalStaffId
         });
+        
+        if (dto.MedicalStaffId != Guid.Empty)
+        {
+            var message = $"Nowy pacjent {dto.PatientName} {dto.PatientSurname} został przypisany do Ciebie.";
+            await _notificationService.NotifyDoctorAboutNewPatient(dto.MedicalStaffId, message);
+        }
     }
 
     public async Task<PatientDto> GetPatientDataAsync(Guid id)

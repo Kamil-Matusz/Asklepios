@@ -4,6 +4,7 @@ using Asklepios.Application.Services.Departments;
 using Asklepios.Application.Services.Email;
 using Asklepios.Application.Services.Email.SendGrid;
 using Asklepios.Application.Services.Examinations;
+using Asklepios.Application.Services.Notification;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Statistics;
 using Asklepios.Application.Services.Users;
@@ -34,6 +35,7 @@ public static class Extensions
         services.AddScoped<IOperationService, OperationService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
+        services.AddScoped<INotificationService, NotificationService>();
 
         services.AddSendGrid(configuration);
         
