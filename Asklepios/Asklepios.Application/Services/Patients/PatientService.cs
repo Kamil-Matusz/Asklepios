@@ -107,6 +107,12 @@ public class PatientService : IPatientService
         return patients.Select(MapPatientList<PatientListDto>).ToList();
     }
 
+    public async Task<IReadOnlyList<PatientListDto>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
+    {
+        var patients = await _patientRepository.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize);
+        return patients.Select(MapPatientList<PatientListDto>).ToList();
+    }
+
     public async Task UpdatePatientAsync(PatientDto dto)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(dto.PatientId);
