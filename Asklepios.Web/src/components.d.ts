@@ -27,6 +27,7 @@ declare module 'vue' {
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Navigation: typeof import('./components/layout/Navigation.vue')['default']
     OperationDetails: typeof import('./components/operations/OperationDetails.vue')['default']
+    PdfTemplate: typeof import('./components/PdfTemplate.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ValidatedTextField: typeof import('./components/ui/ValidatedTextField.vue')['default']

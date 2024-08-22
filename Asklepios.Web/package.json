@@ -15,6 +15,7 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.7.2",
     "core-js": "^3.34.0",
+    "html2pdf.js": "^0.10.2",
     "roboto-fontface": "*",
     "vite-plugin-vuetify": "^2.0.4",
     "vue": "^3.4.21",

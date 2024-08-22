@@ -17,7 +17,7 @@ async function createDischarge(input: InputCreateDischarge) {
 }
 
 async function getDischarge(dischargeId: string) {
-  return await httpClient.get<DischargeDto>(`${base}/${dischargeId}`);
+  return await httpClient.get<DischargeItemDto>(`${base}/${dischargeId}`);
 }
 
 async function updateDischarge(dischargeId: string, discharge: DischargeDto) {
