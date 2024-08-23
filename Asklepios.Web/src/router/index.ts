@@ -30,6 +30,7 @@ import AddExamResultView from '@/views/Examinations/AddExamResultView.vue';
 import DischargePatientView from '@/views/Patients/DischargePatientView.vue';
 import DoctorDischargesView from '@/views/Doctors/DoctorDischargesView.vue';
 import DischargesView from '@/views/Patients/DischargesView.vue';
+import DischargeTemplateView from '@/views/Patients/DischargeTemplateView.vue';
 import DashboardView from '@/views/Users/DashboardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
@@ -154,6 +155,12 @@ const router = createRouter({
       path: '/allDischarges',
       name: 'allDischarges',
       component: DischargesView
+    },
+    {
+      path: '/discharges/:id',
+      name: 'DischargeTemplate',
+      component: DischargeTemplateView,
+      props: true
     },
     {
       path: '/addExamResult',
