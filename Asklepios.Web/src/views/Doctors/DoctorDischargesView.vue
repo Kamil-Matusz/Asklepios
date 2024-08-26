@@ -18,6 +18,14 @@
           class="ml-2"
           icon="mdi-eye"
         ></v-btn>
+        <v-btn
+          :to="{ name: 'DischargeTemplate', params: { id: item.dischargeId } }"
+          rounded="lg"
+          size="small"
+          color="green"
+          class="ml-2"
+          icon="mdi-file"
+        ></v-btn>
       </template>
     </v-data-table-server>
 
@@ -60,9 +68,11 @@ import { useToast } from 'vue-toastification';
 import BasePage from '@/components/pages/BasePage.vue';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
+import { useRouter } from 'vue-router';
 
 const dischargeStore = useDischargeStore();
 const toast = useToast();
+const router = useRouter();
 
 const headers = [
   { title: 'Imię pacjenta', key: 'patientName', align: 'start' },

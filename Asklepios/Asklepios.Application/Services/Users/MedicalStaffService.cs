@@ -58,6 +58,12 @@ public class MedicalStaffService : IMedicalStaffService
         return doctorId;
     }
 
+    public async Task<Guid> GetUserIdByDoctorAsync(Guid doctorId)
+    {
+        var userId = await _medicalStaffRepository.GetUserIdByDoctor(doctorId);
+        return userId;
+    }
+
     public async Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize)
     {
         var doctors = await _medicalStaffRepository.GetAllNDoctorsAsync(pageIndex, pageSize);

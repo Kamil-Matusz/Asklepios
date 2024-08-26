@@ -1,3 +1,4 @@
+using Asklepios.Application.Services.Notification;
 using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
@@ -11,11 +12,13 @@ public class PatientService : IPatientService
 {
     private readonly IPatientRepository _patientRepository;
     private readonly IAddPatientPolicy _addPatientPolicy;
+    private readonly INotificationService _notificationService;
 
-    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy)
+    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy, INotificationService notificationService)
     {
         _patientRepository = patientRepository;
         _addPatientPolicy = addPatientPolicy;
+        _notificationService = notificationService;
     }
 
     public async Task AddPatientAsync(PatientDto dto)
@@ -41,8 +44,15 @@ public class PatientService : IPatientService
             IsDischarged = dto.IsDischarged,
             Treatment = dto.Treatment,
             DepartmentId = dto.DepartmentId,
-            RoomId = dto.RoomId
+            RoomId = dto.RoomId,
+            MedicalStaffId = dto.MedicalStaffId
         });
+        
+        if (dto.MedicalStaffId != Guid.Empty)
+        {
+            var message = $"Nowy pacjent {dto.PatientName} {dto.PatientSurname} został przypisany do Ciebie.";
+            await _notificationService.NotifyDoctorAboutNewPatient(dto.MedicalStaffId, message);
+        }
     }
 
     public async Task<PatientDto> GetPatientDataAsync(Guid id)
@@ -97,6 +107,12 @@ public class PatientService : IPatientService
         return patients.Select(MapPatientList<PatientListDto>).ToList();
     }
 
+    public async Task<IReadOnlyList<PatientListDto>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
+    {
+        var patients = await _patientRepository.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize);
+        return patients.Select(MapPatientList<PatientListDto>).ToList();
+    }
+
     public async Task UpdatePatientAsync(PatientDto dto)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(dto.PatientId);
@@ -113,6 +129,7 @@ public class PatientService : IPatientService
         patient.Treatment = dto.Treatment;
         patient.DepartmentId = dto.DepartmentId;
         patient.RoomId = dto.RoomId;
+        patient.MedicalStaffId = dto.MedicalStaffId;
 
         await _patientRepository.UpdatePatientAsync(patient);
     }
@@ -144,7 +161,8 @@ public class PatientService : IPatientService
        IsDischarged = patient.IsDischarged,
        Treatment = patient.Treatment,
        DepartmentId = patient.DepartmentId,
-       RoomId = patient.RoomId
+       RoomId = patient.RoomId,
+       MedicalStaffId = patient.MedicalStaffId
     };
     
     private static T MapPatientList<T>(Patient patient) where T : PatientListDto, new() => new T()

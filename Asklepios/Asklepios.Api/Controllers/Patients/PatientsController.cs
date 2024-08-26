@@ -1,4 +1,5 @@
 using Asklepios.Application.Services.Patients;
+using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,12 @@ namespace Asklepios.Api.Controllers.Patients;
 public class PatientsController : BaseController
 {
     private readonly IPatientService _patientService;
+    private readonly IMedicalStaffService _medicalStaffService;
 
-    public PatientsController(IPatientService patientService)
+    public PatientsController(IPatientService patientService, IMedicalStaffService medicalStaffService)
     {
         _patientService = patientService;
+        _medicalStaffService = medicalStaffService;
     }
     
     [Authorize(Roles = "Admin, Nurse, Doctor")]
@@ -78,6 +81,21 @@ public class PatientsController : BaseController
     public async Task<ActionResult<IEnumerable<PatientAutocompleteDto>>> GetPatientsList()
     {
         var patients = await _patientService.GetPatientsList();
+        return Ok(patients);
+    }
+
+    [Authorize(Roles = "Admin, Doctor")]
+    [HttpGet("yourPatients")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<IReadOnlyList<PatientListDto>>> GetAllPatientsByDoctor([FromQuery] int pageIndex,
+        [FromQuery] int pageSize)
+    {
+        var userId = Guid.Parse(User.Identity?.Name);
+        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
+
+        var patients = await _patientService.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize);
         return Ok(patients);
     }
 }

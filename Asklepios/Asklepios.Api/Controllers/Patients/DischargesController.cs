@@ -69,7 +69,7 @@ public class DischargesController : BaseController
     }
 
     [Authorize(Roles = "Admin, Doctor")]
-    [HttpGet("dischargesById/{dischargeId:guid}")]
+    [HttpGet("{dischargeId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -205,7 +205,7 @@ public class DischargesController : BaseController
         return Ok(discharges);
     }
     
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("allDischarges")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

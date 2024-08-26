@@ -203,7 +203,7 @@ const patientDetails = ref<PatientDetailsDto | null>(null);
 const getPatients = async () => {
   options.value.loading = true;
   try {
-    await patientStore.dispatchGetPatients({
+    await patientStore.dispatchGetDoctorPatients({
       PageIndex: pagination.value.PageIndex,
       PageSize: pagination.value.PageSize
     });

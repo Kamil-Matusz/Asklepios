@@ -28,11 +28,16 @@ async function getPatientsList() {
   return await httpClient.get<PatientAutocompleteDto[]>(`${base}/patientsList`);
 }
 
+async function getAllPatientsByDoctor(pagination: PaginationParams) {
+  return await httpClient.get<PatientListDto[]>(`${base}/yourPatients`, { params: pagination });
+}
+
 export default {
   getPatient,
   getAllPatients,
   createPatient,
   updatePatient,
   deletePatient,
-  getPatientsList
+  getPatientsList,
+  getAllPatientsByDoctor
 };

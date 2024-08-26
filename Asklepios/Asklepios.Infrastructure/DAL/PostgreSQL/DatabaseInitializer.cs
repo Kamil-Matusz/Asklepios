@@ -16,19 +16,19 @@ internal sealed class DatabaseInitializer : IHostedService
         _dataSeeders = dataSeeders.OrderBy(s => s is IOrderedSeeder orderedSeeder ? orderedSeeder.Order : int.MaxValue).ToList();
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // auto migration to the database
-        using (var scope = _serviceProvider.CreateScope()) {
+        // auto migrations & seeders
+        using (var scope = _serviceProvider.CreateScope())
+        {
             var dbContext = scope.ServiceProvider.GetRequiredService<AsklepiosDbContext>();
-            dbContext.Database.Migrate();
+            await dbContext.Database.MigrateAsync(cancellationToken);
             
             foreach (var seeder in _dataSeeders)
             {
-                seeder.SeedAsync(dbContext);
+                await seeder.SeedAsync(dbContext);
             }
         }
-        return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

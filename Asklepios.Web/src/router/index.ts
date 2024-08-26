@@ -21,6 +21,7 @@ import NurseView from '@/views/Nurses/NurseView.vue';
 import DoctorDetailView from '@/views/Doctors/DoctorDetailsView.vue';
 import PatientView from '@/views/Patients/PatientView.vue';
 import EditPatientView from '@/views/Patients/EditPatientView.vue';
+import PatientsByDoctorView from '@/views/Patients/PatientByDoctorView.vue';
 import RoomView from '@/views/Rooms/RoomView.vue';
 import EditRoomView from '@/views/Rooms/EditRoomView.vue';
 import EditNurseView from '@/views/Nurses/EditNurseView.vue';
@@ -29,6 +30,7 @@ import AddExamResultView from '@/views/Examinations/AddExamResultView.vue';
 import DischargePatientView from '@/views/Patients/DischargePatientView.vue';
 import DoctorDischargesView from '@/views/Doctors/DoctorDischargesView.vue';
 import DischargesView from '@/views/Patients/DischargesView.vue';
+import DischargeTemplateView from '@/views/Patients/DischargeTemplateView.vue';
 import DashboardView from '@/views/Users/DashboardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 
@@ -128,6 +130,11 @@ const router = createRouter({
       component: PatientView
     },
     {
+      path: '/yourPatients',
+      name: 'yourPatients',
+      component: PatientsByDoctorView
+    },
+    {
       path: '/patient/edit/:id',
       name: 'PatientEdit',
       component: EditPatientView,
@@ -148,6 +155,12 @@ const router = createRouter({
       path: '/allDischarges',
       name: 'allDischarges',
       component: DischargesView
+    },
+    {
+      path: '/discharges/:id',
+      name: 'DischargeTemplate',
+      component: DischargeTemplateView,
+      props: true
     },
     {
       path: '/addExamResult',

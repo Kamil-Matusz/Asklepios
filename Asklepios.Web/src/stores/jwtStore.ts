@@ -5,12 +5,14 @@ import { InputLoginData, JwtToken } from "@/models/authorization";
 import { useToast } from "vue-toastification";
 import { User } from "@/models/Users/user";
 import router from "@/router";
+import * as signalR from '@microsoft/signalr';
 
 const toast = useToast();
 
 export const useJwtStore = defineStore("JwtStore", () => {
   const token = ref<JwtToken>({ jwt: "" });
   const isLoggedIn = ref(false);
+  const connection = ref<signalR.HubConnection | null>(null);
 
   async function dispatchLogin(loginData: InputLoginData) {
     try {
@@ -33,15 +35,16 @@ export const useJwtStore = defineStore("JwtStore", () => {
       );
       const payload = JSON.parse(jsonPayload);
 
-      // Zapisanie użytkownika do localStorage
       const user: User = {
-        userId: payload.sub, // Identyfikator użytkownika
-        email: payload.unique_name, // Unikalna nazwa użytkownika
-        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"], // Rola użytkownika
-        isActive: true, // Przykładowo ustawione na true
-        createdAt: new Date(), // Przykładowo ustawione na aktualną datę
+        userId: payload.sub,
+        email: payload.unique_name,
+        role: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+        isActive: true,
+        createdAt: new Date(),
       };
       localStorage.setItem("user", JSON.stringify(user));
+
+      initSignalR(user.userId);
 
       // Aktualizacja stanu logowania
       isLoggedIn.value = true;
@@ -57,11 +60,35 @@ export const useJwtStore = defineStore("JwtStore", () => {
     }
   }
 
+  function initSignalR(userId: string) {
+    connection.value = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:5102/hospitalHub")
+      .build();
+
+      connection.value.start()
+      .then(() => {
+        console.log("SignalR Connected");
+        if (connection.value) {
+          connection.value.invoke("JoinDoctorGroup", userId);
+        }
+      })
+      .catch(err => console.error("SignalR Connection Error: ", err));
+
+      connection.value.on("ReceiveNotification", (message) => {
+        toast.info(`Powiadomienie: ${message}`);
+      });
+  }
+
   function dispatchLogout() {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("user");
     token.value.jwt = "";
     isLoggedIn.value = false;
+
+    if (connection.value) {
+      connection.value.stop();
+      connection.value = null;
+    }
 
     toast.success("Wylogowano pomyślnie.");
     router.push("/");

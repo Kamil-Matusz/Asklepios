@@ -40,6 +40,12 @@ export const usePatientStore = defineStore('patientsStore', () => {
     totalItems.value = data.length;
   }
 
+  async function dispatchGetDoctorPatients(pagination: PaginationParams) {
+    const { data } = await API.patients.getAllPatientsByDoctor(pagination);
+    patients.value = data;
+    totalItems.value = data.length;
+  }
+
   async function dispatchCreatePatient(patient: PatientDto) {
     await API.patients.createPatient(patient);
     addNewPatient(patient);
@@ -91,6 +97,7 @@ export const usePatientStore = defineStore('patientsStore', () => {
     dispatchUpdatePatient,
     dispatchGetPatientsList,
     dispatchGetDepartmentsAutocomplete,
-    dispatchGetRoomsList
+    dispatchGetRoomsList,
+    dispatchGetDoctorPatients
   };
 });

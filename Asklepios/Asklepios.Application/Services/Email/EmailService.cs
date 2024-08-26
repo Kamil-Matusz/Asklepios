@@ -10,9 +10,9 @@ public class EmailService : IEmailService
 {
     private readonly string _sendGridKey;
 
-    public EmailService(IConfiguration configuration)
+    public EmailService(SendGridOptions sendGridOptions)
     {
-        _sendGridKey = configuration["sendGridKey"];
+        _sendGridKey = sendGridOptions.keySensGrid;
     }
     
     public async Task SendEmailAboutGenerateAccountAsync(string recipientEmail, string password)
