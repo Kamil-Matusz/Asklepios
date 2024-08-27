@@ -33,8 +33,8 @@ public sealed class AsklepiosDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         
         modelBuilder.Entity<MonthlyDischargeSummary>()
-            .HasNoKey()
-            .ToView("MonthlyDischarges");
+            .ToView("monthlydischarges")
+            .HasNoKey();
         
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
