@@ -2,6 +2,7 @@ using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Examinations;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Entities.Users;
+using Asklepios.Core.Entities.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,6 +21,9 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<ExamResult> ExamResults { get; set; }
     public DbSet<Operation> Operations { get; set; }
     
+    // Views
+    public DbSet<MonthlyDischargeSummary> MonthlyDischarges { get; set; }
+    
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {
     }
@@ -27,6 +31,11 @@ public sealed class AsklepiosDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        
+        modelBuilder.Entity<MonthlyDischargeSummary>()
+            .HasNoKey()
+            .ToView("MonthlyDischarges");
+        
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
             foreach (var property in entity.GetProperties().Where(p => p.IsPrimaryKey()))
