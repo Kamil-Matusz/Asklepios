@@ -80,6 +80,8 @@
                   <div><strong>Imię:</strong> {{ patientDetails?.patientName }}</div>
                   <div><strong>Nazwisko:</strong> {{ patientDetails?.patientSurname }}</div>
                   <div><strong>Pesel:</strong> {{ patientDetails?.peselNumber }}</div>
+                  <div><strong>Adres zamieszkania:</strong> {{ patientDetails?.address }}</div>
+                  <div><strong>Przyjęcie do szpitala:</strong> {{ patientDetails?.admissionDate }}</div>
                   <div><strong>Diagnoza wstępna:</strong> {{ patientDetails?.initialDiagnosis }}</div>
                 </v-col>
                 <v-col cols="12" md="6">
