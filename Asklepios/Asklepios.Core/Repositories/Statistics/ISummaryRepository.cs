@@ -1,9 +1,10 @@
 using Asklepios.Core.Entities.Views;
 
-namespace Asklepios.Application.Services.Statistics;
+namespace Asklepios.Core.Repositories.Statistics;
 
-public interface IDischargeSummaryService
+public interface ISummaryRepository
 {
     Task<List<MonthlyDischargeSummary>> GetMonthlyDischargesAsync();
+    Task<List<MonthlyAdmissionSummary>> GetMonthlyAdmissionsAsync();
     Task<List<MonthlyDischargeSummary>> GetMonthlyDischargesForYearAsync(int year);
 }

@@ -36,7 +36,7 @@ public static class Extensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
         services.AddScoped<INotificationService, NotificationService>();
-        services.AddScoped<IDischargeSummaryService, DischargeSummaryService>();
+        services.AddScoped<ISummaryService, SummaryService>();
 
         services.AddSendGrid(configuration);
         

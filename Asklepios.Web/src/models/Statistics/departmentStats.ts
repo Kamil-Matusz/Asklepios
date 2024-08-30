@@ -14,3 +14,8 @@ export interface MonthlyDischargeSummary {
   dischargeMonth: string;
   patientCount: number;
 }
+
+export interface MonthlyAdmissionSummary {
+  admissionMonth: string;
+  patientCount: number;
+}

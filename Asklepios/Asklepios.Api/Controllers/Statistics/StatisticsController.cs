@@ -9,12 +9,12 @@ namespace Asklepios.Api.Controllers.Statistics;
 public class StatisticsController : BaseController
 {
     private readonly IStatisticsService _statisticsService;
-    private readonly IDischargeSummaryService _dischargeSummaryService;
+    private readonly ISummaryService _summaryService;
 
-    public StatisticsController(IStatisticsService statisticsService, IDischargeSummaryService dischargeSummaryService)
+    public StatisticsController(IStatisticsService statisticsService, ISummaryService summaryService)
     {
         _statisticsService = statisticsService;
-        _dischargeSummaryService = dischargeSummaryService;
+        _summaryService = summaryService;
     }
     
     [Authorize(Roles = "Admin, IT Employee")]
@@ -99,7 +99,17 @@ public class StatisticsController : BaseController
     [HttpGet("monthlyDischarges")]
     public async Task<ActionResult<List<MonthlyDischargeSummary>>> GetMonthlyDischarges()
     {
-        var discharges = await _dischargeSummaryService.GetMonthlyDischargesAsync();
+        var discharges = await _summaryService.GetMonthlyDischargesAsync();
         return Ok(discharges);
+    }
+    
+    [Authorize(Roles = "Admin, IT Employee")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [HttpGet("monthlyAdmissions")]
+    public async Task<ActionResult<List<MonthlyDischargeSummary>>> GetMonthlyAdmissions()
+    {
+        var admissions = await _summaryService.GetMonthlyAdmissionsAsync();
+        return Ok(admissions);
     }
 }

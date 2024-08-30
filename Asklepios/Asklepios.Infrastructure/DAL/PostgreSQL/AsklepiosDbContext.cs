@@ -23,6 +23,7 @@ public sealed class AsklepiosDbContext : DbContext
     
     // Views
     public DbSet<MonthlyDischargeSummary> MonthlyDischarges { get; set; }
+    public DbSet<MonthlyAdmissionSummary> MonthlyAdmissionSummaries { get; set; }
     
     public AsklepiosDbContext(DbContextOptions<AsklepiosDbContext> options) : base(options)
     {
@@ -34,6 +35,10 @@ public sealed class AsklepiosDbContext : DbContext
         
         modelBuilder.Entity<MonthlyDischargeSummary>()
             .ToView("monthlydischarges")
+            .HasNoKey();
+        
+        modelBuilder.Entity<MonthlyAdmissionSummary>()
+            .ToView("monthlyadmissions")
             .HasNoKey();
         
         foreach (var entity in modelBuilder.Model.GetEntityTypes())

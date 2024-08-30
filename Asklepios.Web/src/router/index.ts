@@ -34,6 +34,7 @@ import DischargeTemplateView from '@/views/Patients/DischargeTemplateView.vue';
 import DashboardView from '@/views/Users/DashboardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import MonthlyDischargesView from '@/views/Users/MonthlyDischargesView.vue';
+import MonthlyAdmissionsView from '@/views/Users/MonthlyAdmissionsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -177,6 +178,11 @@ const router = createRouter({
       path: '/monthlyDischarges',
       name: 'MonthlyDischarges',
       component: MonthlyDischargesView
+    },
+    {
+      path: '/monthlyAdmissions',
+      name: 'MonthlyAdmissions',
+      component: MonthlyAdmissionsView
     },
     {
       path: '/:pathMatch(.*)*',

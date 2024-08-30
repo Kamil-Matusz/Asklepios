@@ -71,6 +71,11 @@
                 Statystyki wypisów
               </v-btn>
             </v-col>
+            <v-col cols="6" class="text-center">
+              <v-btn color="primary" @click="goToRoute('MonthlyAdmissions')" class="mx-2">
+                Statystyki przyjęć
+              </v-btn>
+            </v-col>
           </v-row>
         </BaseCardWithHover>
       </v-col>
