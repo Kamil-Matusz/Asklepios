@@ -3,9 +3,15 @@ import BasePage from '@/components/pages/BasePage.vue'
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useJwtStore } from '@/stores/jwtStore'
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const jwtStore = useJwtStore();
+const router = useRouter();
+
+const goToRoute = (routeName: string) => {
+  router.push({ name: routeName });
+};
 
 function formatDate(date: Date): string {
   const options: Intl.DateTimeFormatOptions = {
@@ -52,18 +58,13 @@ onMounted(() => {
           cols="12"
           lg="6"
         >
-          <v-dialog max-width="500">
-            <template v-slot:activator="{ props: activatorProps }">
-              <v-btn
-                v-bind="activatorProps"
-                color="primary"
-                variant="flat"
-                class="mb-4 ml-4"
-                style="width: 15rem"
-                >Zmień hasło</v-btn>
-            </template>
-
-          </v-dialog>
+        <v-btn
+            @click="goToRoute('changePassword')"
+            color="primary"
+            variant="flat"
+            class="mb-4 ml-4"
+            style="width: 15rem"
+          >Zmień hasło</v-btn>
         </v-card>
       </v-col>
     </v-row>

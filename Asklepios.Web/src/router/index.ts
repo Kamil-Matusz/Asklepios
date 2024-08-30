@@ -10,6 +10,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/Users/LoginView.vue';
 import ProfileView from '@/views/Users/ProfileView.vue';
 import UserManagmentView from '@/views/Users/UserManagmentView.vue';
+import ChangeUserPasswordView from '@/views/Users/ChangePasswordView.vue';
 import DepartmentView from '@/views/Departments/DepartmentView.vue';
 import EditDepartmentView from '@/views/Departments/EditDepartmentView.vue';
 import ExaminationView from '@/views/Examinations/ExaminationView.vue';
@@ -53,6 +54,11 @@ const router = createRouter({
       path: '/userManagment',
       name: 'userManagment',
       component: UserManagmentView
+    },
+    {
+      path: '/changePassword',
+      name: 'changePassword',
+      component: ChangeUserPasswordView
     },
     {
       path: '/departments',

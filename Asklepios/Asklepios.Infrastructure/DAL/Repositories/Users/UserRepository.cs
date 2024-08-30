@@ -61,6 +61,15 @@ internal sealed class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task ChangeUserPassword(Guid userId, string password)
+    {
+        var user = await _users.SingleOrDefaultAsync(x => x.UserId == userId);
+        user.Password = password;
+        
+        _users.Update(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<List<User>> GetAutocompleteUsers(string search, int limit = 10)
     {
         return await _users

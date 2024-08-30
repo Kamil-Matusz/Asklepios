@@ -63,6 +63,10 @@ async function getDoctorsList() {
   return await httpClient.get<UserAutocompleteDto[]>(`${base}/doctorsList`);
 }
 
+async function changePassword(command: { password: string }) {
+  return await httpClient.put<void>(`${base}/changePassword`, command);
+}
+
 export default {
   getPaginatedUsers,
   deleteUser,
@@ -73,5 +77,6 @@ export default {
   changeUserRole,
   changeAccountStatus,
   getNursesList,
-  getDoctorsList
+  getDoctorsList,
+  changePassword
 };
