@@ -19,6 +19,8 @@ import pl from 'vuetify/lib/locale/pl'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+import i18n from './translator';
+
 import * as signalR from '@microsoft/signalr';
 
 const customTheme = {
@@ -100,5 +102,7 @@ app.use(vuetify).use(createPinia())
 app.use(router)
 
 app.use(Toast);
+
+app.use(i18n);
 
 app.mount('#app')

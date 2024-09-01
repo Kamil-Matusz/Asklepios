@@ -46,6 +46,17 @@ const isRoleDialogActive = ref(false);
 const userToChangeStatus = ref<{ userId: string, isActive: boolean } | null>(null);
 const isStatusDialogActive = ref(false);
 
+const translateRole = (role: string) => {
+  const roleTranslations: { [key: string]: string } = {
+    'Admin': 'Administrator',
+    'Doctor': 'Doktor',
+    'Nurse': 'Pielęgniarka',
+    'IT Employee': 'Pracownik IT',
+    'Patient': 'Pacjent'
+  };
+  return roleTranslations[role] || role;
+};
+
 const getUsers = async () => {
   options.value.loading = true;
   try {
@@ -203,6 +214,10 @@ onMounted(getUsers);
       item-value="userId"
       @update:options="handlePagination"
     >
+      <template #item.role="{ item }">
+        {{ translateRole(item.role) }}
+      </template>
+
       <template #item.actions="{ item }" dense>
         <v-btn
           @click="openEditDialog(item)"
@@ -237,7 +252,13 @@ onMounted(getUsers);
                   text="Usuń użytkownika"
                   color="red"
                   rounded="lg"
-                  @click="() => { isActive.value = false; deleteUser(item.userId); }"
+                  @click="deleteUser(item.userId); isActive.value = false"
+                ></v-btn>
+                <v-btn
+                  color="grey"
+                  rounded="lg"
+                  text="Anuluj"
+                  @click="isActive.value = false"
                 ></v-btn>
               </v-card-actions>
             </v-card>
@@ -248,18 +269,18 @@ onMounted(getUsers);
           @click="openRoleDialog(item)"
           rounded="lg"
           size="small"
-          color="secondary"
+          color="teal"
           class="ml-2"
-          icon="mdi-account-edit"
+          icon="mdi-account-switch"
         ></v-btn>
 
         <v-btn
           @click="openStatusDialog(item)"
           rounded="lg"
           size="small"
-          color="secondary"
+          color="teal"
           class="ml-2"
-          icon="mdi-shield-account"
+          icon="mdi-shield-check"
         ></v-btn>
       </template>
 
@@ -272,12 +293,13 @@ onMounted(getUsers);
       </template>
     </v-data-table-server>
 
-    <v-dialog max-width="500" v-model="isEditDialogActive">
+    <v-dialog v-model="isEditDialogActive" max-width="500">
       <template #default>
         <v-card title="Edytuj użytkownika" rounded="lg">
           <GenerateUserForm
-            v-model="userToEdit"
-            @on-valid-submit="(user) => { updateUser(user); isEditDialogActive.value = false; }"
+            :user="userToEdit"
+            @on-valid-submit="updateUser"
+            @on-invalid-submit="handleInvalidSubmit"
           ></GenerateUserForm>
         </v-card>
       </template>
