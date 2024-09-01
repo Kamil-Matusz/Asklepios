@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import BasePage from '@/components/pages/BasePage.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted} from 'vue'
 import { useUserStore } from '@/stores/userStore'
-import { useJwtStore } from '@/stores/jwtStore'
 import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
-const jwtStore = useJwtStore();
 const router = useRouter();
 
 const goToRoute = (routeName: string) => {

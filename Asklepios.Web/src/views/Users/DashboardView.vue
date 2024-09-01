@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Dashboard">
+  <BasePage title="Panel Kontrolny - Zarządzanie systemem">
     <v-row v-if="isLoading">
       <v-col cols="12">
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -129,10 +129,6 @@ onMounted(async () => {
     await departmentStatsStore.dispatchGetAllDepartmentStats();
     await departmentStatsStore.dispatchGetTotalDoctorsCount();
     await departmentStatsStore.dispatchGetTotalNursesCount();
-
-    console.log('Department Stats:', departmentStatsStore.departmentStats);
-    console.log('Total Departments:', departmentStatsStore.totalDepartmentsCount);
-    console.log('Total Patients:', departmentStatsStore.totalPatientsCount);
   }
 
   isLoading.value = false;

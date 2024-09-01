@@ -36,7 +36,6 @@
               <div>Oddział: {{ nurse.departmentName }}</div>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="blue" text @click="goToDetails(nurse.nurseId)">Szczegóły</v-btn>
               <v-btn color="primary" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
               <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
