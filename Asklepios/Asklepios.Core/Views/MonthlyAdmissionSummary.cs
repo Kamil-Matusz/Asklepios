@@ -1,4 +1,4 @@
-namespace Asklepios.Core.Entities.Views;
+namespace Asklepios.Core.Views;
 
 public class MonthlyAdmissionSummary
 {

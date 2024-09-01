@@ -1,6 +1,6 @@
 using Asklepios.Application.Services.Statistics;
 using Asklepios.Core.DTO.Statistics;
-using Asklepios.Core.Entities.Views;
+using Asklepios.Core.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

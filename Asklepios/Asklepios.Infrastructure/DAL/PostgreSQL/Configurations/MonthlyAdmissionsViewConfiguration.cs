@@ -1,4 +1,4 @@
-using Asklepios.Core.Entities.Views;
+using Asklepios.Core.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

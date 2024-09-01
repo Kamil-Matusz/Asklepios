@@ -1,5 +1,5 @@
-using Asklepios.Core.Entities.Views;
 using Asklepios.Core.Repositories.Statistics;
+using Asklepios.Core.Views;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 

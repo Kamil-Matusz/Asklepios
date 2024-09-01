@@ -1,4 +1,4 @@
-using Asklepios.Core.Entities.Views;
+using Asklepios.Core.Views;
 
 namespace Asklepios.Core.Repositories.Statistics;
 

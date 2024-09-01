@@ -1,5 +1,5 @@
-using Asklepios.Core.Entities.Views;
 using Asklepios.Core.Repositories.Statistics;
+using Asklepios.Core.Views;
 
 namespace Asklepios.Application.Services.Statistics;
 

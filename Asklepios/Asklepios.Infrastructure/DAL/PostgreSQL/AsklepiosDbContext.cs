@@ -2,7 +2,7 @@ using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Examinations;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Entities.Users;
-using Asklepios.Core.Entities.Views;
+using Asklepios.Core.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,6 +20,7 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<Examination> Examinations { get; set; }
     public DbSet<ExamResult> ExamResults { get; set; }
     public DbSet<Operation> Operations { get; set; }
+    public DbSet<PatientHistory> PatientHistories { get; set; }
     
     // Views
     public DbSet<MonthlyDischargeSummary> MonthlyDischarges { get; set; }
