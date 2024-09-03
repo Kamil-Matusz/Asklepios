@@ -19,8 +19,6 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     PatientName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     PatientSurname = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     PeselNumber = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
-                    AdmissionDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    DischargeDate = table.Column<DateOnly>(type: "date", nullable: false),
                     History = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Asklepios.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(AsklepiosDbContext))]
-    [Migration("20240901184310_PatientsHistoryTable")]
+    [Migration("20240903154817_PatientsHistoryTable")]
     partial class PatientsHistoryTable
     {
         /// <inheritdoc />
@@ -287,12 +287,6 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                 {
                     b.Property<Guid>("HistoryId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateOnly>("AdmissionDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("DischargeDate")
-                        .HasColumnType("date");
 
                     b.Property<string>("History")
                         .IsRequired()

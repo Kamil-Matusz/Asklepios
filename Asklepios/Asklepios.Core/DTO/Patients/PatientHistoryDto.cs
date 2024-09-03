@@ -6,7 +6,5 @@ public class PatientHistoryDto
     public string PatientName { get; set; }
     public string PatientSurname { get; set; }
     public string PeselNumber { get; set; }
-    public DateOnly AdmissionDate { get; set; }
-    public DateOnly DischargeDate { get; set; }
     public List<PatientVisitDto> History { get; set; } = new();
 }

@@ -285,12 +285,6 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Property<Guid>("HistoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateOnly>("AdmissionDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("DischargeDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("History")
                         .IsRequired()
                         .HasColumnType("jsonb");

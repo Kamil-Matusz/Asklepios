@@ -13,8 +13,6 @@ internal class PatientHistoryConfiguration : IEntityTypeConfiguration<PatientHis
         builder.Property(x => x.PatientSurname).IsRequired().HasMaxLength(200);
         builder.HasIndex(x => x.PeselNumber).IsUnique();
         builder.Property(x => x.PeselNumber).IsRequired().HasMaxLength(11);
-        builder.Property(ph => ph.AdmissionDate).HasColumnType("date");
-        builder.Property(ph => ph.DischargeDate).HasColumnType("date");
         builder.Property(ph => ph.History).HasColumnType("jsonb");
     }
 }
