@@ -9,4 +9,5 @@ public interface IPatientHistoryRepository
     Task AddPatientHistoryAsync(PatientHistory patientHistory);
     Task UpdatePatientHistoryAsync(PatientHistory patientHistory);
     Task DeletePatientHistoryAsync(PatientHistory patientHistory);
+    Task<bool> PatientExistAsync(string peselNumber);
 }

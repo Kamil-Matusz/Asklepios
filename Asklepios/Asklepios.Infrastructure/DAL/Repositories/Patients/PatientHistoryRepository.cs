@@ -47,4 +47,11 @@ public class PatientHistoryRepository : IPatientHistoryRepository
         _patientHistories.Remove(patientHistory);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> PatientExistAsync(string peselNumber)
+    {
+        return await _patientHistories
+            .AsNoTracking()
+            .AnyAsync(x => x.PeselNumber == peselNumber);
+    }
 }

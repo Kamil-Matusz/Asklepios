@@ -24,8 +24,9 @@ public class DischargesController : BaseController
     private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
     private readonly IMedicalStaffService _medicalStaffService;
+    private readonly IPatientHistoryService _patientHistoryService;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService, IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> getDoctorDischarges, IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> getAllDischarges)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService, IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> getDoctorDischarges, IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> getAllDischarges, IPatientHistoryService patientHistoryService)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
@@ -38,6 +39,7 @@ public class DischargesController : BaseController
         _medicalStaffService = medicalStaffService;
         _getDoctorDischarges = getDoctorDischarges;
         _getAllDischarges = getAllDischarges;
+        _patientHistoryService = patientHistoryService;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -183,6 +185,27 @@ public class DischargesController : BaseController
         
         await _addDischargeHandler.HandlerAsync(addDischargeCommand);
         await _updateDischargeStatusHandler.HandlerAsync(updateDischargeStatusCommand);
+        
+        var patientHistoryDto = new PatientHistoryDto
+        {
+            PatientName = patients.PatientName,
+            PatientSurname = patients.PatientSurname,
+            PeselNumber = patients.PeselNumber,
+            History = new List<PatientVisitDto>
+            {
+                new PatientVisitDto
+                {
+                    AdmissionDate = DateOnly.FromDateTime(DateTime.Now),
+                    DischargeDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                    OperationName = "Appendectomy",
+                    Result = "Success",
+                    Comlications = "None",
+                    AnesthesiaType = "General"
+                }
+            }
+        };
+
+        await _patientHistoryService.AddOrUpdatePatientHistoryAsync(patientHistoryDto);
         
         return Ok();
     }
