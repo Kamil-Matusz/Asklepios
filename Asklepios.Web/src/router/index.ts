@@ -36,6 +36,7 @@ import DashboardView from '@/views/Users/DashboardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import MonthlyDischargesView from '@/views/Users/MonthlyDischargesView.vue';
 import MonthlyAdmissionsView from '@/views/Users/MonthlyAdmissionsView.vue';
+import PatientHistorySearchView from '@/views/Patients/PatientHistorySearchView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -136,6 +137,11 @@ const router = createRouter({
       path: '/patients',
       name: 'patients',
       component: PatientView
+    },
+    {
+      path: '/patientHistory',
+      name: 'patientHistory',
+      component: PatientHistorySearchView
     },
     {
       path: '/yourPatients',
