@@ -37,6 +37,12 @@ public class OperationService : IOperationService
         return operations.Select(MapOperationItem<OperationItemDto>).ToList();
     }
 
+    public async Task<IReadOnlyList<OperationItemDto>> GetAllOperationsByPatientAsync(Guid patientId)
+    {
+        var operations = await _operationRepository.GetAllOperationsByPatientAsync(patientId);
+        return operations.Select(MapOperationItem<OperationItemDto>).ToList();
+    }
+
     public async Task<IReadOnlyList<OperationItemDto>> GetAllOperationsByDoctorIdAsync(Guid doctorId, int pageIndex, int pageSize)
     {
         var operations = await _operationRepository.GetAllOperationsByDoctorAsync(doctorId, pageIndex, pageSize);
