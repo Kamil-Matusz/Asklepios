@@ -22,12 +22,6 @@ public class PatientHistoriesController : BaseController
     public async Task<ActionResult<PatientHistoryDto>> GetPatientHistoriesByPesel(string peselNumber)
     {
         var patientHistory = await _patientHistoryService.GetFullPatientHistoryByPeselAsync(peselNumber);
-        
-        if (patientHistory is null)
-        {
-            return NotFound();
-        }
-
         return Ok(patientHistory);
     }
     

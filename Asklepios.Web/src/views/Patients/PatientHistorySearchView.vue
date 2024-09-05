@@ -1,7 +1,12 @@
 <template>
   <v-container>
-    <!-- Sekcja wyszukiwania -->
     <v-row justify="center" class="mt-5">
+      <v-col cols="12" class="text-center">
+        <h2>Wyszukiwanie historii pacjenta po numerze PESEL</h2>
+      </v-col>
+    </v-row>
+
+    <v-row justify="center" class="mt-3">
       <v-col cols="12" sm="8" md="6">
         <v-text-field
           v-model="pesel"
@@ -15,38 +20,41 @@
       </v-col>
     </v-row>
 
-    <!-- Wyświetlanie wyników -->
     <v-row justify="center" v-if="patientHistory">
       <v-col cols="12" sm="10" md="8">
         <v-card class="pa-4" color="grey darken-3" dark>
           <v-card-title>
-            Historia pacjenta: {{ patientHistory.patientName }} {{ patientHistory.patientSurname }}
+            Historia pacjenta: <strong>{{ patientHistory.patientName }} {{ patientHistory.patientSurname }}</strong>
           </v-card-title>
-          <v-card-subtitle>PESEL: {{ patientHistory.peselNumber }}</v-card-subtitle>
+          <v-card-subtitle>PESEL: <strong>{{ patientHistory.peselNumber }}</strong></v-card-subtitle>
 
           <v-card-text>
-            <v-simple-table v-if="patientHistory.history && patientHistory.history.length > 0">
-              <thead>
-                <tr>
-                  <th>Data Przyjęcia</th>
-                  <th>Data Wypisu</th>
-                  <th>Nazwa Operacji</th>
-                  <th>Wynik</th>
-                  <th>Powikłania</th>
-                  <th>Typ Znieczulenia</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="visit in patientHistory.history" :key="visit.admissionDate">
-                  <td>{{ formatDate(visit.admissionDate) }}</td>
-                  <td>{{ formatDate(visit.dischargeDate) }}</td>
-                  <td>{{ visit.operationName }}</td>
-                  <td>{{ visit.result }}</td>
-                  <td>{{ visit.complications }}</td>
-                  <td>{{ visit.anesthesiaType }}</td>
-                </tr>
-              </tbody>
-            </v-simple-table>
+            <v-row v-if="patientHistory.history && patientHistory.history.length > 0" v-for="visit in patientHistory.history" :key="visit.admissionDate">
+              <v-col cols="12" class="mb-3">
+                <v-card color="grey lighten-4" class="pa-3" outlined>
+                  <v-row>
+                    <v-col cols="12">
+                      <strong>Data Przyjęcia:</strong> {{ formatDate(visit.admissionDate) }}
+                    </v-col>
+                    <v-col cols="12">
+                      <strong>Data Wypisu:</strong> {{ formatDate(visit.dischargeDate) }}
+                    </v-col>
+                    <v-col cols="12">
+                      <strong>Nazwa Operacji:</strong> {{ visit.operationName }}
+                    </v-col>
+                    <v-col cols="12">
+                      <strong>Wynik:</strong> {{ visit.result }}
+                    </v-col>
+                    <v-col cols="12">
+                      <strong>Powikłania:</strong> {{ visit.complications }}
+                    </v-col>
+                    <v-col cols="12">
+                      <strong>Typ Znieczulenia:</strong> {{ visit.anesthesiaType }}
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+            </v-row>
             <div v-else>
               <v-alert type="info" border="left" colored-border>
                 Brak historii
@@ -57,7 +65,6 @@
       </v-col>
     </v-row>
 
-    <!-- Komunikat o braku pacjenta -->
     <v-row justify="center" v-if="notFound">
       <v-col cols="12" sm="10" md="8">
         <v-alert type="error" border="left" colored-border>
@@ -107,5 +114,41 @@ const formatDate = (date) => {
 <style scoped>
 .v-card {
   margin-top: 20px;
+  border-radius: 15px;
+}
+
+.v-card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.v-row {
+  margin-bottom: 10px;
+}
+
+.v-col {
+  padding: 5px 0;
+}
+
+.v-card-subtitle {
+  margin-top: -10px;
+  font-size: 1rem;
+}
+
+.v-btn {
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.v-alert {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: whitesmoke;
+  margin-bottom: 20px;
 }
 </style>
