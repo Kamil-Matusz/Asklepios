@@ -34,6 +34,7 @@ public class PatientService : IPatientService
         }
         
         dto.PatientId = Guid.NewGuid();
+        dto.AdmissionDate = DateOnly.FromDateTime(DateTime.Today);
         await _patientRepository.AddPatientAsync(new Patient
         {
             PatientId = dto.PatientId,
@@ -45,7 +46,9 @@ public class PatientService : IPatientService
             Treatment = dto.Treatment,
             DepartmentId = dto.DepartmentId,
             RoomId = dto.RoomId,
-            MedicalStaffId = dto.MedicalStaffId
+            MedicalStaffId = dto.MedicalStaffId,
+            AdmissionDate = dto.AdmissionDate,
+            Address = dto.Address
         });
         
         if (dto.MedicalStaffId != Guid.Empty)
@@ -130,6 +133,8 @@ public class PatientService : IPatientService
         patient.DepartmentId = dto.DepartmentId;
         patient.RoomId = dto.RoomId;
         patient.MedicalStaffId = dto.MedicalStaffId;
+        patient.AdmissionDate = dto.AdmissionDate;
+        patient.Address = dto.Address;
 
         await _patientRepository.UpdatePatientAsync(patient);
     }
@@ -162,7 +167,9 @@ public class PatientService : IPatientService
        Treatment = patient.Treatment,
        DepartmentId = patient.DepartmentId,
        RoomId = patient.RoomId,
-       MedicalStaffId = patient.MedicalStaffId
+       MedicalStaffId = patient.MedicalStaffId,
+       AdmissionDate = patient.AdmissionDate,
+       Address = patient.Address
     };
     
     private static T MapPatientList<T>(Patient patient) where T : PatientListDto, new() => new T()
@@ -175,7 +182,8 @@ public class PatientService : IPatientService
         IsDischarged = patient.IsDischarged,
         Treatment = patient.Treatment,
         DepartmentName = patient.Department.DepartmentName,
-        RoomNumber = patient.Room.RoomNumber
+        RoomNumber = patient.Room.RoomNumber,
+        AdmissionDate = patient.AdmissionDate,
     };
     
     private static T MapPatientsListAutocomplete<T>(Patient patient) where T : PatientAutocompleteDto, new() => new T()

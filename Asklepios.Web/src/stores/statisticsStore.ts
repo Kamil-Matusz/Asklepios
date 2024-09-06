@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type DepartmentStatsDto } from '@/models/Statistics/departmentStats';
+import { MonthlyDischargeSummary, type DepartmentStatsDto, MonthlyAdmissionSummary } from '@/models/Statistics/departmentStats';
 
 export const useDepartmentStatsStore = defineStore('departmentStatsStore', () => {
   const departmentStats = ref<DepartmentStatsDto | null>(null);
   const allDepartmentStats = ref<DepartmentStatsDto | null>(null);
+  const monthlyDischargeSummary = ref<MonthlyDischargeSummary | null>(null);
+  const monthlyAdmissionSummary = ref<MonthlyAdmissionSummary | null>(null);
   const totalPatientsCount = ref<number>(0);
   const totalDepartmentsCount = ref<number>(0);
   const totalDoctorsCount = ref<number>(0);
@@ -47,6 +49,18 @@ export const useDepartmentStatsStore = defineStore('departmentStatsStore', () =>
     return data;
   }
 
+  async function dispatchMonthlyDischarges() {
+    const { data } = await API.statistic.getMonthlyDischarges();
+    monthlyDischargeSummary.value = data;
+    return data;
+  }
+
+  async function dispatchMonthlyAdmissions() {
+    const { data } = await API.statistic.getMonthlyAdmissions();
+    monthlyAdmissionSummary.value = data;
+    return data;
+  }
+
   return {
     departmentStats,
     allDepartmentStats,
@@ -54,11 +68,15 @@ export const useDepartmentStatsStore = defineStore('departmentStatsStore', () =>
     totalDepartmentsCount,
     totalDoctorsCount,
     totalNursesCount,
+    monthlyDischargeSummary,
+    monthlyAdmissionSummary,
     dispatchGetDepartmentStats,
     dispatchGetAllDepartmentStats,
     dispatchGetTotalPatientsCount,
     dispatchGetTotalDepartmentsCount,
     dispatchGetTotalDoctorsCount,
-    dispatchGetTotalNursesCount
+    dispatchGetTotalNursesCount,
+    dispatchMonthlyDischarges,
+    dispatchMonthlyAdmissions
   };
 });

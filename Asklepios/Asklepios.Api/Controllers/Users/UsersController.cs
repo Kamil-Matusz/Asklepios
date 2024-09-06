@@ -21,10 +21,11 @@ public class UsersController : BaseController
     private readonly ICommandHandler<GenerateUserAccount> _generateUserAccountHandler;
     private readonly IQueryHandler<GetAccountInfo, AccountDto> _getAccountInfo;
     private readonly IQueryHandler<GetAllUsers, IEnumerable<UserDto>> _getAllUsersHandler;
+    private readonly ICommandHandler<ChangeUserPassword> _changeUserPasswordHandler;
     private readonly ITokenStorage _tokenStorage;
     private readonly IUserService _userService;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService, ICommandHandler<ChangeUserPassword> changeUserPasswordHandler)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -36,6 +37,7 @@ public class UsersController : BaseController
         _getAllUsersHandler = getAllUsersHandler;
         _changeAccountStatus = changeAccountStatus;
         _userService = userService;
+        _changeUserPasswordHandler = changeUserPasswordHandler;
     }
     
     [HttpPost("signUp")]
@@ -193,5 +195,19 @@ public class UsersController : BaseController
     {
         var users = await _userService.GetDoctorsList();
         return Ok(users);
+    }
+    
+    [Authorize]
+    [HttpPut("changePassword")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> ChangePassword(ChangeUserPassword command)
+    {
+        var userId = Guid.Parse(User.Identity?.Name);
+        await _changeUserPasswordHandler.HandlerAsync(command with { UserId = userId, Password  = command.Password });
+        return Ok();
     }
 }

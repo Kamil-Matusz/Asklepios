@@ -11,4 +11,6 @@ public class PatientListDto
     public string Treatment { get; set; }
     public string DepartmentName { get; set; }
     public int RoomNumber { get; set; }
+    public DateOnly AdmissionDate { get; set; }
+    public string Address { get; set; }
 }

@@ -1,5 +1,6 @@
 using Asklepios.Application.Services.Statistics;
 using Asklepios.Core.DTO.Statistics;
+using Asklepios.Core.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,12 @@ namespace Asklepios.Api.Controllers.Statistics;
 public class StatisticsController : BaseController
 {
     private readonly IStatisticsService _statisticsService;
+    private readonly ISummaryService _summaryService;
 
-    public StatisticsController(IStatisticsService statisticsService)
+    public StatisticsController(IStatisticsService statisticsService, ISummaryService summaryService)
     {
         _statisticsService = statisticsService;
+        _summaryService = summaryService;
     }
     
     [Authorize(Roles = "Admin, IT Employee")]
@@ -88,5 +91,25 @@ public class StatisticsController : BaseController
     {
         var totalNurses = await _statisticsService.GetTotalNursesCountAsync();
         return Ok(totalNurses);
+    }
+    
+    [Authorize(Roles = "Admin, IT Employee")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [HttpGet("monthlyDischarges")]
+    public async Task<ActionResult<List<MonthlyDischargeSummary>>> GetMonthlyDischarges()
+    {
+        var discharges = await _summaryService.GetMonthlyDischargesAsync();
+        return Ok(discharges);
+    }
+    
+    [Authorize(Roles = "Admin, IT Employee")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [HttpGet("monthlyAdmissions")]
+    public async Task<ActionResult<List<MonthlyDischargeSummary>>> GetMonthlyAdmissions()
+    {
+        var admissions = await _summaryService.GetMonthlyAdmissionsAsync();
+        return Ok(admissions);
     }
 }

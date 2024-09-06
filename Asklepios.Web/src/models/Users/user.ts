@@ -34,3 +34,7 @@ export interface GenerateUserAccount {
   email: string;
   isActive: boolean;
 }
+
+export interface ChangeUserPassword {
+  password: string;
+}

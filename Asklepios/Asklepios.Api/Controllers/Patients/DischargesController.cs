@@ -1,6 +1,7 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands.Discharges;
 using Asklepios.Application.Queries.Discharges;
+using Asklepios.Application.Services.Examinations;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
@@ -21,23 +22,25 @@ public class DischargesController : BaseController
     private readonly ICommandHandler<UpdateDischargeStatus> _updateDischargeStatusHandler;
     private readonly IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> _getDoctorDischarges;
     private readonly IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> _getAllDischarges;
-    private readonly IBusPublisher _busPublisher;
     private readonly IPatientService _patientService;
     private readonly IMedicalStaffService _medicalStaffService;
+    private readonly IPatientHistoryService _patientHistoryService;
+    private readonly IOperationService _operationService;
 
-    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IBusPublisher busPublisher, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService, IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> getDoctorDischarges, IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> getAllDischarges)
+    public DischargesController(ICommandHandler<AddDischarge> addDischargeHandler, ICommandHandler<DeleteDischarge> deleteDischargeHandler, IQueryHandler<GetDischargeById, DischargeItemDto> getDischargeByIdHandler, IQueryHandler<GetDischargeByPesel, DischargeItemDto> getDischargeByPeselHandler, IPatientService patientService, ICommandHandler<UpdateDischarge> updateDischargeHandler, ICommandHandler<UpdateDischargeStatus> updateDischargeStatusHandler, IMedicalStaffService medicalStaffService, IQueryHandler<GetDoctorDischarges, IEnumerable<DischargeItemDto>> getDoctorDischarges, IQueryHandler<GetAllDischarges, IEnumerable<DischargeItemDto>> getAllDischarges, IPatientHistoryService patientHistoryService, IOperationService operationService)
     {
         _addDischargeHandler = addDischargeHandler;
         _deleteDischargeHandler = deleteDischargeHandler;
         _getDischargeByIdHandler = getDischargeByIdHandler;
         _getDischargeByPeselHandler = getDischargeByPeselHandler;
-        _busPublisher = busPublisher;
         _patientService = patientService;
         _updateDischargeHandler = updateDischargeHandler;
         _updateDischargeStatusHandler = updateDischargeStatusHandler;
         _medicalStaffService = medicalStaffService;
         _getDoctorDischarges = getDoctorDischarges;
         _getAllDischarges = getAllDischarges;
+        _patientHistoryService = patientHistoryService;
+        _operationService = operationService;
     }
 
     [Authorize(Roles = "Doctor")]
@@ -114,41 +117,6 @@ public class DischargesController : BaseController
         await _updateDischargeHandler.HandlerAsync(command with { DischargeId = dischargeId});
         return Ok();
     }
-
-    /*[Authorize(Roles = "Doctor")]
-    [HttpPost("dischargePatient")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DischargePerson(DischargePersonDto dto)
-    {
-        var patients = await _patientService.GetPatientDataAsync(dto.PatientId);
-        var userId = Guid.Parse(User.Identity?.Name);
-        var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
-        
-        var dischargeEvent = new DischargePatient(
-            DischargeId: Guid.NewGuid(),
-            PatientName: patients.PatientName,
-            PatientSurname: patients.PatientSurname,
-            PeselNumber: patients.PeselNumber,
-            Date: dto.DischargeDate,
-            DischargeReasson: dto.DischargeReason,
-            Summary: dto.Summary,
-            MedicalStaffId: doctorId
-        );
-
-        var updateDischargeStatusEvent = new UpdateDischargeStatus(
-            PatientId: dto.PatientId,
-            DischargeStatus: true
-        );
-        
-        await _busPublisher.PublishAsync(dischargeEvent);
-        await _busPublisher.PublishAsync(updateDischargeStatusEvent);
-        
-        return Ok();
-    }*/
     
     [Authorize(Roles = "Doctor, Admin")]
     [HttpPost("dischargePatient")]
@@ -169,7 +137,7 @@ public class DischargesController : BaseController
             PatientName: patients.PatientName,
             PatientSurname: patients.PatientSurname,
             PeselNumber: patients.PeselNumber,
-            Address: "Urocza 3",
+            Address: patients.Address,
             Date: DateOnly.FromDateTime(DateTime.Now),
             DischargeReasson: dto.DischargeReasson,
             Summary: dto.Summary,
@@ -183,7 +151,29 @@ public class DischargesController : BaseController
         
         await _addDischargeHandler.HandlerAsync(addDischargeCommand);
         await _updateDischargeStatusHandler.HandlerAsync(updateDischargeStatusCommand);
+
+        var operations = await _operationService.GetAllOperationsByPatientAsync(patients.PatientId);
         
+        var patientVisits = operations.Select(operation => new PatientVisitDto
+        {
+            AdmissionDate = DateOnly.FromDateTime(DateTime.Now),
+            DischargeDate = DateOnly.FromDateTime(DateTime.Now).AddDays(2),
+            OperationName = operation.OperationName,
+            Result = operation.Result,
+            Comlications = operation.Comlications,
+            AnesthesiaType = operation.AnesthesiaType
+        }).ToList();
+        
+        var patientHistoryDto = new PatientHistoryDto
+        {
+            PatientName = patients.PatientName,
+            PatientSurname = patients.PatientSurname,
+            PeselNumber = patients.PeselNumber,
+            History = patientVisits
+        };
+
+        await _patientHistoryService.AddOrUpdatePatientHistoryAsync(patientHistoryDto);
+    
         return Ok();
     }
 

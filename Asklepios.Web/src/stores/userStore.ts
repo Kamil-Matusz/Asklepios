@@ -101,6 +101,10 @@ export const useUserStore = defineStore('usersStore', () => {
     return data as UserAutocompleteDto[];
   }
 
+  async function dispatchChangePassword(password: string) {
+    await API.users.changePassword({ password });
+  }
+
   return {
     users,
     totalItems,
@@ -118,6 +122,7 @@ export const useUserStore = defineStore('usersStore', () => {
     dispatchChangeUserRole,
     dispatchChangeAccountStatus,
     dispatchGetNurses,
-    dispatchGetDoctors
+    dispatchGetDoctors,
+    dispatchChangePassword
   };
 });

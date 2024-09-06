@@ -26,12 +26,16 @@ public class Patient
     public IEnumerable<ExamResult> ExamResults { get; set; }
     
     public IEnumerable<Operation> Operations { get; set; }
+    
+    public DateOnly AdmissionDate { get; set; }
+    
+    public string Address { get; set; }
 
     public Patient()
     {
     }
 
-    public Patient(Guid patientId, string patientName, string patientSurname, string peselNumber, string initialDiagnosis, bool isDischarged, string treatment, Guid departmentId, Guid roomId, Guid medicalStaffId)
+    public Patient(Guid patientId, string patientName, string patientSurname, string peselNumber, string initialDiagnosis, bool isDischarged, string treatment, Guid departmentId, Guid roomId, Guid medicalStaffId, DateOnly admissionDate, string address)
     {
         PatientId = patientId;
         PatientName = patientName;
@@ -43,5 +47,7 @@ public class Patient
         DepartmentId = departmentId;
         RoomId = roomId;
         MedicalStaffId = medicalStaffId;
+        AdmissionDate = admissionDate;
+        Address = address;
     }
 }

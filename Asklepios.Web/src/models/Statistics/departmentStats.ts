@@ -9,3 +9,13 @@ export interface DepartmentStatsDto {
   totalDepartments: number;
   departmentDetails: Record<string, DepartmentDetailDto>;
 }
+
+export interface MonthlyDischargeSummary {
+  dischargeMonth: string;
+  patientCount: number;
+}
+
+export interface MonthlyAdmissionSummary {
+  admissionMonth: string;
+  patientCount: number;
+}

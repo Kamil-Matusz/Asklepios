@@ -46,10 +46,9 @@ export const useJwtStore = defineStore("JwtStore", () => {
 
       initSignalR(user.userId);
 
-      // Aktualizacja stanu logowania
       isLoggedIn.value = true;
       toast.success("Zalogowano pomyślnie!");
-      router.push("/profile");
+      router.push("/dashboard");
     } catch (error: any) {
       console.error("Login error:", error);
       if (error.response && error.response.status === 403) {

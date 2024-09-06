@@ -43,6 +43,8 @@ public static class Extensions
         services.AddScoped<IExamResultRepository, ExamResultRepository>();
         services.AddScoped<IOperationRepository, OperationRepository>();
         services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+        services.AddScoped<ISummaryRepository, SummaryRepository>();
+        services.AddScoped<IPatientHistoryRepository, PatientHistoryRepository>();
         
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();

@@ -1,5 +1,5 @@
 import httpClient from '../httpClient';
-import { type DepartmentStatsDto } from '@/models/Statistics/departmentStats';
+import { MonthlyDischargeSummary, type DepartmentStatsDto, MonthlyAdmissionSummary } from '@/models/Statistics/departmentStats';
 
 const base = 'statistics-module/Statistics';
 
@@ -27,11 +27,21 @@ async function getTotalNursesCount() {
   return await httpClient.get<number>(`${base}/totalNurses`);
 }
 
+async function getMonthlyDischarges() {
+  return await httpClient.get<MonthlyDischargeSummary>(`${base}/monthlyDischarges`);
+}
+
+async function getMonthlyAdmissions() {
+  return await httpClient.get<MonthlyAdmissionSummary>(`${base}/monthlyAdmissions`);
+}
+
 export default {
   getDepartmentStats,
   getAllDepartmentStats,
   getTotalPatientsCount,
   getTotalDepartmentsCount,
   getTotalDoctorsCount,
-  getTotalNursesCount
+  getTotalNursesCount,
+  getMonthlyDischarges,
+  getMonthlyAdmissions
 };

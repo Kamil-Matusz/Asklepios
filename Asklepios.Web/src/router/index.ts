@@ -10,6 +10,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/Users/LoginView.vue';
 import ProfileView from '@/views/Users/ProfileView.vue';
 import UserManagmentView from '@/views/Users/UserManagmentView.vue';
+import ChangeUserPasswordView from '@/views/Users/ChangePasswordView.vue';
 import DepartmentView from '@/views/Departments/DepartmentView.vue';
 import EditDepartmentView from '@/views/Departments/EditDepartmentView.vue';
 import ExaminationView from '@/views/Examinations/ExaminationView.vue';
@@ -33,6 +34,9 @@ import DischargesView from '@/views/Patients/DischargesView.vue';
 import DischargeTemplateView from '@/views/Patients/DischargeTemplateView.vue';
 import DashboardView from '@/views/Users/DashboardView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
+import MonthlyDischargesView from '@/views/Users/MonthlyDischargesView.vue';
+import MonthlyAdmissionsView from '@/views/Users/MonthlyAdmissionsView.vue';
+import PatientHistorySearchView from '@/views/Patients/PatientHistorySearchView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +55,11 @@ const router = createRouter({
       path: '/userManagment',
       name: 'userManagment',
       component: UserManagmentView
+    },
+    {
+      path: '/changePassword',
+      name: 'changePassword',
+      component: ChangeUserPasswordView
     },
     {
       path: '/departments',
@@ -130,6 +139,11 @@ const router = createRouter({
       component: PatientView
     },
     {
+      path: '/patientHistory',
+      name: 'patientHistory',
+      component: PatientHistorySearchView
+    },
+    {
       path: '/yourPatients',
       name: 'yourPatients',
       component: PatientsByDoctorView
@@ -171,6 +185,16 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: DashboardView
+    },
+    {
+      path: '/monthlyDischarges',
+      name: 'MonthlyDischarges',
+      component: MonthlyDischargesView
+    },
+    {
+      path: '/monthlyAdmissions',
+      name: 'MonthlyAdmissions',
+      component: MonthlyAdmissionsView
     },
     {
       path: '/:pathMatch(.*)*',

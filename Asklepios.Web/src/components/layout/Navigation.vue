@@ -75,6 +75,12 @@ onMounted(() => {
             to="/nurses"
           ></v-list-item>
           <v-list-item
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')"
+            prepend-icon="mdi mdi-card-search-outline"
+            title="Wyszukaj historię pacjeta"
+            to="/patientHistory"
+          ></v-list-item>
+          <v-list-item
             v-if="user && getUserRole() === 'Admin' || getUserRole() === 'Doctor'"
             prepend-icon="mdi mdi-account-injury"
             title="Pacjenci"

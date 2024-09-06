@@ -63,6 +63,12 @@
       :rules="medicalStaffRules"
       required
     ></v-select>
+    <v-text-field
+      label="Adres Pacjenta"
+      v-model="form.address"
+      :rules="addressRules"
+      required
+    ></v-text-field>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
@@ -154,5 +160,8 @@ const treatmentRules = [
 ];
 const medicalStaffRules = [
   (v: string) => !!v || 'Personel medyczny jest wymagany',
+];
+const addressRules = [
+  (v: string) => !!v || 'Adres jest wymagany',
 ];
 </script>

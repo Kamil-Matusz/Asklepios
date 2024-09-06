@@ -32,6 +32,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<IReadOnlyList<Patient>> GetAllPatientsAsync(int pageIndex, int pageSize)
         => await _patients
+            .Where(x => x.IsDischarged == false)
             .Include(x => x.Department)
             .Include(x => x.Room)
             .Include(x => x.Operations)
@@ -44,6 +45,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<IReadOnlyList<Patient>> GetAllPatientsByDepartmentAsync(Guid departmentId, int pageIndex, int pageSize)
         => await _patients
+            .Where(x => x.IsDischarged == false)
             .Include(x => x.Department)
             .Include(x => x.Room)
             .Include(x => x.Operations)

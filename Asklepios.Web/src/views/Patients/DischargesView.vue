@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Twoje wypisy">
+  <BasePage title="Wypisy pacjentów">
     <v-data-table-server
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"

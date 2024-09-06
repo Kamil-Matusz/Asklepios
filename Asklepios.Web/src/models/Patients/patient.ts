@@ -11,6 +11,8 @@ export interface PatientDto {
   treatment: string;
   departmentId: string;
   roomId: string;
+  admissionDate: Date;
+  address: string;
 }
 
 export interface PatientListDto {
@@ -47,6 +49,7 @@ export class InputCreatePatient {
   departmentId: string = '';
   roomId: string = '';
   medicalStaffId: string = '';
+  address: string = '';
 }
 
 

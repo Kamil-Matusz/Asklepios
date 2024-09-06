@@ -36,6 +36,8 @@ public static class Extensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<ISummaryService, SummaryService>();
+        services.AddScoped<IPatientHistoryService, PatientHistoryService>();
 
         services.AddSendGrid(configuration);
         

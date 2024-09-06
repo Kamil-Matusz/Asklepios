@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Dashboard">
+  <BasePage title="Panel Kontrolny - Zarządzanie systemem">
     <v-row v-if="isLoading">
       <v-col cols="12">
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -66,6 +66,16 @@
                 Pielęgniarki
               </v-btn>
             </v-col>
+            <v-col cols="6" class="text-center">
+              <v-btn color="primary" @click="goToRoute('MonthlyDischarges')" class="mx-2">
+                Statystyki wypisów
+              </v-btn>
+            </v-col>
+            <v-col cols="6" class="text-center">
+              <v-btn color="primary" @click="goToRoute('MonthlyAdmissions')" class="mx-2">
+                Statystyki przyjęć
+              </v-btn>
+            </v-col>
           </v-row>
         </BaseCardWithHover>
       </v-col>
@@ -119,10 +129,6 @@ onMounted(async () => {
     await departmentStatsStore.dispatchGetAllDepartmentStats();
     await departmentStatsStore.dispatchGetTotalDoctorsCount();
     await departmentStatsStore.dispatchGetTotalNursesCount();
-
-    console.log('Department Stats:', departmentStatsStore.departmentStats);
-    console.log('Total Departments:', departmentStatsStore.totalDepartmentsCount);
-    console.log('Total Patients:', departmentStatsStore.totalPatientsCount);
   }
 
   isLoading.value = false;
