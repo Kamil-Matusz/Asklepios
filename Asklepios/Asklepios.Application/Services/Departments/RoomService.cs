@@ -66,6 +66,8 @@ public class RoomService : IRoomService
 
         room.RoomNumber = dto.RoomNumber;
         room.RoomType = dto.RoomType;
+        room.NumberOfBeds = dto.NumberOfBeds;
+        room.DepartmentId = dto.DepartmentId;
 
         await _roomRepository.UpdateRoomAsync(room);
     }
@@ -79,6 +81,12 @@ public class RoomService : IRoomService
         }
         
         await _roomRepository.DeleteRoomAsync(room);
+    }
+
+    public async Task<IReadOnlyList<RoomAutocompleteDto>> GetRoomsListAsync()
+    {
+        var rooms = await _roomRepository.GetRoomsList();
+        return rooms.Select(MapRoomAutocomplete<RoomAutocompleteDto>).ToList();
     }
 
     private static T Map<T>(Room room) where T : RoomDto, new() => new T()
@@ -97,5 +105,12 @@ public class RoomService : IRoomService
         RoomNumber = room.RoomNumber,
         RoomType = room.RoomType,
         NumberOfBeds = room.NumberOfBeds
+    };
+    
+    private static T MapRoomAutocomplete<T>(Room room) where T : RoomAutocompleteDto, new() => new T()
+    {
+        RoomId = room.RoomId,
+        RoomNumber = room.RoomNumber,
+        RoomType = room.RoomType,
     };
 }

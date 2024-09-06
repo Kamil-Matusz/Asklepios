@@ -51,4 +51,47 @@ internal sealed class UserRepository : IUserRepository
         _users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task ChangeAccountStatusAsync(Guid userId, bool status)
+    {
+        var user = await _users.SingleOrDefaultAsync(x => x.UserId == userId);
+        user.IsActive = status;
+
+        _users.Update(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task ChangeUserPassword(Guid userId, string password)
+    {
+        var user = await _users.SingleOrDefaultAsync(x => x.UserId == userId);
+        user.Password = password;
+        
+        _users.Update(user);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<User>> GetAutocompleteUsers(string search, int limit = 10)
+    {
+        return await _users
+            .Where(d => d.Email.Contains(search))
+            .OrderBy(d => d.Email)
+            .Take(limit)
+            .ToListAsync();
+    }
+    
+    public async Task<List<User>> GetNursesList()
+    {
+        return await _users
+            .AsNoTracking()
+            .Where(x => x.Role == "Nurse")
+            .ToListAsync();
+    }
+
+    public async Task<List<User>> GetDoctorsList()
+    {
+        return await _users
+            .AsNoTracking()
+            .Where(x => x.Role == "Doctor")
+            .ToListAsync();
+    }
 }

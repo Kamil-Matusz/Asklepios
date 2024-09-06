@@ -23,6 +23,7 @@ public class MedicalStaff
     public IEnumerable<Discharge> Discharges { get; set; }
     
     public IEnumerable<Operation> Operations { get; set; }
+    public IEnumerable<Patient> Patients { get; set; }
 
     public MedicalStaff()
     {

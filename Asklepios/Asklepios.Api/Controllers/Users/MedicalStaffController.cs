@@ -14,7 +14,7 @@ public class MedicalStaffController : BaseController
         _medicalStaffService = medicalStaffService;
     }
     
-    [Authorize]
+    [Authorize(Roles = "Admin, IT Employee")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -67,5 +67,15 @@ public class MedicalStaffController : BaseController
     {
         await _medicalStaffService.DeleteDoctorAsync(id);
         return NoContent();
+    }
+    
+    [Authorize]
+    [HttpGet("medicalStaffLists")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<UserAutocompleteDto>>> GetDoctorsList()
+    {
+        var doctors = await _medicalStaffService.GetDoctorsList();
+        return Ok(doctors);
     }
 }

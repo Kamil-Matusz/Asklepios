@@ -58,6 +58,12 @@ public class MedicalStaffService : IMedicalStaffService
         return doctorId;
     }
 
+    public async Task<Guid> GetUserIdByDoctorAsync(Guid doctorId)
+    {
+        var userId = await _medicalStaffRepository.GetUserIdByDoctor(doctorId);
+        return userId;
+    }
+
     public async Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize)
     {
         var doctors = await _medicalStaffRepository.GetAllNDoctorsAsync(pageIndex, pageSize);
@@ -92,7 +98,13 @@ public class MedicalStaffService : IMedicalStaffService
 
         await _medicalStaffRepository.DeleteDoctorAsync(doctor);
     }
-    
+
+    public async Task<List<MedicalStaffAutocompleteDto>> GetDoctorsList()
+    {
+        var doctors = await _medicalStaffRepository.GetDoctorsList();
+        return doctors.Select(mapMedicalStaffListAutocomplete<MedicalStaffAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(MedicalStaff medicalStaff) where T : MedicalStaffDto, new() => new T()
     {
         DoctorId = medicalStaff.DoctorId,
@@ -104,6 +116,13 @@ public class MedicalStaffService : IMedicalStaffService
         MedicalLicenseNumber = medicalStaff.MedicalLicenseNumber,
         DepartmentId = medicalStaff.DepartmentId,
         UserId = medicalStaff.UserId
+    };
+    
+    private static T mapMedicalStaffListAutocomplete<T>(MedicalStaff medicalStaff) where T : MedicalStaffAutocompleteDto, new() => new T()
+    {
+        DoctorId = medicalStaff.DoctorId,
+        Name = medicalStaff.Name,
+        Surname = medicalStaff.Surname,
     };
     
     private static T MapMedicalStaffList<T>(MedicalStaff medicalStaff) where T : MedicalStaffListDto, new() => new T()

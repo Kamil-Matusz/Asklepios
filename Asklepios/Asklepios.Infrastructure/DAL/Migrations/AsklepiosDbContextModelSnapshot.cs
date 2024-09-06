@@ -223,6 +223,14 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateOnly>("AdmissionDate")
+                        .HasColumnType("date");
+
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uuid");
 
@@ -232,6 +240,9 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
                     b.Property<bool>("IsDischarged")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("MedicalStaffId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("PatientName")
                         .IsRequired()
@@ -259,12 +270,46 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("MedicalStaffId");
+
                     b.HasIndex("PeselNumber")
                         .IsUnique();
 
                     b.HasIndex("RoomId");
 
                     b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Patients.PatientHistory", b =>
+                {
+                    b.Property<Guid>("HistoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("History")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("PatientSurname")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("PeselNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.HasKey("HistoryId");
+
+                    b.HasIndex("PeselNumber")
+                        .IsUnique();
+
+                    b.ToTable("PatientHistories");
                 });
 
             modelBuilder.Entity("Asklepios.Core.Entities.Users.MedicalStaff", b =>
@@ -385,6 +430,36 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Asklepios.Core.Views.MonthlyAdmissionSummary", b =>
+                {
+                    b.Property<DateTime>("AdmissionMonth")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("admissionmonth");
+
+                    b.Property<int>("PatientCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("patientcount");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("monthlyadmissions", (string)null);
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Views.MonthlyDischargeSummary", b =>
+                {
+                    b.Property<DateTime>("DischargeMonth")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("dischargemonth");
+
+                    b.Property<int>("PatientCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("patientcount");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("monthlydischarges", (string)null);
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Room", b =>
                 {
                     b.HasOne("Asklepios.Core.Entities.Departments.Department", "Department")
@@ -453,6 +528,12 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Asklepios.Core.Entities.Users.MedicalStaff", "MedicalStaff")
+                        .WithMany("Patients")
+                        .HasForeignKey("MedicalStaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Asklepios.Core.Entities.Departments.Room", "Room")
                         .WithMany("Patients")
                         .HasForeignKey("RoomId")
@@ -460,6 +541,8 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+
+                    b.Navigation("MedicalStaff");
 
                     b.Navigation("Room");
                 });
@@ -537,6 +620,8 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Navigation("Discharges");
 
                     b.Navigation("Operations");
+
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("Asklepios.Core.Entities.Users.User", b =>

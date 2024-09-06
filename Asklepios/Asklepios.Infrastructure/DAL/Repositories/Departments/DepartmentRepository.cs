@@ -66,4 +66,10 @@ public class DepartmentRepository : IDepartmentRepository
 
         return department?.NumberOfBeds ?? 0;
     }
+
+    public async Task<IReadOnlyList<Department>> GetDepartmentsList()
+        => await _departments
+            .AsNoTracking()
+            .OrderBy(x => x.DepartmentName)
+            .ToListAsync();
 }

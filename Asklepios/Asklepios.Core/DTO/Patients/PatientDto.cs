@@ -11,4 +11,7 @@ public class PatientDto
     public string Treatment { get; set; }
     public Guid DepartmentId { get; set; }
     public Guid RoomId { get; set; }
+    public Guid MedicalStaffId { get; set; }
+    public DateOnly AdmissionDate { get; set; }
+    public string Address { get; set; }
 }

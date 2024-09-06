@@ -16,5 +16,8 @@ public class PatientDtoValidator : AbstractValidator<PatientDto>
         RuleFor(dto => dto.IsDischarged).NotEmpty().WithMessage("Information about discharged is required");
         RuleFor(dto => dto.DepartmentId).NotEmpty().WithMessage("Department Id is required.");
         RuleFor(dto => dto.RoomId).NotEmpty().WithMessage("Room Id is required.");
+        RuleFor(dto => dto.MedicalStaffId).NotEmpty().WithMessage("Doctor Id is required.");
+        RuleFor(dto => dto.Address).NotEmpty().WithMessage("Patient address is required.");
+        RuleFor(dto => dto.Address).MinimumLength(3).MaximumLength(200).WithMessage("Address length must be between 3 and 200 characters.");
     }
 }

@@ -32,6 +32,7 @@ public class PatientRepository : IPatientRepository
 
     public async Task<IReadOnlyList<Patient>> GetAllPatientsAsync(int pageIndex, int pageSize)
         => await _patients
+            .Where(x => x.IsDischarged == false)
             .Include(x => x.Department)
             .Include(x => x.Room)
             .Include(x => x.Operations)
@@ -44,11 +45,25 @@ public class PatientRepository : IPatientRepository
 
     public async Task<IReadOnlyList<Patient>> GetAllPatientsByDepartmentAsync(Guid departmentId, int pageIndex, int pageSize)
         => await _patients
+            .Where(x => x.IsDischarged == false)
             .Include(x => x.Department)
             .Include(x => x.Room)
             .Include(x => x.Operations)
             .Include(x => x.ExamResults)
             .Where(x => x.DepartmentId == departmentId)
+            .AsNoTracking()
+            .OrderBy(x => x.PatientSurname)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+    public async Task<IReadOnlyList<Patient>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
+        => await _patients
+            .Include(x => x.Department)
+            .Include(x => x.Room)
+            .Include(x => x.Operations)
+            .Include(x => x.ExamResults)
+            .Where(x => x.MedicalStaffId == doctorId)
             .AsNoTracking()
             .OrderBy(x => x.PatientSurname)
             .Skip((pageIndex - 1) * pageSize)
@@ -85,4 +100,11 @@ public class PatientRepository : IPatientRepository
         _patients.Remove(patient);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<Patient>> GetPatientsList()
+        => await _patients
+            .AsNoTracking()
+            .OrderBy(x => x.PatientSurname)
+            .Where(x => x.IsDischarged == false)
+            .ToListAsync();
 }

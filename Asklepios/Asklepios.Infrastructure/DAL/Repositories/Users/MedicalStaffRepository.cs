@@ -31,6 +31,15 @@ public class MedicalStaffRepository : IMedicalStaffRepository
             .SingleOrDefaultAsync();
     }
 
+    public async Task<Guid> GetUserIdByDoctor(Guid doctorId)
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .Where(x => x.DoctorId == doctorId)
+            .Select(x => x.UserId)
+            .SingleOrDefaultAsync();
+    }
+
     public async Task<IReadOnlyList<MedicalStaff>> GetAllNDoctorsAsync(int pageIndex, int pageSize)
         => await _medicalStaves
             .AsNoTracking()
@@ -56,5 +65,12 @@ public class MedicalStaffRepository : IMedicalStaffRepository
     {
         _medicalStaves.Remove(medicalStaff);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<MedicalStaff>> GetDoctorsList()
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

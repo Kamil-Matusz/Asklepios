@@ -9,4 +9,5 @@ public interface IRoomService
     Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync(int pageIndex, int pageSize);
     Task UpdateRoomAsync(RoomDto dto);
     Task DeleteRoomAsync(Guid id);
+    Task<IReadOnlyList<RoomAutocompleteDto>> GetRoomsListAsync();
 }

@@ -68,4 +68,14 @@ public class DepartmentsController : BaseController
         await _departmentService.DeleteDepartmentAsync(id);
         return NoContent();
     }
+    
+    [Authorize]
+    [HttpGet("departmentsAutocomplete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<IEnumerable<DepartmentAutocompleteDto>>> GetAutocomplete()
+    {
+        var departments = await _departmentService.GetDepartmentsListAsync();
+        return Ok(departments);
+    }
 }

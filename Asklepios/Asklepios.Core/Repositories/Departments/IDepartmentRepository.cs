@@ -11,4 +11,5 @@ public interface IDepartmentRepository
     Task DeleteDepartmentAsync(Department department);
     Task<int> CountPatientsInDepartmentAsync(Guid departmentId);
     Task<int> GetNumberOfBedsAsync(Guid departmentId);
+    Task<IReadOnlyList<Department>> GetDepartmentsList();
 }

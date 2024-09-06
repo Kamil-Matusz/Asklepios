@@ -1,3 +1,4 @@
+using Asklepios.Application.Services.Notification;
 using Asklepios.Core.DTO.Examinations;
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
@@ -11,11 +12,13 @@ public class PatientService : IPatientService
 {
     private readonly IPatientRepository _patientRepository;
     private readonly IAddPatientPolicy _addPatientPolicy;
+    private readonly INotificationService _notificationService;
 
-    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy)
+    public PatientService(IPatientRepository patientRepository, IAddPatientPolicy addPatientPolicy, INotificationService notificationService)
     {
         _patientRepository = patientRepository;
         _addPatientPolicy = addPatientPolicy;
+        _notificationService = notificationService;
     }
 
     public async Task AddPatientAsync(PatientDto dto)
@@ -31,6 +34,7 @@ public class PatientService : IPatientService
         }
         
         dto.PatientId = Guid.NewGuid();
+        dto.AdmissionDate = DateOnly.FromDateTime(DateTime.Today);
         await _patientRepository.AddPatientAsync(new Patient
         {
             PatientId = dto.PatientId,
@@ -41,8 +45,17 @@ public class PatientService : IPatientService
             IsDischarged = dto.IsDischarged,
             Treatment = dto.Treatment,
             DepartmentId = dto.DepartmentId,
-            RoomId = dto.RoomId
+            RoomId = dto.RoomId,
+            MedicalStaffId = dto.MedicalStaffId,
+            AdmissionDate = dto.AdmissionDate,
+            Address = dto.Address
         });
+        
+        if (dto.MedicalStaffId != Guid.Empty)
+        {
+            var message = $"Nowy pacjent {dto.PatientName} {dto.PatientSurname} został przypisany do Ciebie.";
+            await _notificationService.NotifyDoctorAboutNewPatient(dto.MedicalStaffId, message);
+        }
     }
 
     public async Task<PatientDto> GetPatientDataAsync(Guid id)
@@ -97,6 +110,12 @@ public class PatientService : IPatientService
         return patients.Select(MapPatientList<PatientListDto>).ToList();
     }
 
+    public async Task<IReadOnlyList<PatientListDto>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
+    {
+        var patients = await _patientRepository.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize);
+        return patients.Select(MapPatientList<PatientListDto>).ToList();
+    }
+
     public async Task UpdatePatientAsync(PatientDto dto)
     {
         var patient = await _patientRepository.GetPatientByIdAsync(dto.PatientId);
@@ -113,6 +132,9 @@ public class PatientService : IPatientService
         patient.Treatment = dto.Treatment;
         patient.DepartmentId = dto.DepartmentId;
         patient.RoomId = dto.RoomId;
+        patient.MedicalStaffId = dto.MedicalStaffId;
+        patient.AdmissionDate = dto.AdmissionDate;
+        patient.Address = dto.Address;
 
         await _patientRepository.UpdatePatientAsync(patient);
     }
@@ -127,7 +149,13 @@ public class PatientService : IPatientService
         
         await _patientRepository.DeletePatientAsync(patient);
     }
-    
+
+    public async Task<List<PatientAutocompleteDto>> GetPatientsList()
+    {
+        var patients = await _patientRepository.GetPatientsList();
+        return patients.Select(MapPatientsListAutocomplete<PatientAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(Patient patient) where T : PatientDto, new() => new T()
     {
        PatientId = patient.PatientId,
@@ -138,7 +166,10 @@ public class PatientService : IPatientService
        IsDischarged = patient.IsDischarged,
        Treatment = patient.Treatment,
        DepartmentId = patient.DepartmentId,
-       RoomId = patient.RoomId
+       RoomId = patient.RoomId,
+       MedicalStaffId = patient.MedicalStaffId,
+       AdmissionDate = patient.AdmissionDate,
+       Address = patient.Address
     };
     
     private static T MapPatientList<T>(Patient patient) where T : PatientListDto, new() => new T()
@@ -151,6 +182,15 @@ public class PatientService : IPatientService
         IsDischarged = patient.IsDischarged,
         Treatment = patient.Treatment,
         DepartmentName = patient.Department.DepartmentName,
-        RoomNumber = patient.Room.RoomNumber
+        RoomNumber = patient.Room.RoomNumber,
+        AdmissionDate = patient.AdmissionDate,
+    };
+    
+    private static T MapPatientsListAutocomplete<T>(Patient patient) where T : PatientAutocompleteDto, new() => new T()
+    {
+        PatientId = patient.PatientId,
+        PatientName = patient.PatientName,
+        PatientSurname = patient.PatientSurname,
+        PeselNumber = patient.PeselNumber
     };
 }

@@ -52,4 +52,9 @@ public class InMemoryDepartmentRepository : IDepartmentRepository
         var department = _departments.FirstOrDefault(d => d.DepartmentId == departmentId);
         return department?.NumberOfBeds ?? 0;
     }
+
+    public Task<IReadOnlyList<Department>> GetDepartmentsList()
+    {
+        throw new NotImplementedException();
+    }
 }

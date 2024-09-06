@@ -96,12 +96,24 @@ public class DepartmentService : IDeparmentService
         await _departmentRepository.DeleteDepartmentAsync(department);
     }
 
+    public async Task<IReadOnlyList<DepartmentAutocompleteDto>> GetDepartmentsListAsync()
+    {
+        var departments = await _departmentRepository.GetDepartmentsList();
+        return departments.Select(MapDepartmentAutocomplete<DepartmentAutocompleteDto>).ToList();
+    }
+
     private static T Map<T>(Department department) where T : DepartmentDto, new() => new T()
     {
         DepartmentId = department.DepartmentId,
         DepartmentName = department.DepartmentName,
         NumberOfBeds = department.NumberOfBeds,
         ActualNumberOfPatients = department.ActualNumberOfPatients
+    };
+    
+    private static T MapDepartmentAutocomplete<T>(Department department) where T : DepartmentAutocompleteDto, new() => new T()
+    {
+        DepartmentId = department.DepartmentId,
+        DepartmentName = department.DepartmentName,
     };
     
     private static T MapDepartmentList<T>(Department department) where T : DepartmentListDto, new() => new T()

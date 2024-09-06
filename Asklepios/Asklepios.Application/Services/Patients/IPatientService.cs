@@ -9,6 +9,8 @@ public interface IPatientService
     Task<PatientDto> GetPatientDataAsync(Guid id);
     Task<PatientDetailsDto> GetPatientAsync(Guid id);
     Task<IReadOnlyList<PatientListDto>> GetAllPatientsAsync(int pageIndex, int pageSize);
+    Task<IReadOnlyList<PatientListDto>> GetAllPatientsByDoctorAsync(Guid doctorId,int pageIndex, int pageSize);
     Task UpdatePatientAsync(PatientDto dto);
     Task DeletePatientAsync(Guid id);
+    Task<List<PatientAutocompleteDto>> GetPatientsList();
 }

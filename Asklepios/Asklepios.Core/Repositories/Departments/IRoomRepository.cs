@@ -11,4 +11,5 @@ public interface IRoomRepository
     Task DeleteRoomAsync(Room room);
     Task<int> CountPatientsInRoomAsync(Guid roomId);
     Task<int> GetNumberOfBedsAsync(Guid roomId);
+    Task<IReadOnlyList<Room>> GetRoomsList();
 }

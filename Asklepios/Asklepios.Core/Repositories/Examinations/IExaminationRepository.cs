@@ -10,4 +10,5 @@ public interface IExaminationRepository
     Task AddExaminationAsync(Examination examination);
     Task UpdateExaminationAsync(Examination examination);
     Task DeleteExaminationAsync(Examination examination);
+    Task<List<Examination>> GetExaminationsList();
 }

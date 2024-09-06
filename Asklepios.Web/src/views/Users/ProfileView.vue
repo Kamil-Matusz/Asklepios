@@ -1,0 +1,70 @@
+<script setup lang="ts">
+import BasePage from '@/components/pages/BasePage.vue'
+import { onMounted} from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router';
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const goToRoute = (routeName: string) => {
+  router.push({ name: routeName });
+};
+
+function formatDate(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  return date.toLocaleDateString(undefined, options);
+}
+
+onMounted(() => {
+  userStore.fetchCurrentUser();
+});
+</script>
+
+<template>
+  <BasePage title="Twój profil">
+    <v-row>
+      <v-col cols="12" lg="6">
+        <v-card
+          class="mb-5"
+          variant="outlined"
+          title="Twoje dane"
+          subtitle="Poniżej znajdują się dane Twojego konta."
+          cols="12"
+          lg="6"
+        >
+          <v-list density="compact" nav>
+            <v-list-item prepend-icon="mdi-pound" title="Identyfikator"> {{ userStore.currentUser?.userId }} </v-list-item>
+            <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
+            <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ userStore.currentUser?.role }} </v-list-item>
+            <v-list-item prepend-icon="mdi-calendar-account" title="Konto stworzone"> {{ userStore.currentUser?.createdAt ? formatDate(new Date(userStore.currentUser.createdAt)) : '' }} </v-list-item>
+            <v-list-item prepend-icon="mdi-account-check" title="Status"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
+          </v-list>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" lg="6">
+        <v-card
+          class="mb-5"
+          variant="outlined"
+          title="Zmiana hasła"
+          subtitle="Poniżej możesz zmienić hasło do swojego konta."
+          cols="12"
+          lg="6"
+        >
+        <v-btn
+            @click="goToRoute('changePassword')"
+            color="primary"
+            variant="flat"
+            class="mb-4 ml-4"
+            style="width: 15rem"
+          >Zmień hasło</v-btn>
+        </v-card>
+      </v-col>
+    </v-row>
+  </BasePage>
+</template>
