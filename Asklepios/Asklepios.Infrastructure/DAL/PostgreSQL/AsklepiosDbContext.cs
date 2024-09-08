@@ -1,3 +1,4 @@
+using Asklepios.Core.Entities.Clinics;
 using Asklepios.Core.Entities.Departments;
 using Asklepios.Core.Entities.Examinations;
 using Asklepios.Core.Entities.Patients;
@@ -21,6 +22,8 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<ExamResult> ExamResults { get; set; }
     public DbSet<Operation> Operations { get; set; }
     public DbSet<PatientHistory> PatientHistories { get; set; }
+    public DbSet<ClinicPatient> ClinicPatients { get; set; }
+    public DbSet<ClinicAppointment> ClinicAppointments { get; set; }
     
     // Views
     public DbSet<MonthlyDischargeSummary> MonthlyDischarges { get; set; }
