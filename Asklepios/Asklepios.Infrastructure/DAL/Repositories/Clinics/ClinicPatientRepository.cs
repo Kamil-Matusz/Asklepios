@@ -48,4 +48,10 @@ public class ClinicPatientRepository : IClinicPatientRepository
         await _dbContext.SaveChangesAsync();
     }
     
+    public async Task<ClinicPatient> GetPatientByPeselAsync(string peselNumber)
+    {
+        return await _clinicPatients
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.PeselNumber == peselNumber);
+    }
 }
