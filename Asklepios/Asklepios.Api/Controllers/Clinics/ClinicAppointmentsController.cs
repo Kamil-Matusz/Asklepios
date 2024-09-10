@@ -26,4 +26,37 @@ public class ClinicAppointmentsController : BaseController
         await _clinicAppointmentService.RegisterPatientAndCreateAppointmentAsync(dto);
         return Ok();
     }
+    
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteClinicAppointment(Guid id)
+    {
+        await _clinicAppointmentService.DeleteClinicAppointmentAsync(id);
+        return NoContent();
+    }
+    
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateClinicAppointmentStatus(Guid id, ClinicAppointmentStatusDto dto)
+    {
+        dto.AppointmentId = id;
+        await _clinicAppointmentService.UpdateClinicAppointmentAsync(dto);
+        return Ok();
+    }
+    
+    //[Authorize(Roles = "Admin, Nurse, Doctor")]
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ClinicAppointmentListDto>> GetClinicPatient(Guid id)
+        => OkOrNotFound(await _clinicAppointmentService.GetClinicAppointmentByIdAsync(id));
 }

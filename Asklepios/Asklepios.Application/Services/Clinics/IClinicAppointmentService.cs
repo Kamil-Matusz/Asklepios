@@ -5,4 +5,7 @@ namespace Asklepios.Application.Services.Clinics;
 public interface IClinicAppointmentService
 {
     Task RegisterPatientAndCreateAppointmentAsync(ClinicAppointmentRequestDto dto);
+    Task DeleteClinicAppointmentAsync(Guid appointmentId);
+    Task<ClinicAppointmentListDto> GetClinicAppointmentByIdAsync(Guid appointmentId);
+    Task UpdateClinicAppointmentAsync(ClinicAppointmentStatusDto dto);
 }
