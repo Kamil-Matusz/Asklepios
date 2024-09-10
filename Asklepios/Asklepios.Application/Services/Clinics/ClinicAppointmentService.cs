@@ -34,7 +34,8 @@ public class ClinicAppointmentService : IClinicAppointmentService
             await _clinicPatientRepository.AddClinicPatientAsync(newPatient);
             existingPatient = newPatient;
         }
-        
+
+        dto.Status = "Scheduled";
         var newAppointment = new ClinicAppointment
         {
             AppointmentId = Guid.NewGuid(),

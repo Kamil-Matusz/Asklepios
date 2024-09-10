@@ -1,5 +1,4 @@
 using Asklepios.Core.DTO.Clinics;
-using Asklepios.Core.Entities.Clinics;
 
 namespace Asklepios.Application.Services.Clinics;
 
