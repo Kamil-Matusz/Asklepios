@@ -1,6 +1,5 @@
 using Asklepios.Application.Services.Clinics;
 using Asklepios.Core.DTO.Clinics;
-using Asklepios.Core.DTO.Departments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +50,7 @@ public class ClinicAppointmentsController : BaseController
         return Ok();
     }
     
-    //[Authorize(Roles = "Admin, Nurse, Doctor")]
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
