@@ -13,10 +13,10 @@ export class ClinicAppointmentRequestDto {
   peselNumber: string = '';
   contactNumber: string = '';
   email: string = '';
-  appointmentDate: Date = new Date();
+  appointmentDate: string = '';
   appointmentType: string = '';
   medicalStaffId: string = '';
-  status: string = 'Scheduled';
+  status: string = '';
 }
 
 export class ClinicAppointmentStatusDto {

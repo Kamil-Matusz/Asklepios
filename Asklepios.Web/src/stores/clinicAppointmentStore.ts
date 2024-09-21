@@ -9,7 +9,6 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
 
   async function dispatchCreateAppointment(appointment: ClinicAppointmentRequestDto) {
     await API.clinicAppointments.createAppointment(appointment);
-    await dispatchGetAppointments();
   }
 
   async function dispatchDeleteAppointment(id: string) {

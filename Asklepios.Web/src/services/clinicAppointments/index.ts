@@ -1,7 +1,7 @@
 import httpClient from '../httpClient';
 import { ClinicAppointmentDto, ClinicAppointmentRequestDto, ClinicAppointmentStatusDto, ClinicAppointmentListDto } from '@/models/Clinics/clinicAppointment';
 
-const base = 'clinics-module/appointments';
+const base = 'clinics-module/ClinicAppointments';
 
 async function createAppointment(appointment: ClinicAppointmentRequestDto) {
   return await httpClient.post<void>(base, appointment);

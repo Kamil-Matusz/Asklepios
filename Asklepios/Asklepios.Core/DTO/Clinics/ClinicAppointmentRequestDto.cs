@@ -11,7 +11,7 @@ public class ClinicAppointmentRequestDto
     public string Email { get; set; }
     
     public DateTime AppointmentDate { get; set; }
-    public AppointmentType AppointmentType { get; set; }
+    public string AppointmentType { get; set; }
     public Guid MedicalStaffId { get; set; }
     
     public string Status { get; set; } = "Scheduled"; 
