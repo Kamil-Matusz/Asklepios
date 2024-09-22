@@ -2,28 +2,14 @@
   <v-container>
     <v-row justify="center" class="mt-5">
       <v-col cols="12" class="text-center">
-        <h2>Wyszukiwanie wizyt po dacie</h2>
-      </v-col>
-    </v-row>
-
-    <v-row justify="center" class="mt-3">
-      <v-col cols="12" sm="8" md="6">
-        <v-text-field
-          v-model="selectedDate"
-          label="Podaj datę (YYYY-MM-DD)"
-          outlined
-          clearable
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="4" md="2">
-        <v-btn @click="searchAppointmentsByDate" color="yellow" dark class="ma-4">Szukaj</v-btn>
+        <h2>Wizyty zaplanowane na dziś</h2>
       </v-col>
     </v-row>
 
     <v-row justify="center" v-if="appointments.length > 0">
       <v-col cols="12" sm="10" md="8">
         <v-card class="pa-4" color="grey darken-3" dark>
-          <v-card-title>Wizyty z dnia: <strong>{{ selectedDate }}</strong></v-card-title>
+          <v-card-title>Wizyty z dnia: <strong>{{ currentDate }}</strong></v-card-title>
 
           <v-card-text>
             <v-row v-for="appointment in appointments" :key="appointment.appointmentId">
@@ -49,7 +35,6 @@
                       <strong>Status wizyty:</strong> {{ appointment.status }}
                     </v-col>
                     <v-col cols="12" class="text-right">
-                      <!-- Przyciski akcji -->
                       <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>Usuń</v-btn>
                     </v-col>
                   </v-row>
@@ -64,7 +49,7 @@
     <v-row justify="center" v-if="appointments.length === 0 && searched">
       <v-col cols="12" sm="10" md="8">
         <v-alert type="info" border="left" colored-border>
-          Brak wizyt na podaną datę.
+          Brak wizyt na dzisiaj.
         </v-alert>
       </v-col>
     </v-row>
@@ -72,34 +57,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useClinicAppointmentsStore } from '@/stores/clinicAppointmentStore';
 
 const store = useClinicAppointmentsStore();
-
-const selectedDate = ref('');
 const appointments = ref([]);
 const searched = ref(false);
 
-const searchAppointmentsByDate = async () => {
-  if (selectedDate.value) {
-    try {
-      const result = await store.dispatchGetAppointmentsByDate(selectedDate.value);
-      console.log("Wynik wyszukiwania:", result);
-      appointments.value = result || [];
-      searched.value = true;
-    } catch (error) {
-      console.error("Błąd podczas wyszukiwania wizyt:", error);
-    }
+const getCurrentDate = () => {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+};
+
+const currentDate = ref(getCurrentDate());
+
+const fetchAppointmentsForToday = async () => {
+  try {
+    const result = await store.dispatchGetAppointmentsByDate(currentDate.value);
+    appointments.value = result || [];
+    searched.value = true;
+  } catch (error) {
+    console.error('Błąd podczas pobierania wizyt:', error);
   }
 };
+
+onMounted(() => {
+  fetchAppointmentsForToday();
+});
 
 const deleteAppointment = async (appointmentId) => {
   try {
     await store.dispatchDeleteAppointment(appointmentId);
-    await searchAppointmentsByDate();
+    await fetchAppointmentsForToday();
   } catch (error) {
-    console.error("Błąd podczas usuwania wizyty:", error);
+    console.error('Błąd podczas usuwania wizyty:', error);
   }
 };
 

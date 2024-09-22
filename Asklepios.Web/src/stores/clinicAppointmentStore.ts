@@ -13,7 +13,6 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
 
   async function dispatchDeleteAppointment(id: string) {
     await API.clinicAppointments.deleteAppointment(id);
-    await dispatchGetAppointments();
   }
 
   async function dispatchUpdateAppointmentStatus(id: string, statusDto: ClinicAppointmentStatusDto) {
