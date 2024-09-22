@@ -44,6 +44,17 @@ public class ClinicAppointmentRepository : IClinicAppointmentRepository
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        
+        public async Task<IReadOnlyList<ClinicAppointment>> GetAppointmentsByDateAsync(DateTime date)
+        {
+            return await _clinicAppointments
+                .Where(x => x.AppointmentDate.Date == date.Date)
+                .Include(x => x.ClinicPatient)
+                .Include(x => x.MedicalStaff)
+                .AsNoTracking()
+                .OrderBy(x => x.AppointmentDate)
+                .ToListAsync();
+        }
 
         public async Task AddAppointmentAsync(ClinicAppointment appointment)
         {

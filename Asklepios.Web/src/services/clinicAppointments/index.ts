@@ -19,9 +19,14 @@ async function getAppointment(id: string) {
   return await httpClient.get<ClinicAppointmentListDto>(`${base}/${id}`);
 }
 
+async function getAppointmentsByDate(date: string) {
+  return await httpClient.get<ClinicAppointmentListDto[]>(`${base}/todayAddmissions/${date}`);
+}
+
 export default {
   createAppointment,
   deleteAppointment,
   updateAppointmentStatus,
-  getAppointment
+  getAppointment,
+  getAppointmentsByDate
 };

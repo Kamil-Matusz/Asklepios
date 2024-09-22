@@ -38,6 +38,7 @@ import MonthlyDischargesView from '@/views/Users/MonthlyDischargesView.vue';
 import MonthlyAdmissionsView from '@/views/Users/MonthlyAdmissionsView.vue';
 import PatientHistorySearchView from '@/views/Patients/PatientHistorySearchView.vue';
 import AddAppointmentView from '@/views/Clinics/AddAppointmentView.vue';
+import AppointmentSearchView from '@/views/Clinics/AppointmentSerarchView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -201,6 +202,11 @@ const router = createRouter({
       path: '/addAppointment',
       name: 'AddAppointment',
       component: AddAppointmentView
+    },
+    {
+      path: '/dayAppointments',
+      name: 'DayAppointments',
+      component: AppointmentSearchView
     },
     {
       path: '/:pathMatch(.*)*',

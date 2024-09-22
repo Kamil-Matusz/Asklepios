@@ -58,4 +58,17 @@ public class ClinicAppointmentsController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ClinicAppointmentListDto>> GetClinicPatient(Guid id)
         => OkOrNotFound(await _clinicAppointmentService.GetClinicAppointmentByIdAsync(id));
+    
+    [Authorize(Roles = "Admin, Nurse, Doctor")]
+    [HttpGet("todayAddmissions/{date:datetime}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IReadOnlyList<ClinicAppointmentListDto>>> GetClinicAppointmentsByDate(DateTime date)
+    {
+        var appointments = await _clinicAppointmentService.GetClinicAppointmentsByDateAsync(date);
+        return Ok(appointments);
+    }
+
 }

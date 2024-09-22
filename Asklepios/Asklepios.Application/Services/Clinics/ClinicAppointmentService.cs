@@ -84,6 +84,13 @@ public class ClinicAppointmentService : IClinicAppointmentService
         await _clinicAppointmentRepository.UpdateAppointmentAsync(clinicAppointment);
     }
     
+    public async Task<IReadOnlyList<ClinicAppointmentListDto>> GetClinicAppointmentsByDateAsync(DateTime date)
+    {
+        var appointments = await _clinicAppointmentRepository.GetAppointmentsByDateAsync(date);
+        return appointments.Select(MapList<ClinicAppointmentListDto>).ToList();
+    }
+
+    
     private static T Map<T>(ClinicAppointment clinicAppointment) where T : ClinicAppointmentDto, new() => new T()
     {
         AppointmentId = clinicAppointment.AppointmentId,

@@ -32,6 +32,18 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     appointments.value = data;
   }
 
+  async function dispatchGetAppointmentsByDate(date: string) {
+    try {
+      const { data } = await API.clinicAppointments.getAppointmentsByDate(date);
+      appointments.value = data || [];
+      return data;
+    } catch (error) {
+      console.error("Błąd podczas pobierania wizyt:", error);
+      appointments.value = [];
+    }
+  }
+
+
   return {
     appointments,
     appointmentDetails,
@@ -39,6 +51,7 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     dispatchDeleteAppointment,
     dispatchUpdateAppointmentStatus,
     dispatchGetAppointment,
-    dispatchGetAppointments
+    dispatchGetAppointments,
+    dispatchGetAppointmentsByDate
   };
 });
