@@ -40,6 +40,7 @@ import PatientHistorySearchView from '@/views/Patients/PatientHistorySearchView.
 import AddAppointmentView from '@/views/Clinics/AddAppointmentView.vue';
 import AppointmentSearchView from '@/views/Clinics/AppointmentSerarchView.vue';
 import TodayAppointmentsView from '@/views/Clinics/TodayAppointmentsView.vue';
+import ClinicDashboardView from '@/views/Clinics/ClinicDashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -213,6 +214,11 @@ const router = createRouter({
       path: '/todayAppointments',
       name: 'TodayAppointments',
       component: TodayAppointmentsView
+    },
+    {
+      path: '/clinicDashboard',
+      name: 'ClinicDashboard',
+      component: ClinicDashboardView
     },
     {
       path: '/:pathMatch(.*)*',

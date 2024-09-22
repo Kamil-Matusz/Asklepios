@@ -43,13 +43,12 @@
                       <strong>Lekarz:</strong> {{ appointment.doctorName }} {{ appointment.doctorSurname }}
                     </v-col>
                     <v-col cols="12">
-                      <strong>Rodzaj wizyty:</strong> {{ appointment.appointmentType.value }}
+                      <strong>Rodzaj wizyty:</strong> {{ translateAppointmentType(appointment.appointmentType.value) }}
                     </v-col>
                     <v-col cols="12">
-                      <strong>Status wizyty:</strong> {{ appointment.status }}
+                      <strong>Status wizyty:</strong> {{ translateStatus(appointment.status) }}
                     </v-col>
                     <v-col cols="12" class="text-right">
-                      <!-- Przyciski akcji -->
                       <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>Usuń</v-btn>
                     </v-col>
                   </v-row>
@@ -71,7 +70,7 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useClinicAppointmentsStore } from '@/stores/clinicAppointmentStore';
 
@@ -106,6 +105,25 @@ const deleteAppointment = async (appointmentId) => {
 const formatDate = (date) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
   return new Date(date).toLocaleDateString('pl-PL', options);
+};
+
+const translateStatus = (status: string) => {
+  const statusTranslations: { [key: string]: string } = {
+    'Scheduled': 'Zaplanowana',
+    'Completed': 'Zakończona',
+    'Canceled': 'Odwołana',
+    'In Progress': 'W toku'
+  };
+  return statusTranslations[status] || status;
+};
+
+const translateAppointmentType = (appointmentType: string) => {
+  const typeTranslations: { [key: string]: string } = {
+    'Consultation': 'Konsultacja',
+    'Examination': 'Badanie',
+    'Surgery': 'Operacja/Zabieg',
+  };
+  return typeTranslations[appointmentType] || appointmentType;
 };
 </script>
 
