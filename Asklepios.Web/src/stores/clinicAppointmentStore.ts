@@ -17,7 +17,6 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
 
   async function dispatchUpdateAppointmentStatus(id: string, statusDto: ClinicAppointmentStatusDto) {
     await API.clinicAppointments.updateAppointmentStatus(id, statusDto);
-    await dispatchGetAppointments();
   }
 
   async function dispatchGetAppointment(id: string) {

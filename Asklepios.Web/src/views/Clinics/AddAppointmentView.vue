@@ -149,7 +149,7 @@ async function createAppointment() {
   try {
     await clinicAppointmentsStore.dispatchCreateAppointment(appointmentRequest);
     toast.success('Pomyślnie zaktualizowano dane lekarza!');
-    router.push('/dashboard');
+    router.push('/clinicDashboard');
   } catch (error) {
     console.error('Error creating appointment:', error);
     errorMessage.value = 'Nie udało się dodać spotkania. Spróbuj ponownie.';

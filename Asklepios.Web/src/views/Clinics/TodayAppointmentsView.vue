@@ -34,6 +34,26 @@
                     <v-col cols="12">
                       <strong>Status wizyty:</strong> {{ translateStatus(appointment.status) }}
                     </v-col>
+
+                    <!-- Sekcja zmiany statusu -->
+                    <v-col cols="12">
+                      <v-btn v-if="!editingStatus[appointment.appointmentId]" @click="toggleEditStatus(appointment.appointmentId)" color="blue" dark>
+                        Zmień status
+                      </v-btn>
+
+                      <div v-else>
+                        <v-select
+                          v-model="appointment.status"
+                          :items="statusOptions"
+                          label="Status"
+                          item-title="text"
+                          item-value="value"
+                        ></v-select>
+                        <v-btn @click="saveStatus(appointment)" color="green" dark>Zapisz</v-btn>
+                        <v-btn @click="cancelStatusChange(appointment)" color="grey" dark>Anuluj</v-btn>
+                      </div>
+                    </v-col>
+
                     <v-col cols="12" class="text-right">
                       <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>Usuń</v-btn>
                     </v-col>
@@ -84,6 +104,45 @@ const fetchAppointmentsForToday = async () => {
 onMounted(() => {
   fetchAppointmentsForToday();
 });
+
+const editingStatus = ref<{ [key: string]: boolean }>({});
+const originalStatuses = ref<{ [key: string]: string }>({});
+
+const statusOptions = ref([
+  { text: 'Potwierdzone', value: 'Scheduled' },
+  { text: 'Zakończone', value: 'Completed' },
+  { text: 'Odwołane', value: 'Cancelled' },
+]);
+
+const toggleEditStatus = (appointmentId) => {
+  if (!editingStatus.value[appointmentId]) {
+    const appointment = appointments.value.find(a => a.appointmentId === appointmentId);
+    if (appointment) {
+      originalStatuses.value[appointmentId] = appointment.status;
+    }
+  }
+  editingStatus.value[appointmentId] = !editingStatus.value[appointmentId];
+};
+
+const saveStatus = async (appointment) => {
+  try {
+    const statusDto = { status: appointment.status };
+    await store.dispatchUpdateAppointmentStatus(appointment.appointmentId, statusDto);
+    toggleEditStatus(appointment.appointmentId);
+    await fetchAppointmentsForToday();
+    console.log('Status wizyty został zaktualizowany.');
+  } catch (error) {
+    console.error('Błąd podczas aktualizacji statusu wizyty:', error);
+  }
+};
+
+const cancelStatusChange = (appointment) => {
+  const originalStatus = originalStatuses.value[appointment.appointmentId];
+  if (originalStatus) {
+    appointment.status = originalStatus;
+  }
+  toggleEditStatus(appointment.appointmentId);
+};
 
 const deleteAppointment = async (appointmentId) => {
   try {
