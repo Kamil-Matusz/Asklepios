@@ -4,7 +4,7 @@
       <v-row justify="center">
         <v-col cols="12" md="8">
           <v-card>
-            <v-card-title>Dodaj nowe spotkanie</v-card-title>
+            <v-card-title>Zapisz nową wizytę</v-card-title>
             <v-card-text>
               <v-form ref="form" v-model="isFormValid" lazy-validation>
                 <v-text-field
@@ -48,12 +48,13 @@
                   required
                 ></v-text-field>
 
+                <!-- Pole wyboru daty i godziny -->
                 <v-text-field
                   v-model="appointmentRequest.appointmentDate"
                   label="Data i godzina spotkania"
                   type="datetime-local"
                   prepend-icon="mdi-calendar"
-                  :rules="requiredRule"
+                  :rules="[requiredRule, validateTimeInterval]"
                   required
                 ></v-text-field>
 
@@ -105,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive} from 'vue';
+import { ref, reactive } from 'vue';
 import { useClinicAppointmentsStore } from '@/stores/clinicAppointmentStore';
 import { useRouter } from 'vue-router';
 import BasePage from '@/components/pages/BasePage.vue';
@@ -142,13 +143,29 @@ const doctors = ref([
 ]);
 const requiredRule = [(v: string) => !!v || 'Pole wymagane'];
 
+function validateTimeInterval(v: string) {
+  const dateTime = new Date(v);
+  const minutes = dateTime.getMinutes();
+
+  if (minutes % 30 !== 0) {
+    return 'Wybierz czas w odstępach co 30 minut (np. 08:00, 08:30)';
+  }
+
+  const hour = dateTime.getHours();
+  if (hour < 8 || hour > 16 || (hour === 16 && minutes > 0)) {
+    return 'Godzina spotkania musi być między 08:00 a 16:00';
+  }
+
+  return true;
+}
+
 const clinicAppointmentsStore = useClinicAppointmentsStore();
 const router = useRouter();
 
 async function createAppointment() {
   try {
     await clinicAppointmentsStore.dispatchCreateAppointment(appointmentRequest);
-    toast.success('Pomyślnie zaktualizowano dane lekarza!');
+    toast.success('Pomyślnie dodano spotkanie!');
     router.push('/clinicDashboard');
   } catch (error) {
     console.error('Error creating appointment:', error);
