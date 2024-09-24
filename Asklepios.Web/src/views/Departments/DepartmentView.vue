@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router'; // Importuj useRouter
+import { useRouter } from 'vue-router';
 import { useDepartmentStore } from '@/stores/departmentStore';
 import { useToast } from 'vue-toastification';
 import { type DepartmentDto, type DepartmentDetailsDto } from '@/models/Departments/department';
@@ -10,7 +10,7 @@ import DepartmentForm from '@/components/departments/DepartmentForm.vue';
 import type { User } from '@/models/Users/user';
 import { useJwtStore } from '@/stores/jwtStore';
 
-const router = useRouter(); // Inicjalizuj router
+const router = useRouter();
 const departmentStore = useDepartmentStore();
 const toast = useToast();
 const { getUserRole, getUser } = useJwtStore();

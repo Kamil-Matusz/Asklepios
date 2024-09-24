@@ -77,7 +77,7 @@ public class ClinicPatientsController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<ClinicPatientDto>>> GetClinicPatientsList()
     {
-        var clinicPatients = await _clinicPatientService.GetAllClinicPatientsAsync(0, int.MaxValue); // Adjust paging if needed
+        var clinicPatients = await _clinicPatientService.GetAllClinicPatientsAsync(0, int.MaxValue);
         return Ok(clinicPatients);
     }
 }
