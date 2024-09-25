@@ -1,8 +1,5 @@
 <template>
   <BasePage title="Zarządzanie pacjentami przychodni">
-    <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 20rem">
-      + Dodaj nowego pacjenta
-    </v-btn>
     <v-data-table-server
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
@@ -28,6 +25,14 @@
           class="ml-2"
           icon="mdi-delete"
           @click="deleteClinicPatient(item.clinicPatientId)"
+        ></v-btn>
+        <v-btn
+          @click="() => redirectToEditPatientPage(item.clinicPatientId)"
+          rounded="lg"
+          size="small"
+          color="primary"
+          class="ml-2"
+          icon="mdi-pen"
         ></v-btn>
       </template>
     </v-data-table-server>
@@ -61,9 +66,11 @@ import { ref, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useClinicPatientsStore } from '@/stores/clinicPatientStore';
 import BasePage from '@/components/pages/BasePage.vue';
+import { useRouter } from 'vue-router';
 
 const clinicPatientStore = useClinicPatientsStore();
 const toast = useToast();
+const router = useRouter();
 
 const pagination = ref({
   PageIndex: 1,
@@ -129,6 +136,10 @@ const handlePagination = ({ page, itemsPerPage }) => {
   pagination.value.PageIndex = page;
   pagination.value.PageSize = itemsPerPage;
   getClinicPatients();
+};
+
+const redirectToEditPatientPage = (id: string) => {
+  router.push({ name: 'ClinicPatientEdit', params: { id } });
 };
 
 onMounted(() => {

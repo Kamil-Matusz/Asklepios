@@ -30,6 +30,13 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('ClinicPatients')">
+                Informacje o pacjentach
+              </v-btn>
+            </v-col>
+          </v-row>
         </BaseCardWithHover>
       </v-col>
     </v-row>
