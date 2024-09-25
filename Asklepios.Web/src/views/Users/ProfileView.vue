@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BasePage from '@/components/pages/BasePage.vue'
-import { onMounted} from 'vue'
-import { useUserStore } from '@/stores/userStore'
+import BasePage from '@/components/pages/BasePage.vue';
+import { onMounted } from 'vue';
+import { useUserStore } from '@/stores/userStore';
 import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
@@ -20,6 +20,17 @@ function formatDate(date: Date): string {
   return date.toLocaleDateString(undefined, options);
 }
 
+const translateRole = (role: string) => {
+  const roleTranslations: { [key: string]: string } = {
+    'Admin': 'Administrator',
+    'Doctor': 'Doktor',
+    'Nurse': 'Pielęgniarka',
+    'IT Employee': 'Pracownik IT',
+    'Patient': 'Pacjent'
+  };
+  return roleTranslations[role] || role;
+};
+
 onMounted(() => {
   userStore.fetchCurrentUser();
 });
@@ -34,13 +45,11 @@ onMounted(() => {
           variant="outlined"
           title="Twoje dane"
           subtitle="Poniżej znajdują się dane Twojego konta."
-          cols="12"
-          lg="6"
         >
           <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-pound" title="Identyfikator"> {{ userStore.currentUser?.userId }} </v-list-item>
             <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
-            <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ userStore.currentUser?.role }} </v-list-item>
+            <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
             <v-list-item prepend-icon="mdi-calendar-account" title="Konto stworzone"> {{ userStore.currentUser?.createdAt ? formatDate(new Date(userStore.currentUser.createdAt)) : '' }} </v-list-item>
             <v-list-item prepend-icon="mdi-account-check" title="Status"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
           </v-list>
@@ -53,10 +62,8 @@ onMounted(() => {
           variant="outlined"
           title="Zmiana hasła"
           subtitle="Poniżej możesz zmienić hasło do swojego konta."
-          cols="12"
-          lg="6"
         >
-        <v-btn
+          <v-btn
             @click="goToRoute('changePassword')"
             color="primary"
             variant="flat"

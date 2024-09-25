@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="(userRole === 'Nurse' || userRole === 'Doctor' || userRole === 'Admin') && !isLoading">
+    <v-row v-if="(userRole === 'Nurse' || userRole === 'Doctor' || userRole === 'Admin' || userRole === 'IT Employee') && !isLoading">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne opcje i formularze">
           <v-row>

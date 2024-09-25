@@ -1,3 +1,4 @@
+using Asklepios.Application.Services.Email;
 using Asklepios.Core.DTO.Clinics;
 using Asklepios.Core.Entities.Clinics;
 using Asklepios.Core.Exceptions.Clinics;
@@ -9,11 +10,13 @@ public class ClinicAppointmentService : IClinicAppointmentService
 {
     private readonly IClinicPatientRepository _clinicPatientRepository;
     private readonly IClinicAppointmentRepository _clinicAppointmentRepository;
+    private readonly IEmailService _emailService;
 
-    public ClinicAppointmentService(IClinicPatientRepository clinicPatientRepository, IClinicAppointmentRepository clinicAppointmentRepository)
+    public ClinicAppointmentService(IClinicPatientRepository clinicPatientRepository, IClinicAppointmentRepository clinicAppointmentRepository, IEmailService emailService)
     {
         _clinicPatientRepository = clinicPatientRepository;
         _clinicAppointmentRepository = clinicAppointmentRepository;
+        _emailService = emailService;
     }
 
     public async Task RegisterPatientAndCreateAppointmentAsync(ClinicAppointmentRequestDto dto)
@@ -48,6 +51,9 @@ public class ClinicAppointmentService : IClinicAppointmentService
         };
 
         await _clinicAppointmentRepository.AddAppointmentAsync(newAppointment);
+
+        string appointmentDate = dto.AppointmentDate.ToString("yyyy-MM-dd");
+        await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate);
     }
 
     public async Task DeleteClinicAppointmentAsync(Guid appointmentId)
@@ -89,7 +95,6 @@ public class ClinicAppointmentService : IClinicAppointmentService
         var appointments = await _clinicAppointmentRepository.GetAppointmentsByDateAsync(date);
         return appointments.Select(MapList<ClinicAppointmentListDto>).ToList();
     }
-
     
     private static T Map<T>(ClinicAppointment clinicAppointment) where T : ClinicAppointmentDto, new() => new T()
     {
