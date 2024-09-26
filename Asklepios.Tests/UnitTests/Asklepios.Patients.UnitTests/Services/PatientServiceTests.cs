@@ -2,7 +2,6 @@ using Asklepios.Application.Services.Patients;
 using Asklepios.Core.DTO.Patients;
 using Asklepios.Core.Entities.Patients;
 using Asklepios.Core.Exceptions.Patients;
-using Asklepios.Core.Policies.Patients;
 using Asklepios.Core.Repositories.Patients;
 using Moq;
 
@@ -122,5 +121,4 @@ public class PatientServiceTests
         Assert.Equal(patientDto.DepartmentId, patient.DepartmentId);
         Assert.Equal(patientDto.RoomId, patient.RoomId);
     }
-
 }
