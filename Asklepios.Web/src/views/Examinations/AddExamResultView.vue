@@ -26,18 +26,22 @@ const handleSubmit = async () => {
     try {
       await examResultsStore.dispatchCreateExamResult(form.value);
       toast.success('Exam result created successfully!');
-      form.value = {
-        examResultId: '',
-        patientId: '',
-        date: new Date(),
-        result: '',
-        comment: '',
-        examId: 0,
-      };
+      resetForm();
     } catch (error) {
       toast.error('Failed to create exam result');
     }
   }
+};
+
+const resetForm = () => {
+  form.value = {
+    examResultId: '',
+    patientId: '',
+    date: new Date(),
+    result: '',
+    comment: '',
+    examId: 0,
+  };
 };
 
 const formattedPatients = computed(() => {
@@ -109,6 +113,7 @@ onMounted(async () => {
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
+                <v-btn @click="resetForm" text="Resetuj" color="red" variant="flat"></v-btn>
               </v-card-actions>
             </v-form>
           </v-card-text>

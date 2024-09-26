@@ -1,9 +1,11 @@
+using Asklepios.Core.Repositories.Clinics;
 using Asklepios.Core.Repositories.Departments;
 using Asklepios.Core.Repositories.Examinations;
 using Asklepios.Core.Repositories.Patients;
 using Asklepios.Core.Repositories.Statistics;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
+using Asklepios.Infrastructure.DAL.Repositories.Clinics;
 using Asklepios.Infrastructure.DAL.Repositories.Departments;
 using Asklepios.Infrastructure.DAL.Repositories.Examinations;
 using Asklepios.Infrastructure.DAL.Repositories.Patients;
@@ -45,6 +47,8 @@ public static class Extensions
         services.AddScoped<IStatisticsRepository, StatisticsRepository>();
         services.AddScoped<ISummaryRepository, SummaryRepository>();
         services.AddScoped<IPatientHistoryRepository, PatientHistoryRepository>();
+        services.AddScoped<IClinicPatientRepository, ClinicPatientRepository>();
+        services.AddScoped<IClinicAppointmentRepository, ClinicAppointmentRepository>();
         
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();

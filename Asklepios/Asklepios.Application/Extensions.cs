@@ -1,4 +1,5 @@
 using Asklepios.Application.Abstractions;
+using Asklepios.Application.Services.Clinics;
 using Asklepios.Application.Services.Clock;
 using Asklepios.Application.Services.Departments;
 using Asklepios.Application.Services.Email;
@@ -38,6 +39,8 @@ public static class Extensions
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ISummaryService, SummaryService>();
         services.AddScoped<IPatientHistoryService, PatientHistoryService>();
+        services.AddScoped<IClinicPatientService, ClinicPatientService>();
+        services.AddScoped<IClinicAppointmentService, ClinicAppointmentService>();
 
         services.AddSendGrid(configuration);
         

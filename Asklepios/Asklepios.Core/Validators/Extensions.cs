@@ -1,3 +1,4 @@
+using Asklepios.Core.Validators.Clinics;
 using Asklepios.Core.Validators.Departments;
 using Asklepios.Core.Validators.Examinations;
 using Asklepios.Core.Validators.Patients;
@@ -21,7 +22,8 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<DischargeDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<ExaminationDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<ExamResultDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<OperationDtoValidator>());
+            .RegisterValidatorsFromAssemblyContaining<OperationDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<ClinicAppointmentRequestDtoValidator>());
 
         return services;
     }
