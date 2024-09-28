@@ -24,3 +24,4 @@ To send emails, this project uses the SendGrid API. If you wish to use this func
 - Make sure to replace "YOUR_API_KEY" with your actual SendGrid API key.
 
 ### Database Diagram
+![](/assets/DatabaseDiagram.png)
