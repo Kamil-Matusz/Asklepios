@@ -48,7 +48,6 @@
                   required
                 ></v-text-field>
 
-                <!-- Pole wyboru daty i godziny -->
                 <v-text-field
                   v-model="appointmentRequest.appointmentDate"
                   label="Data i godzina spotkania"

@@ -47,7 +47,6 @@ onMounted(() => {
           subtitle="Poniżej znajdują się dane Twojego konta."
         >
           <v-list density="compact" nav>
-            <v-list-item prepend-icon="mdi-pound" title="Identyfikator"> {{ userStore.currentUser?.userId }} </v-list-item>
             <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
             <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
             <v-list-item prepend-icon="mdi-calendar-account" title="Konto stworzone"> {{ userStore.currentUser?.createdAt ? formatDate(new Date(userStore.currentUser.createdAt)) : '' }} </v-list-item>
