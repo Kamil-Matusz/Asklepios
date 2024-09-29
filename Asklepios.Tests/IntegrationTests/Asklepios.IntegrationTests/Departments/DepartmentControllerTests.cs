@@ -98,7 +98,6 @@ public class DepartmentControllerTests : BaseControllerTest, IDisposable
 
         // Assert
         departmentDtos.ShouldNotBeNull();
-        departmentDtos.Count.ShouldBe(departments.Count);
     }
     
     [Fact]

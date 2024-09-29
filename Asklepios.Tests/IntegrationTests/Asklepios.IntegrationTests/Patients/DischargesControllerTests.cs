@@ -31,7 +31,7 @@ public class DischargesControllerTests : BaseControllerTest, IDisposable
         Client.DefaultRequestHeaders.Authorization = null;
 
         // Act
-        var response = await Client.GetAsync($"/patients-module/Discharges/dischargesById/{dischargeId}");
+        var response = await Client.GetAsync($"/patients-module/Discharges/{dischargeId}");
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
