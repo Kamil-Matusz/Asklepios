@@ -69,6 +69,36 @@ public class DepartmentControllerTests : BaseControllerTest, IDisposable
     }
     
     [Fact]
+    public async Task GetDepartment_ShouldReturn_Ok_Status_When_Department_Exists()
+    {
+        // Arrange
+        var department = new Department
+        {
+            DepartmentId = Guid.NewGuid(),
+            DepartmentName = "Onkologia",
+            NumberOfBeds = 30,
+            ActualNumberOfPatients = 10
+        };
+
+        await _testDatabase.DbContext.Departments.AddAsync(department);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        var admin = new User(Guid.NewGuid(), "admin@test.com", "password", Role.Admin(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        // Act
+        Authorize(admin.UserId, admin.Role);
+        var response = await Client.GetAsync($"/departments-module/Departments/{department.DepartmentId}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var departmentDto = await response.Content.ReadFromJsonAsync<DepartmentDetailsDto>();
+        departmentDto.ShouldNotBeNull();
+        departmentDto.DepartmentId.ShouldBe(department.DepartmentId);
+    }
+    
+    [Fact]
     public async Task GetAllDepartments_ShouldReturn_Ok_Status_And_Departments()
     {
         // Arrange
@@ -112,5 +142,78 @@ public class DepartmentControllerTests : BaseControllerTest, IDisposable
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+    
+    [Fact]
+    public async Task DeleteDepartment_ShouldReturn_NoContent_When_Department_Deleted_Successfully()
+    {
+        // Arrange
+        var department = new Department
+        {
+            DepartmentId = Guid.NewGuid(),
+            DepartmentName = "Dermatologia",
+            NumberOfBeds = 20,
+            ActualNumberOfPatients = 5
+        };
+
+        await _testDatabase.DbContext.Departments.AddAsync(department);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        var admin = new User(Guid.NewGuid(), "admin1@test.com", "password", Role.Admin(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        // Act
+        Authorize(admin.UserId, admin.Role);
+        var response = await Client.DeleteAsync($"/departments-module/Departments/{department.DepartmentId}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+    }
+    
+    [Fact]
+    public async Task DeleteDepartment_ShouldReturn_BadRequest_When_Department_Does_Not_Exist()
+    {
+        // Arrange
+        var nonExistentDepartmentId = Guid.NewGuid();
+
+        var admin = new User(Guid.NewGuid(), "admin2@test.com", "password", Role.Admin(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        // Act
+        Authorize(admin.UserId, admin.Role);
+        var response = await Client.DeleteAsync($"/departments-module/Departments/{nonExistentDepartmentId}");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+    }
+    
+    [Fact]
+    public async Task GetAutocomplete_ShouldReturn_Ok_With_Department_List_When_User_Is_Authorized()
+    {
+        // Arrange
+        var departments = new List<Department>
+        {
+            new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Onkologia" },
+            new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Kardiologia" },
+            new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Neurologia" }
+        };
+
+        await _testDatabase.DbContext.Departments.AddRangeAsync(departments);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        var admin = new User(Guid.NewGuid(), "admin@test.com", "password", Role.Admin(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        // Act
+        Authorize(admin.UserId, admin.Role);
+        var response = await Client.GetAsync("/departments-module/Departments/departmentsAutocomplete");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var departmentDtos = await response.Content.ReadFromJsonAsync<IEnumerable<DepartmentAutocompleteDto>>();
+        departmentDtos.ShouldNotBeNull();
     }
 }
