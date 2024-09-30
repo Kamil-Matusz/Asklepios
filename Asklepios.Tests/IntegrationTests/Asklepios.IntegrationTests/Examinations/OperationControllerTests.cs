@@ -1,4 +1,10 @@
 using System.Net;
+using System.Net.Http.Json;
+using Asklepios.Core.DTO.Examinations;
+using Asklepios.Core.Entities.Departments;
+using Asklepios.Core.Entities.Patients;
+using Asklepios.Core.Entities.Users;
+using Asklepios.Core.ValueObjects;
 using Shouldly;
 
 namespace Asklepios.IntegrationTests.Examinations;
