@@ -157,18 +157,6 @@ public class UsersController : BaseController
         return Ok();
     }
     
-    [Authorize]
-    [HttpPost("logout")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Logout()
-    {
-        _tokenStorage.ClearToken();
-        
-        return Ok();
-    }
-    
     [Authorize(Roles = "Admin")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
