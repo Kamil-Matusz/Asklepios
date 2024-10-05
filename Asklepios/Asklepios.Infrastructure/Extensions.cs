@@ -1,15 +1,15 @@
 using Asklepios.Application.Abstractions;
-using Asklepios.Application.Events;
+using Asklepios.Application.Hangfire;
 using Asklepios.Application.SignalR;
 using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.Events;
-using Asklepios.Infrastructure.Events.Handlers;
 using Asklepios.Infrastructure.Security;
 using Convey;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers.RabbitMQ;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -122,6 +122,11 @@ public static class Extensions
             endpoints.MapControllers();
             endpoints.MapHub<HospitalHub>("/hospitalHub");
         });
+        
+        app.UseHangfireDashboard();
+        app.UseHangfireServer();
+        
+        RecurringJob.AddOrUpdate<IDischargeCleanupService>(x => x.RemoveOldDischarges(), Cron.Daily);
         
         return app;
     }
