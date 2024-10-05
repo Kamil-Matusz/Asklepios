@@ -145,18 +145,82 @@ const generatePDF = () => {
       { text: 'Wypis pacjenta ze szpitala', style: 'header', margin: [0, 0, 0, 20] },
       { text: 'Dane pacjenta:', style: 'subheader', margin: [0, 0, 0, 15] },
 
-      { text: `Imię i nazwisko: ${dischargeDetails.value.patientName} ${dischargeDetails.value.patientSurname}`, margin: [0, 5, 0, 0] },
-      { text: `PESEL: ${dischargeDetails.value.peselNumber}`, margin: [0, 5, 0, 0] },
-      { text: `Adres: ${dischargeDetails.value.address}`, margin: [0, 5, 0, 0] },
-      { text: `Data wypisu: ${dischargeDetails.value.date}`, margin: [0, 5, 0, 0] },
-      { text: `Lekarz: ${dischargeDetails.value.doctorName} ${dischargeDetails.value.doctorSurname}`, margin: [0, 5, 0, 0] },
-      { text: `Powód wypisu: ${dischargeDetails.value.dischargeReasson}`, margin: [0, 5, 0, 0] },
-      { text: `Podsumowanie: ${dischargeDetails.value.summary}`, margin: [0, 5, 0, 20] },
+      {
+        table: {
+          widths: ['*', '*'],
+          body: [
+            [
+              { text: 'Imię i nazwisko:', bold: true, margin: [0, 5, 0, 0] },
+              { text: `${dischargeDetails.value.patientName} ${dischargeDetails.value.patientSurname}`, margin: [0, 0, 0, 10] }
+            ],
+            [
+              { text: 'PESEL:', bold: true, margin: [0, 5, 0, 0] },
+              { text: dischargeDetails.value.peselNumber, margin: [0, 0, 0, 10] }
+            ],
+            [
+              { text: 'Adres:', bold: true, margin: [0, 5, 0, 0] },
+              { text: dischargeDetails.value.address, margin: [0, 0, 0, 10] }
+            ],
+            [
+              { text: 'Data wypisu:', bold: true, margin: [0, 5, 0, 0] },
+              { text: dischargeDetails.value.date, margin: [0, 0, 0, 10] }
+            ],
+            [
+              { text: 'Lekarz:', bold: true, margin: [0, 5, 0, 0] },
+              { text: `${dischargeDetails.value.doctorName} ${dischargeDetails.value.doctorSurname}`, margin: [0, 0, 0, 10] }
+            ],
+          ],
+        },
+        layout: {
+          hLineColor: () => '#000',
+          vLineColor: () => '#000',
+          hLineWidth: () => 1,
+          vLineWidth: () => 1,
+          paddingLeft: () => 10,
+          paddingRight: () => 10,
+          paddingTop: () => 5,
+          paddingBottom: () => 5
+        }
+      },
+
+      {
+        table: {
+          widths: ['*', '*'],
+          body: [
+            [
+              { text: 'Powód wypisu:', bold: true, margin: [0, 5, 0, 0] },
+              { text: '', margin: [0, 0, 0, 0] }
+            ],
+            [
+              { text: '', margin: [0, 0, 0, 0] },
+              { text: dischargeDetails.value.dischargeReasson, margin: [0, 0, 0, 10] }
+            ]
+          ],
+        },
+        layout: 'noBorders'
+      },
+
+      {
+        table: {
+          widths: ['*', '*'],
+          body: [
+            [
+              { text: 'Podsumowanie:', bold: true, margin: [0, 5, 0, 0] },
+              { text: '', margin: [0, 0, 0, 0] }
+            ],
+            [
+              { text: '', margin: [0, 0, 0, 0] },
+              { text: dischargeDetails.value.summary, margin: [0, 0, 0, 20] }
+            ]
+          ],
+        },
+        layout: 'noBorders'
+      },
 
       { text: 'Podpis lekarza:', margin: [0, 30, 0, 0] },
       { text: '_____________________', margin: [0, 5, 0, 0] },
-      { text: 'Miejsce na pieczątkę:', margin: [0, 20, 0, 0] },
-      { text: '_____________________', margin: [0, 5, 0, 20] },
+      { text: 'Miejsce na pieczątkę:', margin: [0, 20, 0, 0], alignment: 'right' },
+      { text: '_____________________', margin: [0, 5, 0, 20], alignment: 'right' },
     ],
     styles: {
       header: { fontSize: 24, bold: true, alignment: 'center' },
@@ -167,8 +231,10 @@ const generatePDF = () => {
       fontSize: 12,
     },
   };
+
   pdfMake.createPdf(docDefinition).download('wypis_pacjenta.pdf');
 };
+
 </script>
 
 <style scoped>
