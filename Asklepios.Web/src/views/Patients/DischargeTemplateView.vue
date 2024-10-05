@@ -1,5 +1,5 @@
 <template>
-  <v-container id="pdf-content">
+  <v-container>
     <v-row justify="center">
       <v-col cols="12" md="6">
         <v-card class="pa-5 elevation-10" color="#212121">
@@ -79,7 +79,6 @@
             </v-col>
           </v-row>
 
-          <!-- Miejsce na podpis i pieczątkę -->
           <v-row class="mt-10 signature-section">
             <v-col cols="6" class="text-center">
               <div class="signature-line"></div>
@@ -107,7 +106,10 @@ import { useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
-import html2pdf from 'html2pdf.js';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const dischargeStore = useDischargeStore();
 const toast = useToast();
@@ -129,21 +131,44 @@ onMounted(() => {
   getDischargeDetails(dischargeId);
 });
 
-
 const generatePDF = () => {
-  const element = document.getElementById('pdf-content');
-  const opt = {
-    margin: [0, 0, 0, 0],
-    filename: 'wypis_pacjenta.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all'] }
+  if (!dischargeDetails.value) {
+    toast.error('Brak danych pacjenta do wygenerowania PDF.');
+    return;
+  }
+
+  const docDefinition = {
+    pageSize: 'A4',
+    pageOrientation: 'portrait',
+    pageMargins: [40, 60, 40, 60],
+    content: [
+      { text: 'Wypis pacjenta ze szpitala', style: 'header', margin: [0, 0, 0, 20] },
+      { text: 'Dane pacjenta:', style: 'subheader', margin: [0, 0, 0, 15] },
+
+      { text: `Imię i nazwisko: ${dischargeDetails.value.patientName} ${dischargeDetails.value.patientSurname}`, margin: [0, 5, 0, 0] },
+      { text: `PESEL: ${dischargeDetails.value.peselNumber}`, margin: [0, 5, 0, 0] },
+      { text: `Adres: ${dischargeDetails.value.address}`, margin: [0, 5, 0, 0] },
+      { text: `Data wypisu: ${dischargeDetails.value.date}`, margin: [0, 5, 0, 0] },
+      { text: `Lekarz: ${dischargeDetails.value.doctorName} ${dischargeDetails.value.doctorSurname}`, margin: [0, 5, 0, 0] },
+      { text: `Powód wypisu: ${dischargeDetails.value.dischargeReasson}`, margin: [0, 5, 0, 0] },
+      { text: `Podsumowanie: ${dischargeDetails.value.summary}`, margin: [0, 5, 0, 20] },
+
+      { text: 'Podpis lekarza:', margin: [0, 30, 0, 0] },
+      { text: '_____________________', margin: [0, 5, 0, 0] },
+      { text: 'Miejsce na pieczątkę:', margin: [0, 20, 0, 0] },
+      { text: '_____________________', margin: [0, 5, 0, 20] },
+    ],
+    styles: {
+      header: { fontSize: 24, bold: true, alignment: 'center' },
+      subheader: { fontSize: 16, bold: true },
+    },
+    defaultStyle: {
+      font: 'Roboto',
+      fontSize: 12,
+    },
   };
-
-  html2pdf().from(element).set(opt).save();
+  pdfMake.createPdf(docDefinition).download('wypis_pacjenta.pdf');
 };
-
 </script>
 
 <style scoped>
@@ -178,12 +203,7 @@ const generatePDF = () => {
   color: #eceff1;
 }
 
-#pdf-content {
-  background-color: #212121;
-  color: white;
-  padding: 20mm;
-  width: 210mm;
-  height: 297mm;
-  box-sizing: border-box;
+.v-btn {
+  color: #ffffff;
 }
 </style>
