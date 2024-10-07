@@ -12,7 +12,7 @@ public class Operation
     public DateTime EndDate { get; set; }
     public AnesthesiaType AnesthesiaType { get; set; }
     public string Result { get; set; }
-    public string Comlications { get; set; }
+    public string Complications { get; set; }
 
     public Guid PatientId { get; set; }
     public Patient Patient { get; set; }

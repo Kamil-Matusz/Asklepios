@@ -3,6 +3,7 @@ using System;
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Asklepios.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(AsklepiosDbContext))]
-    partial class AsklepiosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241007153141_FixColumnName")]
+    partial class FixColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
