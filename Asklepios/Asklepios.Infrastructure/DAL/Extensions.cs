@@ -36,8 +36,12 @@ public static class Extensions
         
         services.AddDbContext<AsklepiosDbContext>(x => x.UseNpgsql(options.ConnectionString));
 
-        services.AddHangfire(config => config.UsePostgreSqlStorage(options.ConnectionString));
-        services.AddHangfireServer();
+        var hangfireEnabled = configuration.GetValue<bool>("Hangfire:Enable");
+        if (hangfireEnabled)
+        {
+            services.AddHangfire(config => config.UsePostgreSqlStorage(options.ConnectionString));
+            services.AddHangfireServer();
+        }
         
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IRoomRepository, RoomRepository>();

@@ -123,10 +123,16 @@ public static class Extensions
             endpoints.MapHub<HospitalHub>("/hospitalHub");
         });
         
-        app.UseHangfireDashboard();
-        app.UseHangfireServer();
+        var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+    
+        var hangfireEnabled = configuration.GetValue<bool>("Hangfire:Enable");
+        if (hangfireEnabled)
+        {
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
         
-        RecurringJob.AddOrUpdate<IDischargeCleanupService>(x => x.RemoveOldDischarges(), Cron.Daily);
+            RecurringJob.AddOrUpdate<IDischargeCleanupService>(x => x.RemoveOldDischarges(), Cron.Daily);
+        }
         
         return app;
     }
