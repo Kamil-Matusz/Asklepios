@@ -160,7 +160,7 @@ public class DischargesController : BaseController
             DischargeDate = DateOnly.FromDateTime(DateTime.Now).AddDays(2),
             OperationName = operation.OperationName,
             Result = operation.Result,
-            Comlications = operation.Comlications,
+            Comlications = operation.Complications,
             AnesthesiaType = operation.AnesthesiaType
         }).ToList();
         

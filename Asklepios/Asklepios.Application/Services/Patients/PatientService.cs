@@ -85,7 +85,7 @@ public class PatientService : IPatientService
             OperationName = x.OperationName,
             AnesthesiaType = x.AnesthesiaType,
             Result = x.Result,
-            Comlications = x.Comlications,
+            Complications = x.Complications,
             StartDate = x.StartDate,
             EndDate = x.EndDate,
         }).ToList();

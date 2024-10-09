@@ -16,6 +16,8 @@ using Asklepios.Infrastructure.DAL.Seeders.Departments;
 using Asklepios.Infrastructure.DAL.Seeders.Examinations;
 using Asklepios.Infrastructure.DAL.Seeders.Patients;
 using Asklepios.Infrastructure.DAL.Seeders.Users;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,13 @@ public static class Extensions
         
         services.AddDbContext<AsklepiosDbContext>(x => x.UseNpgsql(options.ConnectionString));
 
+        var hangfireEnabled = configuration.GetValue<bool>("Hangfire:Enable");
+        if (hangfireEnabled)
+        {
+            services.AddHangfire(config => config.UsePostgreSqlStorage(options.ConnectionString));
+            services.AddHangfireServer();
+        }
+        
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IRoomRepository, RoomRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

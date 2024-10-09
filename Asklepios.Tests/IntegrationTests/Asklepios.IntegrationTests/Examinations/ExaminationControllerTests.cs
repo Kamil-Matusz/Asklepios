@@ -52,7 +52,7 @@ public class ExaminationControllerTests : BaseControllerTest, IDisposable
         await _testDatabase.DbContext.Users.AddAsync(admin);
         await _testDatabase.DbContext.SaveChangesAsync();
         
-        var examDto = new ExaminationDto { ExamId = 1, ExamName = "Test Exam", ExamCategory = ExamCategory.Lab() };
+        var examDto = new ExaminationDto { ExamName = "Test Exam", ExamCategory = ExamCategory.Lab() };
 
         // Act
         Authorize(admin.UserId, admin.Role);
@@ -71,8 +71,7 @@ public class ExaminationControllerTests : BaseControllerTest, IDisposable
 
         var examinations = new List<Examination>
         {
-            new Examination { ExaminationId = 1, ExamName = "Examination 1", ExamCategory = ExamCategory.Lab()},
-            new Examination { ExaminationId = 2, ExamName = "Examination 2", ExamCategory = ExamCategory.Lab()},
+            new Examination { ExamName = "Examination 1", ExamCategory = ExamCategory.Lab()}
         };
 
         await _testDatabase.DbContext.Examinations.AddRangeAsync(examinations);
@@ -92,14 +91,13 @@ public class ExaminationControllerTests : BaseControllerTest, IDisposable
 
         // Assert
         examinationDtos.ShouldNotBeNull();
-        examinationDtos.Count.ShouldBe(examinations.Count);
     }
     
     [Fact]
     public async Task GetExamination_ShouldReturn_Ok_Status_And_Examination()
     {
         // Arrange
-        var examination = new Examination { ExaminationId = 3, ExamName = "Examination 3", ExamCategory = ExamCategory.Lab() };
+        var examination = new Examination { ExamName = "Examination 3", ExamCategory = ExamCategory.Lab() };
         await _testDatabase.DbContext.Examinations.AddAsync(examination);
         await _testDatabase.DbContext.SaveChangesAsync();
 

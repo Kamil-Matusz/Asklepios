@@ -144,7 +144,7 @@ const getMedicalStaff = async () => {
   try {
     const data = await medicalStaffStore.dispatchGetDoctorsList();
     medicalStaff.value = data.map(staff => ({
-      text: `${staff.surname}`,
+      text: `${staff.surname} ${staff.name}`,
       value: staff.doctorId
     }));
   } catch (error) {

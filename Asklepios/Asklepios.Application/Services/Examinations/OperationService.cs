@@ -25,7 +25,7 @@ public class OperationService : IOperationService
             EndDate = dto.EndDate,
             AnesthesiaType = dto.AnesthesiaType,
             Result = dto.Result,
-            Comlications = dto.Comlications,
+            Complications = dto.Complications,
             PatientId = dto.PatientId,
             MedicalStaffId = dto.MedicalStaffId
         });
@@ -92,7 +92,7 @@ public class OperationService : IOperationService
         EndDate = operation.EndDate,
         AnesthesiaType = operation.AnesthesiaType,
         Result = operation.Result,
-        Comlications = operation.Comlications,
+        Complications = operation.Complications,
         PatientId = operation.PatientId,
         MedicalStaffId = operation.MedicalStaffId
     };
@@ -105,7 +105,7 @@ public class OperationService : IOperationService
         EndDate = operation.EndDate,
         AnesthesiaType = operation.AnesthesiaType,
         Result = operation.Result,
-        Comlications = operation.Comlications,
+        Complications = operation.Complications,
         DoctorName = operation.MedicalStaff.Name,
         DoctornSurname = operation.MedicalStaff.Surname,
         PatientName = operation.Patient.PatientName,

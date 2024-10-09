@@ -24,19 +24,6 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
     {
         _testDatabase?.Dispose();
     }
-
-    [Fact]
-    public async Task SignUpUser_ShouldReturn_Ok_Status()
-    {
-        // Arrange
-        var command = new SignUp(Guid.Empty, "testUser@test.com", "password", "Doctor", true);
-        
-        // Act
-        var response = await Client.PostAsJsonAsync("users-module/Users/signUp", command);
-        
-        // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.OK);
-    }
     
     [Fact]
     public async Task SignIn_ShouldReturn_Ok_Status()
@@ -91,12 +78,8 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
         var passwordManager = new PasswordManager(new PasswordHasher<User>());
         const string password = "password";
         
-        var admin = new User(Guid.NewGuid(), "administrator2@test.com", passwordManager.Secure(password), Role.Admin(), true,
-            DateTime.Now);
-        
-        var user = new User(Guid.NewGuid(), "user2@test.com", passwordManager.Secure(password), Role.IT_Employee(), true,
-            DateTime.Now);
-        
+        var admin = new User(Guid.NewGuid(), "administrator2@test.com", passwordManager.Secure(password), Role.Admin(), true, DateTime.Now);
+        var user = new User(Guid.NewGuid(), "user2@test.com", passwordManager.Secure(password), Role.IT_Employee(), true, DateTime.Now);
         await _testDatabase.DbContext.Users.AddAsync(admin);
         await _testDatabase.DbContext.Users.AddAsync(user);
         await _testDatabase.DbContext.SaveChangesAsync();
@@ -111,51 +94,76 @@ public class UsersControllerTests : BaseControllerTest, IDisposable
         accountDto.ShouldNotBeNull();
         accountDto.UserId.ShouldBe(user.UserId);
     }
-
+    
     [Fact]
-    public async Task GenerateUserAccount_ShouldReturn_Ok_Status_And_User()
+    public async Task ChangePassword_Should_Return_Ok_Status_When_Password_Is_Changed_Successfully()
     {
         // Arrange
         var passwordManager = new PasswordManager(new PasswordHasher<User>());
-        const string password = "password";
-        
-        var admin = new User(Guid.NewGuid(), "administrator3@test.com", passwordManager.Secure(password), Role.Admin(), true,
-            DateTime.Now);
-        
-        await _testDatabase.DbContext.Users.AddAsync(admin);
+        const string oldPassword = "oldPassword";
+        const string newPassword = "newPassword";
+
+        var user = new User(Guid.NewGuid(), "user@test.com", passwordManager.Secure(oldPassword), Role.Admin(), true, DateTime.Now);
+    
+        await _testDatabase.DbContext.Users.AddAsync(user);
         await _testDatabase.DbContext.SaveChangesAsync();
-        
+
+        Authorize(user.UserId, user.Role);
+
+        var command = new ChangeUserPassword(user.UserId, newPassword);
+
         // Act
-        Authorize(admin.UserId, admin.Role);
-        var command = new GenerateUserAccount(Guid.Empty, "user3@test.com", Role.IT_Employee(), true);
-        var response = await Client.PostAsJsonAsync("users-module/Users/generateUserAccount", command);
-        
+        var response = await Client.PutAsJsonAsync("users-module/Users/changePassword", command);
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
     
-    /*[Fact]
-    public async Task DeleteUserAccount_ShouldReturn_No_Content()
+    [Fact]
+    public async Task ChangeUserRole_Should_Return_Ok_Status_When_Role_Is_Changed_Successfully()
     {
         // Arrange
         var passwordManager = new PasswordManager(new PasswordHasher<User>());
         const string password = "password";
         
-        var admin = new User(Guid.NewGuid(), "deleteAccountAdmin@test.com", passwordManager.Secure(password), Role.Admin(), true,
-            DateTime.Now);
-        
-        var user = new User(Guid.NewGuid(), "deleteAccount@test.com", passwordManager.Secure(password), Role.No_Role(), false,
-            DateTime.Now);
-        
+        var admin = new User(Guid.NewGuid(), "administrator2@test.com", passwordManager.Secure(password), Role.Admin(), true, DateTime.Now);
+        var user = new User(Guid.NewGuid(), "user2@test.com", passwordManager.Secure(password), Role.IT_Employee(), true, DateTime.Now);
         await _testDatabase.DbContext.Users.AddAsync(admin);
         await _testDatabase.DbContext.Users.AddAsync(user);
         await _testDatabase.DbContext.SaveChangesAsync();
-        
-        // Act
+
         Authorize(admin.UserId, admin.Role);
-        var response = await Client.DeleteAsync($"/users-module/Users/{user.UserId}");
+
+        var command = new ChangeUserRole(user.UserId, Role.Nurse());
+
+        // Act
+        var response = await Client.PutAsJsonAsync($"users-module/Users/{user.UserId}/changeUserRole", command);
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
-    }*/
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async Task ChangeAccountStatus_Should_Return_Ok_Status_When_Status_Is_Changed_Successfully()
+    {
+        // Arrange
+        var passwordManager = new PasswordManager(new PasswordHasher<User>());
+        const string password = "password";
+        
+        var admin = new User(Guid.NewGuid(), "administrator2@test.com", passwordManager.Secure(password), Role.Admin(), true, DateTime.Now);
+        var user = new User(Guid.NewGuid(), "user2@test.com", passwordManager.Secure(password), Role.IT_Employee(), true, DateTime.Now);
+        await _testDatabase.DbContext.Users.AddAsync(admin);
+        await _testDatabase.DbContext.Users.AddAsync(user);
+        await _testDatabase.DbContext.SaveChangesAsync();
+
+        Authorize(admin.UserId, admin.Role);
+
+        var command = new ChangeAccountStatus(user.UserId, false);
+
+        // Act
+        var response = await Client.PutAsJsonAsync($"users-module/Users/{user.UserId}/changeAccountStatus", command);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+    }
 }

@@ -8,7 +8,7 @@ public class OperationDto
     public DateTime EndDate { get; set; }
     public string AnesthesiaType { get; set; }
     public string Result { get; set; }
-    public string Comlications { get; set; }
+    public string Complications { get; set; }
     public Guid PatientId { get; set; }
     public Guid MedicalStaffId { get; set; }
 }

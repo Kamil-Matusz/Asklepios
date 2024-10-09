@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Examinations.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.IntegrationTests", "Asklepios.Tests\IntegrationTests\Asklepios.IntegrationTests\Asklepios.IntegrationTests.csproj", "{3B2B800B-28CB-4040-BED2-5BC02326111D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.Clinics.UnitTests", "Asklepios.Tests\UnitTests\Asklepios.Clinics.UnitTests\Asklepios.Clinics.UnitTests\Asklepios.Clinics.UnitTests.csproj", "{30A71554-AF64-4F7D-AFA2-7CB88E7C0167}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asklepios.InfrastructureTests", "Asklepios.Tests\IntegrationTests\Asklepios.InfrastructureTests\Asklepios.InfrastructureTests.csproj", "{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{3B2B800B-28CB-4040-BED2-5BC02326111D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B2B800B-28CB-4040-BED2-5BC02326111D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B2B800B-28CB-4040-BED2-5BC02326111D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A71554-AF64-4F7D-AFA2-7CB88E7C0167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A71554-AF64-4F7D-AFA2-7CB88E7C0167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A71554-AF64-4F7D-AFA2-7CB88E7C0167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A71554-AF64-4F7D-AFA2-7CB88E7C0167}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DCC275B9-AFE8-42F6-A5C2-7C60A59304A6} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
@@ -69,5 +81,7 @@ Global
 		{72608E20-8CE4-4716-8B3F-00F060D68FDC} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
 		{4AFFE7F6-468B-4AAF-981E-F80A687B3C8D} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
 		{3B2B800B-28CB-4040-BED2-5BC02326111D} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
+		{30A71554-AF64-4F7D-AFA2-7CB88E7C0167} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
+		{E9A85DE1-FDA4-4E21-98D5-CC91687E9DDC} = {E731DFCC-AB6C-4A9E-B268-E4A31FBA2374}
 	EndGlobalSection
 EndGlobal

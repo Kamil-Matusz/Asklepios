@@ -15,7 +15,7 @@ public class OperationConfiguration : IEntityTypeConfiguration<Operation>
         builder.Property(x => x.StartDate).IsRequired();
         builder.Property(x => x.EndDate).IsRequired();
         builder.Property(x => x.AnesthesiaType).HasConversion(x => x.Value, x => new AnesthesiaType(x)).IsRequired();
-        builder.Property(x => x.Comlications).HasMaxLength(10000);
+        builder.Property(x => x.Complications).HasMaxLength(10000);
         builder.Property(x => x.Result).IsRequired().HasMaxLength(2000);
         builder.Property(x => x.PatientId).IsRequired();
         builder.Property(x => x.MedicalStaffId).IsRequired();

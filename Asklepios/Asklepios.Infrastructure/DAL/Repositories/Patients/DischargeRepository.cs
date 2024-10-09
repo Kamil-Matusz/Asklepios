@@ -45,4 +45,21 @@ public class DischargeRepository : IDischargeRepository
         _discharges.Remove(discharge);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteDischargeByIdAsync(Guid dischargeId)
+    {
+        var discharge = await _discharges.FindAsync(dischargeId);
+        if (discharge != null)
+        {
+            _discharges.Remove(discharge);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task<IEnumerable<Discharge>> GetDischargesOlderThanAsync(DateOnly date)
+    {
+        return await _discharges
+            .Where(d => d.Date < date)
+            .ToListAsync();
+    }
 }

@@ -199,7 +199,7 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Comlications")
+                    b.Property<string>("Complications")
                         .IsRequired()
                         .HasMaxLength(10000)
                         .HasColumnType("character varying(10000)");
