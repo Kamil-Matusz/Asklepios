@@ -29,5 +29,5 @@ The project uses Seq for structured logging and event monitoring. Seq allows you
 - Docker Configuration: Seq is set up using Docker, and the settings are defined in the docker-compose.yml file.
 - Ports: Seq runs on port 5341 (mapped to port 80 inside the container), which can be accessed to view and manage log data through its web interface.
 
-### Database Diagram
+## Database Diagram
 ![](/assets/DatabaseDiagram.png)
