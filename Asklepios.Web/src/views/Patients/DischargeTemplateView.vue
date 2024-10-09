@@ -137,6 +137,9 @@ const generatePDF = () => {
     return;
   }
 
+  const patientName = dischargeDetails.value.patientName;
+  const patientSurname = dischargeDetails.value.patientSurname;
+
   const docDefinition = {
     pageSize: 'A4',
     pageOrientation: 'portrait',
@@ -144,14 +147,13 @@ const generatePDF = () => {
     content: [
       { text: 'Wypis pacjenta ze szpitala', style: 'header', margin: [0, 0, 0, 20] },
       { text: 'Dane pacjenta:', style: 'subheader', margin: [0, 0, 0, 15] },
-
       {
         table: {
           widths: ['*', '*'],
           body: [
             [
               { text: 'Imię i nazwisko:', bold: true, margin: [0, 5, 0, 0] },
-              { text: `${dischargeDetails.value.patientName} ${dischargeDetails.value.patientSurname}`, margin: [0, 0, 0, 10] }
+              { text: `${patientName} ${patientSurname}`, margin: [0, 0, 0, 10] }
             ],
             [
               { text: 'PESEL:', bold: true, margin: [0, 5, 0, 0] },
@@ -182,7 +184,6 @@ const generatePDF = () => {
           paddingBottom: () => 5
         }
       },
-
       {
         table: {
           widths: ['*', '*'],
@@ -199,7 +200,6 @@ const generatePDF = () => {
         },
         layout: 'noBorders'
       },
-
       {
         table: {
           widths: ['*', '*'],
@@ -216,7 +216,6 @@ const generatePDF = () => {
         },
         layout: 'noBorders'
       },
-
       { text: 'Podpis lekarza:', margin: [0, 30, 0, 0] },
       { text: '_____________________', margin: [0, 5, 0, 0] },
       { text: 'Miejsce na pieczątkę:', margin: [0, 20, 0, 0], alignment: 'right' },
@@ -232,8 +231,11 @@ const generatePDF = () => {
     },
   };
 
-  pdfMake.createPdf(docDefinition).download('wypis_pacjenta.pdf');
+  const pdfFileName = `${patientName}_${patientSurname}_wypis.pdf`;
+
+  pdfMake.createPdf(docDefinition).download(pdfFileName);
 };
+
 
 </script>
 
