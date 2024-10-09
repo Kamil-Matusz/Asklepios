@@ -19,6 +19,16 @@ const messages = {
       nurse: "Pielęgniarka",
       admin: "Administrator",
       user: "Użytkownik",
+    },
+    appointmentTypes: {
+      Consultation: "Konsultacja",
+      Examination: "Badanie",
+      Surgery: "Zabieg"
+    },
+    statusOptions: {
+      Scheduled: "Potwierdzone",
+      Completed: "Zakończone",
+      Cancelled: "Odwołane"
     }
   }
 };

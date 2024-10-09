@@ -11,6 +11,8 @@ import examResultStoreController from "./examResults";
 import dischargeStoreController from "./discharges";
 import statisticStoreController from "./statistics";
 import patientHistoriesController from "./patientHistories";
+import clinicAppointmentsController from "./clinicAppointments";
+import clinicPatientsController from "./clinicPatients";
 
 export const API = {
   jwt: jwtStoreController,
@@ -25,5 +27,7 @@ export const API = {
   examResults: examResultStoreController,
   discharges: dischargeStoreController,
   statistic: statisticStoreController,
-  patientHistories: patientHistoriesController
+  patientHistories: patientHistoriesController,
+  clinicAppointments: clinicAppointmentsController,
+  clinicPatients: clinicPatientsController
 };

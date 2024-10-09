@@ -22,6 +22,74 @@ namespace Asklepios.Infrastructure.DAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Asklepios.Core.Entities.Clinics.ClinicAppointment", b =>
+                {
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("AppointmentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ClinicPatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MedicalStaffId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.HasKey("AppointmentId");
+
+                    b.HasIndex("ClinicPatientId");
+
+                    b.HasIndex("MedicalStaffId");
+
+                    b.ToTable("ClinicAppointments");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Clinics.ClinicPatient", b =>
+                {
+                    b.Property<Guid>("ClinicPatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PatientName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("PatientSurname")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("PeselNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.HasKey("ClinicPatientId");
+
+                    b.HasIndex("PeselNumber")
+                        .IsUnique();
+
+                    b.ToTable("ClinicPatients");
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Department", b =>
                 {
                     b.Property<Guid>("DepartmentId")
@@ -131,7 +199,7 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Comlications")
+                    b.Property<string>("Complications")
                         .IsRequired()
                         .HasMaxLength(10000)
                         .HasColumnType("character varying(10000)");
@@ -460,6 +528,25 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.ToView("monthlydischarges", (string)null);
                 });
 
+            modelBuilder.Entity("Asklepios.Core.Entities.Clinics.ClinicAppointment", b =>
+                {
+                    b.HasOne("Asklepios.Core.Entities.Clinics.ClinicPatient", "ClinicPatient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ClinicPatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Asklepios.Core.Entities.Users.MedicalStaff", "MedicalStaff")
+                        .WithMany()
+                        .HasForeignKey("MedicalStaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClinicPatient");
+
+                    b.Navigation("MedicalStaff");
+                });
+
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Room", b =>
                 {
                     b.HasOne("Asklepios.Core.Entities.Departments.Department", "Department")
@@ -583,6 +670,11 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Navigation("Department");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Clinics.ClinicPatient", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Department", b =>

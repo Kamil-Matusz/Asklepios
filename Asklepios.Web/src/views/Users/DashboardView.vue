@@ -102,6 +102,18 @@
       </v-col>
     </v-row>
 
+      <v-col cols="12">
+        <BaseCardWithHover title="Przychodnia - Moduł Zarządzania">
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('ClinicDashboard')">
+                Zarządzanie przychodnią
+              </v-btn>
+            </v-col>
+          </v-row>
+        </BaseCardWithHover>
+      </v-col>
+
   </BasePage>
 </template>
 

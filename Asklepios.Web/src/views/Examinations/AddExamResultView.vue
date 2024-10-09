@@ -26,18 +26,22 @@ const handleSubmit = async () => {
     try {
       await examResultsStore.dispatchCreateExamResult(form.value);
       toast.success('Exam result created successfully!');
-      form.value = {
-        examResultId: '',
-        patientId: '',
-        date: new Date(),
-        result: '',
-        comment: '',
-        examId: 0,
-      };
+      resetForm();
     } catch (error) {
       toast.error('Failed to create exam result');
     }
   }
+};
+
+const resetForm = () => {
+  form.value = {
+    examResultId: '',
+    patientId: '',
+    date: new Date(),
+    result: '',
+    comment: '',
+    examId: 0,
+  };
 };
 
 const formattedPatients = computed(() => {
@@ -80,6 +84,7 @@ onMounted(async () => {
                 :rules="patientIdRules"
                 required
                 no-data-text="Brak pacjentów"
+                prepend-icon="mdi-account"
               ></v-select>
               <v-select
                 v-model="form.examId"
@@ -90,16 +95,19 @@ onMounted(async () => {
                 :rules="examIdRules"
                 required
                 no-data-text="Brak badań"
+                prepend-icon="mdi mdi-head-plus"
               ></v-select>
               <v-text-field
                 v-model="form.result"
                 label="Wynik"
                 :rules="resultRules"
                 required
+                prepend-icon="mdi mdi-head-plus"
               ></v-text-field>
               <v-text-field
                 v-model="form.comment"
                 label="Komentarz"
+                prepend-icon="mdi mdi-comment"
               ></v-text-field>
               <v-date-picker
                 v-model="form.date"
@@ -109,6 +117,7 @@ onMounted(async () => {
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
+                <v-btn @click="resetForm" text="Resetuj" color="red" variant="flat"></v-btn>
               </v-card-actions>
             </v-form>
           </v-card-text>

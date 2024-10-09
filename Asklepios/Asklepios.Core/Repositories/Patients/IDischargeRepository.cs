@@ -9,4 +9,6 @@ public interface IDischargeRepository
     Task AddDischargeAsync(Discharge discharge);
     Task UpdateDischargeAsync(Discharge discharge);
     Task DeleteDischargeAsync(Discharge discharge);
+    Task DeleteDischargeByIdAsync(Guid dischargeId);
+    Task<IEnumerable<Discharge>> GetDischargesOlderThanAsync(DateOnly date);
 }
