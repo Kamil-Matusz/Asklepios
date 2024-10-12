@@ -135,6 +135,7 @@ onMounted(async () => {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: black;
 }
 
 .patient-details h2 {

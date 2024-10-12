@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Edycja pielęgniarki">
+  <BasePage title="Edytuj szczegóły pielęgniarki">
     <div v-if="form.nurseId !== ''" class="nurse-details">
       <h2>Edycja pielęgniarki {{ form.name }} {{ form.surname }}</h2>
       <v-form @submit.prevent="handleSubmit">
@@ -119,6 +119,7 @@ onMounted(async () => {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: black;
 }
 
 .nurse-details h2 {

@@ -31,7 +31,7 @@ onMounted(fetchDoctorDetails);
 </script>
 
 <template>
-  <BasePage title="Szczegóły lekarza">
+  <BasePage :title="`Szczegóły lekarza: ${doctor?.name} ${doctor?.surname}`">
     <div v-if="doctor" class="doctor-details">
       <h2>{{ doctor.name }} {{ doctor.surname }}</h2>
       <p><strong>Specjalizacja: </strong> {{ doctor.specialization }}</p>
@@ -50,6 +50,7 @@ onMounted(fetchDoctorDetails);
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: black;
 }
 
 .doctor-details h2 {

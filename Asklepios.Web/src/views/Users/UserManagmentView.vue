@@ -206,14 +206,14 @@ onMounted(getUsers);
     </template>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="usersStore.users"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="userId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.role="{ item }">
         {{ translateRole(item.role) }}
       </template>
@@ -306,3 +306,10 @@ onMounted(getUsers);
     </v-dialog>
   </BasePage>
 </template>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+</style>

@@ -170,3 +170,4 @@ onMounted(() => {
 
 watch([currentPage, itemsPerPage], getDoctors);
 </script>
+

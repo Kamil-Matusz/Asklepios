@@ -1,7 +1,7 @@
 @import "./base.css";
 
 body {
-  background-color: #2f606a;
+  background-color: #13bee0;
 }
 
 .gap {
@@ -83,3 +83,18 @@ tr:hover {
 .v-table{
   border-radius: 1rem !important;
 }
+
+tr {
+  background-color: #f5f5f5;
+}
+
+.hightlight-hover,
+tr:hover {
+  background-color: #e0f7fa;
+}
+
+.v-data-table tbody tr.selected {
+  background-color: #e0f7fa;
+}
+
+

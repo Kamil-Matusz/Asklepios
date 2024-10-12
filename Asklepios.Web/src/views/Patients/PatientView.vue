@@ -5,6 +5,7 @@
     </v-btn>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="patientStore.patients"
@@ -296,3 +297,10 @@ onMounted(() => {
   getMedicalStaff();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+</style>

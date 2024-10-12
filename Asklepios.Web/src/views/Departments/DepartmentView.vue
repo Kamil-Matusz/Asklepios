@@ -109,6 +109,13 @@ onMounted(() => {
 });
 </script>
 
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+</style>
+
 <template>
   <BasePage title="Zarządzanie oddziałami">
     <template #above-card>
@@ -136,14 +143,14 @@ onMounted(() => {
     </template>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="departmentStore.departments"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="departmentId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.actions="{ item }" dense>
         <v-btn
           @click="() => redirectToEditPage(item.departmentId)"
