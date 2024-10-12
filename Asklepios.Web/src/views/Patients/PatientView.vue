@@ -1,7 +1,7 @@
 <template>
   <BasePage title="Zarządzanie pacjentami">
-    <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 20rem">
-      + Dodaj nowego pacjenta
+    <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 25rem">
+      + Przyjmij do szpitala nowego pacjenta
     </v-btn>
 
     <v-data-table-server

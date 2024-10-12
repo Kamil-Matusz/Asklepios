@@ -99,8 +99,9 @@ onMounted(getExaminations);
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nowe badanie</v-btn>
+            style="max-width: 25rem">
+            + Dołącz szczegóły nowego badania
+        </v-btn>
         </template>
 
         <template #default="{ isActive }">

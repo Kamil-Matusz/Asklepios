@@ -40,7 +40,7 @@ const resetForm = () => {
     date: new Date(),
     result: '',
     comment: '',
-    examId: 0,
+    examId: null,
   };
 };
 
@@ -71,8 +71,9 @@ onMounted(async () => {
       <v-col cols="12" md="8">
         <v-card>
           <v-card-title>
-            Dodaj wynik badania
+            Uzupełnij informacje o nowym badaniu
           </v-card-title>
+          <br/>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
               <v-select

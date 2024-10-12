@@ -9,14 +9,13 @@
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >
-            +Dodaj nowy pokój
+            style="max-width: 20rem">
+            + Przydziel nowy pokój
           </v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy pokój" rounded="lg">
+          <v-card title="Uzupełnij szczegóły pokoju" rounded="lg">
             <RoomForm
               v-model="roomToAdd"
               :departments="departments"

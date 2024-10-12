@@ -8,12 +8,12 @@
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nową operację</v-btn>
+            style="max-width: 25rem"
+          >+ Zarejestruj w systemie nową operację</v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowa operacja" rounded="lg">
+          <v-card title="Uzupełnij szczegóły operacji" rounded="lg">
             <OperationForm
               v-model="operationToAdd"
               :patients="patients"

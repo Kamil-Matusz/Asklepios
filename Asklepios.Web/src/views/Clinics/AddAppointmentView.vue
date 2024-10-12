@@ -4,7 +4,7 @@
       <v-row justify="center">
         <v-col cols="12" md="8">
           <v-card>
-            <v-card-title>Zapisz nową wizytę</v-card-title>
+            <v-card-title>Zapisz nową wizytę pacjenta</v-card-title>
             <v-card-text>
               <v-form ref="form" v-model="isFormValid" lazy-validation>
                 <v-text-field
@@ -75,8 +75,8 @@
                   item-title="text"
                   item-value="value"
                   :rules="requiredRule"
+                  prepend-icon="mdi mdi-doctor"
                   required
-                  prepend-icon="mdi-account-doctor"
                 ></v-select>
 
                 <v-select

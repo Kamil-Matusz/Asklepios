@@ -63,7 +63,7 @@ onMounted(() => {
             to="/operations"
           ></v-list-item>
           <v-list-item
-            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')"
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'IT Employee')"
             prepend-icon="mdi mdi-doctor"
             title="Lekarze"
             to="/doctors"

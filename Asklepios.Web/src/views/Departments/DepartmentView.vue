@@ -120,12 +120,12 @@ onMounted(() => {
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nowy oddział</v-btn>
+            style="max-width: 20rem">
+            + Utwórz nowy oddział</v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy oddział" rounded="lg">
+          <v-card title="Uzupełnij formularz z danymi oddziału" rounded="lg">
             <DepartmentForm
               v-model="departmentToAdd"
               @on-valid-submit="(department) => { addDepartment(department); isActive.value = false; }"

@@ -8,14 +8,13 @@
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >
-            +Dodaj nowego lekarza
+            style="max-width: 25rem">
+            + Zarejestruj w systemie nowego lekarza
           </v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy lekarz" rounded="lg">
+          <v-card title="Uzupełnij dane" rounded="lg">
             <CreateDoctorForm
               v-model="doctorToAdd"
               :departments="departments"

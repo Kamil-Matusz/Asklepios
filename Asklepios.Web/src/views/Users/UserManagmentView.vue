@@ -166,12 +166,12 @@ onMounted(getUsers);
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nowego użytkownika</v-btn>
+            style="max-width: 30rem"
+          >Stwórz konto dla nowego użytkownika</v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy użytkownik" rounded="lg">
+          <v-card title="Uzupełnij formularz z danymi uzytkownika" rounded="lg">
             <GenerateUserForm
               v-model="userToAdd"
               @on-valid-submit="(user) => { addUser(user); isActive.value = false; }"
