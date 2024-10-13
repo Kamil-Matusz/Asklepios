@@ -171,3 +171,9 @@ onMounted(() => {
 watch([currentPage, itemsPerPage], getDoctors);
 </script>
 
+<style scoped>
+.v-card {
+  background-color: #616161;
+}
+</style>
+

@@ -24,7 +24,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card class="pa-4" color="grey darken-3" dark>
           <v-card-title>
-            Historia pacjenta: <strong>{{ patientHistory.patientName }} {{ patientHistory.patientSurname }}</strong>
+            Pacjent: <strong>{{ patientHistory.patientName }} {{ patientHistory.patientSurname }}</strong>
           </v-card-title>
           <v-card-subtitle>PESEL: <strong>{{ patientHistory.peselNumber }}</strong></v-card-subtitle>
 
@@ -56,7 +56,7 @@
               </v-col>
             </v-row>
             <div v-else>
-              <v-alert type="info" border="left" colored-border>
+              <v-alert type="info" colored-border>
                 Brak historii
               </v-alert>
             </div>
@@ -67,7 +67,7 @@
 
     <v-row justify="center" v-if="notFound">
       <v-col cols="12" sm="10" md="8">
-        <v-alert type="error" border="left" colored-border>
+        <v-alert type="error" colored-border>
           Nie znaleziono pacjenta o podanym numerze PESEL.
         </v-alert>
       </v-col>
@@ -115,11 +115,14 @@ const formatDate = (date) => {
 .v-card {
   margin-top: 20px;
   border-radius: 15px;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .v-card-title {
   font-size: 1.25rem;
   font-weight: bold;
+  text-align: left;
 }
 
 .v-row {
@@ -128,6 +131,7 @@ const formatDate = (date) => {
 
 .v-col {
   padding: 5px 0;
+  text-align: left;
 }
 
 .v-card-subtitle {

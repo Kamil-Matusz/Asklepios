@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card class="mx-auto" elevation="6" style="border-radius: 12px; overflow: hidden;">
           <v-sheet color="#1e3c3a" dark>
-            <v-card-title class="white--text">
+            <v-card-title class="dark--text">
               Zestawienie wypisanych pacjentów
             </v-card-title>
           </v-sheet>
@@ -12,13 +12,12 @@
             :headers="headers"
             :items="monthlyDischargeSummary"
             :loading="isLoading"
-            loading-text="Loading... Please wait"
-            no-data-text="No discharge data available"
+            loading-text="Ładowanie... Proszę czekać"
+            no-data-text="Brak wypisów do wyświetlenia"
             class="elevation-1 mt-4"
             dense
             hide-default-footer
-            style="border-radius: 8px; overflow: hidden; background-color: #2e4348;"
-          >
+            style="border-radius: 8px; overflow: hidden; background-color: #2e4348;">
             <template #item="{ item }">
               <tr>
                 <td class="pa-3">

@@ -160,3 +160,9 @@ onMounted(() => {
 
 watch([currentPage, itemsPerPage], getOperations);
 </script>
+
+<style scoped>
+.v-card {
+  background-color: #616161;
+}
+</style>

@@ -12,8 +12,8 @@
             :headers="headers"
             :items="monthlyAdmissionSummary"
             :loading="isLoading"
-            loading-text="Loading... Please wait"
-            no-data-text="No discharge data available"
+            loading-text="Ładowanie... Proszę czekać"
+            no-data-text="Brak przyjętych pacjentów"
             class="elevation-1 mt-4"
             dense
             hide-default-footer

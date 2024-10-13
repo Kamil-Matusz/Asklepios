@@ -72,3 +72,13 @@ onMounted(() => {
     </v-row>
   </BasePage>
 </template>
+
+<style scoped>
+.v-card {
+  background-color: #616161;
+}
+
+.v-list {
+  background-color: #616161;
+}
+</style>

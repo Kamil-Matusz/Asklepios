@@ -177,4 +177,8 @@ watch([currentPage, itemsPerPage], getNurses);
 .nurse-card {
   margin-bottom: 20px;
 }
+
+.v-card {
+  background-color: #616161;
+}
 </style>
