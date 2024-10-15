@@ -21,7 +21,7 @@ public class EmailService : IEmailService
         var to = new EmailAddress(recipientEmail);
         var from = new EmailAddress("asklepios@op.pl", "Asklepios-System");
 
-        var message = MailHelper.CreateSingleTemplateEmail(from, to,"d-842d31878e374b30a33cd4d93a91fb37", new
+        var message = MailHelper.CreateSingleTemplateEmail(from, to,"d-7de0be31f14a4765a8c9e0878bdaa329", new
         {
             Email = recipientEmail,
             Password = password

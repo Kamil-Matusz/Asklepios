@@ -23,7 +23,7 @@ function formatDate(date: Date): string {
 const translateRole = (role: string) => {
   const roleTranslations: { [key: string]: string } = {
     'Admin': 'Administrator',
-    'Doctor': 'Doktor',
+    'Doctor': 'Lekarz',
     'Nurse': 'Pielęgniarka',
     'IT Employee': 'Pracownik IT',
     'Patient': 'Pacjent'
