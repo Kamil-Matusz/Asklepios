@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Dodaj nowe spotkanie">
+  <BasePage title="Dodaj nową wizytę">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">
@@ -50,7 +50,7 @@
 
                 <v-text-field
                   v-model="appointmentRequest.appointmentDate"
-                  label="Data i godzina spotkania"
+                  label="Data i godzina wizyty"
                   type="datetime-local"
                   prepend-icon="mdi-calendar"
                   :rules="[requiredRule, validateTimeInterval]"

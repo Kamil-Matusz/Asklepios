@@ -12,12 +12,14 @@
       :rules="dateRules"
       required
     ></v-date-picker>
+    <br/>
     <v-date-picker
       v-model="form.endDate"
       label="Data zakończenia"
       :rules="dateRules"
       required
     ></v-date-picker>
+    <br/>
     <v-select
       v-model="form.anesthesiaType"
       label="Typ znieczulenia"
