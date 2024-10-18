@@ -157,4 +157,8 @@ const goToRoute = (routeName: string) => {
 .mb-4 {
   margin-bottom: 16px;
 }
+
+.BaseCardWithHover {
+  background-color: gray;
+}
 </style>

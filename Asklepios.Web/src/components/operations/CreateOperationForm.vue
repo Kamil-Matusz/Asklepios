@@ -6,19 +6,22 @@
       :rules="operationNameRules"
       required
     ></v-text-field>
-    <v-date-picker
+    <v-text-field
       v-model="form.startDate"
       label="Data rozpoczęcia"
+      type="date"
+      prepend-icon="mdi-calendar"
       :rules="dateRules"
       required
-    ></v-date-picker>
+    ></v-text-field>
     <br/>
-    <v-date-picker
+    <v-text-field
       v-model="form.endDate"
       label="Data zakończenia"
+      type="date"
       :rules="dateRules"
       required
-    ></v-date-picker>
+    ></v-text-field>
     <br/>
     <v-select
       v-model="form.anesthesiaType"

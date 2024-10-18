@@ -110,11 +110,13 @@ onMounted(async () => {
                 label="Komentarz"
                 prepend-icon="mdi mdi-comment"
               ></v-text-field>
-              <v-date-picker
+              <v-text-field
                 v-model="form.date"
-                label="Data badania"
+                label="Data operacji"
+                type="date"
+                prepend-icon="mdi-calendar"
                 required
-              ></v-date-picker>
+              ></v-text-field>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>

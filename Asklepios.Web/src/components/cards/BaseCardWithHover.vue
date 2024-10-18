@@ -43,7 +43,7 @@ const emit = defineEmits(['click']);
 }
 
 .magicCard {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: gray;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -81,7 +81,7 @@ const emit = defineEmits(['click']);
 }
 
 .magicCard>.magicCard-content {
-    background-color: rgb(20, 20, 20);
+    background-color: #a9a9a9;
     border-radius: inherit;
     display: flex;
     flex-direction: column;
