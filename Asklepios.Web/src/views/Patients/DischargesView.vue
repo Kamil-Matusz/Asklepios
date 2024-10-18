@@ -1,6 +1,7 @@
 <template>
-  <BasePage title="Wypisy pacjentów">
+  <BasePage title="Spis pacjentów wypisanych">
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="dischargeStore.discharges"
@@ -46,8 +47,7 @@
                 <v-col cols="12" md="6">
                   <div><strong>Powód wypisu:</strong> {{ dischargeDetails?.dischargeReasson }}</div>
                   <div><strong>Podsumowanie:</strong> {{ dischargeDetails?.summary }}</div>
-                  <div><strong>Imię lekarza:</strong> {{ dischargeDetails?.doctorName }}</div>
-                  <div><strong>Nazwisko lekarza:</strong> {{ dischargeDetails?.doctorSurname }}</div>
+                  <div><strong>Lekarz:</strong> {{ dischargeDetails?.doctorName }} {{ dischargeDetails?.doctorSurname }}</div>
                 </v-col>
               </v-row>
             </v-container>
@@ -124,3 +124,15 @@ onMounted(() => {
   getDischarges();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

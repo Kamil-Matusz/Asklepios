@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Edycja oddziału">
+  <BasePage title="Edycja danych oddziału">
     <div v-if="form.departmentName !== ''" class="department-details">
       <h2>Edycja oddziału {{ form.departmentName }}</h2>
       <v-form @submit.prevent="handleSubmit">
@@ -88,6 +88,7 @@ onMounted(async () => {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: black;
 }
 
 .department-details h2 {

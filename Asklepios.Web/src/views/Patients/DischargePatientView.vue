@@ -5,7 +5,7 @@
         <v-col cols="12" md="8">
           <v-card>
             <v-card-title>
-              Wypisanie pacjenta
+              Uzupełnij formularz aby wypisać pacjenta ze szpitala
             </v-card-title>
             <v-card-text>
               <v-form @submit.prevent="handleSubmit">

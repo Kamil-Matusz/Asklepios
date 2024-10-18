@@ -23,7 +23,7 @@ function formatDate(date: Date): string {
 const translateRole = (role: string) => {
   const roleTranslations: { [key: string]: string } = {
     'Admin': 'Administrator',
-    'Doctor': 'Doktor',
+    'Doctor': 'Lekarz',
     'Nurse': 'Pielęgniarka',
     'IT Employee': 'Pracownik IT',
     'Patient': 'Pacjent'
@@ -44,8 +44,7 @@ onMounted(() => {
           class="mb-5"
           variant="outlined"
           title="Twoje dane"
-          subtitle="Poniżej znajdują się dane Twojego konta."
-        >
+          subtitle="Poniżej znajdują się dane Twojego konta.">
           <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
             <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
@@ -60,8 +59,7 @@ onMounted(() => {
           class="mb-5"
           variant="outlined"
           title="Zmiana hasła"
-          subtitle="Poniżej możesz zmienić hasło do swojego konta."
-        >
+          subtitle="Poniżej możesz zmienić hasło do swojego konta.">
           <v-btn
             @click="goToRoute('changePassword')"
             color="primary"
@@ -74,3 +72,13 @@ onMounted(() => {
     </v-row>
   </BasePage>
 </template>
+
+<style scoped>
+.v-card {
+  background-color: #616161;
+}
+
+.v-list {
+  background-color: #616161;
+}
+</style>

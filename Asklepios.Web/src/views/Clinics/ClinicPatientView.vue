@@ -1,14 +1,14 @@
 <template>
   <BasePage title="Zarządzanie pacjentami przychodni">
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="clinicPatientStore.patients"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="clinicPatientId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.actions="{ item }" dense>
         <v-btn
           @click="fetchClinicPatientDetails(item.clinicPatientId)"
@@ -146,3 +146,15 @@ onMounted(() => {
   getClinicPatients();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

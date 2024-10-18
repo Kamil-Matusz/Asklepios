@@ -14,7 +14,7 @@
           <v-card-text>
             <v-row v-for="appointment in appointments" :key="appointment.appointmentId">
               <v-col cols="12" class="mb-3">
-                <v-card color="grey lighten-4" class="pa-3" outlined>
+                <v-card color="grey lighten-4" class="pa-3" elevation="0">
                   <v-row>
                     <v-col cols="12">
                       <strong>Imię pacjenta:</strong> {{ appointment.patientName }}
@@ -35,27 +35,38 @@
                       <strong>Status wizyty:</strong> {{ translateStatus(appointment.status) }}
                     </v-col>
 
-                    <!-- Sekcja zmiany statusu -->
-                    <v-col cols="12">
-                      <v-btn v-if="!editingStatus[appointment.appointmentId]" @click="toggleEditStatus(appointment.appointmentId)" color="blue" dark>
-                        Zmień status
-                      </v-btn>
+                    <v-col cols="12" class="d-flex">
+                      <div>
+                        <v-btn
+                          v-if="!editingStatus[appointment.appointmentId]"
+                          @click="toggleEditStatus(appointment.appointmentId)"
+                          color="blue"
+                          dark
+                          class="mr-2">
+                          Zmień status
+                        </v-btn>
 
-                      <div v-else>
-                        <v-select
-                          v-model="appointment.status"
-                          :items="statusOptions"
-                          label="Status"
-                          item-title="text"
-                          item-value="value"
-                        ></v-select>
-                        <v-btn @click="saveStatus(appointment)" color="green" dark>Zapisz</v-btn>
-                        <v-btn @click="cancelStatusChange(appointment)" color="grey" dark>Anuluj</v-btn>
+                        <div v-if="editingStatus[appointment.appointmentId]" class="d-flex align-center mr-2">
+                          <v-select
+                            v-model="appointment.status"
+                            :items="statusOptions"
+                            label="Status"
+                            item-title="text"
+                            item-value="value"
+                            class="mr-2"
+                          ></v-select>
+                          <v-btn @click="saveStatus(appointment)" color="green" dark class="mr-2">
+                            Zapisz
+                          </v-btn>
+                          <v-btn @click="cancelStatusChange(appointment)" color="grey" dark>
+                            Anuluj
+                          </v-btn>
+                        </div>
                       </div>
-                    </v-col>
 
-                    <v-col cols="12" class="text-right">
-                      <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>Usuń</v-btn>
+                      <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>
+                        Usuń
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -182,6 +193,9 @@ const translateAppointmentType = (appointmentType: string) => {
 .v-card {
   margin-top: 20px;
   border-radius: 15px;
+  background-color: transparent;
+  box-shadow: none;
+  border-width: 0;
 }
 
 .v-card-title {
@@ -212,5 +226,21 @@ h2 {
   font-weight: bold;
   color: whitesmoke;
   margin-bottom: 20px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.mr-2 {
+  margin-right: 8px;
 }
 </style>

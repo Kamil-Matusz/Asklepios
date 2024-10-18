@@ -1,6 +1,7 @@
 <template>
   <BasePage title="Twoje wypisy">
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="dischargeStore.discharges"
@@ -124,3 +125,15 @@ onMounted(() => {
   getDischarges();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

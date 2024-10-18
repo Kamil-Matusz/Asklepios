@@ -109,6 +109,18 @@ onMounted(() => {
 });
 </script>
 
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>
+
 <template>
   <BasePage title="Zarządzanie oddziałami">
     <template #above-card>
@@ -120,12 +132,12 @@ onMounted(() => {
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nowy oddział</v-btn>
+            style="max-width: 20rem">
+            + Utwórz nowy oddział</v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy oddział" rounded="lg">
+          <v-card title="Uzupełnij formularz z danymi oddziału" rounded="lg">
             <DepartmentForm
               v-model="departmentToAdd"
               @on-valid-submit="(department) => { addDepartment(department); isActive.value = false; }"
@@ -136,14 +148,14 @@ onMounted(() => {
     </template>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="departmentStore.departments"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="departmentId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.actions="{ item }" dense>
         <v-btn
           @click="() => redirectToEditPage(item.departmentId)"

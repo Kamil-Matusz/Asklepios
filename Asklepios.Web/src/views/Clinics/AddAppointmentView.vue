@@ -1,10 +1,10 @@
 <template>
-  <BasePage title="Dodaj nowe spotkanie">
+  <BasePage title="Dodaj nową wizytę">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">
           <v-card>
-            <v-card-title>Zapisz nową wizytę</v-card-title>
+            <v-card-title>Zapisz nową wizytę pacjenta</v-card-title>
             <v-card-text>
               <v-form ref="form" v-model="isFormValid" lazy-validation>
                 <v-text-field
@@ -50,7 +50,7 @@
 
                 <v-text-field
                   v-model="appointmentRequest.appointmentDate"
-                  label="Data i godzina spotkania"
+                  label="Data i godzina wizyty"
                   type="datetime-local"
                   prepend-icon="mdi-calendar"
                   :rules="[requiredRule, validateTimeInterval]"
@@ -75,8 +75,8 @@
                   item-title="text"
                   item-value="value"
                   :rules="requiredRule"
+                  prepend-icon="mdi mdi-doctor"
                   required
-                  prepend-icon="mdi-account-doctor"
                 ></v-select>
 
                 <v-select
@@ -94,7 +94,7 @@
               </v-form>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" @click="createAppointment" :disabled="!isFormValid">Dodaj spotkanie</v-btn>
+              <v-btn color="green" @click="createAppointment" :disabled="!isFormValid">Dodaj spotkanie</v-btn>
               <v-btn color="secondary" @click="navigateBack">Anuluj</v-btn>
             </v-card-actions>
           </v-card>
@@ -185,3 +185,10 @@ function validateEmail(v: string) {
   return pattern.test(v) || 'Nieprawidłowy email';
 }
 </script>
+
+<style scoped>
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

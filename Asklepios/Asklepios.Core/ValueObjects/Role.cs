@@ -5,7 +5,7 @@ namespace Asklepios.Core.ValueObjects;
 public sealed record Role
 {
 
-    public static IEnumerable<string> AvailableRoles { get; } = new[] { "Admin", "Doctor","Nurse", "IT Employee", "No Role"};
+    public static IEnumerable<string> AvailableRoles { get; } = new[] { "Admin", "Doctor","Nurse", "IT Employee", "No Role, Patient"};
 
     public string Value { get; }
 
@@ -29,6 +29,7 @@ public sealed record Role
     public static Role Nurse() => new("Nurse");
     public static Role IT_Employee() => new("IT Employee");
     public static Role No_Role() => new("No Role");
+    public static Role Patient() => new("Patient");
 
     public static implicit operator Role(string value) => new Role(value);
 

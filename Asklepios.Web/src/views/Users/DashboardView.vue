@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading">
+    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading" class="mb-4">
       <v-col cols="6">
         <BaseCardWithHover title="Ilość Oddziałów">
           <span class="text-h2">
@@ -42,7 +42,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading">
+    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne operacje">
           <v-row>
@@ -81,7 +81,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="userRole === 'Doctor' && !isLoading">
+    <v-row v-if="userRole === 'Doctor' && !isLoading" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne akcje dla Lekarza">
           <v-row>
@@ -102,6 +102,7 @@
       </v-col>
     </v-row>
 
+    <v-row v-if="!isLoading" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Przychodnia - Moduł Zarządzania">
           <v-row>
@@ -113,7 +114,7 @@
           </v-row>
         </BaseCardWithHover>
       </v-col>
-
+    </v-row>
   </BasePage>
 </template>
 
@@ -151,3 +152,13 @@ const goToRoute = (routeName: string) => {
   router.push({ name: routeName });
 };
 </script>
+
+<style scoped>
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.BaseCardWithHover {
+  background-color: gray;
+}
+</style>

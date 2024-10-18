@@ -15,7 +15,7 @@ onMounted(() => {
 <template>
   <v-card v-if="user" style="z-index: 100">
     <v-layout>
-      <v-navigation-drawer expand-on-hover rail theme="dark" class="bg-black">
+      <v-navigation-drawer expand-on-hover rail theme="light" class="bg-light-grey">
         <v-list>
           <v-list-item
             prepend-icon="mdi-account"
@@ -63,7 +63,7 @@ onMounted(() => {
             to="/operations"
           ></v-list-item>
           <v-list-item
-            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')"
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'IT Employee')"
             prepend-icon="mdi mdi-doctor"
             title="Lekarze"
             to="/doctors"
