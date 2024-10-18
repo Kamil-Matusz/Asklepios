@@ -303,4 +303,19 @@ onMounted(() => {
   background-color: gainsboro;
   color: black;
 }
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+
+.v-expansion-panel {
+  background-color: white;
+  color: black;
+}
+
+.v-btn[color="yellow"] {
+  background-color: #ffeb3b;
+  color: #000;
+}
 </style>

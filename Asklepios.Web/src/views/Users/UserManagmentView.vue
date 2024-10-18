@@ -312,4 +312,9 @@ onMounted(getUsers);
   background-color: gainsboro;
   color: black;
 }
+
+.v-card {
+  background-color: white;
+  color: black;
+}
 </style>

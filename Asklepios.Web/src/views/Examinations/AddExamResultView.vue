@@ -132,4 +132,9 @@ onMounted(async () => {
 .v-container {
   margin-top: 50px;
 }
+
+.v-card {
+  background-color: white;
+  color: black;
+}
 </style>

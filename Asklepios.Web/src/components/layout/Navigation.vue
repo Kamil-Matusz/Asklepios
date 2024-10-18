@@ -15,7 +15,7 @@ onMounted(() => {
 <template>
   <v-card v-if="user" style="z-index: 100">
     <v-layout>
-      <v-navigation-drawer expand-on-hover rail theme="dark" class="bg-light-grey">
+      <v-navigation-drawer expand-on-hover rail theme="light" class="bg-light-grey">
         <v-list>
           <v-list-item
             prepend-icon="mdi-account"
