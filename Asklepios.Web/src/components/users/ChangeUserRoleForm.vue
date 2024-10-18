@@ -18,6 +18,7 @@ const roles = ref([
   { name: 'Pielęgniarka', value: 'Nurse' },
   { name: 'Pracownik IT', value: 'IT Employee' },
   { name: 'Brak roli', value: 'No Role' },
+  { name: 'Pacjent', value: 'Patient' },
 ]);
 
 const errors = ref({
