@@ -13,5 +13,10 @@ internal class ClinicPatientConfiguration : IEntityTypeConfiguration<ClinicPatie
         builder.Property(x => x.PatientSurname).IsRequired().HasMaxLength(200);
         builder.HasIndex(x => x.PeselNumber).IsUnique();
         builder.Property(x => x.PeselNumber).IsRequired().HasMaxLength(11);
+        
+        builder.HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .IsRequired(false);
     }
 }
