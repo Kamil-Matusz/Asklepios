@@ -1,6 +1,6 @@
 import { type PaginationParams } from '@/models/paginationParams';
 import httpClient from '../httpClient';
-import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto, InputCreateUserToClinic } from '@/models/Users/user';
 
 const base = 'users-module/Users';
 
@@ -34,6 +34,20 @@ async function generateUserAccount(command: GenerateUserAccount) {
     });
   } catch (error) {
     console.error('Error generating user account:', error);
+    throw error;
+  }
+}
+
+async function signUpToClinic(command: InputCreateUserToClinic) {
+  try {
+    console.log('Sending command:', JSON.stringify(command));
+    return await httpClient.post<User>(`${base}/signUpToClinic`, command, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error('Error added user account:', error);
     throw error;
   }
 }
@@ -78,5 +92,6 @@ export default {
   changeAccountStatus,
   getNursesList,
   getDoctorsList,
-  changePassword
+  changePassword,
+  signUpToClinic
 };

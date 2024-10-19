@@ -8,6 +8,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginView from '@/views/Users/LoginView.vue';
+import SignUpToClinicView from '@/views/Users/SignUpToClinicView.vue';
 import ProfileView from '@/views/Users/ProfileView.vue';
 import UserManagmentView from '@/views/Users/UserManagmentView.vue';
 import ChangeUserPasswordView from '@/views/Users/ChangePasswordView.vue';
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/signUpToClinic',
+      name: 'signUpToClinic',
+      component: SignUpToClinicView
     },
     {
       path: '/profile',

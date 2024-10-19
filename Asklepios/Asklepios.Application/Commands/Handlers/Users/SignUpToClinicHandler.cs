@@ -10,24 +10,25 @@ using Asklepios.Core.ValueObjects;
 
 namespace Asklepios.Application.Commands.Handlers.Users;
 
-internal sealed class SignUpHandler : ICommandHandler<SignUp>
+internal sealed class SignUpToClinicHandler : ICommandHandler<SignUpToClinic>
 {
     private readonly IClock _clock;
     private readonly IPasswordManager _passwordManager;
     private IUserRepository _userRepository;
     private readonly IEmailService _emailService;
 
-    public SignUpHandler(IClock clock, IPasswordManager passwordManager, IUserRepository userRepository, IEmailService emailService)
+    public SignUpToClinicHandler(IClock clock, IPasswordManager passwordManager, IUserRepository userRepository, IEmailService emailService)
     {
         _clock = clock;
         _passwordManager = passwordManager;
         _userRepository = userRepository;
         _emailService = emailService;
     }
-    
-    public async Task HandlerAsync(SignUp command)
+
+    public async Task HandlerAsync(SignUpToClinic command)
     {
-        var role = string.IsNullOrWhiteSpace(command.Role) ? Role.IT_Employee() : new Role(command.Role);
+        var role = Role.Patient();
+        bool accountStatus = true;
         
         if (await _userRepository.GetUserByEmailAsync(command.Email) is not null)
         {
@@ -35,8 +36,8 @@ internal sealed class SignUpHandler : ICommandHandler<SignUp>
         }
         
         var securedPassword = _passwordManager.Secure(command.Password);
-        var user = new User(command.UserId, command.Email, securedPassword, command.Role, command.IsActive, _clock.CurrentDate());
-
+        var user = new User(command.UserId, command.Email, securedPassword, role, accountStatus, _clock.CurrentDate());
+        
         await _userRepository.AddUserAsync(user);
         await _emailService.SendEmailWithHelloMessageAsync(command.Email);
     }
