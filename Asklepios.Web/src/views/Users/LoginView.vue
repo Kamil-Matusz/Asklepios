@@ -2,12 +2,18 @@
 import { InputLoginData } from '@/models/authorization';
 import { useJwtStore } from '@/stores/jwtStore';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const jwtStore = useJwtStore();
 const loginData = ref(new InputLoginData());
+const router = useRouter();
 
 const handleLogin = () => {
   jwtStore.dispatchLogin(loginData.value);
+}
+
+const goToRegister = () => {
+  router.push('/signUpToClinic');
 }
 </script>
 
@@ -39,6 +45,9 @@ const handleLogin = () => {
               ></v-text-field>
               <v-btn color="green" @click.prevent="handleLogin" class="mt-4" block>
                 Zaloguj
+              </v-btn>
+              <v-btn color="blue" @click="goToRegister" class="mt-4" block>
+                Panel rejestracji
               </v-btn>
             </v-form>
           </v-card-text>

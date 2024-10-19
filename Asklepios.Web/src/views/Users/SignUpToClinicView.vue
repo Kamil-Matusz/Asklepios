@@ -2,12 +2,18 @@
 import { InputLoginData } from '@/models/authorization';
 import { useUserStore } from '@/stores/userStore';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const registrationData = ref(new InputLoginData());
+const router = useRouter();
 
 const handleRegister = () => {
   userStore.dispatchCreateUserClinic(registrationData.value);
+}
+
+const goToLogin = () => {
+  router.push('/');
 }
 </script>
 
@@ -46,8 +52,11 @@ const handleRegister = () => {
                 :rules="[v => !!v || 'Potwierdzenie hasła jest wymagane']"
                 prepend-inner-icon="mdi-lock-check"
               ></v-text-field>
-              <v-btn color="blue" @click.prevent="handleRegister" class="mt-4" block>
+              <v-btn color="green" @click.prevent="handleRegister" class="mt-4" block>
                 Zarejestruj się
+              </v-btn>
+              <v-btn color="blue" @click="goToLogin" class="mt-4" block>
+                Panel logowania
               </v-btn>
             </v-form>
           </v-card-text>
