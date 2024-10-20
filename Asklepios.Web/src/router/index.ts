@@ -44,6 +44,7 @@ import TodayAppointmentsView from '@/views/Clinics/TodayAppointmentsView.vue';
 import ClinicDashboardView from '@/views/Clinics/ClinicDashboardView.vue';
 import ClinicPatientView from '@/views/Clinics/ClinicPatientView.vue';
 import EditClinicPatientView from '@/views/Clinics/EditClinicPatientView.vue';
+import ClinicDoctorListView from '@/views/Clinics/ClinicDoctorListView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -232,6 +233,11 @@ const router = createRouter({
       path: '/clinicPatients',
       name: 'ClinicPatients',
       component: ClinicPatientView
+    },
+    {
+      path: '/clinicDoctors',
+      name: 'ClinicDoctors',
+      component: ClinicDoctorListView
     },
     {
       path: '/clinicPatient/edit/:id',

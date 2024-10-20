@@ -102,13 +102,27 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="!isLoading" class="mb-4">
+    <v-row v-if="!isLoading && userRole === 'Admin' || userRole === 'Nurse' || userRole === 'Doctor'" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Przychodnia - Moduł Zarządzania">
           <v-row>
             <v-col cols="12" class="text-center">
               <v-btn color="secondary" @click="goToRoute('ClinicDashboard')">
                 Zarządzanie przychodnią
+              </v-btn>
+            </v-col>
+          </v-row>
+        </BaseCardWithHover>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="!isLoading && userRole === 'Patient'" class="mb-4">
+      <v-col cols="12">
+        <BaseCardWithHover title="Przychodnia">
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('ClinicDoctors')">
+                Sprawdź lekarzy
               </v-btn>
             </v-col>
           </v-row>
