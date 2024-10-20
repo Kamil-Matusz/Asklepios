@@ -26,6 +26,19 @@ public class ClinicAppointmentsController : BaseController
         return Ok();
     }
     
+    [Authorize]
+    [HttpPost("admissionByUser")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> CreatePatientAppointmentByUser(ClinicAppointmentRequestByUserDto dto)
+    {
+        dto.UserId = Guid.Parse(User.Identity?.Name);
+        await _clinicAppointmentService.RegisterPatientAndCreateAppointmentBuUserAsync(dto);
+        return Ok();
+    }
+    
     [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

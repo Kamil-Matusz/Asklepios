@@ -55,6 +55,44 @@ public class ClinicAppointmentService : IClinicAppointmentService
         string appointmentDate = dto.AppointmentDate.ToString("yyyy-MM-dd");
         await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate);
     }
+    
+    public async Task RegisterPatientAndCreateAppointmentBuUserAsync(ClinicAppointmentRequestByUserDto dto)
+    {
+        var existingPatient = await _clinicPatientRepository.GetPatientByPeselAsync(dto.PeselNumber);
+    
+        if (existingPatient is null)
+        {
+            var newPatient = new ClinicPatient
+            {
+                ClinicPatientId = Guid.NewGuid(),
+                PatientName = dto.PatientName,
+                PatientSurname = dto.PatientSurname,
+                PeselNumber = dto.PeselNumber,
+                ContactNumber = dto.ContactNumber,
+                Email = dto.Email,
+                UserId = dto.UserId
+            };
+
+            await _clinicPatientRepository.AddClinicPatientAsync(newPatient);
+            existingPatient = newPatient;
+        }
+
+        dto.Status = "Scheduled";
+        var newAppointment = new ClinicAppointment
+        {
+            AppointmentId = Guid.NewGuid(),
+            AppointmentDate = dto.AppointmentDate,
+            AppointmentType = dto.AppointmentType,
+            ClinicPatientId = existingPatient.ClinicPatientId,
+            MedicalStaffId = dto.MedicalStaffId,
+            Status = dto.Status,
+        };
+
+        await _clinicAppointmentRepository.AddAppointmentAsync(newAppointment);
+
+        string appointmentDate = dto.AppointmentDate.ToString("yyyy-MM-dd");
+        await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate);
+    }
 
     public async Task DeleteClinicAppointmentAsync(Guid appointmentId)
     {
