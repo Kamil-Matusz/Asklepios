@@ -10,4 +10,6 @@ public interface IClinicAppointmentService
     Task<IReadOnlyList<ClinicAppointmentListDto>> GetClinicAppointmentsByDateAsync(DateTime date);
     Task UpdateClinicAppointmentAsync(ClinicAppointmentStatusDto dto);
     Task RegisterPatientAndCreateAppointmentBuUserAsync(ClinicAppointmentRequestByUserDto dto);
+    Task<IReadOnlyList<ClinicAppointmentListDto>> GetUserPastClinicAppointments(Guid clinicPatientId);
+    Task<IReadOnlyList<ClinicAppointmentListDto>> GetUserFutureClinicAppointments(Guid clinicPatientId);
 }

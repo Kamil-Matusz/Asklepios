@@ -11,4 +11,6 @@ public interface IClinicAppointmentRepository
     Task AddAppointmentAsync(ClinicAppointment appointment);
     Task UpdateAppointmentAsync(ClinicAppointment appointment);
     Task DeleteAppointmentAsync(ClinicAppointment appointment);
+    Task<IReadOnlyList<ClinicAppointment>> GetUserPastAppointmentsAsync(Guid clinicPatientId);
+    Task<IReadOnlyList<ClinicAppointment>> GetUserFutureAppointmentsAsync(Guid clinicPatientId);
 }

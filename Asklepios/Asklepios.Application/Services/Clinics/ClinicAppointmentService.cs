@@ -94,6 +94,18 @@ public class ClinicAppointmentService : IClinicAppointmentService
         await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate);
     }
 
+    public async Task<IReadOnlyList<ClinicAppointmentListDto>> GetUserPastClinicAppointments(Guid clinicPatientId)
+    {
+        var appointments = await _clinicAppointmentRepository.GetUserPastAppointmentsAsync(clinicPatientId);
+        return appointments.Select(MapList<ClinicAppointmentListDto>).ToList();
+    }
+
+    public async Task<IReadOnlyList<ClinicAppointmentListDto>> GetUserFutureClinicAppointments(Guid clinicPatientId)
+    {
+        var appointments = await _clinicAppointmentRepository.GetUserFutureAppointmentsAsync(clinicPatientId);
+        return appointments.Select(MapList<ClinicAppointmentListDto>).ToList();
+    }
+
     public async Task DeleteClinicAppointmentAsync(Guid appointmentId)
     {
         var clinicAppointment = await _clinicAppointmentRepository.GetAppointmentByIdAsync(appointmentId);

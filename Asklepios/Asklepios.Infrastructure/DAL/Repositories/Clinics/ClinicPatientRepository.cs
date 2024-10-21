@@ -54,4 +54,13 @@ public class ClinicPatientRepository : IClinicPatientRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.PeselNumber == peselNumber);
     }
+
+    public async Task<Guid> GetPatientIdAsync(Guid userId)
+    {
+        return await _clinicPatients
+            .AsNoTracking()
+            .Where(x => x.UserId == userId)
+            .Select(x => x.ClinicPatientId)
+            .SingleOrDefaultAsync();
+    }
 }
