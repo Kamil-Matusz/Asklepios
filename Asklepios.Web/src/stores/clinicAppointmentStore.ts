@@ -41,6 +41,28 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     }
   }
 
+  async function dispatchGetUserPastAppointments() {
+    try {
+      const { data } = await API.clinicAppointments.getUserPastAppointments();
+      appointments.value = data || [];
+      return data;
+    } catch (error) {
+      console.error("Błąd podczas pobierania wizyt:", error);
+      appointments.value = [];
+    }
+  }
+
+  async function dispatchGetUserFutureAppointments() {
+    try {
+      const { data } = await API.clinicAppointments.getUserPastAppointments();
+      appointments.value = data || [];
+      return data;
+    } catch (error) {
+      console.error("Błąd podczas pobierania wizyt:", error);
+      appointments.value = [];
+    }
+  }
+
 
   return {
     appointments,
@@ -50,6 +72,8 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     dispatchUpdateAppointmentStatus,
     dispatchGetAppointment,
     dispatchGetAppointments,
-    dispatchGetAppointmentsByDate
+    dispatchGetAppointmentsByDate,
+    dispatchGetUserPastAppointments,
+    dispatchGetUserFutureAppointments
   };
 });

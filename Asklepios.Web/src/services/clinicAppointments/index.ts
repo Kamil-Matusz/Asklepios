@@ -23,10 +23,20 @@ async function getAppointmentsByDate(date: string) {
   return await httpClient.get<ClinicAppointmentListDto[]>(`${base}/todayAddmissions/${date}`);
 }
 
+async function getUserPastAppointments() {
+  return await httpClient.get<ClinicAppointmentListDto[]>(`${base}/userPastClinicAppointments`);
+}
+
+async function getUserFutureAppointments() {
+  return await httpClient.get<ClinicAppointmentListDto[]>(`${base}/userFutureClinicAppointments`);
+}
+
 export default {
   createAppointment,
   deleteAppointment,
   updateAppointmentStatus,
   getAppointment,
-  getAppointmentsByDate
+  getAppointmentsByDate,
+  getUserPastAppointments,
+  getUserFutureAppointments
 };
