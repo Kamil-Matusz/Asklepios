@@ -19,6 +19,19 @@ export class ClinicAppointmentRequestDto {
   status: string = '';
 }
 
+export class ClinicAppointmentRequestByUserDto {
+  patientName: string = '';
+  patientSurname: string = '';
+  peselNumber: string = '';
+  contactNumber: string = '';
+  email: string = '';
+  appointmentDate: string = '';
+  appointmentType: string = '';
+  medicalStaffId: string = '';
+  status: string = '';
+  userId: string = '';
+}
+
 export class ClinicAppointmentStatusDto {
   appointmentId: string = '';
   status: string = '';

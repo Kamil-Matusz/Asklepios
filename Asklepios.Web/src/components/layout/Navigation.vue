@@ -96,8 +96,20 @@ onMounted(() => {
         <v-list-item
             v-if="user && (getUserRole() === 'Patient')"
             prepend-icon="mdi mdi-ambulance"
-            title="przychodnia"
+            title="Przychodnia"
             to="/clinicDoctors"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-calendar-account"
+            title="Twoje wizyty"
+            to="/userPastAppointments"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-plus"
+            title="Umów się do lekarza"
+            to="/addAppointmentByUser"
           ></v-list-item>
         <template v-slot:append>
           <v-list-item v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'Patient')" prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>

@@ -47,9 +47,11 @@ onMounted(() => {
           subtitle="Poniżej znajdują się dane Twojego konta.">
           <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
-            <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
+            <v-list-item
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'IT Employee')"
+            prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
             <v-list-item prepend-icon="mdi-calendar-account" title="Konto stworzone"> {{ userStore.currentUser?.createdAt ? formatDate(new Date(userStore.currentUser.createdAt)) : '' }} </v-list-item>
-            <v-list-item prepend-icon="mdi-account-check" title="Status"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
+            <v-list-item prepend-icon="mdi-account-check" title="Status konta"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
           </v-list>
         </v-card>
       </v-col>

@@ -1,10 +1,14 @@
 import httpClient from '../httpClient';
-import { ClinicAppointmentDto, ClinicAppointmentRequestDto, ClinicAppointmentStatusDto, ClinicAppointmentListDto } from '@/models/Clinics/clinicAppointment';
+import {ClinicAppointmentRequestDto, ClinicAppointmentStatusDto, ClinicAppointmentListDto, ClinicAppointmentRequestByUserDto } from '@/models/Clinics/clinicAppointment';
 
 const base = 'clinics-module/ClinicAppointments';
 
 async function createAppointment(appointment: ClinicAppointmentRequestDto) {
   return await httpClient.post<void>(base, appointment);
+}
+
+async function createAppointmentByUser(appointment: ClinicAppointmentRequestByUserDto) {
+  return await httpClient.post<void>(`${base}/admissionByUser`, appointment);
 }
 
 async function deleteAppointment(id: string) {
@@ -33,6 +37,7 @@ async function getUserFutureAppointments() {
 
 export default {
   createAppointment,
+  createAppointmentByUser,
   deleteAppointment,
   updateAppointmentStatus,
   getAppointment,

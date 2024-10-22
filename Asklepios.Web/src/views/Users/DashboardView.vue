@@ -126,6 +126,27 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('UserPastAppointments')">
+                Archiwalne wizyty
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('UserFutureAppointments')">
+                Nadchodzące wizyty
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="green" @click="goToRoute('AddAppointmentByUser')">
+                Umów się na konsultacje
+              </v-btn>
+            </v-col>
+          </v-row>
         </BaseCardWithHover>
       </v-col>
     </v-row>

@@ -39,12 +39,15 @@ import MonthlyDischargesView from '@/views/Users/MonthlyDischargesView.vue';
 import MonthlyAdmissionsView from '@/views/Users/MonthlyAdmissionsView.vue';
 import PatientHistorySearchView from '@/views/Patients/PatientHistorySearchView.vue';
 import AddAppointmentView from '@/views/Clinics/AddAppointmentView.vue';
+import AddAppointmentByUserView from '@/views/Clinics/AddAppointmentByUserView.vue';
 import AppointmentSearchView from '@/views/Clinics/AppointmentSerarchView.vue';
 import TodayAppointmentsView from '@/views/Clinics/TodayAppointmentsView.vue';
 import ClinicDashboardView from '@/views/Clinics/ClinicDashboardView.vue';
 import ClinicPatientView from '@/views/Clinics/ClinicPatientView.vue';
 import EditClinicPatientView from '@/views/Clinics/EditClinicPatientView.vue';
 import ClinicDoctorListView from '@/views/Clinics/ClinicDoctorListView.vue';
+import UserFutureAppointmentsView from '@/views/Clinics/UserFutureAppointmentsView.vue';
+import UserPastAppointmentsView from '@/views/Clinics/UserPastAppointmentsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -215,6 +218,11 @@ const router = createRouter({
       component: AddAppointmentView
     },
     {
+      path: '/addAppointmentByUser',
+      name: 'AddAppointmentByUser',
+      component: AddAppointmentByUserView
+    },
+    {
       path: '/dayAppointments',
       name: 'DayAppointments',
       component: AppointmentSearchView
@@ -238,6 +246,16 @@ const router = createRouter({
       path: '/clinicDoctors',
       name: 'ClinicDoctors',
       component: ClinicDoctorListView
+    },
+    {
+      path: '/userPastAppointments',
+      name: 'UserPastAppointments',
+      component: UserPastAppointmentsView
+    },
+    {
+      path: '/userFutureAppointments',
+      name: 'UserFutureAppointments',
+      component: UserFutureAppointmentsView
     },
     {
       path: '/clinicPatient/edit/:id',
