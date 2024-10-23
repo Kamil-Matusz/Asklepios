@@ -61,6 +61,6 @@ public class ClinicPatientRepository : IClinicPatientRepository
             .AsNoTracking()
             .Where(x => x.UserId == userId)
             .Select(x => x.ClinicPatientId)
-            .SingleOrDefaultAsync();
+            .FirstOrDefaultAsync();
     }
 }

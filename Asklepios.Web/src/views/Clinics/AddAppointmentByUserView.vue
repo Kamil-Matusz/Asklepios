@@ -79,17 +79,6 @@
                   required
                 ></v-select>
 
-                <v-select
-                  v-model="appointmentRequest.status"
-                  :items="statusOptions"
-                  label="Status"
-                  item-title="text"
-                  item-value="value"
-                  :rules="requiredRule"
-                  required
-                  prepend-icon="mdi-information"
-                ></v-select>
-
                 <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
               </v-form>
             </v-card-text>
@@ -120,7 +109,7 @@ const appointmentRequest = reactive({
   appointmentDate: '',
   appointmentType: '',
   medicalStaffId: '',
-  status: '',
+  status: 'Scheduled',
 });
 
 const isFormValid = ref(false);

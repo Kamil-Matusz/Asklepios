@@ -17,10 +17,7 @@
                 <v-card color="grey lighten-4" class="pa-3" elevation="0">
                   <v-row>
                     <v-col cols="12">
-                      <strong>Imię pacjenta:</strong> {{ appointment.patientName }}
-                    </v-col>
-                    <v-col cols="12">
-                      <strong>Nazwisko pacjenta:</strong> {{ appointment.patientSurname }}
+                      <strong>Imię i nazwisko :</strong> {{ appointment.patientName }} {{ appointment.patientSurname }}
                     </v-col>
                     <v-col cols="12">
                       <strong>Data wizyty:</strong> {{ formatDate(appointment.appointmentDate) }}

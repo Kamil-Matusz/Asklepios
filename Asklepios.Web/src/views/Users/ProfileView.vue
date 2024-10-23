@@ -3,9 +3,14 @@ import BasePage from '@/components/pages/BasePage.vue';
 import { onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRouter } from 'vue-router';
+import { useJwtStore } from '@/stores/jwtStore';
 
 const userStore = useUserStore();
 const router = useRouter();
+
+const {getUserRole, getUser } = useJwtStore();
+
+const user = ref<User | null>(null);
 
 const goToRoute = (routeName: string) => {
   router.push({ name: routeName });
@@ -33,6 +38,7 @@ const translateRole = (role: string) => {
 
 onMounted(() => {
   userStore.fetchCurrentUser();
+  user.value = getUser();
 });
 </script>
 
