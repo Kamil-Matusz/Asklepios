@@ -7,6 +7,8 @@ public interface IMedicalStaffRepository
     Task<MedicalStaff> GetDoctorByIdAsync(Guid doctorId);
     Task<Guid> GetDoctorIdAsync(Guid userId);
     Task<Guid> GetUserIdByDoctor(Guid doctorId);
+    Task<string> GetDoctorNameById(Guid doctorId);
+    Task<string> GetDoctorSurnameById(Guid doctorId);
     Task<IReadOnlyList<MedicalStaff>> GetAllDoctorsAsync(int pageIndex, int pageSize);
     Task AddDoctorAsync(MedicalStaff medicalStaff);
     Task UpdateDoctorAsync(MedicalStaff medicalStaff);
