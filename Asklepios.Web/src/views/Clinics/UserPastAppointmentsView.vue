@@ -17,7 +17,7 @@
                 <v-card color="grey lighten-4" class="pa-3" elevation="0">
                   <v-row>
                     <v-col cols="12">
-                      <strong>Imię pacjenta:</strong> {{ appointment.patientName }} {{ appointment.patientSurname }}
+                      <strong>Pacjent:{{ appointment.patientName }} {{ appointment.patientSurname }}</strong>
                     </v-col>
                     <v-col cols="12">
                       <strong>Data wizyty:</strong> {{ formatDate(appointment.appointmentDate) }}
@@ -30,30 +30,6 @@
                     </v-col>
                     <v-col cols="12">
                       <strong>Status wizyty:</strong> {{ translateStatus(appointment.status) }}
-                    </v-col>
-
-                    <v-col cols="12" class="d-flex">
-                      <div>
-                        <v-btn
-                          v-if="!editingStatus[appointment.appointmentId]"
-                          @click="toggleEditStatus(appointment.appointmentId)"
-                          color="blue"
-                          dark
-                          class="mr-2">
-                          Zmień status
-                        </v-btn>
-
-                        <div v-if="editingStatus[appointment.appointmentId]" class="d-flex align-center mr-2">
-                          <v-select
-                            v-model="appointment.status"
-                            :items="statusOptions"
-                            label="Status"
-                            item-title="text"
-                            item-value="value"
-                            class="mr-2"
-                          ></v-select>
-                        </div>
-                      </div>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -93,23 +69,6 @@ const pastAppointments = async () => {
 onMounted(() => {
   pastAppointments();
 });
-
-const editingStatus = ref<{ [key: string]: boolean }>({});
-const originalStatuses = ref<{ [key: string]: string }>({});
-
-const statusOptions = ref([
-  { text: 'Odwołaj', value: 'Cancelled' },
-]);
-
-const toggleEditStatus = (appointmentId) => {
-  if (!editingStatus.value[appointmentId]) {
-    const appointment = appointments.value.find(a => a.appointmentId === appointmentId);
-    if (appointment) {
-      originalStatuses.value[appointmentId] = appointment.status;
-    }
-  }
-  editingStatus.value[appointmentId] = !editingStatus.value[appointmentId];
-};
 
 const translateStatus = (status: string) => {
   const statusTranslations: { [key: string]: string } = {

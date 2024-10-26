@@ -51,7 +51,7 @@ public class ClinicAppointmentsController : BaseController
         return NoContent();
     }
     
-    [Authorize(Roles = "Admin, Nurse, Doctor")]
+    [Authorize]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

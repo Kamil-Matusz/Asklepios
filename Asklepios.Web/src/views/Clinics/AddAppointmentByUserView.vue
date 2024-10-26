@@ -115,11 +115,7 @@ const appointmentRequest = reactive({
 const isFormValid = ref(false);
 const errorMessage = ref('');
 const toast = useToast();
-const statusOptions = ref([
-  { text: 'Potwierdzone', value: 'Scheduled' },
-  { text: 'Zakończone', value: 'Completed' },
-  { text: 'Odwołane', value: 'Cancelled' },
-]);
+
 const appointmentTypes = ref([
   { text: 'Konsultacja', value: 'Consultation' },
   { text: 'Badanie', value: 'Examination' },
