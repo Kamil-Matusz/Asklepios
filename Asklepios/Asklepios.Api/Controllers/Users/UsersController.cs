@@ -15,6 +15,7 @@ public class UsersController : BaseController
 {
     private readonly ICommandHandler<SignUp> _signUpHandler;
     private readonly ICommandHandler<SignIn> _signInHandler;
+    private readonly ICommandHandler<SignUpToClinic> _signUpToClincHandler;
     private readonly ICommandHandler<DeleteUserAccount> _deleteAccountHandler;
     private readonly ICommandHandler<ChangeUserRole> _changeUserRoleHandler;
     private readonly ICommandHandler<ChangeAccountStatus> _changeAccountStatus;
@@ -25,7 +26,7 @@ public class UsersController : BaseController
     private readonly ITokenStorage _tokenStorage;
     private readonly IUserService _userService;
     
-    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService, ICommandHandler<ChangeUserPassword> changeUserPasswordHandler)
+    public UsersController(ICommandHandler<SignUp> signUpHandler, IQueryHandler<GetAccountInfo, AccountDto> getAccountInfo, ICommandHandler<SignIn> signInHandler, ITokenStorage tokenStorage, ICommandHandler<DeleteUserAccount> deleteAccountHandler, ICommandHandler<ChangeUserRole> changeUserRoleHandler, ICommandHandler<GenerateUserAccount> generateUserAccountHandler, IQueryHandler<GetAllUsers, IEnumerable<UserDto>> getAllUsersHandler, ICommandHandler<ChangeAccountStatus> changeAccountStatus, IUserService userService, ICommandHandler<ChangeUserPassword> changeUserPasswordHandler, ICommandHandler<SignUpToClinic> signUpToClincHandler)
     {
         _signUpHandler = signUpHandler;
         _getAccountInfo = getAccountInfo;
@@ -38,6 +39,7 @@ public class UsersController : BaseController
         _changeAccountStatus = changeAccountStatus;
         _userService = userService;
         _changeUserPasswordHandler = changeUserPasswordHandler;
+        _signUpToClincHandler = signUpToClincHandler;
     }
     
     [HttpPost("signUp")]
@@ -47,6 +49,18 @@ public class UsersController : BaseController
     {
         command = command with {UserId = Guid.NewGuid()};
         await _signUpHandler.HandlerAsync(command);
+        
+        var user = await _getAccountInfo.HandlerAsync(new GetAccountInfo() {UserId = command.UserId});
+        return Ok(user);
+    }
+    
+    [HttpPost("signUpToClinic")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> SignUpToClinic(SignUpToClinic command)
+    {
+        command = command with {UserId = Guid.NewGuid()};
+        await _signUpToClincHandler.HandlerAsync(command);
         
         var user = await _getAccountInfo.HandlerAsync(new GetAccountInfo() {UserId = command.UserId});
         return Ok(user);

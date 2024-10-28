@@ -1,3 +1,4 @@
+using Asklepios.Core.DTO.Clinics;
 using Asklepios.Core.DTO.Users;
 
 namespace Asklepios.Application.Services.Users;
@@ -12,4 +13,5 @@ public interface IMedicalStaffService
     Task UpdateDoctorAsync(MedicalStaffDto dto);
     Task DeleteDoctorAsync(Guid id);
     Task<List<MedicalStaffAutocompleteDto>> GetDoctorsList();
+    Task<IReadOnlyList<ClinicDoctorListDto>> GetClinicDoctorList();
 }

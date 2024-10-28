@@ -40,7 +40,25 @@ public class MedicalStaffRepository : IMedicalStaffRepository
             .SingleOrDefaultAsync();
     }
 
-    public async Task<IReadOnlyList<MedicalStaff>> GetAllNDoctorsAsync(int pageIndex, int pageSize)
+    public async Task<string> GetDoctorNameById(Guid doctorId)
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .Where(x => x.DoctorId == doctorId)
+            .Select(x => x.Name)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<string> GetDoctorSurnameById(Guid doctorId)
+    {
+        return await _medicalStaves
+            .AsNoTracking()
+            .Where(x => x.DoctorId == doctorId)
+            .Select(x => x.Surname)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<IReadOnlyList<MedicalStaff>> GetAllDoctorsAsync(int pageIndex, int pageSize)
         => await _medicalStaves
             .AsNoTracking()
             .Include(x => x.Department)
@@ -73,4 +91,10 @@ public class MedicalStaffRepository : IMedicalStaffRepository
             .AsNoTracking()
             .ToListAsync();
     }
+    
+    public async Task<IReadOnlyList<MedicalStaff>> GetClinicDoctorsAsync()
+        => await _medicalStaves
+            .AsNoTracking()
+            .OrderBy(x => x.Surname)
+            .ToListAsync();
 }

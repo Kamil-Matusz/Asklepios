@@ -5,7 +5,7 @@ namespace Asklepios.Core.ValueObjects;
 public sealed record Role
 {
 
-    public static IEnumerable<string> AvailableRoles { get; } = new[] { "Admin", "Doctor","Nurse", "IT Employee", "No Role, Patient"};
+    public static IEnumerable<string> AvailableRoles { get; } = new[] { "Admin", "Doctor","Nurse", "IT Employee", "No Role", "Patient"};
 
     public string Value { get; }
 

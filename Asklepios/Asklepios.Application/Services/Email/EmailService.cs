@@ -41,7 +41,7 @@ public class EmailService : IEmailService
         var to = new EmailAddress(recipientEmail);
         var from = new EmailAddress("asklepios@op.pl", "Asklepios-System");
         
-        var message = MailHelper.CreateSingleTemplateEmail(from, to,"d-f97ede562c644e99be6fcd950e9fa511", new
+        var message = MailHelper.CreateSingleTemplateEmail(from, to,"d-421ef45c8f6747298210d77560d0b620", new
         {
             Email = recipientEmail,
         });
@@ -53,9 +53,9 @@ public class EmailService : IEmailService
             throw new Exception($"Error code: {response.StatusCode}");
         }
     }
-
+    
     public async Task SendEmailWithConfirmVisit(string recipientEmail, string patientName, string patientSurname,
-        string appointmentDate)
+        string appointmentDate, string doctorName, string doctorSurname)
     {
         var client = new SendGridClient(_sendGridKey);
         var to = new EmailAddress(recipientEmail);
@@ -66,7 +66,9 @@ public class EmailService : IEmailService
             Email = recipientEmail,
             PatientName = patientName,
             PatientSurname = patientSurname,
-            AppointmentDate = appointmentDate
+            AppointmentDate = appointmentDate,
+            DoctorName = doctorName,
+            DoctorSurname = doctorSurname
         });
         
         var response = await client.SendEmailAsync(message);

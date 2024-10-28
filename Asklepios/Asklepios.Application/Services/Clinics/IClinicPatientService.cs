@@ -9,4 +9,5 @@ public interface IClinicPatientService
     Task AddClinicPatientAsync(ClinicPatientDto dto);
     Task UpdateClinicPatientAsync(ClinicPatientDto dto);
     Task DeleteClinicPatientAsync(Guid clinicPatientId);
+    Task<Guid> GetClinicPatientIdAsync(Guid id);
 }

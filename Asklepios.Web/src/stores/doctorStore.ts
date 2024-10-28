@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto } from '@/models/Users/doctor';
+import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto, ClinicDoctorListDto } from '@/models/Users/doctor';
 import { type PaginationParams } from '@/models/paginationParams';
 import { DepartmentAutocompleteDto } from '@/models/Departments/department';
 
@@ -10,6 +10,7 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
   const totalItems = ref(0);
   const doctorDetails = ref<MedicalStaffDto | null>(null);
   const departments = ref<DepartmentAutocompleteDto[]>([]);
+  const clinicDoctors = ref<ClinicDoctorListDto[]>([]);
 
   function addNewDoctor(doctor: MedicalStaffListDto) {
     doctors.value.push(doctor);
@@ -70,17 +71,25 @@ export const useMedicalStaffStore = defineStore('medicalStaffStore', () => {
     return data as DepartmentAutocompleteDto[];
   }
 
+  async function dispatchGetClinicsDoctorsList() {
+    const { data } = await API.doctors.getClinicDoctorList();
+    clinicDoctors.value = data;
+    return data;
+  }
+
   return {
     doctors,
     totalItems,
     doctorDetails,
     departments,
+    clinicDoctors,
     dispatchGetDepartmentsAutocomplete,
     dispatchGetDoctors,
     dispatchCreateDoctor,
     dispatchDeleteDoctor,
     dispatchGetDoctor,
     dispatchUpdateDoctor,
-    dispatchGetDoctorsList
+    dispatchGetDoctorsList,
+    dispatchGetClinicsDoctorsList
   };
 });

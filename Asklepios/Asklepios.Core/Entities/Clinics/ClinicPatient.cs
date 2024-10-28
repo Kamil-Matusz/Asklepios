@@ -1,3 +1,5 @@
+using Asklepios.Core.Entities.Users;
+
 namespace Asklepios.Core.Entities.Clinics;
 
 public class ClinicPatient
@@ -10,4 +12,7 @@ public class ClinicPatient
     public string Email { get; set; }
     
     public IEnumerable<ClinicAppointment> Appointments { get; set; }
+    
+    public Guid? UserId { get; set; }
+    public User User { get; set; }
 }
