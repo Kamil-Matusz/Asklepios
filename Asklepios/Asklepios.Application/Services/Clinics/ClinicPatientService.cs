@@ -80,7 +80,13 @@ public class ClinicPatientService : IClinicPatientService
 
         await _clinicPatientRepository.DeleteClinicPatientAsync(clinicPatient);
     }
-    
+
+    public async Task<Guid> GetClinicPatientIdAsync(Guid id)
+    {
+        var patientId = await _clinicPatientRepository.GetPatientIdAsync(id);
+        return patientId;
+    }
+
     private static T Map<T>(ClinicPatient clinicPatient) where T : ClinicPatientDto, new() => new T()
     {
         ClinicPatientId = clinicPatient.ClinicPatientId,

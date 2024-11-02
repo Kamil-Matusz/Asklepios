@@ -73,4 +73,28 @@ public class ClinicAppointmentRepository : IClinicAppointmentRepository
             _clinicAppointments.Remove(appointment);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IReadOnlyList<ClinicAppointment>> GetUserPastAppointmentsAsync(Guid clinicPatientId)
+        {
+            var date = DateTime.Now;
+            return await _clinicAppointments
+                .Where(x => x.AppointmentDate.Date < date && x.ClinicPatientId == clinicPatientId)
+                .Include(x => x.ClinicPatient)
+                .Include(x => x.MedicalStaff)
+                .AsNoTracking()
+                .OrderBy(x => x.AppointmentDate)
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<ClinicAppointment>> GetUserFutureAppointmentsAsync(Guid clinicPatientId)
+        {
+            var date = DateTime.Now;
+            return await _clinicAppointments
+                .Where(x => x.AppointmentDate.Date > date && x.ClinicPatientId == clinicPatientId)
+                .Include(x => x.ClinicPatient)
+                .Include(x => x.MedicalStaff)
+                .AsNoTracking()
+                .OrderBy(x => x.AppointmentDate)
+                .ToListAsync();
+        }
 }

@@ -40,7 +40,7 @@ const resetForm = () => {
     date: new Date(),
     result: '',
     comment: '',
-    examId: 0,
+    examId: null,
   };
 };
 
@@ -71,8 +71,9 @@ onMounted(async () => {
       <v-col cols="12" md="8">
         <v-card>
           <v-card-title>
-            Dodaj wynik badania
+            Uzupełnij informacje o nowym badaniu
           </v-card-title>
+          <br/>
           <v-card-text>
             <v-form @submit.prevent="handleSubmit">
               <v-select
@@ -109,11 +110,13 @@ onMounted(async () => {
                 label="Komentarz"
                 prepend-icon="mdi mdi-comment"
               ></v-text-field>
-              <v-date-picker
+              <v-text-field
                 v-model="form.date"
-                label="Data badania"
+                label="Data operacji"
+                type="date"
+                prepend-icon="mdi-calendar"
                 required
-              ></v-date-picker>
+              ></v-text-field>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn type="submit" text="Zatwierdź" color="green" variant="flat"></v-btn>
@@ -130,5 +133,10 @@ onMounted(async () => {
 <style scoped>
 .v-container {
   margin-top: 50px;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
 }
 </style>

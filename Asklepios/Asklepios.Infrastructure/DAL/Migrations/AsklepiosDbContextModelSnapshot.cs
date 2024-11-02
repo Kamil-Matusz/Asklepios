@@ -82,10 +82,15 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("character varying(11)");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("ClinicPatientId");
 
                     b.HasIndex("PeselNumber")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ClinicPatients");
                 });
@@ -545,6 +550,15 @@ namespace Asklepios.Infrastructure.DAL.Migrations
                     b.Navigation("ClinicPatient");
 
                     b.Navigation("MedicalStaff");
+                });
+
+            modelBuilder.Entity("Asklepios.Core.Entities.Clinics.ClinicPatient", b =>
+                {
+                    b.HasOne("Asklepios.Core.Entities.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Asklepios.Core.Entities.Departments.Room", b =>

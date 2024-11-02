@@ -18,6 +18,7 @@ const roles = ref([
   { name: 'Pielęgniarka', value: 'Nurse' },
   { name: 'Pracownik IT', value: 'IT Employee' },
   { name: 'Brak roli', value: 'No Role' },
+  { name: 'Pacjent', value: 'Patient' },
 ]);
 
 const errors = ref({
@@ -68,3 +69,15 @@ const submit = () => {
     </v-card-actions>
   </v-form>
 </template>
+
+<style scoped>
+.v-input {
+  background-color: white;
+  color: black;
+}
+
+.v-form {
+  background-color: white;
+  color: black;
+}
+</style>

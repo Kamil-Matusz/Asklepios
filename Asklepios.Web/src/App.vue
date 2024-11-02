@@ -18,7 +18,6 @@ const handleMouseMove = (e: MouseEvent) => {
   });
 };
 
-
 onMounted(() => {
   isJwtTokenExists();
 });

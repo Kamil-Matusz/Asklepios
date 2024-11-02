@@ -22,5 +22,5 @@ export interface ExamResultDto {
   date: Date = new Date();
   result:string = '';
   comment:string = '';
-  examId:number = 0;
+  examId: number | null = null;
  }

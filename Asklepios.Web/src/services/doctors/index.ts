@@ -1,6 +1,6 @@
 import httpClient from '../httpClient';
 import { type PaginationParams } from '@/models/paginationParams';
-import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto } from '@/models/Users/doctor';
+import { type MedicalStaffDto, type MedicalStaffListDto, InputCreateMedicalStaff, MedicalStaffAutocompleteDto, ClinicDoctorListDto } from '@/models/Users/doctor';
 
 const base = 'users-module/MedicalStaff';
 
@@ -28,11 +28,16 @@ async function getDoctorsList() {
   return await httpClient.get<MedicalStaffAutocompleteDto[]>(`${base}/medicalStaffLists`);
 }
 
+async function getClinicDoctorList() {
+  return await httpClient.get<ClinicDoctorListDto[]>(`${base}/clinicDoctorsList`);
+}
+
 export default {
   getDoctor,
   getAllDoctors,
   createDoctor,
   updateDoctor,
   deleteDoctor,
-  getDoctorsList
+  getDoctorsList,
+  getClinicDoctorList,
 };

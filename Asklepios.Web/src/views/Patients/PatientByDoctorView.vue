@@ -1,10 +1,11 @@
 <template>
-  <BasePage title="Zarządzanie pacjentami">
+  <BasePage title="Lista twoich pacjentów">
     <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 20rem">
-      + Dodaj nowego pacjenta
+      + Przyjmij nowego pacjenta
     </v-btn>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="patientStore.patients"
@@ -296,3 +297,20 @@ onMounted(() => {
   getMedicalStaff();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+
+.v-expansion-panel {
+  background-color: white;
+  color: black;
+}
+</style>

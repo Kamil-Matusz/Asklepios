@@ -58,3 +58,10 @@ const handleSubmit = () => {
     </v-card-actions>
   </v-form>
 </template>
+
+<style scoped>
+.v-input {
+  background-color: white;
+  color: black;
+}
+</style>

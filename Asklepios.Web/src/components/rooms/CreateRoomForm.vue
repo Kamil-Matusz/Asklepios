@@ -74,3 +74,10 @@ const handleSubmit = () => {
   emits('on-valid-submit', form.value);
 };
 </script>
+
+<style scoped>
+.v-input {
+  background-color: white;
+  color: black;
+}
+</style>

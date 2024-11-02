@@ -17,6 +17,11 @@ export interface InputCreateUser {
   role: string;
 }
 
+export interface InputCreateUserToClinic {
+  email: string;
+  password: string;
+}
+
 export interface JwtDto {
   accessToken: string;
 }

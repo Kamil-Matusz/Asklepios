@@ -1,3 +1,4 @@
+using Asklepios.Core.DTO.Clinics;
 using Asklepios.Core.DTO.Users;
 using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Exceptions.Users;
@@ -66,7 +67,7 @@ public class MedicalStaffService : IMedicalStaffService
 
     public async Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize)
     {
-        var doctors = await _medicalStaffRepository.GetAllNDoctorsAsync(pageIndex, pageSize);
+        var doctors = await _medicalStaffRepository.GetAllDoctorsAsync(pageIndex, pageSize);
         return doctors.Select(MapMedicalStaffList<MedicalStaffListDto>).ToList();
     }
 
@@ -105,6 +106,12 @@ public class MedicalStaffService : IMedicalStaffService
         return doctors.Select(mapMedicalStaffListAutocomplete<MedicalStaffAutocompleteDto>).ToList();
     }
 
+    public async Task<IReadOnlyList<ClinicDoctorListDto>> GetClinicDoctorList()
+    {
+        var doctors = await _medicalStaffRepository.GetClinicDoctorsAsync();
+        return doctors.Select(MapClinicDoctorsList<ClinicDoctorListDto>).ToList();
+    }
+
     private static T Map<T>(MedicalStaff medicalStaff) where T : MedicalStaffDto, new() => new T()
     {
         DoctorId = medicalStaff.DoctorId,
@@ -135,5 +142,13 @@ public class MedicalStaffService : IMedicalStaffService
         Specialization = medicalStaff.Specialization,
         MedicalLicenseNumber = medicalStaff.MedicalLicenseNumber,
         DepartmentName = medicalStaff.Department.DepartmentName,
+    };
+    
+    private static T MapClinicDoctorsList<T>(MedicalStaff medicalStaff) where T : ClinicDoctorListDto, new() => new T()
+    {
+        DoctorId = medicalStaff.DoctorId,
+        Name = medicalStaff.Name,
+        Surname = medicalStaff.Surname,
+        Specialization = medicalStaff.Specialization,
     };
 }

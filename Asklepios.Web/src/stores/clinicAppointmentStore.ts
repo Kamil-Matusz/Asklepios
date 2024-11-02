@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { ClinicAppointmentDto, ClinicAppointmentRequestDto, ClinicAppointmentStatusDto, ClinicAppointmentListDto } from '@/models/Clinics/clinicAppointment';
+import {ClinicAppointmentRequestDto, ClinicAppointmentStatusDto, ClinicAppointmentListDto, ClinicAppointmentRequestByUserDto } from '@/models/Clinics/clinicAppointment';
 
 export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore', () => {
   const appointments = ref<ClinicAppointmentListDto[]>([]);
@@ -9,6 +9,10 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
 
   async function dispatchCreateAppointment(appointment: ClinicAppointmentRequestDto) {
     await API.clinicAppointments.createAppointment(appointment);
+  }
+
+  async function dispatchCreateAppointmentByUser(appointment: ClinicAppointmentRequestByUserDto) {
+    await API.clinicAppointments.createAppointmentByUser(appointment);
   }
 
   async function dispatchDeleteAppointment(id: string) {
@@ -41,6 +45,28 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     }
   }
 
+  async function dispatchGetUserPastAppointments() {
+    try {
+      const { data } = await API.clinicAppointments.getUserPastAppointments();
+      appointments.value = data;
+      return data;
+    } catch (error) {
+      console.error("Błąd podczas pobierania wizyt:", error);
+      appointments.value = [];
+    }
+  }
+
+  async function dispatchGetUserFutureAppointments() {
+    try {
+      const { data } = await API.clinicAppointments.getUserFutureAppointments();
+      appointments.value = data;
+      return data;
+    } catch (error) {
+      console.error("Błąd podczas pobierania wizyt:", error);
+      appointments.value = [];
+    }
+  }
+
 
   return {
     appointments,
@@ -50,6 +76,9 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     dispatchUpdateAppointmentStatus,
     dispatchGetAppointment,
     dispatchGetAppointments,
-    dispatchGetAppointmentsByDate
+    dispatchGetAppointmentsByDate,
+    dispatchGetUserPastAppointments,
+    dispatchGetUserFutureAppointments,
+    dispatchCreateAppointmentByUser
   };
 });

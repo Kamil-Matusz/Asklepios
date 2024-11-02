@@ -15,7 +15,7 @@ onMounted(() => {
 <template>
   <v-card v-if="user" style="z-index: 100">
     <v-layout>
-      <v-navigation-drawer expand-on-hover rail theme="dark" class="bg-black">
+      <v-navigation-drawer expand-on-hover rail theme="light" class="bg-light-grey">
         <v-list>
           <v-list-item
             prepend-icon="mdi-account"
@@ -63,7 +63,7 @@ onMounted(() => {
             to="/operations"
           ></v-list-item>
           <v-list-item
-            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')"
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'IT Employee')"
             prepend-icon="mdi mdi-doctor"
             title="Lekarze"
             to="/doctors"
@@ -93,8 +93,44 @@ onMounted(() => {
             to="/addExamResult"
           ></v-list-item>
         </v-list>
+        <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-home-account"
+            title="Panel główny"
+            to="/dashboard"
+          ></v-list-item>
+        <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-ambulance"
+            title="Przychodnia"
+            to="/clinicDoctors"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-calendar-account"
+            title="Twoje wizyty"
+            to="/userPastAppointments"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-plus"
+            title="Umów się do lekarza"
+            to="/addAppointmentByUser"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-calendar-blank-multiple"
+            title="Nadchodzące wizyty"
+            to="/userFutureAppointments"
+          ></v-list-item>
+          <v-list-item
+            v-if="user && (getUserRole() === 'Patient')"
+            prepend-icon="mdi mdi-calendar-blank-multiple"
+            title="Informacje o przychodni"
+            to="/clinicContact"
+          ></v-list-item>
         <template v-slot:append>
-          <v-list-item v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse')" prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>
+          <v-list-item v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'Patient')" prepend-icon="mdi-logout" @click="dispatchLogout" title="Wyloguj" class="my-6"></v-list-item>
         </template>
       </v-navigation-drawer>
     </v-layout>

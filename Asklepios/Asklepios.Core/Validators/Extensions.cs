@@ -23,7 +23,8 @@ public static class Extensions
             .RegisterValidatorsFromAssemblyContaining<ExaminationDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<ExamResultDtoValidator>()
             .RegisterValidatorsFromAssemblyContaining<OperationDtoValidator>()
-            .RegisterValidatorsFromAssemblyContaining<ClinicAppointmentRequestDtoValidator>());
+            .RegisterValidatorsFromAssemblyContaining<ClinicAppointmentRequestDtoValidator>()
+            .RegisterValidatorsFromAssemblyContaining<ClinicAppointmentRequestByUserDtoValidator>());
 
         return services;
     }

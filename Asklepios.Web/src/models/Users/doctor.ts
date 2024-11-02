@@ -37,3 +37,10 @@ export interface MedicalStaffListDto {
   medicalLicenseNumber: string;
   departmentName: string;
 }
+
+export interface ClinicDoctorListDto {
+  doctorId: string;
+  name: string;
+  surname: string;
+  specialization: string;
+}

@@ -99,8 +99,9 @@ onMounted(getExaminations);
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >+Dodaj nowe badanie</v-btn>
+            style="max-width: 25rem">
+            + Dołącz szczegóły nowego badania
+        </v-btn>
         </template>
 
         <template #default="{ isActive }">
@@ -115,14 +116,14 @@ onMounted(getExaminations);
     </template>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="examinationStore.examinations"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="examId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.actions="{ item }" dense>
         <v-btn
           rounded="lg"
@@ -152,3 +153,15 @@ onMounted(getExaminations);
     </v-data-table-server>
   </BasePage>
 </template>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

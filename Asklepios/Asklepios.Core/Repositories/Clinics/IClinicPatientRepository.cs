@@ -10,4 +10,5 @@ public interface IClinicPatientRepository
     Task UpdateClinicPatientAsync(ClinicPatient clinicPatient);
     Task DeleteClinicPatientAsync(ClinicPatient clinicPatient);
     Task<ClinicPatient> GetPatientByPeselAsync(string peselNumber);
+    Task<Guid> GetPatientIdAsync(Guid userId);
 }

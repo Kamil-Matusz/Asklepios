@@ -38,7 +38,6 @@ internal sealed class SignUpHandler : ICommandHandler<SignUp>
         var user = new User(command.UserId, command.Email, securedPassword, command.Role, command.IsActive, _clock.CurrentDate());
 
         await _userRepository.AddUserAsync(user);
-
         await _emailService.SendEmailWithHelloMessageAsync(command.Email);
     }
 }

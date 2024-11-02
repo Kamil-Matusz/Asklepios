@@ -8,10 +8,12 @@ namespace Asklepios.Api.Controllers.Clinics;
 public class ClinicAppointmentsController : BaseController
 {
     private readonly IClinicAppointmentService _clinicAppointmentService;
+    private readonly IClinicPatientService _clinicPatientService;
 
-    public ClinicAppointmentsController(IClinicAppointmentService clinicAppointmentService)
+    public ClinicAppointmentsController(IClinicAppointmentService clinicAppointmentService, IClinicPatientService clinicPatientService)
     {
         _clinicAppointmentService = clinicAppointmentService;
+        _clinicPatientService = clinicPatientService;
     }
     
     [Authorize(Roles = "Admin, Nurse, Doctor")]
@@ -26,6 +28,18 @@ public class ClinicAppointmentsController : BaseController
         return Ok();
     }
     
+    [Authorize]
+    [HttpPost("admissionByUser")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> CreatePatientAppointmentByUser(ClinicAppointmentRequestByUserDto dto)
+    {
+        dto.UserId = Guid.Parse(User.Identity?.Name);
+        await _clinicAppointmentService.RegisterPatientAndCreateAppointmentBuUserAsync(dto);
+        return Ok();
+    }
+    
     [Authorize(Roles = "Admin, Nurse, Doctor")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -37,7 +51,7 @@ public class ClinicAppointmentsController : BaseController
         return NoContent();
     }
     
-    [Authorize(Roles = "Admin, Nurse, Doctor")]
+    [Authorize]
     [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -68,6 +82,34 @@ public class ClinicAppointmentsController : BaseController
     public async Task<ActionResult<IReadOnlyList<ClinicAppointmentListDto>>> GetClinicAppointmentsByDate(DateTime date)
     {
         var appointments = await _clinicAppointmentService.GetClinicAppointmentsByDateAsync(date);
+        return Ok(appointments);
+    }
+    
+    [Authorize]
+    [HttpGet("userPastClinicAppointments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IReadOnlyList<ClinicAppointmentListDto>>> GetUserPastClinicAppointments()
+    {
+        var userId = Guid.Parse(User.Identity?.Name);
+        var clinicPatientId = await _clinicPatientService.GetClinicPatientIdAsync(userId);
+        var appointments = await _clinicAppointmentService.GetUserPastClinicAppointments(clinicPatientId);
+        return Ok(appointments);
+    }
+    
+    [Authorize]
+    [HttpGet("userFutureClinicAppointments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IReadOnlyList<ClinicAppointmentListDto>>> GetUserFutureClinicAppointments()
+    {
+        var userId = Guid.Parse(User.Identity?.Name);
+        var clinicPatientId = await _clinicPatientService.GetClinicPatientIdAsync(userId);
+        var appointments = await _clinicAppointmentService.GetUserFutureClinicAppointments(clinicPatientId);
         return Ok(appointments);
     }
 

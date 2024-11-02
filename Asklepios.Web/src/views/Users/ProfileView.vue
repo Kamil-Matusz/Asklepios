@@ -3,9 +3,14 @@ import BasePage from '@/components/pages/BasePage.vue';
 import { onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { useRouter } from 'vue-router';
+import { useJwtStore } from '@/stores/jwtStore';
 
 const userStore = useUserStore();
 const router = useRouter();
+
+const {getUserRole, getUser } = useJwtStore();
+
+const user = ref<User | null>(null);
 
 const goToRoute = (routeName: string) => {
   router.push({ name: routeName });
@@ -23,7 +28,7 @@ function formatDate(date: Date): string {
 const translateRole = (role: string) => {
   const roleTranslations: { [key: string]: string } = {
     'Admin': 'Administrator',
-    'Doctor': 'Doktor',
+    'Doctor': 'Lekarz',
     'Nurse': 'Pielęgniarka',
     'IT Employee': 'Pracownik IT',
     'Patient': 'Pacjent'
@@ -33,6 +38,7 @@ const translateRole = (role: string) => {
 
 onMounted(() => {
   userStore.fetchCurrentUser();
+  user.value = getUser();
 });
 </script>
 
@@ -44,13 +50,14 @@ onMounted(() => {
           class="mb-5"
           variant="outlined"
           title="Twoje dane"
-          subtitle="Poniżej znajdują się dane Twojego konta."
-        >
+          subtitle="Poniżej znajdują się dane Twojego konta.">
           <v-list density="compact" nav>
             <v-list-item prepend-icon="mdi-email" title="Email"> {{ userStore.currentUser?.email }} </v-list-item>
-            <v-list-item prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
+            <v-list-item
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'Doctor' || getUserRole() === 'Nurse' || getUserRole() === 'IT Employee')"
+            prepend-icon="mdi-tie" title="Rola"> {{ translateRole(userStore.currentUser?.role) }} </v-list-item>
             <v-list-item prepend-icon="mdi-calendar-account" title="Konto stworzone"> {{ userStore.currentUser?.createdAt ? formatDate(new Date(userStore.currentUser.createdAt)) : '' }} </v-list-item>
-            <v-list-item prepend-icon="mdi-account-check" title="Status"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
+            <v-list-item prepend-icon="mdi-account-check" title="Status konta"> {{ userStore.currentUser?.isActive ? 'Aktywne' : 'Nieaktywne' }} </v-list-item>
           </v-list>
         </v-card>
       </v-col>
@@ -60,8 +67,7 @@ onMounted(() => {
           class="mb-5"
           variant="outlined"
           title="Zmiana hasła"
-          subtitle="Poniżej możesz zmienić hasło do swojego konta."
-        >
+          subtitle="Poniżej możesz zmienić hasło do swojego konta.">
           <v-btn
             @click="goToRoute('changePassword')"
             color="primary"
@@ -74,3 +80,13 @@ onMounted(() => {
     </v-row>
   </BasePage>
 </template>
+
+<style scoped>
+.v-card {
+  background-color: #616161;
+}
+
+.v-list {
+  background-color: #616161;
+}
+</style>

@@ -9,14 +9,13 @@
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >
-            +Dodaj nowy pokój
+            style="max-width: 20rem">
+            + Przydziel nowy pokój
           </v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowy pokój" rounded="lg">
+          <v-card title="Uzupełnij szczegóły pokoju" rounded="lg">
             <RoomForm
               v-model="roomToAdd"
               :departments="departments"
@@ -28,14 +27,14 @@
     </template>
 
     <v-data-table-server
+      class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
       :headers="headers"
       :items="roomStore.rooms"
       :items-length="options.totalItems"
       :loading="options.loading"
       item-value="roomId"
-      @update:options="handlePagination"
-    >
+      @update:options="handlePagination">
       <template #item.actions="{ item }" dense>
         <v-btn
           @click="goToEditPage(item.roomId)"
@@ -201,3 +200,15 @@ onMounted(() => {
   role.value = getUserRole();
 });
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

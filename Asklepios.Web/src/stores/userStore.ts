@@ -1,8 +1,12 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { API } from '../services';
-import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto } from '@/models/Users/user';
+import { type User, type InputCreateUser, type AccountDto, type GenerateUserAccount, UserAutocompleteDto, InputCreateUserToClinic } from '@/models/Users/user';
 import { type PaginationParams } from '@/models/paginationParams';
+import { useToast } from "vue-toastification";
+import router from "@/router";
+
+const toast = useToast();
 
 export const useUserStore = defineStore('usersStore', () => {
   const users = ref<User[]>([]);
@@ -42,6 +46,13 @@ export const useUserStore = defineStore('usersStore', () => {
   async function dispatchCreateUser(input: InputCreateUser) {
     const { data } = await API.users.signUp(input);
     addNewUser(data);
+  }
+
+  async function dispatchCreateUserClinic(input: InputCreateUserToClinic) {
+    const { data } = await API.users.signUpToClinic(input);
+    addNewUser(data);
+    toast.success("Konto utworzone pomyślnie!");
+    router.push("/");
   }
 
   async function dispatchDeleteUser(userId: string) {
@@ -123,6 +134,7 @@ export const useUserStore = defineStore('usersStore', () => {
     dispatchChangeAccountStatus,
     dispatchGetNurses,
     dispatchGetDoctors,
-    dispatchChangePassword
+    dispatchChangePassword,
+    dispatchCreateUserClinic
   };
 });

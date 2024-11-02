@@ -66,3 +66,23 @@ function navigateBack() {
   router.back();
 }
 </script>
+
+<style scoped>
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.v-card {
+  border-radius: 16px;
+  background-color: #757575;
+}
+
+.v-text-field {
+  margin-bottom: 16px;
+}
+
+.v-btn {
+  font-weight: bold;
+}
+</style>

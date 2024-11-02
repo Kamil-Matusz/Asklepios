@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading">
+    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading" class="mb-4">
       <v-col cols="6">
         <BaseCardWithHover title="Ilość Oddziałów">
           <span class="text-h2">
@@ -42,7 +42,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading">
+    <v-row v-if="(userRole === 'Admin' || userRole === 'IT Employee') && !isLoading" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne operacje">
           <v-row>
@@ -81,7 +81,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="userRole === 'Doctor' && !isLoading">
+    <v-row v-if="userRole === 'Doctor' && !isLoading" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Dostępne akcje dla Lekarza">
           <v-row>
@@ -102,6 +102,7 @@
       </v-col>
     </v-row>
 
+    <v-row v-if="!isLoading && userRole === 'Admin' || userRole === 'Nurse' || userRole === 'Doctor'" class="mb-4">
       <v-col cols="12">
         <BaseCardWithHover title="Przychodnia - Moduł Zarządzania">
           <v-row>
@@ -113,7 +114,42 @@
           </v-row>
         </BaseCardWithHover>
       </v-col>
+    </v-row>
 
+    <v-row v-if="!isLoading && userRole === 'Patient'" class="mb-4">
+      <v-col cols="12">
+        <BaseCardWithHover title="Przychodnia">
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('ClinicDoctors')">
+                Sprawdź lekarzy
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('UserPastAppointments')">
+                Archiwalne wizyty
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="secondary" @click="goToRoute('UserFutureAppointments')">
+                Nadchodzące wizyty
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <v-btn color="green" @click="goToRoute('AddAppointmentByUser')">
+                Umów się na konsultacje
+              </v-btn>
+            </v-col>
+          </v-row>
+        </BaseCardWithHover>
+      </v-col>
+    </v-row>
   </BasePage>
 </template>
 
@@ -151,3 +187,13 @@ const goToRoute = (routeName: string) => {
   router.push({ name: routeName });
 };
 </script>
+
+<style scoped>
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.BaseCardWithHover {
+  background-color: gray;
+}
+</style>

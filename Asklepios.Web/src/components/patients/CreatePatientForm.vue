@@ -165,3 +165,10 @@ const addressRules = [
   (v: string) => !!v || 'Adres jest wymagany',
 ];
 </script>
+
+<style scoped>
+.v-input {
+  background-color: white;
+  color: black;
+}
+</style>

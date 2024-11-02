@@ -4,18 +4,18 @@
       <v-dialog max-width="500">
         <template #activator="{ props: activatorProps }">
           <v-btn
+            v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'IT Employee')"
             v-bind="activatorProps"
             color="green"
             variant="flat"
             class="mb-4"
-            style="max-width: 20rem"
-          >
-            +Dodaj nową pielęgniarkę
+            style="max-width: 26rem">
+            + Zarejestruj w systemie nową pielęgniarkę
           </v-btn>
         </template>
 
         <template #default="{ isActive }">
-          <v-card title="Nowa pielęgniarka" rounded="lg">
+          <v-card title="Uzupełnij dane" rounded="lg">
             <NurseForm
               v-model="nurseToAdd"
               :departments="departments"
@@ -73,13 +73,17 @@ import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
 import NurseForm from '@/components/nurses/CreateNurseForm.vue';
 import { InputCreateNurse } from '@/models/Users/nurse';
+import type { User } from '@/models/Users/user';
+import { useJwtStore } from '@/stores/jwtStore';
 
 const nurseStore = useNurseStore();
 const departmentStore = useDepartmentStore();
 const userStore = useUserStore();
 const toast = useToast();
 const router = useRouter();
+const {getUserRole, getUser } = useJwtStore();
 
+const user = ref<User | null>(null);
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
 const itemsPerPageOptions = ref([5, 10, 20, 50]);
@@ -163,6 +167,7 @@ onMounted(() => {
   getNurses();
   getDepartments();
   getUsers();
+  user.value = getUser();
 });
 
 watch([currentPage, itemsPerPage], getNurses);
@@ -171,5 +176,9 @@ watch([currentPage, itemsPerPage], getNurses);
 <style scoped>
 .nurse-card {
   margin-bottom: 20px;
+}
+
+.v-card {
+  background-color: #616161;
 }
 </style>

@@ -1,4 +1,5 @@
 using Asklepios.Application.Services.Users;
+using Asklepios.Core.DTO.Clinics;
 using Asklepios.Core.DTO.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +77,14 @@ public class MedicalStaffController : BaseController
     public async Task<ActionResult<IEnumerable<UserAutocompleteDto>>> GetDoctorsList()
     {
         var doctors = await _medicalStaffService.GetDoctorsList();
+        return Ok(doctors);
+    }
+    
+    [HttpGet("clinicDoctorsList")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<ClinicDoctorListDto>>> GetClinicDoctorsList()
+    {
+        var doctors = await _medicalStaffService.GetClinicDoctorList();
         return Ok(doctors);
     }
 }
