@@ -10,7 +10,6 @@
       v-model="form.startDate"
       label="Data rozpoczęcia"
       type="date"
-      prepend-icon="mdi-calendar"
       :rules="dateRules"
       required
     ></v-text-field>
