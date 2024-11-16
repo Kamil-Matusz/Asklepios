@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("Properties/secret.json", optional: true, reloadOnChange: true);
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 builder.Services
     .AddCore()
     .AddApplication(builder.Configuration)
