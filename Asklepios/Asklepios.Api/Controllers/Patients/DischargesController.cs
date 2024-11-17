@@ -204,8 +204,8 @@ public class DischargesController : BaseController
     public async Task<ActionResult<IEnumerable<DischargeItemDto>>> GetAllDischarges([FromQuery] GetAllDischarges query)
         => Ok(await _getAllDischarges.HandlerAsync(query));
     
-    //[Authorize(Roles = "Admin, Doctor")]
-    [HttpGet("{dischargeId:guid}/pdf")]
+    [Authorize(Roles = "Admin, Doctor")]
+    [HttpGet("{dischargeId:guid}/dischargePDF")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -225,7 +225,7 @@ public class DischargesController : BaseController
         var document = new DischargePdfDocument(discharge);
         var pdfBytes = document.GeneratePdf();
         
-        return File(pdfBytes, "application/pdf", $"Discharge_{dischargeId}.pdf");
+        return File(pdfBytes, "application/pdf", $"Wypis-{discharge.PatientName} {discharge.PatientSurname}.pdf");
     }
 
 }
