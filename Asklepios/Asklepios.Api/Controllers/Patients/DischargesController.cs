@@ -227,5 +227,4 @@ public class DischargesController : BaseController
         
         return File(pdfBytes, "application/pdf", $"Wypis-{discharge.PatientName} {discharge.PatientSurname}.pdf");
     }
-
 }
