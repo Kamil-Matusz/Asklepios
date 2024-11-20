@@ -31,3 +31,10 @@ The project uses Seq for structured logging and event monitoring. Seq allows you
 
 ## Database Diagram
 ![](/assets/DatabaseDiagram.png)
+
+### Paths to additional dashboards
+Hangfire:
+`http://<your-domain>/hangfire`
+
+Swagger Documentation:
+`http://<your-domain>/swagger`
