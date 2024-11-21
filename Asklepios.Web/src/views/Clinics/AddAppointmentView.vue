@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Dodaj nową wizytę">
+  <BasePage title="Zapisz pacjenta na nową wizytę">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">

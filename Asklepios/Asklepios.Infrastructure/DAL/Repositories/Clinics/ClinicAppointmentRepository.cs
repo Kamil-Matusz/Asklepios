@@ -97,4 +97,19 @@ public class ClinicAppointmentRepository : IClinicAppointmentRepository
                 .OrderBy(x => x.AppointmentDate)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<ClinicAppointment>> GetAppointmentsOlderThanAsync(DateOnly date)
+            => await _clinicAppointments
+                .Where(d => DateOnly.FromDateTime(d.AppointmentDate) < date)
+                .ToListAsync();
+
+        public async Task DeleteAppointmentByIdAsync(Guid appointmentId)
+        {
+            var appointment = await _clinicAppointments.FindAsync(appointmentId);
+            if (appointment != null)
+            {
+                _clinicAppointments.Remove(appointment);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
 }
