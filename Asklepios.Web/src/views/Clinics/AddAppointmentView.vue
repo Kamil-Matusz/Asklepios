@@ -95,7 +95,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="green" @click="createAppointment" :disabled="!isFormValid">Dodaj spotkanie</v-btn>
-              <v-btn color="secondary" @click="navigateBack">Anuluj</v-btn>
+              <v-btn color="red" @click="navigateBack">Anuluj</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
