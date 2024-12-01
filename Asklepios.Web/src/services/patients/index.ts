@@ -28,8 +28,13 @@ async function getPatientsList() {
   return await httpClient.get<PatientAutocompleteDto[]>(`${base}/patientsList`);
 }
 
-async function getAllPatientsByDoctor(pagination: PaginationParams) {
-  return await httpClient.get<PatientListDto[]>(`${base}/yourPatients`, { params: pagination });
+async function getAllPatientsByDoctor(pagination: PaginationParams, isDischarged?: boolean) {
+  return await httpClient.get<PatientListDto[]>(`${base}/yourPatients`, {
+    params: {
+      ...pagination,
+      isDischarged
+    }
+  });
 }
 
 export default {
