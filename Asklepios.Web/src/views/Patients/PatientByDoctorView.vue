@@ -3,7 +3,12 @@
     <v-btn @click="showCreatePatientDialog = true" color="green" class="mb-4" style="max-width: 20rem">
       + Przyjmij nowego pacjenta
     </v-btn>
-
+    <v-checkbox
+        v-model="isDischarged"
+        label="Pokaż tylko wypisanych pacjentów"
+        @change="getPatients"
+        class="ml-4"
+      ></v-checkbox>
     <v-data-table-server
       class="custom-table-background"
       v-model:items-per-page="options.itemsPerPage"
@@ -201,6 +206,7 @@ const medicalStaff = ref([]);
 
 const isDetailsDialogActive = ref(false);
 const showCreatePatientDialog = ref(false);
+const isDischarged = ref(false);
 const patientDetails = ref<PatientDetailsDto | null>(null);
 
 const getPatients = async () => {
@@ -208,7 +214,8 @@ const getPatients = async () => {
   try {
     await patientStore.dispatchGetDoctorPatients({
       PageIndex: pagination.value.PageIndex,
-      PageSize: pagination.value.PageSize
+      PageSize: pagination.value.PageSize,
+      IsDischarged: isDischarged.value
     });
     options.value.totalItems = patientStore.totalItems;
   } catch (error) {

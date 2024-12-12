@@ -10,7 +10,6 @@
       v-model="form.startDate"
       label="Data rozpoczęcia"
       type="date"
-      prepend-icon="mdi-calendar"
       :rules="dateRules"
       required
     ></v-text-field>
@@ -32,15 +31,15 @@
       :rules="anesthesiaTypeRules"
       required
 ></v-select>
-    <v-text-field
+    <v-textarea
       label="Wynik"
       v-model="form.result"
       required
-    ></v-text-field>
-    <v-text-field
+    ></v-textarea>
+    <v-textarea
       label="Komplikacje"
       v-model="form.complications"
-    ></v-text-field>
+    ></v-textarea>
     <v-select
       v-model="form.patientId"
       label="Pacjent (dodaj po peselu)"
@@ -135,3 +134,14 @@ const anesthesiaTypes = ref([
   { text: 'Rdzeniowe', value: 'Rdzeniowe' },
 ]);
 </script>
+
+<style scoped>
+.v-input {
+  background-color: white;
+  color: black;
+}
+
+.v-form {
+  background-color: white;
+}
+</style>

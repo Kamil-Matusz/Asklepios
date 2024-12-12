@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-6" style="background-color: #2c5f5c;">
+  <v-container class="pa-6" style="background-color: #13bee0;">
     <v-row>
       <v-col cols="12">
         <v-card class="mx-auto" elevation="6" style="border-radius: 12px; overflow: hidden;">
@@ -17,7 +17,7 @@
             class="elevation-1 mt-4"
             dense
             hide-default-footer
-            style="border-radius: 8px; overflow: hidden; background-color: #2e4348;"
+            style="border-radius: 8px; overflow: hidden; background-color: #13bee0;"
           >
             <template #item="{ item }">
               <tr>
@@ -82,7 +82,7 @@ function formatMonth(dateString: string): string {
 }
 
 .v-data-table th {
-  background-color: #243236;
+  background-color: #13bee0;
   color: #b0bec5;
   font-weight: bold;
   text-transform: uppercase;
@@ -90,7 +90,7 @@ function formatMonth(dateString: string): string {
 }
 
 .v-data-table td {
-  background-color: #2e4348;
+  background-color: #13bee0;
   color: #eceff1;
 }
 

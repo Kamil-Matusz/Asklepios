@@ -24,18 +24,18 @@
                   label="Pesel"
                   disabled
                 ></v-text-field>
-                <v-text-field
+                <v-textarea
                   v-model="form.dischargeReasson"
                   label="Powód wypisu"
                   :rules="dischargeReassonRules"
                   required
-                ></v-text-field>
-                <v-text-field
+                ></v-textarea>
+                <v-textarea
                   v-model="form.summary"
                   label="Podsumowanie wypisu"
                   :rules="summaryRules"
                   required
-                ></v-text-field>
+                ></v-textarea>
                 <v-btn type="submit" color="green">Wypisz pacjenta</v-btn>
               </v-form>
             </v-card-text>
@@ -107,3 +107,15 @@ const handleSubmit = async () => {
   }
 };
 </script>
+
+<style scoped>
+.custom-table-background {
+  background-color: gainsboro;
+  color: black;
+}
+
+.v-card {
+  background-color: white;
+  color: black;
+}
+</style>

@@ -6,7 +6,7 @@ import { useToast } from 'vue-toastification';
 import { type DepartmentDto, type DepartmentDetailsDto } from '@/models/Departments/department';
 import { InputPagination } from '@/models/paginationParams';
 import BasePage from '@/components/pages/BasePage.vue';
-import DepartmentForm from '@/components/departments/DepartmentForm.vue';
+import DepartmentForm from '@/components/departments/CreateDepartmentForm.vue';
 import type { User } from '@/models/Users/user';
 import { useJwtStore } from '@/stores/jwtStore';
 

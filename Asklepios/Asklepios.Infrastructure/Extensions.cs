@@ -132,6 +132,8 @@ public static class Extensions
             app.UseHangfireServer();
         
             RecurringJob.AddOrUpdate<IDischargeCleanupService>(x => x.RemoveOldDischarges(), Cron.Daily);
+            RecurringJob.AddOrUpdate<IClinicAppointmentsCleanupService>(x => x.RemoveOldAppointments(), Cron.Daily);
+            RecurringJob.AddOrUpdate<IClinicAppointmentScheduler>(x => x.RemindAboutVisit(), Cron.Daily(7));
         }
         
         return app;

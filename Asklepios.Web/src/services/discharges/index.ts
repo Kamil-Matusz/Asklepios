@@ -43,6 +43,28 @@ async function getAllDischarges() {
   return await httpClient.get<DischargeItemDto[]>(`${base}/allDischarges`);
 }
 
+async function downloadDischargePdf(dischargeId: string) {
+  try {
+    const response = await httpClient.get<ArrayBuffer>(`${base}/${dischargeId}/dischargePDF`, {
+      responseType: 'arraybuffer',
+    });
+
+    const blob = new Blob([response], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Wypis-${dischargeId}.pdf`;
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Błąd podczas pobierania PDF:', error);
+    throw error;
+  }
+}
+
+
 export default {
   getPaginatedDischarges,
   deleteDischarge,
@@ -51,5 +73,6 @@ export default {
   updateDischarge,
   dischargePatient,
   getDoctorDischarges,
-  getAllDischarges
+  getAllDischarges,
+  downloadDischargePdf
 };

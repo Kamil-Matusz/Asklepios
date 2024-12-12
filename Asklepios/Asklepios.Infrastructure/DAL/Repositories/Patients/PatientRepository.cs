@@ -57,18 +57,28 @@ public class PatientRepository : IPatientRepository
             .Take(pageSize)
             .ToListAsync();
 
-    public async Task<IReadOnlyList<Patient>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize)
-        => await _patients
+    public async Task<IReadOnlyList<Patient>> GetAllPatientsByDoctorAsync(Guid doctorId, int pageIndex, int pageSize, bool? isDischarged)
+    {
+        var query = _patients
             .Include(x => x.Department)
             .Include(x => x.Room)
             .Include(x => x.Operations)
             .Include(x => x.ExamResults)
             .Where(x => x.MedicalStaffId == doctorId)
-            .AsNoTracking()
+            .AsNoTracking();
+        
+        if (isDischarged.HasValue)
+        {
+            query = query.Where(x => x.IsDischarged == isDischarged.Value);
+        }
+        
+        return await query
             .OrderBy(x => x.PatientSurname)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+    }
+
 
     public async Task<IReadOnlyList<Patient>> GetAllPatientsByRoomAsync(Guid roomId, int pageIndex, int pageSize)
         => await _patients

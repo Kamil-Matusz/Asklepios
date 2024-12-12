@@ -44,7 +44,7 @@ const goToRegister = () => {
                 prepend-inner-icon="mdi-lock"
               ></v-text-field>
               <v-btn color="green" @click.prevent="handleLogin" class="mt-4" block>
-                Zaloguj
+                Zaloguj się
               </v-btn>
               <v-btn color="blue" @click="goToRegister" class="mt-4" block>
                 Panel rejestracji

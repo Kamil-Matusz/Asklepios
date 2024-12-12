@@ -23,7 +23,7 @@ const goToLogin = () => {
       <v-col cols="12" sm="8" md="6">
         <h1 class="text-center">Asklepios - System Zarządzania</h1>
         <v-card class="elevation-10">
-          <v-card-title class="headline text-center">Rejestracja</v-card-title>
+          <v-card-title class="headline text-center">Rejestracja do przychodni</v-card-title>
           <v-card-text>
             <v-form class="text-center">
               <v-text-field

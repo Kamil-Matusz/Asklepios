@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Panel Kontrolny - Zarządzanie systemem">
+  <BasePage :title="pageTitle">
     <v-row v-if="isLoading">
       <v-col cols="12">
         <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -118,7 +118,7 @@
 
     <v-row v-if="!isLoading && userRole === 'Patient'" class="mb-4">
       <v-col cols="12">
-        <BaseCardWithHover title="Przychodnia">
+        <BaseCardWithHover>
           <v-row>
             <v-col cols="12" class="text-center">
               <v-btn color="secondary" @click="goToRoute('ClinicDoctors')">
@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useJwtStore } from '@/stores/jwtStore';
 import { useDepartmentStatsStore } from '@/stores/statisticsStore';
 import BasePage from '@/components/pages/BasePage.vue';
@@ -180,6 +180,17 @@ onMounted(async () => {
   }
 
   isLoading.value = false;
+});
+
+const pageTitle = computed(() => {
+  if (userRole.value === 'Admin' || userRole.value === 'IT Employee') {
+    return "Panel Kontrolny - Zarządzanie systemem";
+  } else if (userRole.value === 'Doctor' || userRole.value === 'Nurse') {
+    return "Panel Lekarza i Pielęgniarki - Dostępne akcje";
+  } else if (userRole.value === 'Patient') {
+    return "Akslepios Przychodnia - Twój panel";
+  }
+  return "";
 });
 
 const router = useRouter();

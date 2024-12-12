@@ -90,12 +90,12 @@ public class PatientsController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<IReadOnlyList<PatientListDto>>> GetAllPatientsByDoctor([FromQuery] int pageIndex,
-        [FromQuery] int pageSize)
+        [FromQuery] int pageSize, [FromQuery] bool? isDischarged = null)
     {
         var userId = Guid.Parse(User.Identity?.Name);
         var doctorId = await _medicalStaffService.GetDoctorIdAsync(userId);
 
-        var patients = await _patientService.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize);
+        var patients = await _patientService.GetAllPatientsByDoctorAsync(doctorId, pageIndex, pageSize, isDischarged);
         return Ok(patients);
     }
 }

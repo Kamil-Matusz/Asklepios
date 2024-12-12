@@ -18,12 +18,12 @@
       :rules="peselRules"
       required
     ></v-text-field>
-    <v-text-field
+    <v-textarea
       label="Diagnoza wstępna"
       v-model="form.initialDiagnosis"
       :rules="diagnosisRules"
       required
-    ></v-text-field>
+    ></v-textarea>
     <v-select
       v-model="form.departmentId"
       label="Oddział"
@@ -47,13 +47,13 @@
       v-model="form.isDischarged"
       label="Czy wypisany?"
     ></v-checkbox>
-    <v-text-field
+    <v-textarea
       label="Leczenie"
       v-model="form.treatment"
       :rules="treatmentRules"
       required
       no-data-text="Brak pokoi"
-    ></v-text-field>
+    ></v-textarea>
     <v-select
       v-model="form.medicalStaffId"
       label="Lekarz prowadzący"
