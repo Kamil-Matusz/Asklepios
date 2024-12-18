@@ -12,6 +12,7 @@ using Asklepios.Infrastructure.DAL.Repositories.Patients;
 using Asklepios.Infrastructure.DAL.Repositories.Statistics;
 using Asklepios.Infrastructure.DAL.Repositories.Users;
 using Asklepios.Infrastructure.DAL.Seeders;
+using Asklepios.Infrastructure.DAL.Seeders.Clinics;
 using Asklepios.Infrastructure.DAL.Seeders.Departments;
 using Asklepios.Infrastructure.DAL.Seeders.Examinations;
 using Asklepios.Infrastructure.DAL.Seeders.Patients;
@@ -66,6 +67,8 @@ public static class Extensions
         services.AddTransient<IDataSeeder, DoctorsSeeder>();
         services.AddTransient<IDataSeeder, ExaminationsSeeder>();
         services.AddTransient<IDataSeeder, PatientsSeeder>();
+        services.AddTransient<IDataSeeder, ClinicPatientsSeeder>();
+        services.AddTransient<IDataSeeder, ClinicAppointmentsSeeder>();
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

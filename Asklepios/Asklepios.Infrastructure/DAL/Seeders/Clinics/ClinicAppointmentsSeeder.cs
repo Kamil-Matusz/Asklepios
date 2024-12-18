@@ -24,7 +24,7 @@ public class ClinicAppointmentsSeeder : IOrderedSeeder
                 ),
                 new ClinicAppointment(
                     Guid.NewGuid(),
-                    new DateTime(2024, 01, 14, 10, 0, 0),
+                    new DateTime(2025, 01, 14, 10, 0, 0),
                     AppointmentType.Consultation(),
                     Guid.Parse("db85f588-2250-4479-b826-7c210bbaafac"),
                     Guid.Parse("e582299d-1a49-4d7b-8e36-eadb449dd209"),
@@ -39,6 +39,9 @@ public class ClinicAppointmentsSeeder : IOrderedSeeder
                     "Scheduled"
                 )
             };
+            
+            dbContext.ClinicAppointments.AddRange(newClinicAppointments);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

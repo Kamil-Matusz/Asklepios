@@ -16,8 +16,11 @@ public class ClinicPatientsSeeder : IOrderedSeeder
                 new ClinicPatient(Guid.Parse("db85f588-2250-4479-b826-7c210bbaafac"), "Konrad", "Szkalrek",
                     "01300407231", "+48123456872", "konradszklarek@asklepios.com"),
                 new ClinicPatient(Guid.Parse("db84f587-2250-4479-b826-7c210bbaafac"), "Jan", "Moczarek",
-                    "01300407231", "+48127466772", "janmoczarek@onet.pl"),
+                    "01300407241", "+48127466772", "janmoczarek@onet.pl"),
             };
+            
+            dbContext.ClinicPatients.AddRange(newClinicPatients);
+            await dbContext.SaveChangesAsync();
         }
     }
 }
