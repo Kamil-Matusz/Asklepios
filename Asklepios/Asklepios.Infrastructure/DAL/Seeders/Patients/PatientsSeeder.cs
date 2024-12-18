@@ -14,8 +14,7 @@ public class PatientsSeeder : IOrderedSeeder
             var newPatients = new List<Patient>()
             {
                 new Patient(Guid.Parse("bc06de0b-ca04-4341-a2df-492bc4f6cecf"), "Konrad", "Bieniasz", "01300406346", "Zawał serca", false, "Operacja", Guid.Parse("2a9f1b22-1854-43f2-a30b-c34d3d70f2c9"), Guid.Parse("c1058167-d03e-4086-ac83-7c6f183a010d"), Guid.Parse("e582299d-1a49-4d7b-8e36-eadb449dd209"), DateOnly.FromDateTime(DateTime.Today), "Akacjowa 24, 35-211 Rzeszów"),
-                new Patient(Guid.Parse("bc06de0b-ca04-4341-a2df-492bc4f6cebf"), "Michał", "Jaros", "01300405346", "Wszczepie bajpasów", false, "Operacja", Guid.Parse("2a9f1b22-1854-43f2-a30b-c34d3d70f2c9"), Guid.Parse("c1058167-d03e-4086-ac83-7c6f183a010d"), Guid.Parse("e582299d-1a49-4d7b-8e36-eadb449dd209"), DateOnly.FromDateTime(DateTime.Today), "Wojska Polskiego, 12 36-040 Boguchwała"),
-                new Patient(Guid.Parse("7ebdb152-ca2e-49d2-9ca0-8662c804455a"), "Tomasz", "Furca", "01300407418", "Złamanie ręki", false, "Unieruchomienie kończyny górnej w opatrunku gipsowym", Guid.Parse("b09e2452-867a-41ea-9b95-b00232329e77"), Guid.Parse("46bf3a8a-a229-43a9-a350-77bd2a790ccb"), Guid.Parse("e582299d-1a49-4d7b-8e36-eadb449dd209"), DateOnly.FromDateTime(DateTime.Today), "Batalionów Chłopskich 34, 35-211 Rzeszów")
+                new Patient(Guid.Parse("bc06de0b-ca04-4341-a2df-492bc4f6cebf"), "Michał", "Jaros", "01300405346", "Wszczepie bajpasów", false, "Operacja", Guid.Parse("2a9f1b22-1854-43f2-a30b-c34d3d70f2c9"), Guid.Parse("c1058167-d03e-4086-ac83-7c6f183a010d"), Guid.Parse("e582299d-1a49-4d7b-8e36-eadb449dd209"), DateOnly.FromDateTime(DateTime.Today), "Wojska Polskiego, 12 36-040 Boguchwała")
             };
             
             dbContext.Patients.AddRange(newPatients);
