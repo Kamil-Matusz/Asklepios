@@ -9,7 +9,7 @@ public class ClinicAppointmentsSeeder : IOrderedSeeder
     public int Order => 9;
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var clinicAppointments = dbContext.ClinicAppointments.ToList();
+        var clinicAppointments = dbContext.ClinicAppointments.AsQueryable();
         if (!clinicAppointments.Any())
         {
             var newClinicAppointments = new List<ClinicAppointment>()

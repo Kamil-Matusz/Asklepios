@@ -19,7 +19,7 @@ public class UsersSeeder : IOrderedSeeder
     
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var users = dbContext.Users.ToList();
+        var users = dbContext.Users.AsQueryable();
         if (!users.Any())
         {
             var newUsers = new List<User>()

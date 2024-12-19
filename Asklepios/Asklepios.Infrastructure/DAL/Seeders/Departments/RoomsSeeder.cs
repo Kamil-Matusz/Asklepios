@@ -9,7 +9,7 @@ public class RoomsSeeder : IOrderedSeeder
     
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var rooms = dbContext.Rooms.ToList();
+        var rooms = dbContext.Rooms.AsQueryable();
         if (!rooms.Any())
         {
             var newRooms = new List<Room>()

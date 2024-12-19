@@ -8,7 +8,7 @@ public class NursesSeeder : IOrderedSeeder
     public int Order => 4;
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var nurses = dbContext.Nurses.ToList();
+        var nurses = dbContext.Nurses.AsQueryable();
         if (!nurses.Any())
         {
             var newNurses = new List<Nurse>()

@@ -9,7 +9,7 @@ public class DoctorsSeeder : IOrderedSeeder
     
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var doctors = dbContext.MedicalStaff.ToList();
+        var doctors = dbContext.MedicalStaff.AsQueryable();
         if (!doctors.Any())
         {
             var newDoctors = new List<MedicalStaff>()

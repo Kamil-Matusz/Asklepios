@@ -9,7 +9,7 @@ public class DepartmentsSeeder : IOrderedSeeder
     
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var departments = dbContext.Departments.ToList();
+        var departments = dbContext.Departments.AsQueryable();
         if (!departments.Any())
         {
             var newDepartments = new List<Department>()
