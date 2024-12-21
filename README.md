@@ -14,6 +14,24 @@ A system supporting and offering support for medical facilities.It is a complete
 - RabbitMQ
 - Hangfire
 
+## Scope of the Application
+The application provides a comprehensive hospital management system with the following features:
+
+- User Registration and Login: Secure registration and authentication for system users.
+- User Account Generation with Role Assignment: Automatic creation of user accounts with roles such as doctor, nurse, patient, and administrator.
+- User Access Level Management: Configuration and enforcement of user-specific access permissions.
+- Administrative Functions:System management, issue identification and resolution, employee account generation, and role assignment.
+- Storage of Personal and Professional Data: Secure storage of personal information and medical staff specializations.
+- Patient Management: Collecting, analyzing, and processing patient data, including treatment history, test results, and surgeries.
+- Integrated Medical Documentation: Archiving patient data, generating discharge summaries and prescriptions, and reducing paper documentation.Facility Structure Management: Managing departments, operating room lists, and patient wards.
+- Staff Assignment and Infrastructure Monitoring: Assigning doctors to departments and tracking resource utilization across the facility.
+- Procedure and Surgery Management Module: Planning surgeries and procedures, allocating operating rooms, and scheduling staff.
+- Diagnostic Integration: Incorporating test results to streamline diagnostic and outpatient processes.
+- Real-Time Communication Functions: Facilitating the exchange of information and notifications for urgent incidents.
+- Outpatient Clinic Operations: Patient registration for appointments and efficient visit management.
+- Email Notifications: Sending reminders for scheduled appointments.
+- Data Cleanup and Optimization: Deleting unnecessary data (e.g., old discharge summaries or appointments) to save storage space and reduce data loss risks.
+
 ## Database
 The project uses a Postgres database using Docker. Docker settings are in the <b>docker-compose.yml</b> file. 
 For the database to work properly, create a migration and apply the appropriate data in the file <b>appsettings.json</b> in the Asklepios.Api project on line 16 <b>"connectionString"</b> change the database path to your database path.
