@@ -84,10 +84,10 @@ public static class Extensions
         services.AddHttpContextAccessor();
         
         // RabbitMQ
-        /*services.AddConvey()
+        services.AddConvey()
             .AddRabbitMq()
             .AddEventHandlers()
-            .Build();*/
+            .Build();
 
         services.AddEvents();
 
@@ -114,8 +114,8 @@ public static class Extensions
         app.UseAuthentication();
         app.UseAuthorization();
         
-        //app.UseConvey();
-        //app.UseRabbitMq();
+        app.UseConvey();
+        app.UseRabbitMq();
         
         app.UseEndpoints(endpoints =>
         {
