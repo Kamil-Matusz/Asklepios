@@ -50,6 +50,17 @@ services:
       - rabbitmq
       - seq
 
+  asklepios-web:
+    build:
+      context: .
+      dockerfile: Asklepios.Web/Dockerfile
+    container_name: asklepios_web
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - asklepios-api
+
 volumes:
   postgres:
     driver: local
