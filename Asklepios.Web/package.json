@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build:types": "vue-tsc --noEmit",
+    "build:prod": "vite build",
+    "build": "npm run build:types && npm run build:prod",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
@@ -44,7 +46,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-fonts": "^1.1.1",
     "unplugin-vue-components": "^0.26.0",
-    "unplugin-vue-router": "^0.8.4",
+    "unplugin-vue-router": "^0.8.8",
     "vite": "^5.1.5",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vue-router": "^4.0.13",

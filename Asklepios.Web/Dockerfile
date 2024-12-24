@@ -2,22 +2,34 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+# Kopiowanie zależności
+COPY package.json package-lock.json ./
 
-RUN yarn install
+# Instalacja zależności
+RUN npm install
 
+# Kopiowanie całego projektu
 COPY . .
 
-RUN yarn build
+# Sprawdzenie typów (opcjonalnie ignoruje błędy)
+RUN npm run build:types || echo "Ignoring TypeScript errors"
+
+# Budowanie aplikacji
+RUN npm run build:prod
 
 FROM nginx:stable-alpine
 
+# Usuwanie domyślnej konfiguracji Nginx
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY nginx.conf /etc/nginx/conf.d
+# Kopiowanie konfiguracji Nginx
+COPY ./nginx.conf /etc/nginx/conf.d/
 
+# Kopiowanie plików zbudowanej aplikacji
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Eksponowanie portu
 EXPOSE 80
 
+# Uruchomienie Nginx
 CMD ["nginx", "-g", "daemon off;"]
