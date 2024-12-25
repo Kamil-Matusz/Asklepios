@@ -3,13 +3,13 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 # Kopiowanie zależności
-COPY package.json package-lock.json ./
+COPY ./Asklepios.Web/package.json ./Asklepios.Web/package-lock.json ./
 
 # Instalacja zależności
 RUN npm install
 
 # Kopiowanie całego projektu
-COPY . .
+COPY ./Asklepios.Web .
 
 # Sprawdzenie typów (opcjonalnie ignoruje błędy)
 RUN npm run build:types || echo "Ignoring TypeScript errors"
@@ -23,7 +23,7 @@ FROM nginx:stable-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Kopiowanie konfiguracji Nginx
-COPY ./nginx.conf /etc/nginx/conf.d/
+COPY ./Asklepios.Web/nginx.conf /etc/nginx/conf.d/
 
 # Kopiowanie plików zbudowanej aplikacji
 COPY --from=build /app/dist /usr/share/nginx/html
