@@ -124,6 +124,7 @@ const appointmentTypes = ref([
 const doctors = ref([
   { text: 'Kamil Matusz', value: 'e582299d-1a49-4d7b-8e36-eadb449dd209' },
   { text: 'Miłosz Michalski', value: 'e582299d-1a49-4d7b-8e36-eadb449dd212' },
+  { text: 'Andrzej Kowalski', value: '91beb922-480f-4ec5-9565-0f5b548b4edf' }
 ]);
 const requiredRule = [(v: string) => !!v || 'Pole wymagane'];
 
