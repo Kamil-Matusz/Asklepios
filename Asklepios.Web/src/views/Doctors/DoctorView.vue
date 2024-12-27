@@ -157,7 +157,6 @@ const getUsers = async () => {
       userId: user.userId
     }));
   } catch (error) {
-    console.error('Error fetching users:', error);
     toast.error('Wystąpił problem podczas pobierania użytkowników');
   }
 };

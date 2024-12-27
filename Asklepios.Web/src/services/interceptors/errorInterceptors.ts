@@ -10,6 +10,7 @@ export function addErrorInterceptor(axiosInstance: Axios) {
             return response;
         },
         error => {
+            const currentRoute = router.currentRoute.value.name;
             if (error.response) {
                 switch (error.response.status) {
                     case 400:
@@ -28,7 +29,11 @@ export function addErrorInterceptor(axiosInstance: Axios) {
                         router.push('/')
                         break;
                     case 500:
+                        if (currentRoute === "login") {
+                          toast.error("Błędny login lub hasło");
+                        } else {
                         toast.error("Wewnętrzny bład serwera");
+                        }
                         break;
                     default:
                         toast.error("Wystąpił nieoczekiwany błąd");

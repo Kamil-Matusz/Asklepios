@@ -56,10 +56,8 @@ const getExaminations = async () => {
 const addExamination = async (examination: ExaminationDto) => {
   try {
     if (!examination.examName || !examination.examCategory) {
-      console.error('Wymagane są wszystkie pola: Nazwa, Kategoria i Opis');
       throw new Error('Wszystkie pola muszą być wypełnione');
     }
-    console.log('Dodawanie badania z danymi:', examination);
     await examinationStore.dispatchCreateExamination(examination);
     toast.success('Pomyślnie dodano nowe badanie!');
     examinationToAdd.value = { examId: 0, examName: '', examCategory: '' };
