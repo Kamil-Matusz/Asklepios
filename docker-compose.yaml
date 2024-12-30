@@ -33,6 +33,34 @@ services:
     volumes:
       - seq-data:/data
 
+  asklepios-api:
+    build:
+      context: .
+      dockerfile: Asklepios/Asklepios.Api/Dockerfile
+    container_name: asklepios_api
+    restart: unless-stopped
+    ports:
+      - 5102:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RabbitMQ__Host=rabbitmq
+      - Seq__ServerUrl=http://seq:80
+    depends_on:
+      - postgres
+      - rabbitmq
+      - seq
+
+  asklepios-web:
+    build:
+      context: .
+      dockerfile: Asklepios.Web/Dockerfile
+    container_name: asklepios_web
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - asklepios-api
+
 volumes:
   postgres:
     driver: local

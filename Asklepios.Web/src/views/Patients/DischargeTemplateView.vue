@@ -107,9 +107,6 @@ import { useToast } from 'vue-toastification';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
 import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const dischargeStore = useDischargeStore();
 const toast = useToast();
