@@ -59,6 +59,7 @@ public static class Extensions
         services.AddScoped<IPatientHistoryRepository, PatientHistoryRepository>();
         services.AddScoped<IClinicPatientRepository, ClinicPatientRepository>();
         services.AddScoped<IClinicAppointmentRepository, ClinicAppointmentRepository>();
+        services.AddScoped<IClinicAppointmentDetailsRepository, ClinicAppointmentDetailsRepository>();
         
         services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();

@@ -43,6 +43,7 @@ public static class Extensions
         services.AddScoped<IClinicPatientService, ClinicPatientService>();
         services.AddScoped<IClinicAppointmentService, ClinicAppointmentService>();
         services.AddScoped<IDischargeCleanupService, DischargeCleanupService>();
+        services.AddScoped<IClinicAppointmentDetailsService, ClinicAppointmentDetailsService>();
 
         services.AddSendGrid(configuration);
         
