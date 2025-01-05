@@ -67,7 +67,6 @@ export const useClinicAppointmentsStore = defineStore('clinicAppointmentsStore',
     }
   }
 
-
   return {
     appointments,
     appointmentDetails,
