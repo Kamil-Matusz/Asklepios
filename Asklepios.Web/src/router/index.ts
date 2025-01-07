@@ -267,14 +267,14 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/clinicAppointment/details/:id',
+      path: '/clinicAppointment/addDetails/:id',
       name: 'AppointmentComment',
       component: AppointmentCommentView,
       props: true
     },
     {
       path: '/clinicAppointment/comment/:id',
-      name: 'AppointmentComment',
+      name: 'AppointmentCommentCard',
       component: ClinicAppointmentCommentCardView,
       props: true
     },
