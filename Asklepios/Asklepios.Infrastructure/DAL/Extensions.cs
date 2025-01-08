@@ -61,7 +61,7 @@ public static class Extensions
         services.AddScoped<IClinicAppointmentRepository, ClinicAppointmentRepository>();
         services.AddScoped<IClinicAppointmentDetailsRepository, ClinicAppointmentDetailsRepository>();
         
-        services.AddTransient<IDataSeeder, UsersSeeder>();
+        /*services.AddTransient<IDataSeeder, UsersSeeder>();
         services.AddTransient<IDataSeeder, DepartmentsSeeder>();
         services.AddTransient<IDataSeeder, RoomsSeeder>();
         services.AddTransient<IDataSeeder, NursesSeeder>();
@@ -69,7 +69,7 @@ public static class Extensions
         services.AddTransient<IDataSeeder, ExaminationsSeeder>();
         services.AddTransient<IDataSeeder, PatientsSeeder>();
         services.AddTransient<IDataSeeder, ClinicPatientsSeeder>();
-        services.AddTransient<IDataSeeder, ClinicAppointmentsSeeder>();
+        services.AddTransient<IDataSeeder, ClinicAppointmentsSeeder>();*/
         
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
