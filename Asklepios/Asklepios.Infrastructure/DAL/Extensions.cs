@@ -61,18 +61,25 @@ public static class Extensions
         services.AddScoped<IClinicAppointmentRepository, ClinicAppointmentRepository>();
         services.AddScoped<IClinicAppointmentDetailsRepository, ClinicAppointmentDetailsRepository>();
         
-        /*services.AddTransient<IDataSeeder, UsersSeeder>();
-        services.AddTransient<IDataSeeder, DepartmentsSeeder>();
-        services.AddTransient<IDataSeeder, RoomsSeeder>();
-        services.AddTransient<IDataSeeder, NursesSeeder>();
-        services.AddTransient<IDataSeeder, DoctorsSeeder>();
-        services.AddTransient<IDataSeeder, ExaminationsSeeder>();
-        services.AddTransient<IDataSeeder, PatientsSeeder>();
-        services.AddTransient<IDataSeeder, ClinicPatientsSeeder>();
-        services.AddTransient<IDataSeeder, ClinicAppointmentsSeeder>();*/
-        
+        var dataSeedingEnabled = configuration.GetValue<bool>("SeedData:Enable");
+
+        if (dataSeedingEnabled)
+        {
+            services.AddTransient<IDataSeeder, UsersSeeder>();
+            services.AddTransient<IDataSeeder, DepartmentsSeeder>();
+            services.AddTransient<IDataSeeder, RoomsSeeder>();
+            services.AddTransient<IDataSeeder, NursesSeeder>();
+            services.AddTransient<IDataSeeder, DoctorsSeeder>();
+            services.AddTransient<IDataSeeder, ExaminationsSeeder>();
+            services.AddTransient<IDataSeeder, PatientsSeeder>();
+            services.AddTransient<IDataSeeder, ClinicPatientsSeeder>();
+            services.AddTransient<IDataSeeder, ClinicAppointmentsSeeder>();
+        }
+
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        
+        services.AddScoped<IClearDatabase, DatabaseClearService>();
         
         return services;
     }

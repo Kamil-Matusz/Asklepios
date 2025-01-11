@@ -10,29 +10,24 @@ internal sealed class DatabaseInitializer : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IEnumerable<IDataSeeder> _dataSeeders;
-    private readonly bool _seedDataEnabled;
 
-    public DatabaseInitializer(IServiceProvider serviceProvider, IEnumerable<IDataSeeder> dataSeeders, IConfiguration configuration)
+    public DatabaseInitializer(IServiceProvider serviceProvider, IEnumerable<IDataSeeder> dataSeeders)
     {
         _serviceProvider = serviceProvider;
         _dataSeeders = dataSeeders.OrderBy(s => s is IOrderedSeeder orderedSeeder ? orderedSeeder.Order : int.MaxValue).ToList();
-        _seedDataEnabled = configuration.GetValue<bool>("SeedData:Enabled");
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // auto migrations
+        // auto migrations & seeders
         using (var scope = _serviceProvider.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<AsklepiosDbContext>();
             await dbContext.Database.MigrateAsync(cancellationToken);
             
-            if (_seedDataEnabled)
+            foreach (var seeder in _dataSeeders)
             {
-                foreach (var seeder in _dataSeeders)
-                {
-                    await seeder.SeedAsync(dbContext);
-                }
+                await seeder.SeedAsync(dbContext);
             }
         }
     }
