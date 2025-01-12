@@ -23,4 +23,26 @@ public class UserDeletionPolicy : IUserDeletionPolicy
 
         return false;
     }
+
+    public async Task<bool> CannotDeleteAdminAccount(Guid userId)
+    {
+        var user = await _userRepository.GetUserByIdAsync(userId);
+
+        if (user.Role == "Admin")
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<bool> CannotDeleteYourAccount(Guid currentUserId, Guid userId)
+    {
+        if (currentUserId == userId)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

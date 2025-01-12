@@ -29,6 +29,16 @@ internal sealed class DeleteUserAccountHandler : ICommandHandler<DeleteUserAccou
         {
             throw new CannotDeleteUserException(command.UserId);
         }
+        
+        if (await _userDeletionPolicy.CannotDeleteYourAccount(command.UserId, command.UserId) is false)
+        {
+            throw new CannotDeleteYourAccountException(command.UserId);
+        }
+
+        if (await _userDeletionPolicy.CannotDeleteAdminAccount(command.UserId) is false)
+        {
+            throw new CannotDeleteAdminAccountException(command.UserId);
+        }
 
         await _userRepository.DeleteUserAsync(user);
     }
