@@ -1,5 +1,3 @@
-using Asklepios.Core.Entities.Users;
-
 namespace Asklepios.Core.Policies.Users;
 
 public interface IUserDeletionPolicy

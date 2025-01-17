@@ -1,4 +1,3 @@
-using Asklepios.Core.Entities.Users;
 using Asklepios.Core.Repositories.Users;
 
 namespace Asklepios.Core.Policies.Users;
