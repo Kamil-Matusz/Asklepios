@@ -73,6 +73,15 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
     totalItems.value = data.length;
   }
 
+  async function dispatchDownloadDischargePdf(dischargeId: string) {
+    try {
+      await API.discharges.downloadDischargePdf(dischargeId);
+    } catch (error) {
+      console.error('Błąd podczas pobierania PDF:', error);
+      throw error;
+    }
+  }
+
   return {
     discharges,
     totalItems,
@@ -84,6 +93,7 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
     dispatchUpdateDischarge,
     dispatchDischargePatient,
     dispatchGetDoctorDischarges,
-    dispatchGetAllDischarges
+    dispatchGetAllDischarges,
+    dispatchDownloadDischargePdf
   };
 });

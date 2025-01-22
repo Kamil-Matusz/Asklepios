@@ -16,4 +16,20 @@ public class ClinicAppointment
     public MedicalStaff MedicalStaff { get; set; }
 
     public string Status { get; set; }
+    
+    public ClinicAppointmentDetails ClinicAppointmentDetails { get; set; }
+
+    public ClinicAppointment(Guid appointmentId, DateTime appointmentDate, AppointmentType appointmentType, Guid clinicPatientId, Guid medicalStaffId, string status)
+    {
+        AppointmentId = appointmentId;
+        AppointmentDate = appointmentDate;
+        AppointmentType = appointmentType;
+        ClinicPatientId = clinicPatientId;
+        MedicalStaffId = medicalStaffId;
+        Status = status;
+    }
+
+    public ClinicAppointment()
+    {
+    }
 }

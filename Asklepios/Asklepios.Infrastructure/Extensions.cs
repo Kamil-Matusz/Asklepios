@@ -36,7 +36,7 @@ public static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("http://localhost:3000")
+                x.WithOrigins("http://localhost:8080", "http://localhost:3000")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
@@ -132,6 +132,8 @@ public static class Extensions
             app.UseHangfireServer();
         
             RecurringJob.AddOrUpdate<IDischargeCleanupService>(x => x.RemoveOldDischarges(), Cron.Daily);
+            RecurringJob.AddOrUpdate<IClinicAppointmentsCleanupService>(x => x.RemoveOldAppointments(), Cron.Daily);
+            RecurringJob.AddOrUpdate<IClinicAppointmentScheduler>(x => x.RemindAboutVisit(), Cron.Daily(7));
         }
         
         return app;

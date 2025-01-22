@@ -35,7 +35,6 @@ const fetchOperationDetails = async () => {
     await operationStore.dispatchGetOperation(operationId);
     operation.value = operationStore.operationInfo;
   } catch (error) {
-    console.error('Error fetching operation details:', error);
     toast.error('Wystąpił problem podczas pobierania szczegółów operacji');
   }
 };

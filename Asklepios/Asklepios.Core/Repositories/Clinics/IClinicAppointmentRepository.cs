@@ -13,4 +13,6 @@ public interface IClinicAppointmentRepository
     Task DeleteAppointmentAsync(ClinicAppointment appointment);
     Task<IReadOnlyList<ClinicAppointment>> GetUserPastAppointmentsAsync(Guid clinicPatientId);
     Task<IReadOnlyList<ClinicAppointment>> GetUserFutureAppointmentsAsync(Guid clinicPatientId);
+    Task<IEnumerable<ClinicAppointment>> GetAppointmentsOlderThanAsync(DateOnly date);
+    Task DeleteAppointmentByIdAsync(Guid appointmentId);
 }

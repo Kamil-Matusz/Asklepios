@@ -24,6 +24,7 @@ public sealed class AsklepiosDbContext : DbContext
     public DbSet<PatientHistory> PatientHistories { get; set; }
     public DbSet<ClinicPatient> ClinicPatients { get; set; }
     public DbSet<ClinicAppointment> ClinicAppointments { get; set; }
+    public DbSet<ClinicAppointmentDetails> ClinicAppointmentDetails { get; set; }
     
     // Views
     public DbSet<MonthlyDischargeSummary> MonthlyDischarges { get; set; }

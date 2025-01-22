@@ -1,5 +1,6 @@
 using Asklepios.Application.Abstractions;
 using Asklepios.Application.Commands.Discharges;
+using Asklepios.Application.PDF;
 using Asklepios.Application.Queries.Discharges;
 using Asklepios.Application.Services.Examinations;
 using Asklepios.Application.Services.Patients;
@@ -8,6 +9,7 @@ using Asklepios.Core.DTO.Patients;
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
 using UpdateDischargeStatus = Asklepios.Application.Commands.Discharges.UpdateDischargeStatus;
 
 namespace Asklepios.Api.Controllers.Patients;
@@ -201,4 +203,28 @@ public class DischargesController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<DischargeItemDto>>> GetAllDischarges([FromQuery] GetAllDischarges query)
         => Ok(await _getAllDischarges.HandlerAsync(query));
+    
+    [Authorize(Roles = "Admin, Doctor")]
+    [HttpGet("{dischargeId:guid}/dischargePDF")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetDischargePdf(Guid dischargeId)
+    {
+        var discharge = await _getDischargeByIdHandler.HandlerAsync(new GetDischargeById
+        {
+            DischargeId = dischargeId
+        });
+
+        if (discharge is null)
+        {
+            return NotFound($"Nie znaleziono wypisu o ID: {dischargeId}");
+        }
+        
+        var document = new DischargePdfDocument(discharge);
+        var pdfBytes = document.GeneratePdf();
+        
+        return File(pdfBytes, "application/pdf", $"Wypis-{discharge.PatientName} {discharge.PatientSurname}.pdf");
+    }
 }

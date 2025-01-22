@@ -2,9 +2,9 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="6">
-        <v-card class="pa-5 elevation-10" color="#212121">
+        <v-card class="pa-5 elevation-10" color="#FFFFFF">
           <v-card-title>
-            <h2 class="headline white--text">Wypis pacjenta ze szpitala</h2>
+            <h2 class="headline" style="color: black;">Wypis pacjenta ze szpitala</h2>
           </v-card-title>
           <v-card-subtitle class="mb-4 grey--text">Dane pacjenta:</v-card-subtitle>
 
@@ -107,9 +107,6 @@ import { useToast } from 'vue-toastification';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
 import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const dischargeStore = useDischargeStore();
 const toast = useToast();
@@ -231,7 +228,7 @@ const generatePDF = () => {
     },
   };
 
-  const pdfFileName = `${patientName}_${patientSurname}_wypis.pdf`;
+  const pdfFileName = `${patientName} ${patientSurname} - Wypis.pdf`;
 
   pdfMake.createPdf(docDefinition).download(pdfFileName);
 };

@@ -50,12 +50,25 @@
                     </v-col>
                     <v-col cols="12">
                       <div class="d-flex">
+                        <v-btn
+                          @click="redirectToAddComment(appointment.appointmentId)"
+                          color="green"
+                          dark
+                          class="mr-2">
+                          Dodaj komentarz
+                        </v-btn>
+                        <v-btn
+                          @click="redirectToDisplayComment(appointment.appointmentId)"
+                          color="orange"
+                          dark
+                          class="mr-2">
+                          Wyświetl komentarz
+                        </v-btn>
                         <div v-if="!editingStatus[appointment.appointmentId]">
                           <v-btn @click="toggleEditStatus(appointment.appointmentId)" color="blue" dark class="mr-2">
                             Zmień status
                           </v-btn>
                         </div>
-
                         <div v-if="editingStatus[appointment.appointmentId]" class="d-flex align-center mr-2">
                           <v-select
                             v-model="appointment.status"
@@ -72,7 +85,6 @@
                             Anuluj
                           </v-btn>
                         </div>
-
                         <v-btn @click="deleteAppointment(appointment.appointmentId)" color="red" dark>
                           Usuń
                         </v-btn>
@@ -99,6 +111,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useClinicAppointmentsStore } from '@/stores/clinicAppointmentStore';
 
 const store = useClinicAppointmentsStore();
@@ -109,6 +122,16 @@ const searched = ref(false);
 
 const editingStatus = ref<{ [key: string]: boolean }>({});
 const originalStatuses = ref<{ [key: string]: string }>({});
+
+const router = useRouter();
+
+const redirectToAddComment = (appointmentId) => {
+  router.push({ name: 'AppointmentComment', params: { id: appointmentId } });
+};
+
+const redirectToDisplayComment = (appointmentId) => {
+  router.push({ name: 'AppointmentCommentCard', params: { id: appointmentId } });
+};
 
 const statusOptions = ref([
   { text: 'Potwierdzone', value: 'Scheduled' },

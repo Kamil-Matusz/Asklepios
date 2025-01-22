@@ -40,8 +40,8 @@ export const usePatientStore = defineStore('patientsStore', () => {
     totalItems.value = data.length;
   }
 
-  async function dispatchGetDoctorPatients(pagination: PaginationParams) {
-    const { data } = await API.patients.getAllPatientsByDoctor(pagination);
+  async function dispatchGetDoctorPatients(pagination: PaginationParams, isDischarged?: boolean) {
+    const { data } = await API.patients.getAllPatientsByDoctor(pagination, isDischarged);
     patients.value = data;
     totalItems.value = data.length;
   }

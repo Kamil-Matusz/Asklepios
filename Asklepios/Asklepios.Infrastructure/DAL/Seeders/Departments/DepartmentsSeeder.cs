@@ -9,12 +9,12 @@ public class DepartmentsSeeder : IOrderedSeeder
     
     public async Task SeedAsync(AsklepiosDbContext dbContext)
     {
-        var departments = dbContext.Departments.ToList();
+        var departments = dbContext.Departments.AsQueryable();
         if (!departments.Any())
         {
             var newDepartments = new List<Department>()
             {
-                new Department(Guid.Parse("2a9f1b22-1854-43f2-a30b-c34d3d70f2c9"), "Kardiologia", 50, 0),
+                new Department(Guid.Parse("2a9f1b22-1854-43f2-a30b-c34d3d70f2c9"), "Kardiologia", 50, 2),
                 new Department(Guid.Parse("b09e2452-867a-41ea-9b95-b00232329e77"), "Chirurgia Ogólna", 50, 0),
                 new Department(Guid.Parse("58433a0b-157b-4136-93f7-680fe7c27601"), "Chirurgia Ortopedyczna", 50, 0),
                 new Department(Guid.Parse("cd77e1b0-caf8-4be1-8edd-6e9793a4b474"), "Położnictwo i ginekologia", 50, 0),

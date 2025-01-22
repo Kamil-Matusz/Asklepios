@@ -98,21 +98,21 @@ onMounted(async () => {
                 no-data-text="Brak badań"
                 prepend-icon="mdi mdi-head-plus"
               ></v-select>
-              <v-text-field
+              <v-textarea
                 v-model="form.result"
                 label="Wynik"
                 :rules="resultRules"
                 required
                 prepend-icon="mdi mdi-head-plus"
-              ></v-text-field>
-              <v-text-field
+              ></v-textarea>
+              <v-textarea
                 v-model="form.comment"
                 label="Komentarz"
                 prepend-icon="mdi mdi-comment"
-              ></v-text-field>
+              ></v-textarea>
               <v-text-field
                 v-model="form.date"
-                label="Data operacji"
+                label="Data badania"
                 type="date"
                 prepend-icon="mdi-calendar"
                 required

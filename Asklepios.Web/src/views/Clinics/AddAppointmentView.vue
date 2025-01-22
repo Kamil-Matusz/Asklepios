@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Dodaj nową wizytę">
+  <BasePage title="Zapisz pacjenta na nową wizytę">
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">
@@ -95,7 +95,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="green" @click="createAppointment" :disabled="!isFormValid">Dodaj spotkanie</v-btn>
-              <v-btn color="secondary" @click="navigateBack">Anuluj</v-btn>
+              <v-btn color="red" @click="navigateBack">Anuluj</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -139,6 +139,7 @@ const appointmentTypes = ref([
 const doctors = ref([
   { text: 'Kamil Matusz', value: 'e582299d-1a49-4d7b-8e36-eadb449dd209' },
   { text: 'Miłosz Michalski', value: 'e582299d-1a49-4d7b-8e36-eadb449dd212' },
+  { text: 'Andrzej Kowalski', value: '91beb922-480f-4ec5-9565-0f5b548b4edf' }
 ]);
 const requiredRule = [(v: string) => !!v || 'Pole wymagane'];
 

@@ -35,7 +35,7 @@
             <v-card-text>
               <div>Oddział: {{ nurse.departmentName }}</div>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions v-if="user && (getUserRole() === 'Admin' || getUserRole() === 'IT Employee')">
               <v-btn color="primary" text @click="goToEdit(nurse.nurseId)">Edytuj</v-btn>
               <v-btn color="red" text @click="deleteNurse(nurse.nurseId)">Usuń</v-btn>
             </v-card-actions>
@@ -158,7 +158,6 @@ const getUsers = async () => {
       userId: user.userId
     }));
   } catch (error) {
-    console.error('Error fetching users:', error);
     toast.error('Wystąpił problem podczas pobierania uzytkownikow');
   }
 };
