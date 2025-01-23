@@ -5,6 +5,7 @@ using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.Events;
+using Asklepios.Infrastructure.Redis;
 using Asklepios.Infrastructure.Security;
 using Convey;
 using Convey.CQRS.Events;
@@ -29,7 +30,11 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
         
+        // PostgreSQL
         services.AddPostgres(configuration);
+        
+        // Redis
+        services.AddRedis(configuration);
         
         // CORS
         services.AddCors(cors =>

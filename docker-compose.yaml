@@ -33,6 +33,15 @@ services:
     volumes:
       - seq-data:/data
 
+  redis:
+    image: redis:7
+    container_name: asklepios_redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+
   asklepios-api:
     build:
       context: .
@@ -49,6 +58,7 @@ services:
       - postgres
       - rabbitmq
       - seq
+      - redis
 
   asklepios-web:
     build:
@@ -65,4 +75,6 @@ volumes:
   postgres:
     driver: local
   seq-data:
+    driver: local
+  redis-data:
     driver: local
