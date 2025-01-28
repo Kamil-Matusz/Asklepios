@@ -1,7 +1,7 @@
 # Asklepios
 A system supporting and offering support for medical facilities.It is a complete system that allows you to control and support medical facilities in everyday activities such as: treating patients, system management, performing tests, etc. It is a full-stack application using .Net on the backend and a GUI created using Vue and Tyepscript.
 
-##
+## Instalator
 Short version of the installation file: **Instalator.md**
 
 ## Stach & Technologies:
