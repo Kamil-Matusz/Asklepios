@@ -33,6 +33,15 @@ Aplikacja została zaprojektowana tak, aby automatycznie tworzyć strukturę baz
 - **Tworzą wszystkie wymagane tabele** w bazie danych.
 - **Dodają przykładowe dane** (seed data), ułatwiając testowanie i pierwsze uruchomienie aplikacji.
 
+### Konfiguracja SendGrid
+Aby aktywować tę funkcję, należy w pliku `secret.json` ustawić odpowiednią opcję:
+
+```json
+"sendgrid": {
+    "keySensGrid": ""
+  }
+```
+
 ### Konfiguracja seedowania
 Aby aktywować tę funkcję, należy w pliku `appsettings.json` ustawić odpowiednią opcję:
 
