@@ -9,7 +9,7 @@ Aplikacja została w pełni **skonteneryzowana** przy użyciu platformy **Docker
 ## Sposób uruchamiania
 1. Upewnij się, że masz zainstalowanego Dockera oraz Docker Compose.
 2. Skopiuj repozytorium projektu.
-3. W katalogu Asklepios -> Asklepios.Api -> Properties -> secret.json ustaw klucz SendGrid
+3. W katalogu Asklepios -> Asklepios.Api -> appsettings.json ustaw klucz SendGrid
 4. W katalogu głównym projektu uruchom:
    ```bash
    docker-compose up --build
@@ -34,7 +34,7 @@ Aplikacja została zaprojektowana tak, aby automatycznie tworzyć strukturę baz
 - **Dodają przykładowe dane** (seed data), ułatwiając testowanie i pierwsze uruchomienie aplikacji.
 
 ### Konfiguracja SendGrid
-Aby aktywować tę funkcję, należy w pliku `secret.json` ustawić odpowiednią opcję:
+Aby aktywować tę funkcję, należy w pliku `appsettings.json` ustawić odpowiednią opcję:
 
 ```json
 "sendgrid": {
