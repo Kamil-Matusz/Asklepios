@@ -19,7 +19,7 @@ public static class Extensions
             options.InstanceName = redisOptions.InstanceName;
         });
 
-        services.AddScoped<IRedisSummaryRepository, RedisSummaryRepository>();
+        services.AddScoped<ISummaryCacheRepository, SummaryCacheRepository>();
         services.AddScoped<IStatisticsCacheRepository, StatisticsCacheRepository>();
 
         return services;

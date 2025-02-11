@@ -2,7 +2,7 @@ using Asklepios.Core.Views;
 
 namespace Asklepios.Core.Repositories.Statistics;
 
-public interface IRedisSummaryRepository
+public interface ISummaryCacheRepository
 {
     Task<List<MonthlyDischargeSummary>?> GetMonthlyDischargesAsync();
     Task<List<MonthlyAdmissionSummary>?> GetMonthlyAdmissionsAsync();

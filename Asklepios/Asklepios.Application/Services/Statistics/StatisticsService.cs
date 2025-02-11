@@ -1,4 +1,5 @@
 using Asklepios.Core.DTO.Statistics;
+using Asklepios.Core.Exceptions.Statistics;
 using Asklepios.Core.Repositories.Statistics;
 
 namespace Asklepios.Application.Services.Statistics;
@@ -23,7 +24,7 @@ public class StatisticsService : IStatisticsService
         var departmentStats = await _statisticsRepository.GetDepartmentStatsAsync(departmentId);
         if (departmentStats == null || !departmentStats.Any())
         {
-            throw new Exception("Nie znaleziono oddziału.");
+            throw new StatsException("Not found any departments.");
         }
 
         var result = departmentStats.First();
@@ -40,7 +41,7 @@ public class StatisticsService : IStatisticsService
         var allDepartmentStats = await _statisticsRepository.GetAllDepartmentStatsAsync();
         if (allDepartmentStats == null)
         {
-            throw new Exception("Brak statystyk.");
+            throw new StatsException("No statistics.");
         }
 
         await _statisticsCacheRepository.SetAllDepartmentStatsAsync(allDepartmentStats);

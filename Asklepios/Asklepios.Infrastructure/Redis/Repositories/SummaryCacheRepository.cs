@@ -5,12 +5,12 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Asklepios.Infrastructure.Redis.Repositories;
 
-public class RedisSummaryRepository : IRedisSummaryRepository
+public class SummaryCacheRepository : ISummaryCacheRepository
 {
     private readonly IDistributedCache _cache;
     private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(5);
 
-    public RedisSummaryRepository(IDistributedCache cache)
+    public SummaryCacheRepository(IDistributedCache cache)
     {
         _cache = cache;
     }
