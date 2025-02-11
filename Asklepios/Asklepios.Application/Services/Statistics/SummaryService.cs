@@ -8,75 +8,45 @@ namespace Asklepios.Application.Services.Statistics;
 public class SummaryService : ISummaryService
 {
     private readonly ISummaryRepository _summaryRepository;
-    private readonly IDistributedCache _cache;
-    private readonly DistributedCacheEntryOptions _cacheOptions;
+    private readonly IRedisSummaryRepository _redisSummaryRepository;
+    
 
-    public SummaryService(
-        ISummaryRepository summaryRepository,
-        IDistributedCache cache)
+    public SummaryService(ISummaryRepository summaryRepository, IRedisSummaryRepository redisSummaryRepository)
     {
         _summaryRepository = summaryRepository;
-        _cache = cache;
-        _cacheOptions = new DistributedCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
-        };
+        _redisSummaryRepository = redisSummaryRepository;
     }
 
     public async Task<List<MonthlyDischargeSummary>> GetMonthlyDischargesAsync()
     {
-        var cacheKey = "Asklepios_MonthlyDischarges";
-        var cachedData = await _cache.GetStringAsync(cacheKey);
+        var cachedDischarges = await _redisSummaryRepository.GetMonthlyDischargesAsync();
+        if (cachedDischarges != null)
+            return cachedDischarges;
 
-        if (cachedData != null)
-        {
-            return JsonSerializer.Deserialize<List<MonthlyDischargeSummary>>(cachedData);
-        }
-
-        var data = await _summaryRepository.GetMonthlyDischargesAsync();
-        await _cache.SetStringAsync(
-            cacheKey,
-            JsonSerializer.Serialize(data),
-            _cacheOptions);
-
-        return data;
+        var discharges = await _summaryRepository.GetMonthlyDischargesAsync();
+        await _redisSummaryRepository.SetMonthlyDischargesAsync(discharges);
+        return discharges;
     }
     
     public async Task<List<MonthlyAdmissionSummary>> GetMonthlyAdmissionsAsync()
     {
-        var cacheKey = "Asklepios_MonthlyAdmissions";
-        var cachedData = await _cache.GetStringAsync(cacheKey);
+        var cachedAddmissions = await _redisSummaryRepository.GetMonthlyAdmissionsAsync();
+        if (cachedAddmissions != null)
+            return cachedAddmissions;
 
-        if (cachedData != null)
-        {
-            return JsonSerializer.Deserialize<List<MonthlyAdmissionSummary>>(cachedData);
-        }
-
-        var data = await _summaryRepository.GetMonthlyAdmissionsAsync();
-        await _cache.SetStringAsync(
-            cacheKey,
-            JsonSerializer.Serialize(data),
-            _cacheOptions);
-
-        return data;
+        var admissions = await _summaryRepository.GetMonthlyAdmissionsAsync();
+        await _redisSummaryRepository.SetMonthlyAdmissionsAsync(admissions);
+        return admissions;
     }
 
     public async Task<List<MonthlyDischargeSummary>> GetMonthlyDischargesForYearAsync(int year)
     {
-        var cacheKey = $"Asklepios_MonthlyDischarges_{year}";
-        var cachedData = await _cache.GetStringAsync(cacheKey);
+        var cachedDischarges = await _redisSummaryRepository.GetMonthlyDischargesForYearAsync(year);
+        if (cachedDischarges != null)
+            return cachedDischarges;
 
-        if (cachedData != null)
-        {
-            return JsonSerializer.Deserialize<List<MonthlyDischargeSummary>>(cachedData);
-        }
-
-        var data = await _summaryRepository.GetMonthlyDischargesForYearAsync(year);
-        await _cache.SetStringAsync(
-            cacheKey,
-            JsonSerializer.Serialize(data),
-            _cacheOptions);
-
-        return data;
+        var discharges = await _summaryRepository.GetMonthlyDischargesForYearAsync(year);
+        await _redisSummaryRepository.SetMonthlyDischargesForYearAsync(year, discharges);
+        return discharges;
     }
 }

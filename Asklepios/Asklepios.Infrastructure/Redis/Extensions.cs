@@ -1,3 +1,5 @@
+using Asklepios.Core.Repositories.Statistics;
+using Asklepios.Infrastructure.Redis.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,9 @@ public static class Extensions
             options.Configuration = redisOptions.ConnectionString;
             options.InstanceName = redisOptions.InstanceName;
         });
+
+        services.AddScoped<IRedisSummaryRepository, RedisSummaryRepository>();
+        services.AddScoped<IStatisticsCacheRepository, StatisticsCacheRepository>();
 
         return services;
     }
