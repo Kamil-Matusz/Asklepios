@@ -1,4 +1,5 @@
 using Asklepios.Core.Repositories.Statistics;
+using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.Redis.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ public static class Extensions
 
         services.AddScoped<ISummaryCacheRepository, SummaryCacheRepository>();
         services.AddScoped<IStatisticsCacheRepository, StatisticsCacheRepository>();
+        services.AddScoped<IAccountCacheRepository, AccountCacheRepository>();
 
         return services;
     }
