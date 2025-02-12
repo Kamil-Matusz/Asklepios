@@ -15,7 +15,7 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object);
+        var roomService = new RoomService(roomRepositoryMock.Object, null);
 
         var roomDto = new RoomDto
         {
@@ -38,7 +38,7 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object);
+        var roomService = new RoomService(roomRepositoryMock.Object, null);
 
         var roomId = Guid.NewGuid();
         var room = new Room
@@ -73,7 +73,7 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object);
+        var roomService = new RoomService(roomRepositoryMock.Object, null);
 
         var roomId = Guid.NewGuid();
         var room = new Room
@@ -111,7 +111,7 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object);
+        var roomService = new RoomService(roomRepositoryMock.Object, null);
 
         var roomId = Guid.NewGuid();
         var room = new Room { RoomId = roomId };
@@ -130,7 +130,7 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object);
+        var roomService = new RoomService(roomRepositoryMock.Object, null);
 
         var roomId = Guid.NewGuid();
 

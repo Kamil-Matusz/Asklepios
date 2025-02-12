@@ -17,7 +17,7 @@ public class DepartmentServiceTests
         // Arrange
         var departmentRepositoryMock = new Mock<IDepartmentRepository>();
         var departmentId = Guid.NewGuid();
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         departmentRepositoryMock.Setup(dr => dr.GetDepartmentByIdAsync(departmentId))
             .ReturnsAsync((Department)null);
@@ -40,7 +40,7 @@ public class DepartmentServiceTests
         departmentDeletePolicyMock.Setup(dp => dp.CannotDeleteDepartmentPolicy(department))
             .ReturnsAsync(true);
 
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, departmentDeletePolicyMock.Object);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, departmentDeletePolicyMock.Object, null);
 
         // Act
         await departmentService.DeleteDepartmentAsync(departmentId);
@@ -54,7 +54,7 @@ public class DepartmentServiceTests
     {
         // Arrange
         var departmentRepositoryMock = new Mock<IDepartmentRepository>();
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         var departmentDto = new DepartmentDto
         {
@@ -100,7 +100,7 @@ public class DepartmentServiceTests
         departmentRepositoryMock.Setup(dr => dr.GetDepartmentByIdAsync(departmentId))
             .ReturnsAsync(department);
 
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         // Act
         var result = await departmentService.GetDepartmentAsync(departmentId);
@@ -126,7 +126,7 @@ public class DepartmentServiceTests
         departmentRepositoryMock.Setup(dr => dr.GetDepartmentByIdAsync(departmentId))
             .ReturnsAsync(department);
 
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         var departmentDto = new DepartmentDetailsDto
         {
@@ -154,7 +154,7 @@ public class DepartmentServiceTests
         departmentRepositoryMock.Setup(dr => dr.GetDepartmentByIdAsync(departmentId))
             .ReturnsAsync((Department)null);
 
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         var departmentDto = new DepartmentDetailsDto
         {
@@ -172,7 +172,7 @@ public class DepartmentServiceTests
     {
         // Arrange
         var departmentRepositoryMock = new Mock<IDepartmentRepository>();
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null);
+        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
 
         var departments = new List<Department>
         {
