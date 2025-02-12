@@ -3,7 +3,7 @@ using Asklepios.Core.DTO.Statistics;
 using Asklepios.Core.Repositories.Statistics;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Asklepios.Infrastructure.Redis.Repositories;
+namespace Asklepios.Infrastructure.Redis.Repositories.Statistics;
 
 public class StatisticsCacheRepository : IStatisticsCacheRepository
 {

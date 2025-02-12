@@ -42,5 +42,10 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Asklepios.IntegrationTests" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Redis\Repositories\Clinics\" />
+      <Folder Include="Redis\Repositories\Examinations\" />
+    </ItemGroup>
 
 </Project>

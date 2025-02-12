@@ -1,6 +1,8 @@
 using Asklepios.Core.Repositories.Statistics;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.Redis.Repositories;
+using Asklepios.Infrastructure.Redis.Repositories.Statistics;
+using Asklepios.Infrastructure.Redis.Repositories.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

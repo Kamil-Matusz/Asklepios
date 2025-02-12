@@ -3,7 +3,7 @@ using Asklepios.Core.Repositories.Statistics;
 using Asklepios.Core.Views;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Asklepios.Infrastructure.Redis.Repositories;
+namespace Asklepios.Infrastructure.Redis.Repositories.Statistics;
 
 public class SummaryCacheRepository : ISummaryCacheRepository
 {

@@ -3,7 +3,7 @@ using Asklepios.Core.DTO.Users;
 using Asklepios.Core.Repositories.Users;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Asklepios.Infrastructure.Redis.Repositories;
+namespace Asklepios.Infrastructure.Redis.Repositories.Users;
 
 public class AccountCacheRepository : IAccountCacheRepository
 {

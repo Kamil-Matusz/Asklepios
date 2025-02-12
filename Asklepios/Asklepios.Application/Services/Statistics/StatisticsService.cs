@@ -7,44 +7,31 @@ namespace Asklepios.Application.Services.Statistics;
 public class StatisticsService : IStatisticsService
 {
     private readonly IStatisticsRepository _statisticsRepository;
-    private readonly IStatisticsCacheRepository _statisticsCacheRepository;
 
-    public StatisticsService(IStatisticsRepository statisticsRepository, IStatisticsCacheRepository statisticsCacheRepository)
+    public StatisticsService(IStatisticsRepository statisticsRepository)
     {
         _statisticsRepository = statisticsRepository;
-        _statisticsCacheRepository = statisticsCacheRepository;
     }
 
     public async Task<DepartmentStatsDto> GetDepartmentStatsAsync(Guid departmentId)
     {
-        var cachedData = await _statisticsCacheRepository.GetDepartmentStatsAsync(departmentId);
-        if (cachedData != null)
-            return cachedData;
-
         var departmentStats = await _statisticsRepository.GetDepartmentStatsAsync(departmentId);
         if (departmentStats == null || !departmentStats.Any())
         {
-            throw new StatsException("Not found any departments.");
+            throw new Exception("Nie znaleziono oddziału.");
         }
-
-        var result = departmentStats.First();
-        await _statisticsCacheRepository.SetDepartmentStatsAsync(departmentId, result);
-        return result;
+        
+        return departmentStats.First();
     }
 
     public async Task<DepartmentStatsDto> GetAllDepartmentStatsAsync()
     {
-        var cachedData = await _statisticsCacheRepository.GetAllDepartmentStatsAsync();
-        if (cachedData != null)
-            return cachedData;
-
         var allDepartmentStats = await _statisticsRepository.GetAllDepartmentStatsAsync();
         if (allDepartmentStats == null)
         {
-            throw new StatsException("No statistics.");
+            throw new Exception("Brak statystyk.");
         }
 
-        await _statisticsCacheRepository.SetAllDepartmentStatsAsync(allDepartmentStats);
         return allDepartmentStats;
     }
 
@@ -52,35 +39,11 @@ public class StatisticsService : IStatisticsService
         => await _statisticsRepository.GetTotalPatientsCountAsync();
 
     public async Task<int> GetTotalDepartmentsCountAsync()
-    {
-        var cachedData = await _statisticsCacheRepository.GetTotalDepartmentsCountAsync();
-        if (cachedData.HasValue)
-            return cachedData.Value;
-
-        var count = await _statisticsRepository.GetTotalDepartmentsCountAsync();
-        await _statisticsCacheRepository.SetTotalDepartmentsCountAsync(count);
-        return count;
-    }
+        => await _statisticsRepository.GetTotalDepartmentsCountAsync();
 
     public async Task<int> GetTotalDoctorsCountAsync()
-    {
-        var cachedData = await _statisticsCacheRepository.GetTotalDoctorsCountAsync();
-        if (cachedData.HasValue)
-            return cachedData.Value;
-
-        var count = await _statisticsRepository.GetTotalDoctorsCountAsync();
-        await _statisticsCacheRepository.SetTotalDoctorsCountAsync(count);
-        return count;
-    }
+        => await _statisticsRepository.GetTotalDoctorsCountAsync();
 
     public async Task<int> GetTotalNursesCountAsync()
-    {
-        var cachedData = await _statisticsCacheRepository.GetTotalNursesCountAsync();
-        if (cachedData.HasValue)
-            return cachedData.Value;
-
-        var count = await _statisticsRepository.GetTotalNursesCountAsync();
-        await _statisticsCacheRepository.SetTotalNursesCountAsync(count);
-        return count;
-    }
+        => await _statisticsRepository.GetTotalNursesCountAsync();
 }
