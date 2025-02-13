@@ -16,8 +16,9 @@ public class MedicalStaffServiceTests
         // Arrange
         var rolePolicyMock = new Mock<IRolePolicy>();
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
 
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, rolePolicyMock.Object);
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, rolePolicyMock.Object, medicalStaffCacheRepositoryMock.Object);
 
         var userId = Guid.NewGuid();
         var doctorDto = new MedicalStaffDto
@@ -44,8 +45,9 @@ public class MedicalStaffServiceTests
         // Arrange
         var rolePolicyMock = new Mock<IRolePolicy>();
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
 
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, rolePolicyMock.Object);
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, rolePolicyMock.Object, medicalStaffCacheRepositoryMock.Object);
 
         var userId = Guid.NewGuid();
         var doctorDto = new MedicalStaffDto
@@ -85,7 +87,8 @@ public class MedicalStaffServiceTests
     {
         // Arrange
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null);
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null, medicalStaffCacheRepositoryMock.Object);
 
         var doctorId = Guid.NewGuid();
         medicalStaffRepositoryMock.Setup(msr => msr.GetDoctorByIdAsync(doctorId)).ReturnsAsync((MedicalStaff) null);
@@ -99,7 +102,8 @@ public class MedicalStaffServiceTests
     {
         // Arrange
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null);
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null, medicalStaffCacheRepositoryMock.Object);
 
         var doctorId = Guid.NewGuid();
         var doctor = new MedicalStaff { DoctorId = doctorId };
@@ -117,7 +121,8 @@ public class MedicalStaffServiceTests
     {
         // Arrange
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null);
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null, medicalStaffCacheRepositoryMock.Object);
 
         var doctorId = Guid.NewGuid();
         medicalStaffRepositoryMock.Setup(msr => msr.GetDoctorByIdAsync(doctorId)).ReturnsAsync((MedicalStaff)null); // Symulujemy brak lekarza w repozytorium
@@ -142,7 +147,8 @@ public class MedicalStaffServiceTests
     {
         // Arrange
         var medicalStaffRepositoryMock = new Mock<IMedicalStaffRepository>();
-        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null);
+        var medicalStaffCacheRepositoryMock = new Mock<IMedicalStaffCacheRepository>();
+        var medicalStaffService = new MedicalStaffService(medicalStaffRepositoryMock.Object, null, medicalStaffCacheRepositoryMock.Object);
 
         var doctorId = Guid.NewGuid();
         var doctor = new MedicalStaff { DoctorId = doctorId };
