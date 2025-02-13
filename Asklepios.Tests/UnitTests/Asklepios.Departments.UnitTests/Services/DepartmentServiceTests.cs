@@ -169,28 +169,48 @@ public class DepartmentServiceTests
     
     [Fact]
     public async Task GetAllDepartmentsAsync_ShouldReturnPagedDepartmentList()
+{
+    // Arrange
+    var departmentRepositoryMock = new Mock<IDepartmentRepository>();
+    var departmentCacheRepositoryMock = new Mock<IDepartmentCacheRepository>();
+
+    var departmentService = new DepartmentService(departmentRepositoryMock.Object, null,departmentCacheRepositoryMock.Object);
+
+    var departments = new List<Department>
     {
-        // Arrange
-        var departmentRepositoryMock = new Mock<IDepartmentRepository>();
-        var departmentService = new DepartmentService(departmentRepositoryMock.Object, null, null);
+        new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Cardiology", NumberOfBeds = 50, ActualNumberOfPatients = 45 },
+        new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Oncology", NumberOfBeds = 60, ActualNumberOfPatients = 55 }
+    };
 
-        var departments = new List<Department>
-        {
-            new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Cardiology", NumberOfBeds = 50, ActualNumberOfPatients = 45 },
-            new Department { DepartmentId = Guid.NewGuid(), DepartmentName = "Oncology", NumberOfBeds = 60, ActualNumberOfPatients = 55 }
-        };
+    var departmentDtos = departments.Select(d => new DepartmentListDto
+    {
+        DepartmentId = d.DepartmentId,
+        DepartmentName = d.DepartmentName,
+        NumberOfBeds = d.NumberOfBeds,
+        ActualNumberOfPatients = d.ActualNumberOfPatients
+    }).ToList();
 
-        departmentRepositoryMock.Setup(dr => dr.GetAllDepartmentsAsync(0, 10))
-            .ReturnsAsync(departments);
+    int pageIndex = 0, pageSize = 10;
+    departmentCacheRepositoryMock.Setup(cr => cr.GetDepartmentsAsync(pageIndex, pageSize))
+        .ReturnsAsync((IReadOnlyList<DepartmentListDto>?)null);
 
-        // Act
-        var result = await departmentService.GetAllDepartmentsAsync(0, 10);
+    departmentRepositoryMock.Setup(dr => dr.GetAllDepartmentsAsync(pageIndex, pageSize))
+        .ReturnsAsync(departments);
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(2, result.Count);
-        Assert.Equal("Cardiology", result[0].DepartmentName);
-        Assert.Equal("Oncology", result[1].DepartmentName);
-        departmentRepositoryMock.Verify(dr => dr.GetAllDepartmentsAsync(0, 10), Times.Once);
+    departmentCacheRepositoryMock.Setup(cr => cr.SetDepartmentsAsync(pageIndex, pageSize, It.IsAny<IReadOnlyList<DepartmentListDto>>()))
+        .Returns(Task.CompletedTask);
+
+    // Act
+    var result = await departmentService.GetAllDepartmentsAsync(pageIndex, pageSize);
+
+    // Assert
+    Assert.NotNull(result);
+    Assert.Equal(2, result.Count);
+    Assert.Equal("Cardiology", result[0].DepartmentName);
+    Assert.Equal("Oncology", result[1].DepartmentName);
+    
+    departmentCacheRepositoryMock.Verify(cr => cr.GetDepartmentsAsync(pageIndex, pageSize), Times.Once);
+    departmentRepositoryMock.Verify(dr => dr.GetAllDepartmentsAsync(pageIndex, pageSize), Times.Once);
+    departmentCacheRepositoryMock.Verify(cr => cr.SetDepartmentsAsync(pageIndex, pageSize, It.IsAny<IReadOnlyList<DepartmentListDto>>()), Times.Once);
     }
 }

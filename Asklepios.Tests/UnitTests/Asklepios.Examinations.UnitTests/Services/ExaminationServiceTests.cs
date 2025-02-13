@@ -15,8 +15,9 @@ public class ExaminationServiceTests
     {
         // Arrange
         var examinationRepositoryMock = new Mock<IExaminationRepository>();
+        var examinationCacheRepositoryMock = new Mock<IExaminationCacheRepository>();
 
-        var examService = new ExaminationService(examinationRepositoryMock.Object);
+        var examService = new ExaminationService(examinationRepositoryMock.Object, examinationCacheRepositoryMock.Object);
         
         var examDto = new ExaminationDto()
         {
@@ -37,8 +38,9 @@ public class ExaminationServiceTests
     {
         // Arrange
         var examinationRepositoryMock = new Mock<IExaminationRepository>();
+        var examinationCacheRepositoryMock = new Mock<IExaminationCacheRepository>();
 
-        var examService = new ExaminationService(examinationRepositoryMock.Object);
+        var examService = new ExaminationService(examinationRepositoryMock.Object, examinationCacheRepositoryMock.Object);
         var examId = 1;
 
         examinationRepositoryMock.Setup(nr => nr.GetExaminationByIdAsync(examId)).ReturnsAsync((Examination) null);
@@ -52,8 +54,9 @@ public class ExaminationServiceTests
     {
         // Arrange
         var examinationRepositoryMock = new Mock<IExaminationRepository>();
+        var examinationCacheRepositoryMock = new Mock<IExaminationCacheRepository>();
 
-        var examService = new ExaminationService(examinationRepositoryMock.Object);
+        var examService = new ExaminationService(examinationRepositoryMock.Object, examinationCacheRepositoryMock.Object);
 
         var examId = 1;
         var exam = new Examination { ExaminationId = examId };
@@ -71,7 +74,9 @@ public class ExaminationServiceTests
     {
         // Arrange
         var examRepositoryMock = new Mock<IExaminationRepository>();
-        var examService = new ExaminationService(examRepositoryMock.Object);
+        var examinationCacheRepositoryMock = new Mock<IExaminationCacheRepository>();
+        
+        var examService = new ExaminationService(examRepositoryMock.Object, examinationCacheRepositoryMock.Object);
         
         examRepositoryMock.Setup(nr => nr.GetAllExaminationsAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Examination>());
         
@@ -87,9 +92,10 @@ public class ExaminationServiceTests
     {
         // Arrange
         var examinationRepositoryMock = new Mock<IExaminationRepository>();
+        var examinationCacheRepositoryMock = new Mock<IExaminationCacheRepository>();
         var examId = 1;
 
-        var examService = new ExaminationService(examinationRepositoryMock.Object);
+        var examService = new ExaminationService(examinationRepositoryMock.Object, examinationCacheRepositoryMock.Object);
         
         var exam = new Examination { ExaminationId = examId };
         examinationRepositoryMock.Setup(msr => msr.GetExaminationByIdAsync(examId)).ReturnsAsync(exam);

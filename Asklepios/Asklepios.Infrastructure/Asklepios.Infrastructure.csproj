@@ -45,7 +45,6 @@
     
     <ItemGroup>
       <Folder Include="Redis\Repositories\Clinics\" />
-      <Folder Include="Redis\Repositories\Examinations\" />
     </ItemGroup>
 
 </Project>

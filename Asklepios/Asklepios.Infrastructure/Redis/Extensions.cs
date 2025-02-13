@@ -1,8 +1,10 @@
 using Asklepios.Core.Repositories.Departments;
+using Asklepios.Core.Repositories.Examinations;
 using Asklepios.Core.Repositories.Statistics;
 using Asklepios.Core.Repositories.Users;
 using Asklepios.Infrastructure.Redis.Repositories;
 using Asklepios.Infrastructure.Redis.Repositories.Departments;
+using Asklepios.Infrastructure.Redis.Repositories.Examinations;
 using Asklepios.Infrastructure.Redis.Repositories.Statistics;
 using Asklepios.Infrastructure.Redis.Repositories.Users;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +29,10 @@ public static class Extensions
         services.AddScoped<ISummaryCacheRepository, SummaryCacheRepository>();
         services.AddScoped<IStatisticsCacheRepository, StatisticsCacheRepository>();
         services.AddScoped<IAccountCacheRepository, AccountCacheRepository>();
+        services.AddScoped<IMedicalStaffCacheRepository, MedicalStaffCacheRepository>();
         services.AddScoped<IDepartmentCacheRepository, DepartmentCacheRepository>();
         services.AddScoped<IRoomCacheRepository, RoomCacheRepository>();
+        services.AddScoped<IExaminationCacheRepository, ExaminationCacheRepository>();
 
         return services;
     }
