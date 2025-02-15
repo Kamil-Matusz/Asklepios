@@ -101,7 +101,8 @@ public static class Extensions
             .Build();
 
         services.AddEvents();
-
+        
+        // SignalR
         services.AddSignalR();
         
         return services;
@@ -123,7 +124,6 @@ public static class Extensions
         app.UseRouting();
         
         app.UseHealthChecksUI(config => config.UIPath = "/health-ui");
-
         app.UseHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
