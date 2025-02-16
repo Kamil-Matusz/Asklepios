@@ -123,7 +123,7 @@ public static class Extensions
         
         app.UseRouting();
         
-        app.UseHealthChecksUI(config => config.UIPath = "/health-ui");
+        app.UseHealthChecksUI(config => config.UIPath = "/healthCheck");
         app.UseHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse

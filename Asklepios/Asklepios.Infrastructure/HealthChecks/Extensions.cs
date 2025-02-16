@@ -25,7 +25,8 @@ public static class Extensions
             .AddRedis(
                 redisConnectionString: redisOptions.ConnectionString,
                 name: "Redis",
-                failureStatus: HealthStatus.Degraded);
+                failureStatus: HealthStatus.Degraded)
+            .AddCheck<SignalRHealthCheck>("SignalR");
 
         services.AddHealthChecksUI()
             .AddInMemoryStorage();
