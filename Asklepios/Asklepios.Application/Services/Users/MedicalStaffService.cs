@@ -69,8 +69,15 @@ public class MedicalStaffService : IMedicalStaffService
 
     public async Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize)
     {
+        var cachedDoctors = await _medicalStaffCacheRepository.GetMedicalStaffAsync(pageIndex, pageSize);
+        if (cachedDoctors != null)
+            return cachedDoctors;
+        
         var doctors = await _medicalStaffRepository.GetAllDoctorsAsync(pageIndex, pageSize);
-        return doctors.Select(MapMedicalStaffList<MedicalStaffListDto>).ToList();
+        var doctorDtos =  doctors.Select(MapMedicalStaffList<MedicalStaffListDto>).ToList();
+
+        await _medicalStaffCacheRepository.SetMedicalStaffAsync(pageIndex, pageSize, doctorDtos);
+        return doctorDtos;
     }
 
     public async Task UpdateDoctorAsync(MedicalStaffDto dto)

@@ -30,6 +30,7 @@ public static class Extensions
         services.AddScoped<IStatisticsCacheRepository, StatisticsCacheRepository>();
         services.AddScoped<IAccountCacheRepository, AccountCacheRepository>();
         services.AddScoped<IMedicalStaffCacheRepository, MedicalStaffCacheRepository>();
+        services.AddScoped<INurseCacheRepository, NurseCacheRepository>();
         services.AddScoped<IDepartmentCacheRepository, DepartmentCacheRepository>();
         services.AddScoped<IRoomCacheRepository, RoomCacheRepository>();
         services.AddScoped<IExaminationCacheRepository, ExaminationCacheRepository>();

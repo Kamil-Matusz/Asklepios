@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Asklepios.Core.DTO.Clinics;
+using Asklepios.Core.DTO.Users;
 using Asklepios.Core.Repositories.Users;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -16,6 +17,8 @@ public class MedicalStaffCacheRepository : IMedicalStaffCacheRepository
     }
     
     private string GetCacheKey() => "ClinicDoctors";
+    private string GetMedicalStaffCacheKey(int pageIndex, int pageSize) 
+        => $"Asklepios_MedicalStaff_{pageIndex}_{pageSize}";
 
     public async Task<IReadOnlyList<ClinicDoctorListDto>?> GetClinicDoctorsAsync()
     {
@@ -33,5 +36,23 @@ public class MedicalStaffCacheRepository : IMedicalStaffCacheRepository
         };
         
         await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(clinicDoctors), options);
+    }
+
+    public async Task<IReadOnlyList<MedicalStaffListDto>?> GetMedicalStaffAsync(int pageIndex, int pageSize)
+    {
+        var cacheKey = GetMedicalStaffCacheKey(pageIndex, pageSize);
+        var cachedData = await _cache.GetStringAsync(cacheKey);
+        return cachedData != null ? JsonSerializer.Deserialize<IReadOnlyList<MedicalStaffListDto>>(cachedData) : null;
+    }
+
+    public async Task SetMedicalStaffAsync(int pageIndex, int pageSize, IReadOnlyList<MedicalStaffListDto> medicalStaffList)
+    {
+        var cacheKey = GetMedicalStaffCacheKey(pageIndex, pageSize);
+        var options = new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = _cacheDuration
+        };
+
+        await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(medicalStaffList), options);
     }
 }
