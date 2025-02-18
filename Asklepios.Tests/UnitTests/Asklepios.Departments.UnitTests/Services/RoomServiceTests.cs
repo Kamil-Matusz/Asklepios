@@ -15,7 +15,8 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object, null);
+        var roomCacheRepositoryMock = new Mock<IRoomCacheRepository>();
+        var roomService = new RoomService(roomRepositoryMock.Object, roomCacheRepositoryMock.Object);
 
         var roomDto = new RoomDto
         {
@@ -30,7 +31,7 @@ public class RoomServiceTests
 
         // Assert
         roomRepositoryMock.Verify(rr => rr.AddRoomAsync(It.IsAny<Room>()), Times.Once);
-        Assert.NotEqual(Guid.Empty, roomDto.RoomId);  // Ensure RoomId is generated
+        Assert.NotEqual(Guid.Empty, roomDto.RoomId);
     }
     
     [Fact]
@@ -38,7 +39,8 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object, null);
+        var roomCacheRepositoryMock = new Mock<IRoomCacheRepository>();
+        var roomService = new RoomService(roomRepositoryMock.Object, roomCacheRepositoryMock.Object);
 
         var roomId = Guid.NewGuid();
         var room = new Room
@@ -73,7 +75,8 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object, null);
+        var roomCacheRepositoryMock = new Mock<IRoomCacheRepository>();
+        var roomService = new RoomService(roomRepositoryMock.Object, roomCacheRepositoryMock.Object);
 
         var roomId = Guid.NewGuid();
         var room = new Room
@@ -111,7 +114,8 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object, null);
+        var roomCacheRepositoryMock = new Mock<IRoomCacheRepository>();
+        var roomService = new RoomService(roomRepositoryMock.Object, roomCacheRepositoryMock.Object);
 
         var roomId = Guid.NewGuid();
         var room = new Room { RoomId = roomId };
@@ -130,7 +134,8 @@ public class RoomServiceTests
     {
         // Arrange
         var roomRepositoryMock = new Mock<IRoomRepository>();
-        var roomService = new RoomService(roomRepositoryMock.Object, null);
+        var roomCacheRepositoryMock = new Mock<IRoomCacheRepository>();
+        var roomService = new RoomService(roomRepositoryMock.Object, roomCacheRepositoryMock.Object);
 
         var roomId = Guid.NewGuid();
 

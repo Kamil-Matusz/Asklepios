@@ -152,7 +152,7 @@ public class MedicalStaffServiceTests
 
         var doctorId = Guid.NewGuid();
         var doctor = new MedicalStaff { DoctorId = doctorId };
-        medicalStaffRepositoryMock.Setup(msr => msr.GetDoctorByIdAsync(doctorId)).ReturnsAsync(doctor); // Symulujemy istnienie lekarza w repozytorium
+        medicalStaffRepositoryMock.Setup(msr => msr.GetDoctorByIdAsync(doctorId)).ReturnsAsync(doctor);
 
         var doctorDto = new MedicalStaffDto
         {
