@@ -60,7 +60,7 @@ namespace Asklepios.Clinics.UnitTests.Services
 
             clinicAppointmentRepositoryMock.Verify(repo => repo.AddAppointmentAsync(It.IsAny<ClinicAppointment>()),
                 Times.Once);
-            emailServiceMock.Verify(service => service.SendEmailWithConfirmVisit(
+            emailServiceMock.Verify(service => service.SendEmailWithConfirmVisitAsync(
                 dto.Email,
                 dto.PatientName,
                 dto.PatientSurname,
