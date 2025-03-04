@@ -1,29 +1,38 @@
-name: .NET CI
+name: CI Pipeline
 
 on:
   push:
     branches:
       - main
-      - develop
+      - '**'
   pull_request:
     branches:
       - main
-      - develop
-jobs:
-  build:
+      - '**'
 
+jobs:
+  backend-build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup .NET
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
-        
+
     - name: Restore dependencies
       run: dotnet restore Asklepios.sln
-      
+
     - name: Build the project
       run: dotnet build Asklepios.sln
+
+    - name: Run tests
+      run: dotnet test Asklepios.sln
+      continue-on-error: true
+
+    - name: Post-build steps
+      if: success() || failure()
+      run: echo "Backend build and test completed"
