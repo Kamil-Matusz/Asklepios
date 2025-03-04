@@ -5,12 +5,16 @@ using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.Events;
+using Asklepios.Infrastructure.HealthChecks;
+using Asklepios.Infrastructure.Redis;
 using Asklepios.Infrastructure.Security;
 using Convey;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers.RabbitMQ;
 using Hangfire;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -29,14 +33,21 @@ public static class Extensions
             .AsImplementedInterfaces()
             .WithScopedLifetime());
         
+        // PostgreSQL
         services.AddPostgres(configuration);
+        
+        // Redis
+        services.AddRedis(configuration);
+        
+        // HealthChecks
+        services.AddHealthChecks(configuration);
         
         // CORS
         services.AddCors(cors =>
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("http://localhost:8080", "http://localhost:3000")
+                x.WithOrigins("http://localhost:8080", "http://localhost:3000", "http://localhost:5000")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
@@ -90,7 +101,8 @@ public static class Extensions
             .Build();
 
         services.AddEvents();
-
+        
+        // SignalR
         services.AddSignalR();
         
         return services;
@@ -110,6 +122,12 @@ public static class Extensions
         app.UseErrorHandling();
         
         app.UseRouting();
+        
+        app.UseHealthChecksUI(config => config.UIPath = "/healthCheck");
+        app.UseHealthChecks("/health", new HealthCheckOptions
+        {
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
         
         app.UseAuthentication();
         app.UseAuthorization();

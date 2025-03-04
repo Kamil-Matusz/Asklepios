@@ -11,11 +11,13 @@ public class MedicalStaffService : IMedicalStaffService
 {
     private readonly IMedicalStaffRepository _medicalStaffRepository;
     private readonly IRolePolicy _rolePolicy;
+    private readonly IMedicalStaffCacheRepository _medicalStaffCacheRepository;
 
-    public MedicalStaffService(IMedicalStaffRepository medicalStaffRepository, IRolePolicy rolePolicy)
+    public MedicalStaffService(IMedicalStaffRepository medicalStaffRepository, IRolePolicy rolePolicy, IMedicalStaffCacheRepository medicalStaffCacheRepository)
     {
         _medicalStaffRepository = medicalStaffRepository;
         _rolePolicy = rolePolicy;
+        _medicalStaffCacheRepository = medicalStaffCacheRepository;
     }
 
     public async Task AddDoctorAsync(MedicalStaffDto dto)
@@ -67,8 +69,15 @@ public class MedicalStaffService : IMedicalStaffService
 
     public async Task<IReadOnlyList<MedicalStaffListDto>> GetAllDoctorsAsync(int pageIndex, int pageSize)
     {
+        var cachedDoctors = await _medicalStaffCacheRepository.GetMedicalStaffAsync(pageIndex, pageSize);
+        if (cachedDoctors != null)
+            return cachedDoctors;
+        
         var doctors = await _medicalStaffRepository.GetAllDoctorsAsync(pageIndex, pageSize);
-        return doctors.Select(MapMedicalStaffList<MedicalStaffListDto>).ToList();
+        var doctorDtos =  doctors.Select(MapMedicalStaffList<MedicalStaffListDto>).ToList();
+
+        await _medicalStaffCacheRepository.SetMedicalStaffAsync(pageIndex, pageSize, doctorDtos);
+        return doctorDtos;
     }
 
     public async Task UpdateDoctorAsync(MedicalStaffDto dto)
@@ -108,8 +117,15 @@ public class MedicalStaffService : IMedicalStaffService
 
     public async Task<IReadOnlyList<ClinicDoctorListDto>> GetClinicDoctorList()
     {
+        var cachedClinicDoctors = await _medicalStaffCacheRepository.GetClinicDoctorsAsync();
+        if (cachedClinicDoctors != null)
+            return cachedClinicDoctors;
+        
         var doctors = await _medicalStaffRepository.GetClinicDoctorsAsync();
-        return doctors.Select(MapClinicDoctorsList<ClinicDoctorListDto>).ToList();
+        var doctorsDtos = doctors.Select(MapClinicDoctorsList<ClinicDoctorListDto>).ToList();
+        
+        await _medicalStaffCacheRepository.SetClinicDoctorsAsync(doctorsDtos);
+        return doctorsDtos;
     }
 
     private static T Map<T>(MedicalStaff medicalStaff) where T : MedicalStaffDto, new() => new T()

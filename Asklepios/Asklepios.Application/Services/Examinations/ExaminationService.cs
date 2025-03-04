@@ -8,10 +8,12 @@ namespace Asklepios.Application.Services.Examinations;
 public class ExaminationService : IExaminationService
 {
     private readonly IExaminationRepository _examinationRepository;
+    private readonly IExaminationCacheRepository _examinationCacheRepository;
 
-    public ExaminationService(IExaminationRepository examinationRepository)
+    public ExaminationService(IExaminationRepository examinationRepository, IExaminationCacheRepository examinationCacheRepository)
     {
         _examinationRepository = examinationRepository;
+        _examinationCacheRepository = examinationCacheRepository;
     }
 
     public async Task AddExaminationAsync(ExaminationDto dto)
@@ -39,8 +41,15 @@ public class ExaminationService : IExaminationService
 
     public async Task<IReadOnlyList<ExaminationDto>> GetAllExaminationsAsync(int pageIndex, int pageSize)
     {
+        var cachedExaminations = await _examinationCacheRepository.GetExaminationsAsync(pageIndex, pageSize);
+        if (cachedExaminations != null)
+            return cachedExaminations;
+        
         var examinations = await _examinationRepository.GetAllExaminationsAsync(pageIndex, pageSize);
-        return examinations.Select(Map<ExaminationDto>).ToList();
+        var examinationDtos = examinations.Select(Map<ExaminationDto>).ToList();
+        
+        await _examinationCacheRepository.SetExaminationsAsync(pageIndex, pageSize, examinationDtos);
+        return examinationDtos;
     }
 
     public async Task<IReadOnlyList<ExaminationDto>> GetAllExaminationsByCategoryAsync(string category, int pageIndex, int pageSize)

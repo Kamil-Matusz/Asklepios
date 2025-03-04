@@ -11,11 +11,13 @@ public class DepartmentService : IDeparmentService
 {
     private readonly IDepartmentRepository _departmentRepository;
     private readonly IDepartmentDeletePolicy _departmentDeletePolicy;
+    private readonly IDepartmentCacheRepository _departmentCacheRepository;
 
-    public DepartmentService(IDepartmentRepository departmentRepository, IDepartmentDeletePolicy departmentDeletePolicy)
+    public DepartmentService(IDepartmentRepository departmentRepository, IDepartmentDeletePolicy departmentDeletePolicy, IDepartmentCacheRepository departmentCacheRepository)
     {
         _departmentRepository = departmentRepository;
         _departmentDeletePolicy = departmentDeletePolicy;
+        _departmentCacheRepository = departmentCacheRepository;
     }
 
     public async Task AddDepartmentAsync(DepartmentDto dto)
@@ -62,8 +64,15 @@ public class DepartmentService : IDeparmentService
 
     public async Task<IReadOnlyList<DepartmentListDto>> GetAllDepartmentsAsync(int pageIndex, int pageSize)
     {
+        var cachedDepartments = await _departmentCacheRepository.GetDepartmentsAsync(pageIndex, pageSize);
+        if (cachedDepartments != null)
+            return cachedDepartments;
+        
         var departments = await _departmentRepository.GetAllDepartmentsAsync(pageIndex, pageSize);
-        return departments.Select(MapDepartmentList<DepartmentListDto>).ToList();
+        var departmentDtos = departments.Select(MapDepartmentList<DepartmentListDto>).ToList();
+        
+        await _departmentCacheRepository.SetDepartmentsAsync(pageIndex, pageSize, departmentDtos);
+        return departmentDtos;
     }
 
     public async Task UpdateDepartmentAsync(DepartmentDetailsDto dto)

@@ -10,11 +10,13 @@ public class NurseService : INurseService
 {
     private readonly INurseRepository _nurseRepository;
     private readonly IRolePolicy _rolePolicy;
+    private readonly INurseCacheRepository _nurseCacheRepository;
 
-    public NurseService(INurseRepository nurseRepository, IRolePolicy rolePolicy)
+    public NurseService(INurseRepository nurseRepository, IRolePolicy rolePolicy, INurseCacheRepository nurseCacheRepository)
     {
         _nurseRepository = nurseRepository;
         _rolePolicy = rolePolicy;
+        _nurseCacheRepository = nurseCacheRepository;
     }
 
     public async Task AddNurseAsync(NurseDto dto)
@@ -49,8 +51,15 @@ public class NurseService : INurseService
 
     public async Task<IReadOnlyList<NurseListDto>> GetAllNursesAsync(int pageIndex, int pageSize)
     {
+        var cachedNurses = await _nurseCacheRepository.GetNursesAsync(pageIndex, pageSize);
+        if (cachedNurses != null)
+            return cachedNurses;
+        
         var nurses = await _nurseRepository.GetAllNursesAsync(pageIndex, pageSize);
-        return nurses.Select(MapNurseList<NurseListDto>).ToList();
+        var nursesDto = nurses.Select(MapNurseList<NurseListDto>).ToList();
+        
+        await _nurseCacheRepository.SetNursesAsync(pageIndex, pageSize, nursesDto);
+        return nursesDto;
     }
 
     public async Task UpdateNurseAsync(NurseDto dto)

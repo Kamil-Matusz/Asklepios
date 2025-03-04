@@ -15,9 +15,10 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var rolePolicyMock = new Mock<IRolePolicy>();
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, rolePolicyMock.Object);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, rolePolicyMock.Object, nurseCacheRepositoryMock.Object);
 
         var userId = Guid.NewGuid();
         var nurseDto = new NurseDto
@@ -42,9 +43,10 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var rolePolicyMock = new Mock<IRolePolicy>();
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, rolePolicyMock.Object);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, rolePolicyMock.Object, nurseCacheRepositoryMock.Object);
 
         var userId = Guid.NewGuid();
         var nurseDto = new NurseDto
@@ -66,9 +68,10 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var nurseId = Guid.NewGuid();
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, null);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, null, nurseCacheRepositoryMock.Object);
 
         nurseRepositoryMock.Setup(nr => nr.GetNurseByIdAsync(nurseId)).ReturnsAsync((Nurse) null);
 
@@ -81,10 +84,11 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var nurseId = Guid.NewGuid();
         var nurse = new Nurse { NurseId = nurseId };
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, null);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, null, nurseCacheRepositoryMock.Object);
 
         nurseRepositoryMock.Setup(nr => nr.GetNurseByIdAsync(nurseId)).ReturnsAsync(nurse);
 
@@ -100,7 +104,8 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
-        var nurseService = new NurseService(nurseRepositoryMock.Object, null);
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
+        var nurseService = new NurseService(nurseRepositoryMock.Object, null, nurseCacheRepositoryMock.Object);
 
         nurseRepositoryMock.Setup(nr => nr.GetAllNursesAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Nurse>());
 
@@ -116,9 +121,10 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var nurseId = Guid.NewGuid();
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, null);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, null, nurseCacheRepositoryMock.Object);
 
         nurseRepositoryMock.Setup(nr => nr.GetNurseByIdAsync(nurseId)).ReturnsAsync((Nurse) null);
 
@@ -139,10 +145,11 @@ public class NurseServiceTests
     {
         // Arrange
         var nurseRepositoryMock = new Mock<INurseRepository>();
+        var nurseCacheRepositoryMock = new Mock<INurseCacheRepository>();
         var nurseId = Guid.NewGuid();
         var nurse = new Nurse { NurseId = nurseId };
 
-        var nurseService = new NurseService(nurseRepositoryMock.Object, null);
+        var nurseService = new NurseService(nurseRepositoryMock.Object, null, nurseCacheRepositoryMock.Object);
 
         nurseRepositoryMock.Setup(nr => nr.GetNurseByIdAsync(nurseId)).ReturnsAsync(nurse);
 

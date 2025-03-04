@@ -21,7 +21,7 @@ public class ClinicAppointmentScheduler : IClinicAppointmentScheduler
         
         foreach (var appointment in appointments)
         {
-            _emailService.SendEmailWithReminderAboutVisit(appointment.ClinicPatient.Email,
+            _emailService.SendEmailWithReminderAboutVisitAsync(appointment.ClinicPatient.Email,
                 appointment.ClinicPatient.PatientName, appointment.ClinicPatient.PatientSurname,
                 appointment.AppointmentDate.ToString(), appointment.MedicalStaff.Name, appointment.MedicalStaff.Surname);
         }

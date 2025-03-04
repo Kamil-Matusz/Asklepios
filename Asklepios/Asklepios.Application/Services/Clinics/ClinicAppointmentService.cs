@@ -59,7 +59,7 @@ public class ClinicAppointmentService : IClinicAppointmentService
         var doctorSurname = await _medicalStaffRepository.GetDoctorSurnameById(dto.MedicalStaffId);
 
         string appointmentDate = dto.AppointmentDate.ToString("yyyy-MM-dd");
-        await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate, doctorName, doctorSurname);
+        await _emailService.SendEmailWithConfirmVisitAsync(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate, doctorName, doctorSurname);
     }
     
     public async Task RegisterPatientAndCreateAppointmentBuUserAsync(ClinicAppointmentRequestByUserDto dto)
@@ -100,7 +100,7 @@ public class ClinicAppointmentService : IClinicAppointmentService
         var doctorSurname = await _medicalStaffRepository.GetDoctorSurnameById(dto.MedicalStaffId);
 
         string appointmentDate = dto.AppointmentDate.ToString("yyyy-MM-dd");
-        await _emailService.SendEmailWithConfirmVisit(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate, doctorName, doctorSurname);
+        await _emailService.SendEmailWithConfirmVisitAsync(dto.Email, dto.PatientName, dto.PatientSurname, appointmentDate, doctorName, doctorSurname);
     }
 
     public async Task<IReadOnlyList<ClinicAppointmentListDto>> GetUserPastClinicAppointments(Guid clinicPatientId)

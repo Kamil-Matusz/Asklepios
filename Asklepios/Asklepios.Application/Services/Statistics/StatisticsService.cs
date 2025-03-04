@@ -1,4 +1,5 @@
 using Asklepios.Core.DTO.Statistics;
+using Asklepios.Core.Exceptions.Statistics;
 using Asklepios.Core.Repositories.Statistics;
 
 namespace Asklepios.Application.Services.Statistics;
@@ -35,22 +36,14 @@ public class StatisticsService : IStatisticsService
     }
 
     public async Task<int> GetTotalPatientsCountAsync()
-    {
-        return await _statisticsRepository.GetTotalPatientsCountAsync();
-    }
+        => await _statisticsRepository.GetTotalPatientsCountAsync();
 
     public async Task<int> GetTotalDepartmentsCountAsync()
-    {
-        return await _statisticsRepository.GetTotalDepartmentsCountAsync();
-    }
+        => await _statisticsRepository.GetTotalDepartmentsCountAsync();
 
     public async Task<int> GetTotalDoctorsCountAsync()
-    {
-        return await _statisticsRepository.GetTotalDoctorsCountAsync();
-    }
+        => await _statisticsRepository.GetTotalDoctorsCountAsync();
 
     public async Task<int> GetTotalNursesCountAsync()
-    {
-        return await _statisticsRepository.GetTotalNursesCountAsync();
-    }
+        => await _statisticsRepository.GetTotalNursesCountAsync();
 }

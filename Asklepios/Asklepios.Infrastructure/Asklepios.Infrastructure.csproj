@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0" />
+      <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="7.0.1" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI" Version="7.0.2" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="7.0.0" />
+      <PackageReference Include="AspNetCore.HealthChecks.UI.PostgreSQL.Storage" Version="7.0.0" />
       <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.1.448" />
       <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="1.1.448" />
       <PackageReference Include="Hangfire" Version="1.8.14" />
@@ -15,6 +21,7 @@
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.18" />
       <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="7.0.20" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.20" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
       <PackageReference Include="Scrutor" Version="4.2.2" />
@@ -40,6 +47,10 @@
     
     <ItemGroup>
         <InternalsVisibleTo Include="Asklepios.IntegrationTests" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Redis\Repositories\Clinics\" />
     </ItemGroup>
 
 </Project>

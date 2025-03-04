@@ -9,10 +9,12 @@ namespace Asklepios.Application.Services.Departments;
 public class RoomService : IRoomService
 {
     private readonly IRoomRepository _roomRepository;
+    private readonly IRoomCacheRepository _roomCacheRepository;
 
-    public RoomService(IRoomRepository roomRepository)
+    public RoomService(IRoomRepository roomRepository, IRoomCacheRepository roomCacheRepository)
     {
         _roomRepository = roomRepository;
+        _roomCacheRepository = roomCacheRepository;
     }
 
     public async Task AddRoomAsync(RoomDto dto)
@@ -52,8 +54,15 @@ public class RoomService : IRoomService
 
     public async Task<IReadOnlyList<RoomListDto>> GetAllRoomsAsync(int pageIndex, int pageSize)
     {
+        var cachedRooms = await _roomCacheRepository.GetRoomsAsync(pageIndex, pageSize);
+        if (cachedRooms != null)
+            return cachedRooms;
+        
         var rooms = await _roomRepository.GetAllRoomsAsync(pageIndex, pageSize);
-        return rooms.Select(MapRoomList<RoomListDto>).ToList();
+        var roomDtos = rooms.Select(MapRoomList<RoomListDto>).ToList();
+        
+        await _roomCacheRepository.SetRoomsAsync(pageIndex, pageSize, roomDtos);
+        return roomDtos;
     }
 
     public async Task UpdateRoomAsync(RoomDto dto)
