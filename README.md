@@ -36,14 +36,46 @@ The application provides a comprehensive hospital management system with the fol
 - Data Cleanup and Optimization: Deleting unnecessary data (e.g., old discharge summaries or appointments) to save storage space and reduce data loss risks.
 
 ## Database
-The project uses a Postgres database using Docker. Docker settings are in the <b>docker-compose.yml</b> file. 
+The project uses a Postgres database using Docker. Docker settings are in the <b>docker-compose.yml</b> file.
 For the database to work properly, create a migration and apply the appropriate data in the file <b>appsettings.json</b> in the Asklepios.Api project on line 16 <b>"connectionString"</b> change the database path to your database path.
 
+## Automatic table creation and data seeding
+
+The application has been designed to automatically create a database structure and fill it with sample data during the first run. This functionality is based on **migrations** and **seeders**, which:
+
+- **Creates all required tables** in the database.
+- **Adds sample data** (seed data), making it easier to test and run the application for the first time.
+
+### Seed configuration
+To activate this function, set the appropriate option in the `appsettings.json` file:
+
+```json
+"SeedData": {
+  "Enable": true
+}
+```
+
 ## SendGrid
-To send emails, this project uses the SendGrid API. If you wish to use this functionality, you need to configure your own SendGrid account and set up your API key.
-- Obtain an API key from SendGrid.
-- Add your API key to the <b>secret.json</b>
-- Make sure to replace "YOUR_API_KEY" with your actual SendGrid API key.
+To activate this function, set the appropriate option in the `appsettings.json` file:
+
+```json
+"sendgrid": {
+    "keySensGrid": ""
+  }
+```
+
+## Performing background tasks – Hangfire
+
+The application supports the execution of background tasks using the **Hangfire** service, which allows you to manage asynchronous and scheduled processes, such as sending notifications, processing data or other operations that require independent action from the user.
+
+### Hangfire service activation
+To enable background task functionality, change the appropriate setting in the `appsettings.json` file. In the `Hangfire` section, set the `Enable` value to `true`:
+
+```json
+"Hangfire": {
+  "Enable": true
+}
+```
 
 ## Seq
 The project uses Seq for structured logging and event monitoring. Seq allows you to collect, filter, and analyze logs from your application in real-time, helping you diagnose issues, track performance, and monitor system behavior. In this project, Seq is deployed as a Docker container.
@@ -52,6 +84,20 @@ The project uses Seq for structured logging and event monitoring. Seq allows you
 
 ## Database Diagram
 ![](/assets/DatabaseDiagram.png)
+
+## Defined accounts with login details
+
+| Email                           | Password | Role         |
+|---------------------------------|----------|--------------|
+| admin@asklepios.com            | password | Admin         |
+| kamilmatusz@asklepios.com      | password | Doctor        |
+| miloszmichalski@asklepios.com  | password | Doctor        |
+| annapajak@asklepios.com        | password | Nurse         |
+| andrzejkowalski@asklepios.com  | password | Doctor        |
+| martapiotrowska@asklepios.com  | password | Nurse         |
+| lukasznawrocki@asklepios.com   | password | Pacjent       |
+| grzegorzadamczyk@asklepios.com | password | Doctor        |
+| barbaranowak@asklepios.com     | password | Nurse         |
 
 ### Paths to additional dashboards
 Hangfire:
