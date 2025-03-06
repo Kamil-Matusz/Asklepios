@@ -77,6 +77,15 @@ To enable background task functionality, change the appropriate setting in the `
 }
 ```
 
+## How to run
+1. Make sure you have Docker and Docker Compose installed.
+2. Copy the project repository.
+3. In the Asklepios directory -> Asklepios.Api -> appsettings.json set the SendGrid key
+4. In the project root directory run:
+```bash
+docker-compose up --build
+```
+
 ## Seq
 The project uses Seq for structured logging and event monitoring. Seq allows you to collect, filter, and analyze logs from your application in real-time, helping you diagnose issues, track performance, and monitor system behavior. In this project, Seq is deployed as a Docker container.
 - Docker Configuration: Seq is set up using Docker, and the settings are defined in the docker-compose.yml file.
@@ -101,7 +110,10 @@ The project uses Seq for structured logging and event monitoring. Seq allows you
 
 ### Paths to additional dashboards
 Hangfire:
-`http://<your-domain>/hangfire`
+[http://localhost:8080/hangfire](http://localhost:8080/hangfire)
 
 Swagger Documentation:
-`http://<your-domain>/swagger`
+[http://localhost:8080/swagger](http://localhost:8080/swagger)
+
+Health Check:
+[http://localhost:5102/health-ui#/healthchecks](http://localhost:5102/health-ui#/healthchecks)
