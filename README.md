@@ -11,6 +11,7 @@ Short version of the installation file: **Instalator.md**
 - Entity Framework Core
 - Fluent Validation
 - PostgreSQL
+- Redis
 - Docker
 - SendGrid
 - Seq
@@ -36,8 +37,13 @@ The application provides a comprehensive hospital management system with the fol
 - Data Cleanup and Optimization: Deleting unnecessary data (e.g., old discharge summaries or appointments) to save storage space and reduce data loss risks.
 
 ## Database
-The project uses a Postgres database using Docker. Docker settings are in the <b>docker-compose.yml</b> file.
-For the database to work properly, create a migration and apply the appropriate data in the file <b>appsettings.json</b> in the Asklepios.Api project on line 16 <b>"connectionString"</b> change the database path to your database path.
+The project uses a Postgres database using Docker. Docker settings are in the **docker-compose.yml** file.
+For the database to work properly, create a migration and apply the appropriate data in the file **appsettings.json** in the Asklepios.Api project on line 16 **"connectionString"** change the database path to your database path.
+
+## Caching
+The project uses Redis for caching to improve performance and reduce database load.
+Redis is configured in Docker, with settings available in the **docker-compose.yml** file.
+To ensure proper caching, make sure Redis is running and properly connected in the **appsettings.json** file under the `"Redis"` section.
 
 ## Automatic table creation and data seeding
 
@@ -86,6 +92,9 @@ To enable background task functionality, change the appropriate setting in the `
 docker-compose up --build
 ```
 
+App Backend:
+[http://localhost:8080](http://localhost:8080)
+
 ## Seq
 The project uses Seq for structured logging and event monitoring. Seq allows you to collect, filter, and analyze logs from your application in real-time, helping you diagnose issues, track performance, and monitor system behavior. In this project, Seq is deployed as a Docker container.
 - Docker Configuration: Seq is set up using Docker, and the settings are defined in the docker-compose.yml file.
@@ -116,4 +125,4 @@ Swagger Documentation:
 [http://localhost:8080/swagger](http://localhost:8080/swagger)
 
 Health Check:
-[http://localhost:5102/health-ui#/healthchecks](http://localhost:5102/health-ui#/healthchecks)
+[http://localhost:8080/health-ui#/healthchecks](http://localhost:8080/health-ui#/healthchecks)
