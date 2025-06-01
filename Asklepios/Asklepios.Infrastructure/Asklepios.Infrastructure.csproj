@@ -13,8 +13,6 @@
       <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
       <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="7.0.0" />
       <PackageReference Include="AspNetCore.HealthChecks.UI.PostgreSQL.Storage" Version="7.0.0" />
-      <PackageReference Include="Convey.MessageBrokers.CQRS" Version="1.1.448" />
-      <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="1.1.448" />
       <PackageReference Include="Hangfire" Version="1.8.14" />
       <PackageReference Include="Hangfire.PostgreSql" Version="1.20.9" />
       <PackageReference Include="Humanizer" Version="2.14.1" />

@@ -4,13 +4,9 @@ using Asklepios.Application.SignalR;
 using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
-using Asklepios.Infrastructure.Events;
 using Asklepios.Infrastructure.HealthChecks;
 using Asklepios.Infrastructure.Redis;
 using Asklepios.Infrastructure.Security;
-using Convey;
-using Convey.CQRS.Events;
-using Convey.MessageBrokers.RabbitMQ;
 using Hangfire;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
@@ -94,14 +90,6 @@ public static class Extensions
         services.AddAuth(configuration);
         services.AddHttpContextAccessor();
         
-        // RabbitMQ
-        services.AddConvey()
-            .AddRabbitMq()
-            .AddEventHandlers()
-            .Build();
-
-        services.AddEvents();
-        
         // SignalR
         services.AddSignalR();
         
@@ -131,9 +119,6 @@ public static class Extensions
         
         app.UseAuthentication();
         app.UseAuthorization();
-        
-        app.UseConvey();
-        app.UseRabbitMq();
         
         app.UseEndpoints(endpoints =>
         {

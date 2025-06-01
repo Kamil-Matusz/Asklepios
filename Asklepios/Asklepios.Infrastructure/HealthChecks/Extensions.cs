@@ -1,6 +1,5 @@
 using Asklepios.Infrastructure.DAL.PostgreSQL;
 using Asklepios.Infrastructure.Redis;
-using Convey.MessageBrokers.RabbitMQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;

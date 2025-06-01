@@ -6,7 +6,6 @@ using Asklepios.Application.Services.Examinations;
 using Asklepios.Application.Services.Patients;
 using Asklepios.Application.Services.Users;
 using Asklepios.Core.DTO.Patients;
-using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
