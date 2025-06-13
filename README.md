@@ -14,7 +14,6 @@ Short version of the installation file: **Instalator.md**
 - Docker
 - SendGrid
 - Seq
-- RabbitMQ
 - Hangfire
 
 ## Scope of the Application
