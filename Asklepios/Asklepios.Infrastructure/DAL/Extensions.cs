@@ -79,8 +79,6 @@ public static class Extensions
         services.AddHostedService<DatabaseInitializer>();
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         
-        services.AddScoped<IClearDatabase, DatabaseClearService>();
-        
         return services;
     }
     
