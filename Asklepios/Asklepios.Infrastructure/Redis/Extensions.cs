@@ -14,7 +14,7 @@ namespace Asklepios.Infrastructure.Redis;
 
 public static class Extensions
 {
-    private const string SectionName = "redis";
+    private const string SectionName = "Redis";
     
     public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
     {

@@ -27,7 +27,7 @@ namespace Asklepios.Infrastructure.DAL;
 
 public static class Extensions
 {
-    private const string SectionName = "postgres";
+    private const string SectionName = "Postgres";
 
     public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
