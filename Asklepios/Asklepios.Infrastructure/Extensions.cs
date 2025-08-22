@@ -5,6 +5,7 @@ using Asklepios.Infrastructure.Auth;
 using Asklepios.Infrastructure.DAL;
 using Asklepios.Infrastructure.Errors;
 using Asklepios.Infrastructure.HealthChecks;
+using Asklepios.Infrastructure.Logging;
 using Asklepios.Infrastructure.Redis;
 using Asklepios.Infrastructure.Security;
 using Hangfire;
@@ -92,6 +93,9 @@ public static class Extensions
         
         // SignalR
         services.AddSignalR();
+
+        // Seq Logging
+        services.AddSeqLogging(configuration);
         
         return services;
     }

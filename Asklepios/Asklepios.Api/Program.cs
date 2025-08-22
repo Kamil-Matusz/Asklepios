@@ -14,8 +14,6 @@ builder.Services
     .AddApplication(builder.Configuration)
     .AddInfrastructure(builder.Configuration);
 
-builder.UseSerilog();
-
 builder.Services.AddControllers();
 
 var app = builder.Build();
