@@ -11,40 +11,29 @@ public static class Extensions
 {
     public static IServiceCollection AddSeqLogging(this IServiceCollection services, IConfiguration configuration)
     {
-        var seqOptions = configuration.GetOptions<SeqOptions>("Logging:Seq");
-        services.AddSingleton(seqOptions);
-        
-        var fileSection = configuration.GetSection("Logging:File");
-        var logFilePath = fileSection.GetValue<string>("Path", "logs/log-.txt");
-        var rollingInterval = fileSection.GetValue("RollingInterval", RollingInterval.Day);
-        var outputTemplate = fileSection.GetValue<string>("OutputTemplate");
-
-        var logLevel = Enum.TryParse<LogEventLevel>(seqOptions.MinimumLevel, true, out var level)
+        var options = configuration.GetOptions<SeqOptions>("Logging:Seq");
+        services.AddSingleton(options);
+    
+        var logLevel = Enum.TryParse<LogEventLevel>(options.MinimumLevel, true, out var level)
             ? level
             : LogEventLevel.Information;
-
+    
         var logger = new LoggerConfiguration()
             .MinimumLevel.Is(logLevel)
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("System", LogEventLevel.Warning)
-            .Enrich.WithProperty("Service", seqOptions.ServiceName)
-            .Enrich.WithProperty("Environment", seqOptions.Environment)
+            .Enrich.WithProperty("Service", options.ServiceName)
+            .Enrich.WithProperty("Environment", options.Environment)
             .WriteTo.Console()
-            .WriteTo.File(
-                path: logFilePath,
-                rollingInterval: rollingInterval,
-                restrictedToMinimumLevel: logLevel,
-                outputTemplate: outputTemplate
-            )
-            .WriteTo.Seq(seqOptions.ServerUrl, apiKey: seqOptions.ApiKey)
+            .WriteTo.Seq(options.ServerUrl, apiKey: options.ApiKey)
             .CreateLogger();
-
+    
         services.AddLogging(builder =>
         {
             builder.ClearProviders();
-            builder.AddSerilog(logger, dispose: true);
+            builder.AddSerilog(logger);
         });
-
+    
         return services;
     }
 
