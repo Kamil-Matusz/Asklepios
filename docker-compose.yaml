@@ -5,16 +5,17 @@ services:
     container_name: asklepios_postgres
     restart: unless-stopped
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
       - POSTGRES_DB=asklepios
     ports:
       - 5432:5432
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
   seq:
-    image: datalust/seq
-    container_name: certiBlock_seq
+    image: datalust/seq:latest
+    container_name: asklepios_seq
     restart: unless-stopped
     environment:
       - ACCEPT_EULA=Y
@@ -23,7 +24,7 @@ services:
       - 8081:80
       - 5341:5341
     volumes:
-      - seq:/dat
+      - seq-data:/data
 
   redis:
     image: redis:7
@@ -33,9 +34,36 @@ services:
       - 6379:6379
     volumes:
       - redis-data:/data
+  
+  asklepios-api:
+    build:
+      context: .
+      dockerfile: Asklepios/Asklepios.Api/Dockerfile
+    container_name: asklepios_api
+    restart: unless-stopped
+    ports:
+      - 5102:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=docker
+      - Seq__ServerUrl=http://seq:80
+    depends_on:
+      - postgres
+      - seq
+      - redis
+  
+  asklepios-web:
+    build:
+      context: .
+      dockerfile: Asklepios.Web/Dockerfile
+    container_name: asklepios_web
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - asklepios-api
 
 volumes:
-  postgres:
+  postgres-data:
     driver: local
   seq-data:
     driver: local

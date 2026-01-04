@@ -1,11 +1,8 @@
 using Asklepios.Application;
 using Asklepios.Core;
 using Asklepios.Infrastructure;
-using Asklepios.Infrastructure.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//builder.Configuration.AddJsonFile("Properties/secret.json", optional: true, reloadOnChange: true);
 
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
