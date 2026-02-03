@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import {API} from '@/services'
+import { API } from '@/services'
 import { type DischargeDto, type InputCreateDischarge, type DischargePersonDto, type DischargeItemDto } from '@/models/Patients/discharge';
 import { type PaginationParams } from '@/models/paginationParams';
 
@@ -73,9 +73,9 @@ export const useDischargeStore = defineStore('dischargeStore', () => {
     totalItems.value = data.length;
   }
 
-  async function dispatchDownloadDischargePdf(dischargeId: string) {
+  async function dispatchDownloadDischargePdf(dischargeId: string, patientName?: string, patientSurname?: string) {
     try {
-      await API.discharges.downloadDischargePdf(dischargeId);
+      await API.discharges.downloadDischargePdf(dischargeId, patientName, patientSurname);
     } catch (error) {
       console.error('Błąd podczas pobierania PDF:', error);
       throw error;

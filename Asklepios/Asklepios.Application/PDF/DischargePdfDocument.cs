@@ -1,5 +1,6 @@
 using Asklepios.Core.DTO.Patients;
 using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace Asklepios.Application.PDF;
@@ -19,77 +20,139 @@ public class DischargePdfDocument : IDocument
     {
         container.Page(page =>
         {
-            page.Margin(40);
+            page.Margin(50);
+            page.Size(PageSizes.A4);
 
-            page.Content().Column(column =>
+            page.Header().BorderBottom(1).BorderColor("#004d40").PaddingBottom(10).Row(row =>
             {
-                column.Spacing(20);
+                row.RelativeItem().AlignLeft().Text("System Asklepios")
+                    .FontSize(10)
+                    .FontColor("#004d40");
                 
-                column.Item().AlignCenter().Text("Wypis pacjenta ze szpitala")
-                    .FontSize(20)
-                    .Bold();
+                row.RelativeItem().AlignRight().Text($"Data: {DateTime.Now:dd.MM.yyyy}")
+                    .FontSize(10)
+                    .FontColor("#666666");
+            });
+
+            page.Content().PaddingVertical(20).Column(column =>
+            {
+                column.Spacing(15);
                 
-                column.Item().Table(table =>
+                // Tytuł dokumentu
+                column.Item().AlignCenter().Text("WYPIS PACJENTA ZE SZPITALA")
+                    .FontSize(22)
+                    .Bold()
+                    .FontColor("#004d40");
+                
+                column.Item().PaddingTop(5).LineHorizontal(2).LineColor("#004d40");
+                
+                // Sekcja: Dane pacjenta
+                column.Item().PaddingTop(15).Text("Dane pacjenta")
+                    .FontSize(16)
+                    .Bold()
+                    .FontColor("#00695c");
+                
+                column.Item().PaddingTop(10).Table(table =>
                 {
                     table.ColumnsDefinition(columns =>
                     {
-                        columns.RelativeColumn(2);
-                        columns.RelativeColumn(4);
+                        columns.RelativeColumn(3);
+                        columns.RelativeColumn(7);
                     });
 
-                    table.Cell().Text("Imię i nazwisko:").FontSize(14).Bold();
-                    table.Cell().Text($"{_details.PatientName} {_details.PatientSurname}").FontSize(14);
+                    // Styling dla wszystkich komórek
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10).Background("#f5f5f5")
+                        .Text("Imię i nazwisko:").FontSize(12).Bold();
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10)
+                        .Text($"{_details.PatientName} {_details.PatientSurname}").FontSize(12);
                     
-                    column.Spacing(10);
-                    
-                    table.Cell().Text("PESEL:").FontSize(14).Bold();
-                    table.Cell().Text(_details.PeselNumber).FontSize(14);
-                    
-                    column.Spacing(10);
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10).Background("#f5f5f5")
+                        .Text("PESEL:").FontSize(12).Bold();
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10)
+                        .Text(_details.PeselNumber).FontSize(12);
 
-                    table.Cell().Text("Adres:").FontSize(14).Bold();
-                    table.Cell().Text(_details.Address).FontSize(14);
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10).Background("#f5f5f5")
+                        .Text("Adres:").FontSize(12).Bold();
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10)
+                        .Text(_details.Address).FontSize(12);
 
-                    table.Cell().Text("Data wypisu:").FontSize(14).Bold();
-                    table.Cell().Text($"{_details.Date:yyyy-MM-dd}").FontSize(14);
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10).Background("#f5f5f5")
+                        .Text("Data wypisu:").FontSize(12).Bold();
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10)
+                        .Text($"{_details.Date:dd.MM.yyyy}").FontSize(12);
 
-                    table.Cell().Text("Lekarz:").FontSize(14).Bold();
-                    table.Cell().Text($"{_details.DoctorName} {_details.DoctorSurname}").FontSize(14);
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10).Background("#f5f5f5")
+                        .Text("Lekarz prowadzący:").FontSize(12).Bold();
+                    table.Cell().Border(1).BorderColor("#cccccc")
+                        .Padding(10)
+                        .Text($"{_details.DoctorName} {_details.DoctorSurname}").FontSize(12);
                 });
                 
-                column.Item().Text("Powód wypisu:")
-                    .FontSize(14)
+                // Sekcja: Powód wypisu
+                column.Item().PaddingTop(20).Text("Powód wypisu")
+                    .FontSize(16)
                     .Bold()
-                    .Underline();
-
-                column.Item().Text(_details.DischargeReasson).FontSize(12);
+                    .FontColor("#00695c");
                 
-                column.Item().Text("Podsumowanie:")
-                    .FontSize(14)
+                column.Item().PaddingTop(10).Border(1).BorderColor("#cccccc")
+                    .Padding(15).Background("#fafafa")
+                    .Text(_details.DischargeReasson)
+                    .FontSize(12)
+                    .LineHeight(1.5f);
+                
+                // Sekcja: Podsumowanie
+                column.Item().PaddingTop(20).Text("Podsumowanie")
+                    .FontSize(16)
                     .Bold()
-                    .Underline();
+                    .FontColor("#00695c");
 
-                column.Item().Text(_details.Summary).FontSize(12);
+                column.Item().PaddingTop(10).Border(1).BorderColor("#cccccc")
+                    .Padding(15).Background("#fafafa")
+                    .Text(_details.Summary)
+                    .FontSize(12)
+                    .LineHeight(1.5f);
                 
-                column.Item().Row(row =>
+                // Sekcja: Podpisy
+                column.Item().PaddingTop(40).Row(row =>
                 {
-                    row.RelativeColumn().Column(inner =>
+                    row.RelativeItem().Column(leftColumn =>
                     {
-                        inner.Spacing(10);
-                        inner.Item().Text("Podpis lekarza:").FontSize(14).Bold();
-                        inner.Item().Text("_____________________").FontSize(12);
+                        leftColumn.Item().Text("Podpis lekarza:")
+                            .FontSize(11)
+                            .FontColor("#666666");
+                        leftColumn.Item().PaddingTop(30).LineHorizontal(1).LineColor("#333333");
+                        leftColumn.Item().AlignCenter().PaddingTop(5).Text($"{_details.DoctorName} {_details.DoctorSurname}")
+                            .FontSize(10)
+                            .FontColor("#666666");
                     });
 
-                    row.RelativeColumn().Column(inner =>
+                    row.ConstantItem(50);
+
+                    row.RelativeItem().Column(rightColumn =>
                     {
-                        inner.Spacing(10);
-                        inner.Item().Text("Miejsce na pieczątkę:").FontSize(14).Bold();
-                        inner.Item().Text("_____________________").FontSize(12);
+                        rightColumn.Item().Text("Pieczątka:")
+                            .FontSize(11)
+                            .FontColor("#666666");
+                        rightColumn.Item().PaddingTop(15).Height(50).Border(1).BorderColor("#999999");
                     });
                 });
             });
             
-            page.Footer().AlignCenter().Text("Wygenerowano automatycznie przez system Asklepios.");
+            page.Footer().AlignCenter().Text(text =>
+            {
+                text.Span("Wygenerowano automatycznie przez system ").FontSize(9).FontColor("#999999");
+                text.Span("Asklepios").FontSize(9).Bold().FontColor("#004d40");
+                text.Span($" | {DateTime.Now:dd.MM.yyyy HH:mm}").FontSize(9).FontColor("#999999");
+            });
         });
     }
 }

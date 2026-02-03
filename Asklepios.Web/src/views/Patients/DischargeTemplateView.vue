@@ -92,7 +92,27 @@
 
           <v-card-actions class="mt-4">
             <v-spacer></v-spacer>
-            <v-btn color="teal darken-4" dark @click="generatePDF">Generuj PDF</v-btn>
+            <v-btn 
+              color="blue-grey darken-2" 
+              dark 
+              @click="generatePDF"
+              :loading="isGeneratingLocal"
+              :disabled="isGeneratingLocal || isDownloadingServer"
+              class="mr-2"
+            >
+              <v-icon left>mdi-file-pdf-box</v-icon>
+              Generuj PDF (przeglądarka)
+            </v-btn>
+            <v-btn 
+              color="teal darken-4" 
+              dark 
+              @click="downloadServerPDF"
+              :loading="isDownloadingServer"
+              :disabled="isGeneratingLocal || isDownloadingServer"
+            >
+              <v-icon left>mdi-download</v-icon>
+              Pobierz PDF (serwer)
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -107,12 +127,18 @@ import { useToast } from 'vue-toastification';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
 import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+// Konfiguracja pdfMake z czcionkami
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const dischargeStore = useDischargeStore();
 const toast = useToast();
 const route = useRoute();
 
 const dischargeDetails = ref<DischargeDetailsDto | null>(null);
+const isGeneratingLocal = ref(false);
+const isDownloadingServer = ref(false);
 
 const getDischargeDetails = async (dischargeId: string) => {
   try {
@@ -128,11 +154,37 @@ onMounted(() => {
   getDischargeDetails(dischargeId);
 });
 
+const downloadServerPDF = async () => {
+  if (!dischargeDetails.value) {
+    toast.error('Brak danych pacjenta do wygenerowania PDF.');
+    return;
+  }
+
+  isDownloadingServer.value = true;
+  
+  try {
+    const dischargeId = route.params.id as string;
+    await dischargeStore.dispatchDownloadDischargePdf(
+      dischargeId,
+      dischargeDetails.value.patientName,
+      dischargeDetails.value.patientSurname
+    );
+    toast.success('PDF został pobrany pomyślnie!');
+  } catch (error) {
+    console.error('Błąd podczas pobierania PDF z serwera:', error);
+    toast.error('Nie udało się pobrać PDF z serwera. Spróbuj ponownie.');
+  } finally {
+    isDownloadingServer.value = false;
+  }
+};
+
 const generatePDF = () => {
   if (!dischargeDetails.value) {
     toast.error('Brak danych pacjenta do wygenerowania PDF.');
     return;
   }
+
+  isGeneratingLocal.value = true;
 
   const patientName = dischargeDetails.value.patientName;
   const patientSurname = dischargeDetails.value.patientSurname;
@@ -228,9 +280,17 @@ const generatePDF = () => {
     },
   };
 
-  const pdfFileName = `${patientName} ${patientSurname} - Wypis.pdf`;
+  const pdfFileName = `Wypis - ${patientName} ${patientSurname}.pdf`;
 
-  pdfMake.createPdf(docDefinition).download(pdfFileName);
+  try {
+    pdfMake.createPdf(docDefinition).download(pdfFileName);
+    toast.success('PDF został wygenerowany pomyślnie!');
+  } catch (error) {
+    console.error('Błąd podczas generowania PDF:', error);
+    toast.error('Nie udało się wygenerować PDF. Spróbuj ponownie.');
+  } finally {
+    isGeneratingLocal.value = false;
+  }
 };
 
 

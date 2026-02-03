@@ -43,7 +43,7 @@ async function getAllDischarges() {
   return await httpClient.get<DischargeItemDto[]>(`${base}/allDischarges`);
 }
 
-async function downloadDischargePdf(dischargeId: string) {
+async function downloadDischargePdf(dischargeId: string, patientName?: string, patientSurname?: string) {
   try {
     const response = await httpClient.get<ArrayBuffer>(`${base}/${dischargeId}/dischargePDF`, {
       responseType: 'arraybuffer',
@@ -54,7 +54,12 @@ async function downloadDischargePdf(dischargeId: string) {
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Wypis-${dischargeId}.pdf`;
+
+    const fileName = patientName && patientSurname
+      ? `Wypis - ${patientName} ${patientSurname}.pdf`
+      : `Wypis-${dischargeId}.pdf`;
+
+    link.download = fileName;
     link.click();
 
     window.URL.revokeObjectURL(url);
