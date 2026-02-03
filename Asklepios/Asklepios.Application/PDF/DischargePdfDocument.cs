@@ -38,7 +38,6 @@ public class DischargePdfDocument : IDocument
             {
                 column.Spacing(15);
                 
-                // Tytuł dokumentu
                 column.Item().AlignCenter().Text("WYPIS PACJENTA ZE SZPITALA")
                     .FontSize(22)
                     .Bold()
@@ -46,7 +45,6 @@ public class DischargePdfDocument : IDocument
                 
                 column.Item().PaddingTop(5).LineHorizontal(2).LineColor("#004d40");
                 
-                // Sekcja: Dane pacjenta
                 column.Item().PaddingTop(15).Text("Dane pacjenta")
                     .FontSize(16)
                     .Bold()
@@ -59,8 +57,7 @@ public class DischargePdfDocument : IDocument
                         columns.RelativeColumn(3);
                         columns.RelativeColumn(7);
                     });
-
-                    // Styling dla wszystkich komórek
+                    
                     table.Cell().Border(1).BorderColor("#cccccc")
                         .Padding(10).Background("#f5f5f5")
                         .Text("Imię i nazwisko:").FontSize(12).Bold();
@@ -97,7 +94,6 @@ public class DischargePdfDocument : IDocument
                         .Text($"{_details.DoctorName} {_details.DoctorSurname}").FontSize(12);
                 });
                 
-                // Sekcja: Powód wypisu
                 column.Item().PaddingTop(20).Text("Powód wypisu")
                     .FontSize(16)
                     .Bold()
@@ -109,7 +105,6 @@ public class DischargePdfDocument : IDocument
                     .FontSize(12)
                     .LineHeight(1.5f);
                 
-                // Sekcja: Podsumowanie
                 column.Item().PaddingTop(20).Text("Podsumowanie")
                     .FontSize(16)
                     .Bold()
@@ -121,7 +116,6 @@ public class DischargePdfDocument : IDocument
                     .FontSize(12)
                     .LineHeight(1.5f);
                 
-                // Sekcja: Podpisy
                 column.Item().PaddingTop(40).Row(row =>
                 {
                     row.RelativeItem().Column(leftColumn =>
