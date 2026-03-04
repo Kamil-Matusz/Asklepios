@@ -22,4 +22,6 @@ RUN dotnet publish "Asklepios.Api.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost/health || exit 1
 ENTRYPOINT ["dotnet", "Asklepios.Api.dll"]
