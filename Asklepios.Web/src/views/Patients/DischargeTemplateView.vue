@@ -92,26 +92,15 @@
 
           <v-card-actions class="mt-4">
             <v-spacer></v-spacer>
-            <v-btn 
-              color="blue-grey darken-2" 
-              dark 
-              @click="generatePDF"
-              :loading="isGeneratingLocal"
-              :disabled="isGeneratingLocal || isDownloadingServer"
-              class="mr-2"
-            >
-              <v-icon left>mdi-file-pdf-box</v-icon>
-              Generuj PDF (przeglądarka)
-            </v-btn>
-            <v-btn 
-              color="teal darken-4" 
-              dark 
+            <v-btn
+              color="teal darken-4"
+              dark
               @click="downloadServerPDF"
               :loading="isDownloadingServer"
-              :disabled="isGeneratingLocal || isDownloadingServer"
+              :disabled="isDownloadingServer"
             >
               <v-icon left>mdi-download</v-icon>
-              Pobierz PDF (serwer)
+              Pobierz PDF
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -126,18 +115,11 @@ import { useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification';
 import { useDischargeStore } from '@/stores/dischargeStore';
 import { type DischargeDetailsDto } from '@/models/Patients/discharge';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-
-// Konfiguracja pdfMake z czcionkami
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 const dischargeStore = useDischargeStore();
 const toast = useToast();
 const route = useRoute();
 
 const dischargeDetails = ref<DischargeDetailsDto | null>(null);
-const isGeneratingLocal = ref(false);
 const isDownloadingServer = ref(false);
 
 const getDischargeDetails = async (dischargeId: string) => {
@@ -175,121 +157,6 @@ const downloadServerPDF = async () => {
     toast.error('Nie udało się pobrać PDF z serwera. Spróbuj ponownie.');
   } finally {
     isDownloadingServer.value = false;
-  }
-};
-
-const generatePDF = () => {
-  if (!dischargeDetails.value) {
-    toast.error('Brak danych pacjenta do wygenerowania PDF.');
-    return;
-  }
-
-  isGeneratingLocal.value = true;
-
-  const patientName = dischargeDetails.value.patientName;
-  const patientSurname = dischargeDetails.value.patientSurname;
-
-  const docDefinition = {
-    pageSize: 'A4',
-    pageOrientation: 'portrait',
-    pageMargins: [40, 60, 40, 60],
-    content: [
-      { text: 'Wypis pacjenta ze szpitala', style: 'header', margin: [0, 0, 0, 20] },
-      { text: 'Dane pacjenta:', style: 'subheader', margin: [0, 0, 0, 15] },
-      {
-        table: {
-          widths: ['*', '*'],
-          body: [
-            [
-              { text: 'Imię i nazwisko:', bold: true, margin: [0, 5, 0, 0] },
-              { text: `${patientName} ${patientSurname}`, margin: [0, 0, 0, 10] }
-            ],
-            [
-              { text: 'PESEL:', bold: true, margin: [0, 5, 0, 0] },
-              { text: dischargeDetails.value.peselNumber, margin: [0, 0, 0, 10] }
-            ],
-            [
-              { text: 'Adres:', bold: true, margin: [0, 5, 0, 0] },
-              { text: dischargeDetails.value.address, margin: [0, 0, 0, 10] }
-            ],
-            [
-              { text: 'Data wypisu:', bold: true, margin: [0, 5, 0, 0] },
-              { text: dischargeDetails.value.date, margin: [0, 0, 0, 10] }
-            ],
-            [
-              { text: 'Lekarz:', bold: true, margin: [0, 5, 0, 0] },
-              { text: `${dischargeDetails.value.doctorName} ${dischargeDetails.value.doctorSurname}`, margin: [0, 0, 0, 10] }
-            ],
-          ],
-        },
-        layout: {
-          hLineColor: () => '#000',
-          vLineColor: () => '#000',
-          hLineWidth: () => 1,
-          vLineWidth: () => 1,
-          paddingLeft: () => 10,
-          paddingRight: () => 10,
-          paddingTop: () => 5,
-          paddingBottom: () => 5
-        }
-      },
-      {
-        table: {
-          widths: ['*', '*'],
-          body: [
-            [
-              { text: 'Powód wypisu:', bold: true, margin: [0, 5, 0, 0] },
-              { text: '', margin: [0, 0, 0, 0] }
-            ],
-            [
-              { text: '', margin: [0, 0, 0, 0] },
-              { text: dischargeDetails.value.dischargeReasson, margin: [0, 0, 0, 10] }
-            ]
-          ],
-        },
-        layout: 'noBorders'
-      },
-      {
-        table: {
-          widths: ['*', '*'],
-          body: [
-            [
-              { text: 'Podsumowanie:', bold: true, margin: [0, 5, 0, 0] },
-              { text: '', margin: [0, 0, 0, 0] }
-            ],
-            [
-              { text: '', margin: [0, 0, 0, 0] },
-              { text: dischargeDetails.value.summary, margin: [0, 0, 0, 20] }
-            ]
-          ],
-        },
-        layout: 'noBorders'
-      },
-      { text: 'Podpis lekarza:', margin: [0, 30, 0, 0] },
-      { text: '_____________________', margin: [0, 5, 0, 0] },
-      { text: 'Miejsce na pieczątkę:', margin: [0, 20, 0, 0], alignment: 'right' },
-      { text: '_____________________', margin: [0, 5, 0, 20], alignment: 'right' },
-    ],
-    styles: {
-      header: { fontSize: 24, bold: true, alignment: 'center' },
-      subheader: { fontSize: 16, bold: true },
-    },
-    defaultStyle: {
-      font: 'Roboto',
-      fontSize: 12,
-    },
-  };
-
-  const pdfFileName = `Wypis - ${patientName} ${patientSurname}.pdf`;
-
-  try {
-    pdfMake.createPdf(docDefinition).download(pdfFileName);
-    toast.success('PDF został wygenerowany pomyślnie!');
-  } catch (error) {
-    console.error('Błąd podczas generowania PDF:', error);
-    toast.error('Nie udało się wygenerować PDF. Spróbuj ponownie.');
-  } finally {
-    isGeneratingLocal.value = false;
   }
 };
 
