@@ -21,10 +21,13 @@ spec:
           env:
             - name: POSTGRES_USER
               value: postgres
-            - name: POSTGRES_PASSWORD
-              value: postgres123
             - name: POSTGRES_DB
               value: asklepios
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: asklepios-secrets
+                  key: db-password
 ---
 apiVersion: v1
 kind: Service

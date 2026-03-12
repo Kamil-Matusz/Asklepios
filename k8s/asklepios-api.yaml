@@ -22,7 +22,10 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: docker
             - name: ConnectionStrings__DefaultConnection
-              value: "Host=postgres;Port=5432;Database=asklepios;Username=postgres;Password=postgres123"
+                valueFrom:
+                  secretKeyRef:
+                    name: asklepios-secrets
+                    key: db-connection-string
             - name: Redis__ConnectionString
               value: "redis:6379"
             - name: Seq__ServerUrl
