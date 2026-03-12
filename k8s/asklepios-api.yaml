@@ -1,0 +1,40 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asklepios-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asklepios-api
+  template:
+    metadata:
+      labels:
+        app: asklepios-api
+    spec:
+      containers:
+        - name: asklepios-api
+          image: asklepios-api:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: docker
+            - name: ConnectionStrings__DefaultConnection
+              value: "Host=postgres;Port=5432;Database=asklepios;Username=postgres;Password=postgres123"
+            - name: Redis__ConnectionString
+              value: "redis:6379"
+            - name: Seq__ServerUrl
+              value: "http://seq:80"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: asklepios-api
+spec:
+  selector:
+    app: asklepios-api
+  ports:
+    - port: 80
+      targetPort: 80
