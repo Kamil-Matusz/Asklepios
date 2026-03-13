@@ -15,6 +15,7 @@ A comprehensive system supporting medical facilities in their day-to-day operati
   - [Backend](#backend)
   - [Frontend](#frontend)
   - [Running with Docker](#running-with-docker)
+  - [Running with Kubernetes](#running-with-kubernetes)
 - [Configuration](#configuration)
   - [Database (PostgreSQL)](#database-postgresql)
   - [Redis](#redis)
@@ -43,6 +44,7 @@ A comprehensive system supporting medical facilities in their day-to-day operati
 - PostgreSQL
 - Redis
 - Docker / Docker Compose
+- Kubernetes (Minikube) / kubectl
 - Seq (structured logging)
 - SendGrid (email notifications)
 
@@ -158,6 +160,39 @@ docker compose up --build
 ```
 
 This will start all services. See [Service URLs](#service-urls) for the available endpoints.
+
+### Running with Kubernetes
+
+You can also run the application locally using [Minikube](https://minikube.sigs.k8s.io/docs/start/).  
+All manifests and helper scripts are located in the [`k8s/`](./k8s/) directory.
+
+**Additional prerequisites:**
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+
+**Quick start:**
+
+1. Build Docker images locally:
+   ```bash
+   sh k8s/build-images.sh
+   ```
+
+2. Start Minikube, load images and deploy all services:
+   ```bash
+   sh k8s/start_services.sh
+   ```
+
+3. Open the frontend in your browser:
+   ```bash
+   minikube service asklepios-web
+   ```
+
+4. Stop and remove all resources:
+   ```bash
+   sh k8s/stop_services.sh
+   ```
+
+> See [`k8s/README.md`](./k8s/README.md) for full details on the manifests and configuration.
 
 ---
 
