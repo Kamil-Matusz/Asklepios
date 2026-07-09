@@ -14,6 +14,7 @@ Before you begin, ensure you have the following installed on your machine:
 | File | Description |
 |------|-------------|
 | `secrets.yaml` | Contains base64 encoded passwords and connection strings. |
+| `postgres-pvc.yaml` | PersistentVolumeClaim for PostgreSQL data. Not deleted by `stop_services.sh`, so database data survives restarts. |
 | `infrastructure.yaml` | Deployments and Services for databases and logging (PostgreSQL, Redis, Seq). |
 | `asklepios-api.yaml` | Deployment and Service for the .NET Backend API. |
 | `asklepios-web.yaml` | Deployment and Service (`NodePort`) for the Vue/Nginx Frontend. |
@@ -32,11 +33,11 @@ sh build-images.sh
 ### 2. Start the services
 Run the startup script. It will automatically start Minikube (if it's not already running), load your locally built images directly into the Minikube environment, and deploy all necessary .yaml manifests in the correct order (Secrets -> Infrastructure -> Apps).
 ```bash
-sh start-services.sh
+sh start_services.sh
 ```
 
 ### 3. Stop the services
 Run the stop script.
 ```bash
-sh stop-services.sh
+sh stop_services.sh
 ```

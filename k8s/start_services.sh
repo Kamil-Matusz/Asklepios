@@ -9,12 +9,21 @@ echo "Loading images into Minikube..."
 minikube image load asklepios-api:local
 minikube image load asklepios-web:local
 
+# Apply secrets
+echo "Applying secrets..."
+kubectl apply -f secrets.yaml
+
+# Apply persistent storage for Postgres (kept out of stop_services.sh so data survives restarts)
+kubectl apply -f postgres-pvc.yaml
+
 # Start infrastructure
 echo "Starting the infrastructure (Postgres, Redis, Seq)..."
 kubectl apply -f infrastructure.yaml
 
 echo "I'm waiting for the infrastructure to be launched..."
-sleep 10
+kubectl rollout status deployment/postgres --timeout=120s
+kubectl rollout status deployment/redis --timeout=120s
+kubectl rollout status deployment/seq --timeout=120s
 
 # Running app
 echo "Launching the Asklepios app..."
