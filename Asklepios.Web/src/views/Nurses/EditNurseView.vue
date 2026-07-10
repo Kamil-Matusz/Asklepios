@@ -88,7 +88,6 @@ const formattedUsers = computed(() => {
 
 const handleSubmit = async () => {
   try {
-    console.log('Dane formularza:', form.value);
     if (!form.value.name || !form.value.surname || !form.value.departmentId || !form.value.userId) {
       throw new Error('Wszystkie pola muszą być wypełnione');
     }

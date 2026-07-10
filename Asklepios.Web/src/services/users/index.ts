@@ -26,7 +26,6 @@ async function myAccount() {
 
 async function generateUserAccount(command: GenerateUserAccount) {
   try {
-    console.log('Sending command:', JSON.stringify(command));
     return await httpClient.post<User>(`${base}/generateUserAccount`, command, {
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +39,6 @@ async function generateUserAccount(command: GenerateUserAccount) {
 
 async function signUpToClinic(command: InputCreateUserToClinic) {
   try {
-    console.log('Sending command:', JSON.stringify(command));
     return await httpClient.post<User>(`${base}/signUpToClinic`, command, {
       headers: {
         'Content-Type': 'application/json',

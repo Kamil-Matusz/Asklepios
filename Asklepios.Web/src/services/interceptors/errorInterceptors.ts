@@ -18,6 +18,8 @@ export function addErrorInterceptor(axiosInstance: Axios) {
                         break;
                     case 401:
                         toast.error("Bład autoryzacji");
+                        localStorage.removeItem("jwtToken");
+                        localStorage.removeItem("user");
                         router.push('/')
                         break;
                     case 403:

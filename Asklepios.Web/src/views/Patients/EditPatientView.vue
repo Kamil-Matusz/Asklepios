@@ -105,7 +105,6 @@ const formattedRooms = computed(() => {
 
 const handleSubmit = async () => {
   try {
-    console.log('Dane formularza:', form.value);
     if (!form.value.patientName || !form.value.patientSurname || !form.value.peselNumber || !form.value.initialDiagnosis || !form.value.treatment || !form.value.departmentId || !form.value.roomId) {
       throw new Error('Wszystkie pola muszą być wypełnione');
     }

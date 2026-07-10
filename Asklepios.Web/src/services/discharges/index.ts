@@ -25,10 +25,8 @@ async function updateDischarge(dischargeId: string, discharge: DischargeDto) {
 }
 
 async function dischargePatient(input: DischargePersonDto) {
-  console.log('Sending dischargePatient request:', input);
   try {
     const response = await httpClient.post<void>(`${base}/dischargePatient`, input);
-    console.log('dischargePatient response:', response);
     return response;
   } catch (error) {
     console.error('Error in dischargePatient:', error);

@@ -27,7 +27,7 @@ internal static class Extensions
             .AddJwtBearer(x =>
             {
                 x.Audience = options.Audience;
-                x.IncludeErrorDetails = true;
+                x.IncludeErrorDetails = false;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidIssuer = options.Issuer,

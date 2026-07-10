@@ -79,7 +79,6 @@ const addUser = async (user: GenerateUserAccount) => {
       console.error('Wymagane są wszystkie pola: Email i Rola');
       throw new Error('Wszystkie pola muszą być wypełnione');
     }
-    console.log('Adding user with data:', user);
     await usersStore.dispatchGenerateUserAccount(user);
     toast.success('Pomyślnie dodano nowego użytkownika!');
     userToAdd.value = { email: '', role: '', isActive: true };

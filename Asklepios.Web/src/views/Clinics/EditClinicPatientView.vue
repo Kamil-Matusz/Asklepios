@@ -52,7 +52,6 @@ const form = ref({
 const fetchPatientDetails = async () => {
   try {
     const patientId = route.params.id as string;
-    console.log('ID pacjenta z trasy:', patientId);
 
     if (!patientId) {
       throw new Error('Brak ID pacjenta w trasie');
@@ -60,8 +59,6 @@ const fetchPatientDetails = async () => {
 
     const patient = await clinicPatientStore.dispatchGetClinicPatient(patientId);
     form.value = { ...patient };
-
-    console.log('Pobrane dane pacjenta:', form.value);
   } catch (error) {
     console.error('Error fetching patient details:', error);
     toast.error('Wystąpił problem podczas pobierania szczegółów pacjenta');
@@ -70,7 +67,6 @@ const fetchPatientDetails = async () => {
 
 const handleSubmit = async () => {
   try {
-    console.log('Dane w formularzu przed aktualizacją:', form.value);
     if (!form.value.clinicPatientId) {
       throw new Error('Brak ID pacjenta');
     }
