@@ -221,9 +221,23 @@ public class DischargesController : BaseController
             return NotFound($"Nie znaleziono wypisu o ID: {dischargeId}");
         }
         
-        var document = new DischargePdfDocument(discharge);
+        var generatedAt = GetLocalTime();
+        var document = new DischargePdfDocument(discharge, generatedAt);
         var pdfBytes = document.GeneratePdf();
         
         return File(pdfBytes, "application/pdf", $"Wypis-{discharge.PatientName} {discharge.PatientSurname}.pdf");
+    }
+
+    private static DateTime GetLocalTime()
+    {
+        try
+        {
+            var warsaw = TimeZoneInfo.FindSystemTimeZoneById("Europe/Warsaw");
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, warsaw);
+        }
+        catch (TimeZoneNotFoundException)
+        {
+            return DateTime.Now;
+        }
     }
 }

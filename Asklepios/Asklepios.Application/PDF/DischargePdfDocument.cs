@@ -8,13 +8,17 @@ namespace Asklepios.Application.PDF;
 public class DischargePdfDocument : IDocument
 {
     private readonly DischargeItemDto _details;
+    private readonly DateTime _generatedAt;
 
-    public DischargePdfDocument(DischargeItemDto details)
+    public DischargePdfDocument(DischargeItemDto details, DateTime generatedAt)
     {
         _details = details;
+        _generatedAt = generatedAt;
     }
 
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+
+    private static string OrDash(string? value) => string.IsNullOrWhiteSpace(value) ? "-" : value;
 
     public void Compose(IDocumentContainer container)
     {
@@ -29,7 +33,7 @@ public class DischargePdfDocument : IDocument
                     .FontSize(10)
                     .FontColor("#004d40");
                 
-                row.RelativeItem().AlignRight().Text($"Data: {DateTime.Now:dd.MM.yyyy}")
+                row.RelativeItem().AlignRight().Text($"Data: {_generatedAt:dd.MM.yyyy}")
                     .FontSize(10)
                     .FontColor("#666666");
             });
@@ -70,14 +74,14 @@ public class DischargePdfDocument : IDocument
                         .Text("PESEL:").FontSize(12).Bold();
                     table.Cell().Border(1).BorderColor("#cccccc")
                         .Padding(10)
-                        .Text(_details.PeselNumber).FontSize(12);
+                        .Text(OrDash(_details.PeselNumber)).FontSize(12);
 
                     table.Cell().Border(1).BorderColor("#cccccc")
                         .Padding(10).Background("#f5f5f5")
                         .Text("Adres:").FontSize(12).Bold();
                     table.Cell().Border(1).BorderColor("#cccccc")
                         .Padding(10)
-                        .Text(_details.Address).FontSize(12);
+                        .Text(OrDash(_details.Address)).FontSize(12);
 
                     table.Cell().Border(1).BorderColor("#cccccc")
                         .Padding(10).Background("#f5f5f5")
@@ -101,7 +105,7 @@ public class DischargePdfDocument : IDocument
                 
                 column.Item().PaddingTop(10).Border(1).BorderColor("#cccccc")
                     .Padding(15).Background("#fafafa")
-                    .Text(_details.DischargeReasson)
+                    .Text(OrDash(_details.DischargeReasson))
                     .FontSize(12)
                     .LineHeight(1.5f);
                 
@@ -112,7 +116,7 @@ public class DischargePdfDocument : IDocument
 
                 column.Item().PaddingTop(10).Border(1).BorderColor("#cccccc")
                     .Padding(15).Background("#fafafa")
-                    .Text(_details.Summary)
+                    .Text(OrDash(_details.Summary))
                     .FontSize(12)
                     .LineHeight(1.5f);
                 
@@ -145,7 +149,7 @@ public class DischargePdfDocument : IDocument
             {
                 text.Span("Wygenerowano automatycznie przez system ").FontSize(9).FontColor("#999999");
                 text.Span("Asklepios").FontSize(9).Bold().FontColor("#004d40");
-                text.Span($" | {DateTime.Now:dd.MM.yyyy HH:mm}").FontSize(9).FontColor("#999999");
+                text.Span($" | {_generatedAt:dd.MM.yyyy HH:mm}").FontSize(9).FontColor("#999999");
             });
         });
     }
